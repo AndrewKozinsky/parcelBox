@@ -1,35 +1,35 @@
-// @ts-check
-import eslint from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
+import tseslint from 'typescript-eslint'
+import prettierPlugin from 'eslint-plugin-prettier'
 
-export default tseslint.config(
-  {
-    ignores: ['eslint.config.mjs'],
+export default tseslint.config([{
+  files: ['**/*.ts', '**/*.tsx'],
+  languageOptions: {
+    parser: tseslint.parser
   },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  eslintPluginPrettierRecommended,
-  {
-    languageOptions: {
-      globals: {
-        ...globals.node,
-        ...globals.jest,
-      },
-      ecmaVersion: 5,
-      sourceType: 'module',
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
+  plugins: {
+    prettier: prettierPlugin,
   },
-  {
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-unsafe-argument': 'warn'
-    },
-  },
-);
+  rules: {
+    'no-multiple-empty-lines': ['error', {
+      max: 1,
+      maxEOF: 1,
+      maxBOF: 0
+    }],
+    'object-curly-spacing': ['warn', 'always'],
+    indent: ['warn', 'tab'],
+    quotes: ['warn', 'single'],
+    'jsx-quotes': ['warn', 'prefer-single'],
+    semi: ['warn', 'never'],
+    'no-multi-spaces': 'error',
+    'space-in-parens': 'error',
+    'prettier/prettier': ['error', {
+      semi: false,
+      singleQuote: true,
+      tabWidth: 4,
+      useTabs: true,
+      printWidth: 120,
+      trailingComma: 'all',
+      jsxSingleQuote: true,
+    }],
+  }
+}])
