@@ -8,7 +8,7 @@ export class AuthResolver {
 	@Mutation(() => Admin, { name: 'registerAdmin' })
 	registerAdmin(@Args('input') registerAdminInput: RegisterAdminInput) {
 		const newAdmin: Admin = {
-			id: Math.round(Math.random() * 100),
+			id: 2,
 			email: registerAdminInput.email,
 			name: registerAdminInput.name,
 			password: registerAdminInput.password,
