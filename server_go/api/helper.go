@@ -1,8 +1,7 @@
 package api
 
 import (
-	"net/http"
-
+	"github.com/AndrewKozinsky/postamat/storage"
 	"github.com/sirupsen/logrus"
 )
 
@@ -16,8 +15,12 @@ func (api *API) configureLoggerField() error {
 	return nil
 }
 
-func (api *API) cofigureRouterField() {
-	api.router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello, World!"))
-	}).Methods("GET")
+func (api *API) configureStorageField() error {
+	appStorage := storage.NewStorage(api.config.Storage)
+	if err := appStorage.Open(); err != nil {
+		return err
+	}
+
+	api.storage = appStorage
+	return nil
 }

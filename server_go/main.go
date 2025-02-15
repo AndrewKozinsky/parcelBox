@@ -2,19 +2,19 @@ package main
 
 import (
 	"fmt"
+	"github.com/AndrewKozinsky/postamat/api"
 	"log"
 
-	"github.com/AndrewKozinsky/postamat/internal/app/api"
 	"github.com/BurntSushi/toml"
 )
 
 var configPath = "configs/api.toml"
 
 func main() {
-	// Создать новый объект конфигурации АПИ с настройками по умолчанию
+	// Create a new configuration file with default values
 	apiConfig := api.NewConfig()
 
-	// Перезаписать объект настроек по умолчанию значениями из файла конфигурации
+	// Rewrite setting object with default values from configuration file
 	_, err := toml.DecodeFile(configPath, apiConfig)
 	if err != nil {
 		log.Println("Error reading config file. Using default values")
