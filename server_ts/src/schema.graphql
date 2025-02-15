@@ -1,0 +1,42 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Admin {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+}
+
+type Book {
+  id: ID!
+  title: String!
+  price: Int
+}
+
+type Query {
+  books: [Book!]!
+  book(id: ID!): Book!
+}
+
+type Mutation {
+  addBook(input: AddBookInput!): Book!
+  registerAdmin(input: RegisterAdminInput!): Admin!
+}
+
+input AddBookInput {
+  title: String!
+  price: Int!
+}
+
+input RegisterAdminInput {
+  """User name"""
+  name: String!
+
+  """User email"""
+  email: String!
+
+  """User password"""
+  password: String!
+}

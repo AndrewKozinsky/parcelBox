@@ -15,10 +15,15 @@ export class MainConfigService {
 	}
 
 	private getEnVariables() {
-		const enVariables = {
-			mode: this.configService.get<string>('MODE')!,
-			port: this.configService.get<string>('PORT')!,
+		type IEnVars = {
+			mode: 'development' | 'production'
+			port: number
 		}
+
+		const enVariables = {
+			mode: this.configService.get<string>('MODE') as any,
+			port: this.configService.get<string>('PORT') as any,
+		} as IEnVars
 
 		for (const key in enVariables) {
 			if (!enVariables[key]) {
