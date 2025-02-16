@@ -14,3 +14,12 @@ export class Admin {
 	@Field(() => String)
 	password: string
 }
+
+@ObjectType()
+export class AdminError {
+	@Field(() => Boolean)
+	isError: boolean
+
+	@Field(() => String)
+	errorMessage: string
+}

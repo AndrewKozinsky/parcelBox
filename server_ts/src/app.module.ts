@@ -20,6 +20,7 @@ import { join } from 'path'
 					definitions: {
 						path: join(process.cwd(), 'src/graphql.ts'),
 					},
+
 					autoSchemaFile: join(process.cwd(), 'src/schema.graphql'),
 				}
 			},

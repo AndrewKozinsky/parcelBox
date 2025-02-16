@@ -1,19 +1,37 @@
-import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { books } from '../../db/db'
-import { Admin } from './auth.schema'
+import { Args, createUnionType, Mutation, Resolver } from '@nestjs/graphql'
+import { Admin, AdminError } from './auth.schema'
 import { RegisterAdminInput } from './dto/registerAdmin.input'
 
-@Resolver(() => Admin)
-export class AuthResolver {
-	@Mutation(() => Admin, { name: 'registerAdmin' })
-	registerAdmin(@Args('input') registerAdminInput: RegisterAdminInput) {
-		const newAdmin: Admin = {
-			id: 2,
-			email: registerAdminInput.email,
-			name: registerAdminInput.name,
-			password: registerAdminInput.password,
+const RegisterAdminResponse = createUnionType({
+	name: 'RegisterAdminResponse',
+	types: () => [Admin, AdminError] as const,
+	resolveType(value) {
+		if ('isError' in value) {
+			return AdminError
 		}
 
-		return newAdmin
+		return Admin
+	},
+})
+
+@Resolver()
+export class AuthResolver {
+	@Mutation(() => RegisterAdminResponse, { name: 'registerAdmin' })
+	registerAdmin(@Args('input') input: RegisterAdminInput) {
+		try {
+			// throw new Error('Not implemented')
+			const newAdmin: Admin = {
+				id: 2,
+				name: input.name,
+				email: input.email,
+				password: input.password,
+			}
+
+			return newAdmin
+		} catch (err: unknown) {
+			return {
+				isError: true,
+			}
+		}
 	}
 }
