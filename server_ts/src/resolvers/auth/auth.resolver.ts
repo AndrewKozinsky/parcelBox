@@ -19,7 +19,6 @@ export class AuthResolver {
 	@Mutation(() => RegisterAdminResponse, { name: 'registerAdmin' })
 	registerAdmin(@Args('input') input: RegisterAdminInput) {
 		try {
-			// throw new Error('Not implemented')
 			const newAdmin: Admin = {
 				id: 2,
 				name: input.name,
@@ -31,7 +30,8 @@ export class AuthResolver {
 		} catch (err: unknown) {
 			return {
 				isError: true,
-			}
+				errorMessage: 'error',
+			} satisfies AdminError
 		}
 	}
 }
