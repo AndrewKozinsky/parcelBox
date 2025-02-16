@@ -20,8 +20,15 @@ import { join } from 'path'
 					definitions: {
 						path: join(process.cwd(), 'src/graphql.ts'),
 					},
-
 					autoSchemaFile: join(process.cwd(), 'src/schema.graphql'),
+					formatError: (error) => {
+						const { message, extensions } = error
+
+						return {
+							message, // Custom error message
+							...(extensions?.fields ? { fields: extensions.fields } : {}),
+						}
+					},
 				}
 			},
 		}),

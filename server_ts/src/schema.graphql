@@ -2,6 +2,13 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Admin {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+}
+
 type Book {
   id: ID!
   title: String!
@@ -15,26 +22,12 @@ type Query {
 
 type Mutation {
   addBook(input: AddBookInput!): Book!
-  registerAdmin(input: RegisterAdminInput!): RegisterAdminResponse!
+  auth_RegisterAdmin(input: RegisterAdminInput!): Admin!
 }
 
 input AddBookInput {
   title: String!
   price: Int!
-}
-
-union RegisterAdminResponse = Admin | AdminError
-
-type Admin {
-  id: ID!
-  name: String!
-  email: String!
-  password: String!
-}
-
-type AdminError {
-  isError: Boolean!
-  errorMessage: String!
 }
 
 input RegisterAdminInput {
