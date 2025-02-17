@@ -3,8 +3,8 @@ import { CommandBus } from '@nestjs/cqrs'
 import { Args, Mutation, Resolver } from '@nestjs/graphql'
 import { CreateUserCommand } from '../../features/auth/CreateUser.command'
 import RouteNames from '../../infrastructure/routeNames'
-import { CreateUserInputModel } from '../../models/auth/auth.input.model'
 import { User } from './auth.schema'
+import { CreateAdminInput } from './inputs/createAdmin.input'
 
 @Resolver()
 export class AuthResolver {
@@ -12,7 +12,7 @@ export class AuthResolver {
 
 	@Mutation(() => User, { name: RouteNames.AUTH.REGISTER_ADMIN })
 	@UsePipes(new ValidationPipe({ transform: true }))
-	async registerUser(@Args('input') input: CreateUserInputModel) {
+	async registerUser(@Args('input') input: CreateAdminInput) {
 		await this.commandBus.execute(new CreateUserCommand(input))
 
 		const newAdmin: User = {

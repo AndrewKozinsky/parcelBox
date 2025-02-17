@@ -19,7 +19,8 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
 	) {}*/
 
 	async execute(command: CreateUserCommand) {
-		// const { createUserInput } = command
+		const { createUserInput } = command
+		console.log('CreateUserCommand')
 		/*const existingUser = await this.userRepository.getUserByEmailOrName({
 			email: createUserInput.email,
 		})*/

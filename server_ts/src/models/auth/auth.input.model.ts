@@ -1,5 +1,4 @@
 import { DtoFieldDecorators } from '../../db/dtoFieldDecorators'
-import { Field, InputType } from '@nestjs/graphql'
 import { bdConfig } from '../../db/dbConfig/dbConfig'
 // import { IsIn, IsNumber, IsOptional } from 'class-validator'
 // import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common'
@@ -8,10 +7,7 @@ import { bdConfig } from '../../db/dbConfig/dbConfig'
 // import { ErrorMessage } from '@app/shared'
 // import { plainToInstance, Type } from 'class-transformer'
 
-@InputType()
 export class CreateUserInputModel {
-	@Field({ description: 'User email' })
-	@DtoFieldDecorators('email', bdConfig.User.dbFields.email)
 	email: string
 }
 

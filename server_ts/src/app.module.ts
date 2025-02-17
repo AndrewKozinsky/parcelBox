@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { join } from 'path'
-import { AuthModule } from './modules/auth.module'
-import { AuthResolver } from './resolvers/auth/auth.resolver'
-import { BookResolver } from './resolvers/book/book.resolver'
+import { AuthModule } from './modules/auth/auth.module'
 import { MainConfigModule } from './config/mainConfig.module'
 import { MainConfigService } from './config/mainConfig.service'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
@@ -33,8 +31,6 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 				}
 			},
 		}),
-		BookResolver,
-		AuthResolver,
 		AuthModule,
 	],
 	controllers: [],
