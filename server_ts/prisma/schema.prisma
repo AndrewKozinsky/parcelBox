@@ -11,4 +11,8 @@ datasource db {
 model User {
 	id	Int	@id	@default(autoincrement())
 	email	String	@unique
+	password	String
+	email_confirmation_code	String?
+	email_confirmation_code_expiration_date	String?
+	is_email_confirmed	Boolean	@default(false)
 }

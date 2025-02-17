@@ -1,8 +1,8 @@
-import dotenv from 'dotenv'
+// import dotenv from 'dotenv'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from './prisma.service'
 
-dotenv.config()
+// dotenv.config()
 
 @Injectable()
 export class DbService {

@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { join } from 'path'
-import { AuthModule } from './modules/auth/auth.module'
+import { HashAdapterModule } from './infrastructure/hashAdapter/hash-adapter.module'
+import { AuthModule } from './routes/auth/auth.module'
 import { MainConfigModule } from './config/mainConfig.module'
 import { MainConfigService } from './config/mainConfig.service'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
+import { TestsModule } from './routes/test/tests.module'
 
 @Module({
 	imports: [
@@ -31,7 +33,9 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 				}
 			},
 		}),
+		HashAdapterModule,
 		AuthModule,
+		TestsModule,
 	],
 	controllers: [],
 	providers: [MainConfigService],

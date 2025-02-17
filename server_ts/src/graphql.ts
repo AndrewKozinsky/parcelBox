@@ -8,38 +8,25 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export interface AddBookInput {
-    title: string;
-    price: number;
-}
-
-export interface RegisterAdminInput {
-    name: string;
+export interface CreateAdminInput {
     email: string;
+    name: string;
     password: string;
 }
 
 export interface Admin {
     id: string;
-    name: string;
     email: string;
+    name: string;
     password: string;
 }
 
-export interface Book {
-    id: string;
-    title: string;
-    price?: Nullable<number>;
-}
-
 export interface IQuery {
-    books(): Book[] | Promise<Book[]>;
-    book(id: string): Book | Promise<Book>;
+    hello(): string | Promise<string>;
 }
 
 export interface IMutation {
-    addBook(input: AddBookInput): Book | Promise<Book>;
-    auth_RegisterAdmin(input: RegisterAdminInput): Admin | Promise<Admin>;
+    auth_RegisterAdmin(input: CreateAdminInput): Admin | Promise<Admin>;
 }
 
 type Nullable<T> = T | null;

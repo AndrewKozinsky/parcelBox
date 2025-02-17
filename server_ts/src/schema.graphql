@@ -4,38 +4,25 @@
 
 type Admin {
   id: ID!
-  name: String!
   email: String!
+  name: String!
   password: String!
 }
 
-type Book {
-  id: ID!
-  title: String!
-  price: Int
-}
-
 type Query {
-  books: [Book!]!
-  book(id: ID!): Book!
+  hello: String!
 }
 
 type Mutation {
-  addBook(input: AddBookInput!): Book!
-  auth_RegisterAdmin(input: RegisterAdminInput!): Admin!
+  auth_RegisterAdmin(input: CreateAdminInput!): Admin!
 }
 
-input AddBookInput {
-  title: String!
-  price: Int!
-}
-
-input RegisterAdminInput {
-  """User name"""
-  name: String!
-
+input CreateAdminInput {
   """User email"""
   email: String!
+
+  """User name"""
+  name: String!
 
   """User password"""
   password: String!

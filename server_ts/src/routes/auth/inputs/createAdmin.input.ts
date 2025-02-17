@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql'
+import { MinLength } from 'class-validator'
 import { bdConfig } from '../../../db/dbConfig/dbConfig'
 import { DtoFieldDecorators } from '../../../db/dtoFieldDecorators'
 
@@ -7,4 +8,11 @@ export class CreateAdminInput {
 	@Field({ description: 'User email' })
 	@DtoFieldDecorators('email', bdConfig.User.dbFields.email)
 	email: string
+
+	@Field({ description: 'User name' })
+	name: string
+
+	@Field({ description: 'User password' })
+	@MinLength(4)
+	password: string
 }

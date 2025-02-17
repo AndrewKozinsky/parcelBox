@@ -9,6 +9,7 @@ import { bdConfig } from '../../db/dbConfig/dbConfig'
 
 export class CreateUserInputModel {
 	email: string
+	password: string
 }
 
 /*export class SetNewPasswordDtoModel {
