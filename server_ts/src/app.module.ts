@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { join } from 'path'
+import { EmailAdapterModule } from './infrastructure/email-adapter/email-adapter.module'
+import { EmailAdapterService } from './infrastructure/email-adapter/email-adapter.service'
 import { HashAdapterModule } from './infrastructure/hashAdapter/hash-adapter.module'
 import { AuthModule } from './routes/auth/auth.module'
 import { MainConfigModule } from './config/mainConfig.module'
@@ -36,6 +38,7 @@ import { TestsModule } from './routes/test/tests.module'
 		HashAdapterModule,
 		AuthModule,
 		TestsModule,
+		EmailAdapterModule,
 	],
 	controllers: [],
 	providers: [MainConfigService],

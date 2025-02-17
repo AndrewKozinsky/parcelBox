@@ -9,8 +9,5 @@ export class Admin {
 	email: string
 
 	@Field(() => String)
-	name: string
-
-	@Field(() => String)
 	password: string
 }

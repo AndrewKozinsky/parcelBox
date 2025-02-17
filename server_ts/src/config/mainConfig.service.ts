@@ -9,7 +9,17 @@ export class MainConfigService {
 		const enVariables = this.getEnVariables()
 
 		return {
-			...enVariables,
+			mode: enVariables.mode,
+			port: enVariables.port,
+			db: {
+				name: enVariables.dnName,
+				user: enVariables.dnUserName,
+				password: enVariables.dnUserPassword,
+			},
+			site: {
+				name: enVariables.siteName,
+				domainRoot: enVariables.siteDomainRoot,
+			},
 		}
 	}
 
@@ -20,6 +30,8 @@ export class MainConfigService {
 			dnName: this.configService.get<string>('DB_NAME') as string,
 			dnUserName: this.configService.get<string>('DB_USER_NAME') as string,
 			dnUserPassword: this.configService.get<string>('DB_USER_PASSWORD') as string,
+			siteName: this.configService.get<string>('SITE_NAME') as string,
+			siteDomainRoot: this.configService.get<string>('SITE_DOMAIN_ROOT') as string,
 		}
 
 		for (const key in enVariables) {

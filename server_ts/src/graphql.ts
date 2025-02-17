@@ -10,14 +10,12 @@
 
 export interface CreateAdminInput {
     email: string;
-    name: string;
     password: string;
 }
 
 export interface Admin {
     id: string;
     email: string;
-    name: string;
     password: string;
 }
 

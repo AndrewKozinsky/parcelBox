@@ -1,23 +1,21 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import { App } from 'supertest/types'
-import { AppModule } from '../src/app.module'
 import { clearAllDB } from '../src/db/db'
-import { applyAppSettings } from '../src/infrastructure/applyAppSettings'
+import { EmailAdapterService } from '../src/infrastructure/email-adapter/email-adapter.service'
 import RouteNames from '../src/infrastructure/routeNames'
 import { makeGraphQLReq } from './helper'
+import { createApp } from './utils/createMainApp'
 
 describe('Auth (e2e)', () => {
 	let app: INestApplication<App>
+	let emailAdapter: EmailAdapterService
 
-	beforeEach(async () => {
-		const moduleFixture: TestingModule = await Test.createTestingModule({
-			imports: [AppModule],
-		}).compile()
+	beforeAll(async () => {
+		const createMainAppRes = await createApp(emailAdapter)
 
-		app = moduleFixture.createNestApplication()
-		applyAppSettings(app)
-		await app.init()
+		app = createMainAppRes.app
+		emailAdapter = createMainAppRes.emailAdapter
 	})
 
 	beforeEach(async () => {
@@ -32,12 +30,10 @@ describe('Auth (e2e)', () => {
 		/*it('should return error if wrong data was passed', async () => {
 			const mutation = `mutation {
 			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
-				name: "John",
 				email: "johnexample.com",
 				password: "my"
 			  }) {
 				id
-				name
 				email
 				password
 			  }
@@ -59,12 +55,10 @@ describe('Auth (e2e)', () => {
 		it('should return created administrator', async () => {
 			const mutation = `mutation {
 			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
-				name: "John",
 				email: "johne@xample.com",
 				password: "myPass"
 			  }) {
 				id
-				name
 				email
 				password
 			  }
@@ -75,7 +69,6 @@ describe('Auth (e2e)', () => {
 			expect(createAdminResp.data).toStrictEqual({
 				[RouteNames.AUTH.REGISTER_ADMIN]: {
 					id: '2',
-					name: 'John',
 					email: 'johne@xample.com',
 					password: 'myPass',
 				},

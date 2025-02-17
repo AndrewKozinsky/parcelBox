@@ -9,9 +9,6 @@ export class CreateAdminInput {
 	@DtoFieldDecorators('email', bdConfig.User.dbFields.email)
 	email: string
 
-	@Field({ description: 'User name' })
-	name: string
-
 	@Field({ description: 'User password' })
 	@MinLength(4)
 	password: string

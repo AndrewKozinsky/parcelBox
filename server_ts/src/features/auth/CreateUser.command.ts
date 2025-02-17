@@ -1,4 +1,5 @@
 import { CommandHandler, ICommand, ICommandHandler } from '@nestjs/cqrs'
+import { EmailAdapterService } from '../../infrastructure/email-adapter/email-adapter.service'
 import { CreateUserInputModel } from '../../models/auth/auth.input.model'
 import { UserRepository } from '../../repo/user.repository'
 // import { EmailAdapterService } from '@app/email-adapter'
@@ -13,7 +14,10 @@ export class CreateUserCommand implements ICommand {
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
-	constructor(private userRepository: UserRepository) {}
+	constructor(
+		private userRepository: UserRepository,
+		private emailAdapter: EmailAdapterService,
+	) {}
 
 	async execute(command: CreateUserCommand) {
 		const { createUserInput } = command
@@ -29,10 +33,7 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
 
 		const createdUser = await this.userRepository.createUser(createUserInput)
 
-		/*await this.emailAdapter.sendEmailConfirmationMessage(
-			createdUser.email,
-			createdUser.emailConfirmationCode!,
-		)*/
+		await this.emailAdapter.sendEmailConfirmationMessage(createdUser.email, createdUser.emailConfirmationCode!)
 		// return (await this.userQueryRepository.getUserById(createdUser.id)) as UserOutModel
 	}
 }

@@ -23,7 +23,6 @@ export class AuthResolver {
 		const newAdmin: Admin = {
 			id: 2,
 			email: input.email,
-			name: input.name,
 			password: input.password,
 		}
 

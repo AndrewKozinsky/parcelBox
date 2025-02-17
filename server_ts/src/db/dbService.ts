@@ -1,8 +1,5 @@
-// import dotenv from 'dotenv'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from './prisma.service'
-
-// dotenv.config()
 
 @Injectable()
 export class DbService {
