@@ -1,5 +1,5 @@
 import { BadRequestException, INestApplication, ValidationPipe } from '@nestjs/common'
-import { GraphQLValidationFilter } from './graphqlException.filter'
+import { GraphQLValidationFilter } from './exceptions/graphqlException.filter'
 
 export function applyAppSettings(app: INestApplication) {
 	// Thus ensuring all endpoints are protected from receiving incorrect data.

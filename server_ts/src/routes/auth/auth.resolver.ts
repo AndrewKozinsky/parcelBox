@@ -1,7 +1,9 @@
-import { UsePipes, ValidationPipe } from '@nestjs/common'
+import { BadRequestException, UsePipes, ValidationPipe } from '@nestjs/common'
 import { CommandBus } from '@nestjs/cqrs'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { CreateUserCommand } from '../../features/auth/CreateUser.command'
+import { CreateAdminCommand } from '../../features/auth/CreateAdmin.command'
+import { CustomGraphQLError } from '../../infrastructure/exceptions/customGraphQLError'
+import { errorMessage } from '../../infrastructure/exceptions/errorMessage'
 import RouteNames from '../../infrastructure/routeNames'
 import { Admin } from './auth.schema'
 import { CreateAdminInput } from './inputs/createAdmin.input'
@@ -18,7 +20,9 @@ export class AuthResolver {
 	@Mutation(() => Admin, { name: RouteNames.AUTH.REGISTER_ADMIN })
 	@UsePipes(new ValidationPipe({ transform: true }))
 	async registerUser(@Args('input') input: CreateAdminInput) {
-		await this.commandBus.execute(new CreateUserCommand(input))
+		throw new CustomGraphQLError('Email is already registered', 400)
+
+		// await this.commandBus.execute(new CreateAdminCommand(input))
 
 		const newAdmin: Admin = {
 			id: 2,

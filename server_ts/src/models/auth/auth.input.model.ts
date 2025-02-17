@@ -7,7 +7,7 @@ import { bdConfig } from '../../db/dbConfig/dbConfig'
 // import { ErrorMessage } from '@app/shared'
 // import { plainToInstance, Type } from 'class-transformer'
 
-export class CreateUserInputModel {
+export class CreateAdminInputModel {
 	email: string
 	password: string
 }
@@ -20,37 +20,9 @@ export class CreateUserInputModel {
 	recoveryCode: string
 }*/
 
-// export type OAuthProviderName = 'github' | 'google'
-
 /*export class ProviderNameQueryModel {
 	@IsIn(['github', 'google'], { message: 'Provider must be either github or google' })
 	provider: OAuthProviderName
-}*/
-
-/*@Injectable()
-export class UploadAvatarFilePipe implements PipeTransform {
-	transform(file: Express.Multer.File, metadata: ArgumentMetadata) {
-		const maxFileSize = 10 * 1024 * 1024
-		// const allowedMimeTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp', 'image/gif']
-		const allowedMimeTypes = ['image/png', 'image/jpg', 'image/jpeg']
-
-		const errStatusCode = HTTP_STATUSES.BAD_REQUEST_400.toString()
-		let errMessage = ''
-
-		if (!file) {
-			errMessage = ErrorMessage.FileNotFound
-		} else if (!allowedMimeTypes.includes(file.mimetype)) {
-			errMessage = ErrorMessage.FileHasWrongMimeType
-		} else if (file.size > maxFileSize) {
-			errMessage = ErrorMessage.FileIsTooLarge
-		}
-
-		if (errMessage) {
-			throw CustomException(errStatusCode, errMessage)
-		}
-
-		return file
-	}
 }*/
 
 /*export class EditMyProfileDtoModel {

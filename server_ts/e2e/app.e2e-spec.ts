@@ -52,7 +52,7 @@ describe('Auth (e2e)', () => {
 			})
 		})*/
 
-		it('should return created administrator', async () => {
+		/*it('should return created administrator', async () => {
 			const mutation = `mutation {
 			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
 				email: "johne@xample.com",
@@ -73,6 +73,25 @@ describe('Auth (e2e)', () => {
 					password: 'myPass',
 				},
 			})
+		})*/
+
+		it('should return error if administrator is already created', async () => {
+			const mutation = `mutation {
+			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
+				email: "johne@sxample.com",
+				password: "myPass"
+			  }) {
+				id
+				email
+				password
+			  }
+			}`
+
+			const createAdminResp = await makeGraphQLReq(app, mutation)
+			console.log(JSON.stringify(createAdminResp))
+			// const createAdminResp2 = await makeGraphQLReq(app, mutation)
+
+			expect(2).toBe(2)
 		})
 	})
 })

@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { join } from 'path'
 import { EmailAdapterModule } from './infrastructure/email-adapter/email-adapter.module'
-import { EmailAdapterService } from './infrastructure/email-adapter/email-adapter.service'
 import { HashAdapterModule } from './infrastructure/hashAdapter/hash-adapter.module'
 import { AuthModule } from './routes/auth/auth.module'
 import { MainConfigModule } from './config/mainConfig.module'
@@ -29,6 +28,7 @@ import { TestsModule } from './routes/test/tests.module'
 
 						return {
 							message, // Custom error message
+							code: extensions?.code || 500,
 							...(extensions?.fields ? { fields: extensions.fields } : {}),
 						}
 					},

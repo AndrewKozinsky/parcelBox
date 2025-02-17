@@ -149,11 +149,11 @@ export class UserRepository {
 		})
 	}*/
 
-	/*async deleteUser(userId: number) {
+	async deleteUser(userId: number) {
 		await this.prisma.user.delete({
 			where: { id: userId },
 		})
-	}*/
+	}
 
 	/*async getUserAvatarUrl(userId: number) {
 		const sendingDataContract: FileMS_GetUserAvatarInContract = { userId }
