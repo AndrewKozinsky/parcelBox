@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
+import { join } from 'path'
 import { AuthResolver } from './resolvers/auth/auth.resolver'
 import { BookResolver } from './resolvers/book/book.resolver'
 import { MainConfigModule } from './config/mainConfig.module'
 import { MainConfigService } from './config/mainConfig.service'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
-import { join } from 'path'
 
 @Module({
 	imports: [

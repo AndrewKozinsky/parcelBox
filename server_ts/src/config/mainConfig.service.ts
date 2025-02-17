@@ -9,21 +9,18 @@ export class MainConfigService {
 		const enVariables = this.getEnVariables()
 
 		return {
-			mode: enVariables.mode,
-			port: enVariables.port,
+			...enVariables,
 		}
 	}
 
 	private getEnVariables() {
-		type IEnVars = {
-			mode: 'development' | 'production'
-			port: number
-		}
-
 		const enVariables = {
-			mode: this.configService.get<string>('MODE') as any,
-			port: this.configService.get<string>('PORT') as any,
-		} as IEnVars
+			mode: this.configService.get<string>('MODE') as 'development' | 'production',
+			port: parseInt(this.configService.get<string>('PORT') as string),
+			dnName: this.configService.get<string>('DB_NAME') as string,
+			dnUserName: this.configService.get<string>('DB_USER_NAME') as string,
+			dnUserPassword: this.configService.get<string>('DB_USER_PASSWORD') as string,
+		}
 
 		for (const key in enVariables) {
 			if (!enVariables[key]) {
