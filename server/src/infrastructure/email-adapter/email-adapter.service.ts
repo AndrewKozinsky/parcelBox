@@ -43,8 +43,10 @@ export class EmailAdapterService {
 	async sendEmail(toEmail: string, subject: string, textMessage: string, htmlMessage: string) {
 		return new Promise((resolve, reject) => {
 			/* https://login.sendpulse.com/settings/#api */
-			const API_USER_ID = 'b96661c19faf35a7a862d56abbae22c8'
-			const API_SECRET = 'ab8cc8878db31680bfacab37e9382933'
+			const API_USER_ID = this.mainConfig.get().emailAdapter.userId
+			const API_SECRET = this.mainConfig.get().emailAdapter.secret
+			const FROM_NAME = this.mainConfig.get().emailAdapter.fromName
+			const FROM_EMAIL = this.mainConfig.get().emailAdapter.fromEmail
 			const TOKEN_STORAGE = '/tmp/'
 
 			sendpulse.init(API_USER_ID, API_SECRET, TOKEN_STORAGE, function () {
@@ -53,8 +55,8 @@ export class EmailAdapterService {
 					text: textMessage,
 					subject: subject,
 					from: {
-						name: 'Andrew Kozinsky',
-						email: 'mail@andrewkozinsky.ru',
+						name: FROM_NAME,
+						email: FROM_EMAIL,
 					},
 					to: [
 						{

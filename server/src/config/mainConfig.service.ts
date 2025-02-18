@@ -20,6 +20,12 @@ export class MainConfigService {
 				name: enVariables.siteName,
 				domainRoot: enVariables.siteDomainRoot,
 			},
+			emailAdapter: {
+				userId: enVariables.emailAdapterUserId,
+				secret: enVariables.emailAdapterSecret,
+				fromName: enVariables.emailAdapterFromName,
+				fromEmail: enVariables.emailAdapterFromEmail,
+			},
 		}
 	}
 
@@ -32,6 +38,10 @@ export class MainConfigService {
 			dnUserPassword: this.configService.get<string>('DB_USER_PASSWORD') as string,
 			siteName: this.configService.get<string>('SITE_NAME') as string,
 			siteDomainRoot: this.configService.get<string>('SITE_DOMAIN_ROOT') as string,
+			emailAdapterUserId: this.configService.get<string>('EMAIL_ADAPTER_USER_ID') as string,
+			emailAdapterSecret: this.configService.get<string>('EMAIL_ADAPTER_SECRET') as string,
+			emailAdapterFromName: this.configService.get<string>('EMAIL_ADAPTER_FROM_NAME') as string,
+			emailAdapterFromEmail: this.configService.get<string>('EMAIL_ADAPTER_FROM_EMAIL') as string,
 		}
 
 		for (const key in enVariables) {
