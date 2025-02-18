@@ -20,9 +20,25 @@ type Mutation {
   	**Email is already registered** — the user is already registered and confirmed his email.
   """
   auth_RegisterAdmin(input: CreateAdminInput!): Admin!
+
+  """
+  Register a user as a administrator.
+  	Possible errors:
+  	**Email is not confirmed** — the user is already registered, but doesn't confirm his email.
+  	**Email is already registered** — the user is already registered and confirmed his email.
+  """
+  auth_RegisterSender(input: CreateSenderInput!): Admin!
 }
 
 input CreateAdminInput {
+  """User email"""
+  email: String!
+
+  """User password"""
+  password: String!
+}
+
+input CreateSenderInput {
   """User email"""
   email: String!
 

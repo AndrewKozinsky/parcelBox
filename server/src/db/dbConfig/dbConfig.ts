@@ -155,19 +155,33 @@ export const bdConfig = {
 			},*/
 		},
 		dbFields: {
-			id: {
-				type: 'index',
+			first_name: {
+				type: 'string',
+				description: 'User first name',
+				required: false,
 			},
-			/*text: {
+			last_name: {
 				type: 'string',
-				description: 'Post description',
+				description: 'User last name',
 				required: false,
-			},*/
-			/*location: {
+			},
+			passport_num: {
 				type: 'string',
-				description: 'Photos location',
+				description: 'Sender passport series and number',
 				required: false,
-			},*/
+			},
+			balance: {
+				type: 'number',
+				description: 'Sender balance',
+				required: false,
+				default: 0,
+			},
+			active: {
+				type: 'boolean',
+				description: 'Is user-s passport was checked and he can rent parcel terminal cell',
+				required: false,
+				default: false,
+			},
 			user_id: {
 				type: 'childOneToOne',
 				thisField: 'user_id',

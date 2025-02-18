@@ -1,6 +1,6 @@
 export type SenderServiceModel = {
 	id: number
-	email: string
+	// email: string
 	// password: string
 	// emailConfirmationCode: string | null
 	// confirmationCodeExpirationDate: string | null

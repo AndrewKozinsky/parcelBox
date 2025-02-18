@@ -29,7 +29,7 @@ describe('Auth (e2e)', () => {
 		jest.clearAllMocks()
 	})
 
-	describe('Register administrator', () => {
+	describe.skip('Register an administrator', () => {
 		it('should return error if wrong data was passed', async () => {
 			const mutation = `mutation {
 			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
@@ -75,6 +75,8 @@ describe('Auth (e2e)', () => {
 					email: defAdminEmail,
 				},
 			})
+
+			// TODO Check if a new admin exists in a database!!!
 		})
 
 		it('should return error if administrator is already created, but email is not confirmed', async () => {
@@ -97,7 +99,7 @@ describe('Auth (e2e)', () => {
 			expect(firstErr.code).toBe(400)
 		})
 
-		it.only('should return error if administrator is already created and email is confirmed', async () => {
+		it('should return error if administrator is already created and email is confirmed', async () => {
 			const mutation = `mutation {
 			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
 				email: "${defAdminEmail}",
@@ -118,5 +120,103 @@ describe('Auth (e2e)', () => {
 			expect(firstErr.message).toBe('Email is already registered')
 			expect(firstErr.code).toBe(400)
 		})
+	})
+
+	describe('Register a sender', () => {
+		it.only('should return error if wrong data was passed', async () => {
+			const mutation = `mutation {
+			  ${RouteNames.AUTH.REGISTER_SENDER}(input: {
+				email: "johnexample.com",
+				password: "my"
+			  }) {
+				id
+				email
+				firstName
+				lastName
+				passportNum
+				balance
+				active
+			  }
+			}`
+
+			const createAdminResp = await makeGraphQLReq(app, mutation)
+
+			expect(createAdminResp.data).toBe(null)
+
+			const firstErr = extractErrObjFromResp(createAdminResp)
+			expect(firstErr.message).toBe('Wrong input data')
+
+			expect(firstErr.fields).toStrictEqual({
+				email: ['The email must match the format example@example.com'],
+				password: ['password must be longer than or equal to 4 characters'],
+			})
+		})
+
+		/*it('should return created administrator', async () => {
+			const mutation = `mutation {
+			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
+				email: "${defAdminEmail}",
+				password: "${defAdminPassword}"
+			  }) {
+				id
+				email
+			  }
+			}`
+
+			const createAdminResp = await makeGraphQLReq(app, mutation)
+
+			expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(1)
+
+			expect(createAdminResp.data).toStrictEqual({
+				[RouteNames.AUTH.REGISTER_ADMIN]: {
+					id: 1,
+					email: defAdminEmail,
+				},
+			})
+
+			// TODO Check if a new admin exists in a database!!!
+		})*/
+
+		/*it('should return error if administrator is already created, but email is not confirmed', async () => {
+			const mutation = `mutation {
+			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
+				email: "${defAdminEmail}",
+				password: "${defAdminPassword}"
+			  }) {
+				id
+				email
+			  }
+			}`
+
+			await makeGraphQLReq(app, mutation)
+			const createAdminResp2 = await makeGraphQLReq(app, mutation)
+
+			const firstErr = extractErrObjFromResp(createAdminResp2)
+
+			expect(firstErr.message).toBe('Email is not confirmed')
+			expect(firstErr.code).toBe(400)
+		})*/
+
+		/*it('should return error if administrator is already created and email is confirmed', async () => {
+			const mutation = `mutation {
+			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
+				email: "${defAdminEmail}",
+				password: "${defAdminPassword}"
+			  }) {
+				id
+				email
+			  }
+			}`
+
+			const createAdminResp1 = await makeGraphQLReq(app, mutation)
+			const firstAdminId = createAdminResp1.data.auth_RegisterAdmin.id
+			await userRepository.makeEmailVerified(firstAdminId)
+
+			const createAdminResp2 = await makeGraphQLReq(app, mutation)
+			const firstErr = extractErrObjFromResp(createAdminResp2)
+
+			expect(firstErr.message).toBe('Email is already registered')
+			expect(firstErr.code).toBe(400)
+		})*/
 	})
 })

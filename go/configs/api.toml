@@ -1,6 +1,0 @@
-[web-server]
-bind_addr = ":8080"
-logger_level = "debug"
-
-[storage]
-database_uri = "host=localhost port=5433 user=admin password=123 dbname=postamats sslmode=disable"

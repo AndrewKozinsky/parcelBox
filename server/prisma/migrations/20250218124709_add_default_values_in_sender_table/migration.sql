@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Sender" ALTER COLUMN "active" DROP NOT NULL,
+ALTER COLUMN "active" SET DEFAULT false,
+ALTER COLUMN "balance" SET DEFAULT 0;

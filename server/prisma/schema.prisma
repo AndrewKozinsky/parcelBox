@@ -21,7 +21,11 @@ model User {
 }
 
 model Sender {
-	id	Int	@id	@default(autoincrement())
+	first_name	String?
+	last_name	String?
+	passport_num	String?
+	balance	Int?	@default(0)
+	active	Boolean?	@default(false)
 	user User @relation(fields: [user_id], references: [id])
 	user_id Int	@unique
 }
