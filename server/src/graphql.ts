@@ -16,7 +16,6 @@ export interface CreateAdminInput {
 export interface Admin {
     id: string;
     email: string;
-    password: string;
 }
 
 export interface IQuery {

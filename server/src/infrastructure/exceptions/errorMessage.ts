@@ -16,4 +16,5 @@ export const errorMessage = {
 	// RefreshTokenIsNotFound = 'Refresh token is not found',
 	// UserDoesNotOwnThisDeviceToken = 'User does not own this device token',
 	// UserDeviceNotFound = 'User device not found',
+	unknownDbError: 'Unknown error in database',
 }

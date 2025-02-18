@@ -4,12 +4,13 @@ import { PrismaService } from '../../db/prisma.service'
 import { CreateAdminHandler } from '../../features/auth/CreateAdmin.command'
 import { EmailAdapterService } from '../../infrastructure/email-adapter/email-adapter.service'
 import { SenderRepository } from '../../repo/sender.repository'
+import { UserQueryRepository } from '../../repo/user.queryRepository'
 import { UserRepository } from '../../repo/user.repository'
 import { AuthResolver } from './auth.resolver'
 
 const services = [PrismaService, EmailAdapterService]
 
-const repositories = [UserRepository, SenderRepository]
+const repositories = [UserRepository, UserQueryRepository, SenderRepository]
 
 const commandHandlers = [CreateAdminHandler]
 

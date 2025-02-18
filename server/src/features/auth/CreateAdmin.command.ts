@@ -1,10 +1,11 @@
 import { CommandHandler, ICommand, ICommandHandler } from '@nestjs/cqrs'
+import { UserRole } from '../../db/dbConstants'
 import { EmailAdapterService } from '../../infrastructure/email-adapter/email-adapter.service'
 import { CustomGraphQLError } from '../../infrastructure/exceptions/customGraphQLError'
 import { ErrorCode } from '../../infrastructure/exceptions/errorCode'
 import { errorMessage } from '../../infrastructure/exceptions/errorMessage'
 import { CreateAdminInputModel } from '../../models/auth/auth.input.model'
-import { SenderRepository } from '../../repo/sender.repository'
+import { UserQueryRepository } from '../../repo/user.queryRepository'
 import { UserRepository } from '../../repo/user.repository'
 
 export class CreateAdminCommand implements ICommand {
@@ -13,6 +14,12 @@ export class CreateAdminCommand implements ICommand {
 
 @CommandHandler(CreateAdminCommand)
 export class CreateAdminHandler implements ICommandHandler<CreateAdminCommand> {
+	constructor(
+		private userRepository: UserRepository,
+		private userQueryRepository: UserQueryRepository,
+		private emailAdapter: EmailAdapterService,
+	) {}
+
 	async execute(command: CreateAdminCommand) {
 		const { createAdminInput } = command
 
@@ -26,15 +33,11 @@ export class CreateAdminHandler implements ICommandHandler<CreateAdminCommand> {
 			await this.userRepository.deleteUser(existingUser.id)
 		}
 
-		const createdUser = await this.userRepository.createUser(createAdminInput)
-		const createdAdmin = await this.adminRepository.createAdmin({ userId: createdUser.id })
+		const createdUser = await this.userRepository.createUser(createAdminInput, UserRole.Admin)
+		const newUser = await this.userQueryRepository.getUserById(createdUser.id)
 
 		await this.emailAdapter.sendEmailConfirmationMessage(createdUser.email, createdUser.emailConfirmationCode!)
-	}
 
-	constructor(
-		private userRepository: UserRepository,
-		private emailAdapter: EmailAdapterService,
-		public adminRepository: SenderRepository,
-	) {}
+		return newUser
+	}
 }

@@ -1,4 +1,3 @@
-import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../src/db/clearDB'

@@ -17,15 +17,7 @@ export class AuthResolver {
 
 	@Mutation(() => Admin, { name: RouteNames.AUTH.REGISTER_ADMIN })
 	@UsePipes(new ValidationPipe({ transform: true }))
-	async registerUser(@Args('input') input: CreateAdminInput) {
-		await this.commandBus.execute(new CreateAdminCommand(input))
-
-		const newAdmin: Admin = {
-			id: 2,
-			email: input.email,
-			password: input.password,
-		}
-
-		return newAdmin
+	async registerUser(@Args('input') input: CreateAdminInput): Promise<Admin> {
+		return await this.commandBus.execute(new CreateAdminCommand(input))
 	}
 }

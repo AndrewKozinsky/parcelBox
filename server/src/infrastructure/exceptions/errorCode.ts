@@ -3,4 +3,5 @@ export enum ErrorCode {
 	Unauthorized_401 = 401,
 	BadRequest_400 = 400,
 	Forbidden_403 = 403,
+	InternalServerError_500 = 500,
 }

@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common'
 import { User } from '@prisma/client'
 import { PrismaService } from '../db/prisma.service'
+import CatchDbError from '../infrastructure/exceptions/CatchErrors'
 import { AdminServiceModel } from '../models/admin/admin.service.model'
 
 @Injectable()
 export class SenderRepository {
 	constructor(private prisma: PrismaService) {}
 
+	@CatchDbError()
 	async createSender(dto: { userId: number }) {
 		const newSenderParams: any = {
 			userId: dto.userId,
