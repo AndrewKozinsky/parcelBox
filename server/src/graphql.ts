@@ -14,7 +14,7 @@ export interface CreateAdminInput {
 }
 
 export interface Admin {
-    id: string;
+    id: number;
     email: string;
 }
 

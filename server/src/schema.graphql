@@ -3,15 +3,22 @@
 # ------------------------------------------------------
 
 type Admin {
-  id: ID!
+  id: Int!
   email: String!
 }
 
 type Query {
+  """Hello World!"""
   hello: String!
 }
 
 type Mutation {
+  """
+  Register a user as a administrator.
+  	Possible errors:
+  	**Email is not confirmed** — the user is already registered, but doesn't confirm his email.
+  	**Email is already registered** — the user is already registered and confirmed his email.
+  """
   auth_RegisterAdmin(input: CreateAdminInput!): Admin!
 }
 

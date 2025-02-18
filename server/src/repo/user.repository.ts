@@ -140,22 +140,22 @@ export class UserRepository {
 		return this.mapDbUserToServiceUser(user)
 	}
 
-	// @CatchDbError()
-	/*async updateUser(userId: number, data: Partial<User>) {
+	@CatchDbError()
+	async updateUser(userId: number, data: Partial<User>) {
 		await this.prisma.user.update({
 			where: { id: userId },
 			data,
 		})
-	}*/
+	}
 
-	// @CatchDbError()
-	/*async makeEmailVerified(userId: number) {
+	@CatchDbError()
+	async makeEmailVerified(userId: number) {
 		await this.updateUser(userId, {
 			email_confirmation_code: null,
 			is_email_confirmed: true,
 			email_confirmation_code_expiration_date: null,
 		})
-	}*/
+	}
 
 	@CatchDbError()
 	async deleteUser(userId: number) {

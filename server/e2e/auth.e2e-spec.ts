@@ -3,18 +3,22 @@ import { App } from 'supertest/types'
 import { clearAllDB } from '../src/db/clearDB'
 import { EmailAdapterService } from '../src/infrastructure/email-adapter/email-adapter.service'
 import RouteNames from '../src/infrastructure/routeNames'
+import { UserRepository } from '../src/repo/user.repository'
 import { makeGraphQLReq } from './helper'
+import { defAdminEmail, defAdminPassword, extractErrObjFromResp } from './utils/common'
 import { createApp } from './utils/createMainApp'
 
 describe('Auth (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
+	let userRepository: UserRepository
 
 	beforeAll(async () => {
 		const createMainAppRes = await createApp(emailAdapter)
 
 		app = createMainAppRes.app
 		emailAdapter = createMainAppRes.emailAdapter
+		userRepository = await app.resolve(UserRepository)
 	})
 
 	beforeEach(async () => {
@@ -25,8 +29,8 @@ describe('Auth (e2e)', () => {
 		jest.clearAllMocks()
 	})
 
-	describe('Create administrator', () => {
-		/*it('should return error if wrong data was passed', async () => {
+	describe('Register administrator', () => {
+		it('should return error if wrong data was passed', async () => {
 			const mutation = `mutation {
 			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
 				email: "johnexample.com",
@@ -34,63 +38,85 @@ describe('Auth (e2e)', () => {
 			  }) {
 				id
 				email
-				password
 			  }
 			}`
 
 			const createAdminResp = await makeGraphQLReq(app, mutation)
-			const { errors, data } = createAdminResp
 
-			expect(data).toBe(null)
+			expect(createAdminResp.data).toBe(null)
 
-			expect(errors[0].message).toBe('Wrong input data')
+			const firstErr = extractErrObjFromResp(createAdminResp)
+			expect(firstErr.message).toBe('Wrong input data')
 
-			expect(errors[0].fields).toStrictEqual({
+			expect(firstErr.fields).toStrictEqual({
 				email: ['The email must match the format example@example.com'],
 				password: ['password must be longer than or equal to 4 characters'],
 			})
-		})*/
+		})
 
-		/*it('should return created administrator', async () => {
+		it('should return created administrator', async () => {
 			const mutation = `mutation {
 			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
-				email: "johne@xample.com",
-				password: "myPass"
+				email: "${defAdminEmail}",
+				password: "${defAdminPassword}"
 			  }) {
 				id
 				email
-				password
 			  }
 			}`
 
 			const createAdminResp = await makeGraphQLReq(app, mutation)
+
+			expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(1)
 
 			expect(createAdminResp.data).toStrictEqual({
 				[RouteNames.AUTH.REGISTER_ADMIN]: {
-					id: '2',
-					email: 'johne@xample.com',
-					password: 'myPass',
+					id: 1,
+					email: defAdminEmail,
 				},
 			})
-		})*/
+		})
 
-		it('should return error if administrator is already created', async () => {
+		it('should return error if administrator is already created, but email is not confirmed', async () => {
 			const mutation = `mutation {
 			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
-				email: "johne@sxample.com",
-				password: "myPass"
+				email: "${defAdminEmail}",
+				password: "${defAdminPassword}"
 			  }) {
 				id
 				email
-				password
 			  }
 			}`
 
-			const createAdminResp = await makeGraphQLReq(app, mutation)
-			console.log(JSON.stringify(createAdminResp))
-			// const createAdminResp2 = await makeGraphQLReq(app, mutation)
+			await makeGraphQLReq(app, mutation)
+			const createAdminResp2 = await makeGraphQLReq(app, mutation)
 
-			expect(2).toBe(2)
+			const firstErr = extractErrObjFromResp(createAdminResp2)
+
+			expect(firstErr.message).toBe('Email is not confirmed')
+			expect(firstErr.code).toBe(400)
+		})
+
+		it.only('should return error if administrator is already created and email is confirmed', async () => {
+			const mutation = `mutation {
+			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
+				email: "${defAdminEmail}",
+				password: "${defAdminPassword}"
+			  }) {
+				id
+				email
+			  }
+			}`
+
+			const createAdminResp1 = await makeGraphQLReq(app, mutation)
+			const firstAdminId = createAdminResp1.data.auth_RegisterAdmin.id
+			await userRepository.makeEmailVerified(firstAdminId)
+
+			const createAdminResp2 = await makeGraphQLReq(app, mutation)
+			const firstErr = extractErrObjFromResp(createAdminResp2)
+
+			expect(firstErr.message).toBe('Email is already registered')
+			expect(firstErr.code).toBe(400)
 		})
 	})
 })

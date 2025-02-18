@@ -26,11 +26,11 @@ export class CreateAdminHandler implements ICommandHandler<CreateAdminCommand> {
 		const existingUser = await this.userRepository.getUserByEmail(createAdminInput.email)
 
 		if (existingUser) {
-			if (existingUser.isEmailConfirmed) {
-				throw new CustomGraphQLError(errorMessage.emailIsAlreadyRegistered, ErrorCode.BadRequest_400)
-			}
+			const errMessage = existingUser.isEmailConfirmed
+				? errorMessage.emailIsAlreadyRegistered
+				: errorMessage.EmailIsNotConfirmed
 
-			await this.userRepository.deleteUser(existingUser.id)
+			throw new CustomGraphQLError(errMessage, ErrorCode.BadRequest_400)
 		}
 
 		const createdUser = await this.userRepository.createUser(createAdminInput, UserRole.Admin)
