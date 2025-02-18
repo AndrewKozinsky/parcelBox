@@ -1,0 +1,27 @@
+generator client {
+	provider      = "prisma-client-js"
+	binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+	provider = "postgresql"
+	url      = env("DB_URL")
+}
+
+model User {
+	id	Int	@id	@default(autoincrement())
+	email	String	@unique
+	password	String
+	email_confirmation_code	String?
+	email_confirmation_code_expiration_date	String?
+	is_email_confirmed	Boolean	@default(false)
+	created_at	DateTime	@default(now())
+	role	Int
+	Sender	Sender?
+}
+
+model Sender {
+	id	Int	@id	@default(autoincrement())
+	user User @relation(fields: [user_id], references: [id])
+	user_id Int	@unique
+}
