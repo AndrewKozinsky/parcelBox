@@ -38,7 +38,7 @@ export interface SenderOutModel {
 }
 
 export interface IQuery {
-    auth_emailConfirmation(input: ConfirmEmailInput): string | Promise<string>;
+    auth_confirmEmail(input: ConfirmEmailInput): boolean | Promise<boolean>;
 }
 
 export interface IMutation {

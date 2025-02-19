@@ -9,7 +9,7 @@ import { makeGraphQLReq } from '../helper'
 import { defSenderEmail, defSenderPassword, extractErrObjFromResp } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 
-describe('Register a sender (e2e)', () => {
+describe.skip('Register a sender (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository

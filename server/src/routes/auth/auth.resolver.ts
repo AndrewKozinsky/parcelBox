@@ -33,13 +33,13 @@ export class AuthResolver {
 		return await this.commandBus.execute(new CreateSenderCommand(input))
 	}
 
-	@Query(() => String, {
-		name: RouteNames.AUTH.EMAIL_CONFIRMATION,
+	@Query(() => Boolean, {
+		name: RouteNames.AUTH.CONFIRM_EMAIL,
 		description: authResolversDesc.confirmEmail,
 	})
 	@UsePipes(new ValidationPipe({ transform: true }))
-	async confirmEmail(@Args('input') input: ConfirmEmailInput): Promise<String> {
+	async confirmEmail(@Args('input') input: ConfirmEmailInput) {
 		await this.commandBus.execute(new ConfirmEmailCommand(input))
-		return 'emailConfirmation'
+		return true
 	}
 }

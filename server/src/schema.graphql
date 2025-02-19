@@ -19,7 +19,7 @@ type SenderOutModel {
 
 type Query {
   """User email confirmation"""
-  auth_emailConfirmation(input: ConfirmEmailInput!): String!
+  auth_confirmEmail(input: ConfirmEmailInput!): Boolean!
 }
 
 input ConfirmEmailInput {

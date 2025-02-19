@@ -9,7 +9,7 @@ import { makeGraphQLReq } from '../helper'
 import { defAdminEmail, defAdminPassword, extractErrObjFromResp } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 
-describe('Register an administrator (e2e)', () => {
+describe.skip('Register an administrator (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository

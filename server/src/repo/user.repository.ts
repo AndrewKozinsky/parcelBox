@@ -15,8 +15,8 @@ export class UserRepository {
 		private hashAdapter: HashAdapterService,
 	) {}
 
-	// @CatchDbError()
-	/*async getUserById(id: number) {
+	@CatchDbError()
+	async getUserById(id: number) {
 		const user = await this.prisma.user.findUnique({
 			where: { id },
 		})
@@ -26,7 +26,7 @@ export class UserRepository {
 		}
 
 		return this.mapDbUserToServiceUser(user)
-	}*/
+	}
 
 	@CatchDbError()
 	async getUserByEmail(email: string) {
