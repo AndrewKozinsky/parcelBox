@@ -5,6 +5,7 @@ import { CustomGraphQLError } from '../../infrastructure/exceptions/customGraphQ
 import { ErrorCode } from '../../infrastructure/exceptions/errorCode'
 import { errorMessage } from '../../infrastructure/exceptions/errorMessage'
 import { CreateSenderInputModel } from '../../models/auth/auth.input.model'
+import { SenderOutModel } from '../../models/sender/sender.out.model'
 import { SenderQueryRepository } from '../../repo/sender.queryRepository'
 import { SenderRepository } from '../../repo/sender.repository'
 import { UserRepository } from '../../repo/user.repository'
@@ -22,7 +23,7 @@ export class CreateSenderHandler implements ICommandHandler<CreateSenderCommand>
 		private emailAdapter: EmailAdapterService,
 	) {}
 
-	async execute(command: CreateSenderCommand) {
+	async execute(command: CreateSenderCommand): Promise<SenderOutModel> {
 		const { createSenderInput } = command
 
 		const existingUser = await this.userRepository.getUserByEmail(createSenderInput.email)
@@ -30,7 +31,7 @@ export class CreateSenderHandler implements ICommandHandler<CreateSenderCommand>
 		if (existingUser) {
 			const errMessage = existingUser.isEmailConfirmed
 				? errorMessage.emailIsAlreadyRegistered
-				: errorMessage.EmailIsNotConfirmed
+				: errorMessage.emailIsNotConfirmed
 
 			throw new CustomGraphQLError(errMessage, ErrorCode.BadRequest_400)
 		}
@@ -38,6 +39,10 @@ export class CreateSenderHandler implements ICommandHandler<CreateSenderCommand>
 		const createdUser = await this.userRepository.createUser(createSenderInput, UserRole.Sender)
 		await this.senderRepository.createSender(createdUser.id)
 		const newSender = await this.senderQueryRepository.getSenderByUserId(createdUser.id)
+
+		if (!newSender) {
+			throw new CustomGraphQLError(errorMessage.unknownDbError, ErrorCode.InternalServerError_500)
+		}
 
 		await this.emailAdapter.sendEmailConfirmationMessage(createdUser.email, createdUser.emailConfirmationCode!)
 

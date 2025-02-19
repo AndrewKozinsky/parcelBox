@@ -1,16 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
 
 @ObjectType()
-export class Admin {
-	@Field(() => Int)
-	id: number
-
-	@Field(() => String)
-	email: string
-}
-
-@ObjectType()
-export class Sender {
+export class SenderOutModel {
 	@Field(() => Int)
 	id: number
 
@@ -18,13 +9,13 @@ export class Sender {
 	email: string
 
 	@Field(() => String, { nullable: true })
-	firstName: string
+	firstName: null | string
 
 	@Field(() => String, { nullable: true })
-	lastName: string
+	lastName: null | string
 
 	@Field(() => String, { nullable: true })
-	passportNum: string
+	passportNum: null | string
 
 	@Field(() => Int)
 	balance: number

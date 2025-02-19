@@ -1,8 +1,14 @@
 import { Injectable } from '@nestjs/common'
-import { User } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import { PrismaService } from '../db/prisma.service'
 import CatchDbError from '../infrastructure/exceptions/CatchErrors'
-import { UserOutModel } from '../models/user/user.out.model'
+import { SenderOutModel } from '../models/sender/sender.out.model'
+
+type SenderWithUser = Prisma.SenderGetPayload<{
+	include: {
+		user: true
+	}
+}>
 
 @Injectable()
 export class SenderQueryRepository {
@@ -10,21 +16,29 @@ export class SenderQueryRepository {
 
 	@CatchDbError()
 	async getSenderByUserId(userId: number) {
-		/*const user = await this.prisma.user.findUnique({
-			where: { id },
+		const sender = await this.prisma.sender.findFirst({
+			where: { user: { id: userId } },
+			include: {
+				user: true,
+			},
 		})
 
-		if (!user) {
+		if (!sender) {
 			return null
 		}
 
-		return this.mapDbUserToServiceUser(user)*/
+		return this.mapDbSenderToServiceSender(sender)
 	}
 
-	mapDbSenderToServiceSender(dbUser: User): UserOutModel {
+	mapDbSenderToServiceSender(dbSender: SenderWithUser): SenderOutModel {
 		return {
-			id: dbUser.id,
-			email: dbUser.email,
+			id: dbSender.user.id,
+			email: dbSender.user.email, // dbSender.email,
+			firstName: dbSender.first_name,
+			lastName: dbSender.last_name,
+			passportNum: dbSender.passport_num,
+			balance: dbSender.balance,
+			active: dbSender.active,
 		}
 	}
 }

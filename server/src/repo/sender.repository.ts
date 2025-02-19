@@ -24,7 +24,7 @@ export class SenderRepository {
 
 	mapDbSenderToServiceSender(dbUser: Sender): SenderServiceModel {
 		return {
-			id: dbUser.id,
+			id: dbUser.user_id,
 		}
 	}
 }

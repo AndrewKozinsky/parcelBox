@@ -28,7 +28,7 @@ export class CreateAdminHandler implements ICommandHandler<CreateAdminCommand> {
 		if (existingUser) {
 			const errMessage = existingUser.isEmailConfirmed
 				? errorMessage.emailIsAlreadyRegistered
-				: errorMessage.EmailIsNotConfirmed
+				: errorMessage.emailIsNotConfirmed
 
 			throw new CustomGraphQLError(errMessage, ErrorCode.BadRequest_400)
 		}

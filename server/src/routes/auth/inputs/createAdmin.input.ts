@@ -10,6 +10,6 @@ export class CreateAdminInput {
 	email: string
 
 	@Field({ description: 'User password' })
-	@MinLength(4)
+	@DtoFieldDecorators('email', bdConfig.User.dtoProps.password)
 	password: string
 }

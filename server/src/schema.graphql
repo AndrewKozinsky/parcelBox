@@ -2,14 +2,29 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Admin {
+type AdminOutModel {
   id: Int!
   email: String!
 }
 
+type SenderOutModel {
+  id: Int!
+  email: String!
+  firstName: String
+  lastName: String
+  passportNum: String
+  balance: Int!
+  active: Boolean!
+}
+
 type Query {
-  """Hello World!"""
-  hello: String!
+  """User email confirmation"""
+  auth_emailConfirmation(input: ConfirmEmailInput!): String!
+}
+
+input ConfirmEmailInput {
+  """User email"""
+  code: String!
 }
 
 type Mutation {
@@ -19,7 +34,7 @@ type Mutation {
   	**Email is not confirmed** — the user is already registered, but doesn't confirm his email.
   	**Email is already registered** — the user is already registered and confirmed his email.
   """
-  auth_RegisterAdmin(input: CreateAdminInput!): Admin!
+  auth_RegisterAdmin(input: CreateAdminInput!): AdminOutModel!
 
   """
   Register a user as a administrator.
@@ -27,7 +42,7 @@ type Mutation {
   	**Email is not confirmed** — the user is already registered, but doesn't confirm his email.
   	**Email is already registered** — the user is already registered and confirmed his email.
   """
-  auth_RegisterSender(input: CreateSenderInput!): Admin!
+  auth_RegisterSender(input: CreateSenderInput!): SenderOutModel!
 }
 
 input CreateAdminInput {

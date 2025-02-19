@@ -10,6 +10,13 @@ export class CreateSenderInput {
 	email: string
 
 	@Field({ description: 'User password' })
-	@MinLength(4)
+	@DtoFieldDecorators('email', bdConfig.User.dtoProps.password)
 	password: string
+}
+
+@InputType()
+export class ConfirmEmailInput {
+	@Field({ description: 'User email' })
+	@DtoFieldDecorators('code', bdConfig.User.dbFields.email_confirmation_code, { required: true })
+	code: string
 }

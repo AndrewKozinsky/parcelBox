@@ -67,8 +67,8 @@ export class UserRepository {
 		return this.mapDbUserToServiceUser(user)
 	}*/
 
-	// @CatchDbError()
-	/*async getUserByConfirmationCode(confirmationCode: string) {
+	@CatchDbError()
+	async getUserByConfirmationCode(confirmationCode: string) {
 		const user = await this.prisma.user.findFirst({
 			where: { email_confirmation_code: confirmationCode },
 		})
@@ -76,7 +76,7 @@ export class UserRepository {
 		if (!user) return null
 
 		return this.mapDbUserToServiceUser(user)
-	}*/
+	}
 
 	// @CatchDbError()
 	/*async getConfirmedUserByEmailAndPassword(email: string, password: string): Promise<null | UserServiceModel> {

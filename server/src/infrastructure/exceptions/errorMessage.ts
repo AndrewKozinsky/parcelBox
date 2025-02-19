@@ -3,9 +3,9 @@ import { AuthResolver } from '../../routes/auth/auth.resolver'
 export const errorMessage = {
 	// EMAIL
 	emailIsAlreadyRegistered: 'Email is already registered',
-	EmailIsNotConfirmed: 'Email is not confirmed',
-	// EmailConfirmationCodeIsExpired = 'Email confirmation code is expired',
-	// EmailConfirmationCodeNotFound = 'Email confirmation code not found',
+	emailIsNotConfirmed: 'Email is not confirmed',
+	emailConfirmationCodeIsExpired: 'Email confirmation code is expired',
+	emailConfirmationCodeNotFound: 'Email confirmation code not found',
 	// EmailOrPasswordDoNotMatch = 'Email or passwords do not match',
 	// EmailNotFound = 'Email not found',
 	// USER

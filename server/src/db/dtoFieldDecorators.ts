@@ -42,14 +42,14 @@ export function DtoFieldDecorators(
 
 	const decorators: any[] = []
 
-	/*if (updatedFieldConf.type === 'string') {
+	if (updatedFieldConf.type === 'string') {
 		decorators.push(IsString({ message: name + ' must be a string' }))
 		decorators.push(Trim())
 
 		if (updatedFieldConf.minLength) {
 			decorators.push(
 				MinLength(updatedFieldConf.minLength, {
-					message: 'Minimum number of characters ' + updatedFieldConf.minLength,
+					message: 'Minimum number of characters is ' + updatedFieldConf.minLength,
 				}),
 			)
 		}
@@ -57,7 +57,7 @@ export function DtoFieldDecorators(
 		if (updatedFieldConf.maxLength) {
 			decorators.push(
 				MaxLength(updatedFieldConf.maxLength, {
-					message: 'Maximum number of characters ' + updatedFieldConf.maxLength,
+					message: 'Maximum number of characters is ' + updatedFieldConf.maxLength,
 				}),
 			)
 		}
@@ -73,8 +73,8 @@ export function DtoFieldDecorators(
 		if (!updatedFieldConf.required) {
 			decorators.push(IsOptional())
 		}
-	}*/
-	/*if (updatedFieldConf.type === 'dateString') {
+	}
+	if (updatedFieldConf.type === 'dateString') {
 		decorators.push(
 			IsDateString(
 				{},
@@ -89,7 +89,7 @@ export function DtoFieldDecorators(
 		if (!updatedFieldConf.required) {
 			decorators.push(IsOptional())
 		}
-	}*/
+	}
 	if (updatedFieldConf.type === 'email') {
 		decorators.push(IsString({ message: name + ' must be a string' }))
 		decorators.push(IsEmail({}, { message: 'The email must match the format example@example.com' }))
@@ -97,7 +97,7 @@ export function DtoFieldDecorators(
 			decorators.push(IsOptional())
 		}
 	}
-	/*if (updatedFieldConf.type === 'number') {
+	if (updatedFieldConf.type === 'number') {
 		// @Type(() => Number)
 		decorators.push(IsNumber)
 
@@ -110,14 +110,14 @@ export function DtoFieldDecorators(
 		if (!updatedFieldConf.required) {
 			decorators.push(IsOptional())
 		}
-	}*/
-	/*if (updatedFieldConf.type === 'boolean') {
+	}
+	if (updatedFieldConf.type === 'boolean') {
 		decorators.push(Type(() => Boolean))
 		if (!updatedFieldConf.required) {
 			decorators.push(IsOptional())
 		}
-	}*/
-	/*if (updatedFieldConf.type === 'array') {
+	}
+	if (updatedFieldConf.type === 'array') {
 		let errorMessage = name + ' must be an array.'
 
 		if (updatedFieldConf.arrayItemType === 'string') {
@@ -134,14 +134,10 @@ export function DtoFieldDecorators(
 			decorators.push(IsString({ each: true }))
 		}
 
-		if (updatedFieldConf.arrayItemType === 'mongoId') {
-			decorators.push(Validate(IsMongoIdArrayConstraint))
-		}
-
 		if (!updatedFieldConf.required) {
 			decorators.push(IsOptional())
 		}
-	}*/
+	}
 
 	return applyDecorators(...decorators)
 }

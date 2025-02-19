@@ -7,16 +7,17 @@ import { BdConfig } from './dbConfigType'
 export const bdConfig = {
 	User: {
 		dtoProps: {
-			/*password: {
+			password: {
 				type: 'string',
 				minLength: 6,
-				maxLength: 20,
+				maxLength: 30,
 				match: /[0-9A-Za-z!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/,
-				matchErrorMessage: 'Password must contain letters, numbers and other symbols',
+				matchErrorMessage:
+					'Password must have min length is 6 and max length is 30 and contains letters, numbers and other symbols',
 				description: "User's password",
 				example: '$1Hn[595n8]T',
 				required: true,
-			},*/
+			},
 			/*recoveryCode: {
 				type: 'string',
 				minLength: 1,
@@ -173,13 +174,13 @@ export const bdConfig = {
 			balance: {
 				type: 'number',
 				description: 'Sender balance',
-				required: false,
+				required: true,
 				default: 0,
 			},
 			active: {
 				type: 'boolean',
 				description: 'Is user-s passport was checked and he can rent parcel terminal cell',
-				required: false,
+				required: true,
 				default: false,
 			},
 			user_id: {
