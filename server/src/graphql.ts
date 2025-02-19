@@ -22,9 +22,24 @@ export interface CreateSenderInput {
     password: string;
 }
 
+export interface LoginInput {
+    email: string;
+    password: string;
+}
+
 export interface AdminOutModel {
     id: number;
     email: string;
+}
+
+export interface UserOutModel {
+    id: number;
+    email: string;
+}
+
+export interface LoginOutModel {
+    accessToken: string;
+    user: UserOutModel;
 }
 
 export interface SenderOutModel {
@@ -44,6 +59,7 @@ export interface IQuery {
 export interface IMutation {
     auth_RegisterAdmin(input: CreateAdminInput): AdminOutModel | Promise<AdminOutModel>;
     auth_RegisterSender(input: CreateSenderInput): SenderOutModel | Promise<SenderOutModel>;
+    auth_login(input: LoginInput): LoginOutModel | Promise<LoginOutModel>;
 }
 
 type Nullable<T> = T | null;

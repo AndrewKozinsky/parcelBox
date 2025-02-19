@@ -7,6 +7,16 @@ type AdminOutModel {
   email: String!
 }
 
+type UserOutModel {
+  id: Int!
+  email: String!
+}
+
+type LoginOutModel {
+  accessToken: String!
+  user: UserOutModel!
+}
+
 type SenderOutModel {
   id: Int!
   email: String!
@@ -18,7 +28,12 @@ type SenderOutModel {
 }
 
 type Query {
-  """User email confirmation"""
+  """
+  User email confirmation.
+  	Possible errors:
+  	**Email confirmation code not found** — email confirmation code is not found in the database.
+  	**Email confirmation code is expired** — email confirmation code is expired.
+  """
   auth_confirmEmail(input: ConfirmEmailInput!): Boolean!
 }
 
@@ -43,6 +58,9 @@ type Mutation {
   	**Email is already registered** — the user is already registered and confirmed his email.
   """
   auth_RegisterSender(input: CreateSenderInput!): SenderOutModel!
+
+  """User email confirmation"""
+  auth_login(input: LoginInput!): LoginOutModel!
 }
 
 input CreateAdminInput {
@@ -54,6 +72,14 @@ input CreateAdminInput {
 }
 
 input CreateSenderInput {
+  """User email"""
+  email: String!
+
+  """User password"""
+  password: String!
+}
+
+input LoginInput {
   """User email"""
   email: String!
 

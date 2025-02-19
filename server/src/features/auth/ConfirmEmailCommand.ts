@@ -26,5 +26,7 @@ export class ConfirmEmailHandler implements ICommandHandler<ConfirmEmailCommand>
 		}
 
 		await this.userRepository.makeEmailVerified(user.id)
+
+		return true
 	}
 }
