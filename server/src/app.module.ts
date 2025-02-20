@@ -2,8 +2,10 @@ import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { join } from 'path'
-import { EmailAdapterModule } from './infrastructure/email-adapter/email-adapter.module'
+import { BrowserModule } from './infrastructure/browserService/browser.module'
+import { EmailAdapterModule } from './infrastructure/emailAdapter/email-adapter.module'
 import { HashAdapterModule } from './infrastructure/hashAdapter/hash-adapter.module'
+import { JwtAdapterModule } from './infrastructure/jwtAdapter/jwtAdapter.module'
 import { AuthModule } from './routes/auth/auth.module'
 import { MainConfigModule } from './config/mainConfig.module'
 import { MainConfigService } from './config/mainConfig.service'
@@ -39,6 +41,8 @@ import { TestsModule } from './routes/test/tests.module'
 		AuthModule,
 		TestsModule,
 		EmailAdapterModule,
+		BrowserModule,
+		JwtAdapterModule,
 	],
 	controllers: [],
 	providers: [MainConfigService],

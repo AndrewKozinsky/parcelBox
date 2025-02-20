@@ -1,13 +1,14 @@
 import { INestApplication } from '@nestjs/common'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
-import { EmailAdapterService } from '../../src/infrastructure/email-adapter/email-adapter.service'
+import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq } from '../helper'
 import { defAdminEmail, defAdminPassword, extractErrObjFromResp } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
+import { queries } from '../utils/queries'
 
 describe.skip('Register an administrator (e2e)', () => {
 	let app: INestApplication<App>
@@ -33,17 +34,9 @@ describe.skip('Register an administrator (e2e)', () => {
 	})
 
 	it('should return error if wrong data was passed', async () => {
-		const mutation = `mutation {
-			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
-				email: "johnexample.com",
-				password: "my"
-			  }) {
-				id
-				email
-			  }
-			}`
+		const registerAdminMutation = queries.auth.registerAdmin({ email: 'johnexample.com', password: 'my' })
 
-		const createAdminResp = await makeGraphQLReq(app, mutation)
+		const createAdminResp = await makeGraphQLReq(app, registerAdminMutation)
 
 		expect(createAdminResp.data).toBe(null)
 
@@ -57,17 +50,9 @@ describe.skip('Register an administrator (e2e)', () => {
 	})
 
 	it('should return created administrator', async () => {
-		const mutation = `mutation {
-			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
-				email: "${defAdminEmail}",
-				password: "${defAdminPassword}"
-			  }) {
-				id
-				email
-			  }
-			}`
+		const registerAdminMutation = queries.auth.registerAdmin({ email: defAdminEmail, password: defAdminPassword })
 
-		const createAdminResp = await makeGraphQLReq(app, mutation)
+		const createAdminResp = await makeGraphQLReq(app, registerAdminMutation)
 
 		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(1)
 
@@ -84,18 +69,10 @@ describe.skip('Register an administrator (e2e)', () => {
 	})
 
 	it('should return error if administrator is already created, but email is not confirmed', async () => {
-		const mutation = `mutation {
-			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
-				email: "${defAdminEmail}",
-				password: "${defAdminPassword}"
-			  }) {
-				id
-				email
-			  }
-			}`
+		const registerAdminMutation = queries.auth.registerAdmin({ email: defAdminEmail, password: defAdminPassword })
 
-		await makeGraphQLReq(app, mutation)
-		const createAdminResp2 = await makeGraphQLReq(app, mutation)
+		await makeGraphQLReq(app, registerAdminMutation)
+		const createAdminResp2 = await makeGraphQLReq(app, registerAdminMutation)
 
 		const firstErr = extractErrObjFromResp(createAdminResp2)
 
@@ -104,21 +81,13 @@ describe.skip('Register an administrator (e2e)', () => {
 	})
 
 	it('should return error if administrator is already created and email is confirmed', async () => {
-		const mutation = `mutation {
-			  ${RouteNames.AUTH.REGISTER_ADMIN}(input: {
-				email: "${defAdminEmail}",
-				password: "${defAdminPassword}"
-			  }) {
-				id
-				email
-			  }
-			}`
+		const registerAdminMutation = queries.auth.registerAdmin({ email: defAdminEmail, password: defAdminPassword })
 
-		const createAdminResp1 = await makeGraphQLReq(app, mutation)
+		const createAdminResp1 = await makeGraphQLReq(app, registerAdminMutation)
 		const firstAdminId = createAdminResp1.data[RouteNames.AUTH.REGISTER_ADMIN].id
 		await userRepository.makeEmailVerified(firstAdminId)
 
-		const createAdminResp2 = await makeGraphQLReq(app, mutation)
+		const createAdminResp2 = await makeGraphQLReq(app, registerAdminMutation)
 		const firstErr = extractErrObjFromResp(createAdminResp2)
 
 		expect(firstErr.message).toBe('Email is already registered')

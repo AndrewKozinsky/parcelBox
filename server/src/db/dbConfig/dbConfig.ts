@@ -2,7 +2,7 @@ import { BdConfig } from './dbConfigType'
 
 /**
  * Database structure.
- * With help of this structure, it is formed schema.prisma and class-validator set of decorators to check field in DTO.
+ * With help of this structure, it is formed schema.prisma and class-validator set of decorators to check fields in DTO.
  */
 export const bdConfig = {
 	User: {
@@ -37,26 +37,6 @@ export const bdConfig = {
 				description: "User's email",
 				required: true,
 			},
-			/*first_name: {
-				type: 'string',
-				minLength: 1,
-				maxLength: 50,
-				match: /^[A-Za-zА-Яа-я]+$/,
-				matchErrorMessage: 'First name must contain only letters',
-				description: "User's first name",
-				example: 'Andrew',
-				required: false,
-			},*/
-			/*last_name: {
-				type: 'string',
-				minLength: 1,
-				maxLength: 50,
-				match: /^[A-Za-zА-Яа-я]+$/,
-				matchErrorMessage: 'Last name must contain only letters',
-				description: "User's last name",
-				example: 'Kozinsky',
-				required: false,
-			},*/
 			password: {
 				type: 'string',
 				description: "Hashed user's password",
@@ -99,15 +79,15 @@ export const bdConfig = {
 					'The code with which the user must to confirm, that he ask for password recovery',
 				example: '6b459253-6d74-4bc1-bfca-b80447e67cec',
 			},*/
-			/*DeviceToken: {
+			DeviceToken: {
 				type: 'oneToMany',
-			},*/
+			},
 			Sender: {
 				type: 'parentOneToOne',
 			},
 		},
 	},
-	/*DeviceToken: {
+	DeviceToken: {
 		dtoProps: {},
 		dbFields: {
 			id: {
@@ -145,7 +125,7 @@ export const bdConfig = {
 				foreignField: 'id',
 			},
 		},
-	},*/
+	},
 	Sender: {
 		dtoProps: {
 			/*photosIds: {
@@ -158,12 +138,22 @@ export const bdConfig = {
 		dbFields: {
 			first_name: {
 				type: 'string',
-				description: 'User first name',
+				minLength: 1,
+				maxLength: 50,
+				match: /^[A-Za-zА-Яа-я]+$/,
+				matchErrorMessage: 'First name must contain only letters',
+				description: "User's first name",
+				example: 'Andrew',
 				required: false,
 			},
 			last_name: {
 				type: 'string',
-				description: 'User last name',
+				minLength: 1,
+				maxLength: 50,
+				match: /^[A-Za-zА-Яа-я]+$/,
+				matchErrorMessage: 'Last name must contain only letters',
+				description: "User's last name",
+				example: 'Kozinsky',
 				required: false,
 			},
 			passport_num: {

@@ -26,6 +26,17 @@ export class MainConfigService {
 				fromName: enVariables.emailAdapterFromName,
 				fromEmail: enVariables.emailAdapterFromEmail,
 			},
+			accessToken: {
+				name: 'accessToken',
+				lifeDurationInMs: 1000 * 60 * 30, // 30 minutes
+			},
+			refreshToken: {
+				name: 'refreshToken',
+				lifeDurationInMs: 1000 * 60 * 60 * 24 * 30, // 30 days
+			},
+			jwt: {
+				secret: 'CpTxoVgztCSd',
+			},
 		}
 	}
 

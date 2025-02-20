@@ -43,18 +43,18 @@ export class UserRepository {
 		}
 	}
 
-	// @CatchDbError()
-	/*async getUserByEmailAndPassword(email: string, password: string) {
+	@CatchDbError()
+	async getUserByEmailAndPassword(email: string, password: string) {
 		const user = await this.prisma.user.findUnique({
 			where: { email },
 		})
 		if (!user) return null
 
-		const isPasswordMath = await this.hashAdapter.compare(password, user.hashed_password)
+		const isPasswordMath = await this.hashAdapter.compare(password, user.password)
 		if (!isPasswordMath) return null
 
 		return this.mapDbUserToServiceUser(user)
-	}*/
+	}
 
 	// @CatchDbError()
 	/*async getUserByUserName(userName: string) {

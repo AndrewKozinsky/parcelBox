@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { AppModule } from '../../src/app.module'
 import { applyAppSettings } from '../../src/infrastructure/applyAppSettings'
-import { EmailAdapterService } from '../../src/infrastructure/email-adapter/email-adapter.service'
+import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
 
 export async function createApp(emailAdapter: EmailAdapterService) {
 	const moduleFixture: TestingModule = await Test.createTestingModule({

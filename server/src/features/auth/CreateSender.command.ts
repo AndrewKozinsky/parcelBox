@@ -1,6 +1,6 @@
 import { CommandHandler, ICommand, ICommandHandler } from '@nestjs/cqrs'
 import { UserRole } from '../../db/dbConstants'
-import { EmailAdapterService } from '../../infrastructure/email-adapter/email-adapter.service'
+import { EmailAdapterService } from '../../infrastructure/emailAdapter/email-adapter.service'
 import { CustomGraphQLError } from '../../infrastructure/exceptions/customGraphQLError'
 import { ErrorCode } from '../../infrastructure/exceptions/errorCode'
 import { errorMessage } from '../../infrastructure/exceptions/errorMessage'

@@ -1,13 +1,14 @@
 import { INestApplication } from '@nestjs/common'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
-import { EmailAdapterService } from '../../src/infrastructure/email-adapter/email-adapter.service'
+import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq } from '../helper'
 import { defSenderEmail, defSenderPassword, extractErrObjFromResp } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
+import { queries } from '../utils/queries'
 
 describe.skip('Register a sender (e2e)', () => {
 	let app: INestApplication<App>
@@ -33,22 +34,9 @@ describe.skip('Register a sender (e2e)', () => {
 	})
 
 	it('should return error if wrong data was passed', async () => {
-		const mutation = `mutation {
-			  ${RouteNames.AUTH.REGISTER_SENDER}(input: {
-				email: "johnexample.com",
-				password: "my"
-			  }) {
-				id
-				email
-				firstName
-				lastName
-				passportNum
-				balance
-				active
-			  }
-			}`
+		const registerSenderMutation = queries.auth.registerSender({ email: 'johnexample.com', password: 'my' })
 
-		const createAdminResp = await makeGraphQLReq(app, mutation)
+		const createAdminResp = await makeGraphQLReq(app, registerSenderMutation)
 
 		expect(createAdminResp.data).toBe(null)
 
@@ -63,22 +51,12 @@ describe.skip('Register a sender (e2e)', () => {
 	})
 
 	it('should return a created sender', async () => {
-		const mutation = `mutation {
-			  ${RouteNames.AUTH.REGISTER_SENDER}(input: {
-				email: "${defSenderEmail}",
-				password: "${defSenderPassword}"
-			  }) {
-				id
-				email
-				firstName
-				lastName
-				passportNum
-				balance
-				active
-			  }
-			}`
+		const registerSenderMutation = queries.auth.registerSender({
+			email: defSenderEmail,
+			password: defSenderPassword,
+		})
 
-		const createSenderResp = await makeGraphQLReq(app, mutation)
+		const createSenderResp = await makeGraphQLReq(app, registerSenderMutation)
 
 		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(1)
 
@@ -100,23 +78,13 @@ describe.skip('Register a sender (e2e)', () => {
 	})
 
 	it('should return error if a sender is already created, but his email is not confirmed', async () => {
-		const mutation = `mutation {
-			  ${RouteNames.AUTH.REGISTER_SENDER}(input: {
-				email: "${defSenderEmail}",
-				password: "${defSenderPassword}"
-			  }) {
-				id
-				email
-				firstName
-				lastName
-				passportNum
-				balance
-				active
-			  }
-			}`
+		const registerSenderMutation = queries.auth.registerSender({
+			email: defSenderEmail,
+			password: defSenderPassword,
+		})
 
-		await makeGraphQLReq(app, mutation)
-		const createAdminResp2 = await makeGraphQLReq(app, mutation)
+		await makeGraphQLReq(app, registerSenderMutation)
+		const createAdminResp2 = await makeGraphQLReq(app, registerSenderMutation)
 
 		const firstErr = extractErrObjFromResp(createAdminResp2)
 
@@ -125,26 +93,16 @@ describe.skip('Register a sender (e2e)', () => {
 	})
 
 	it('should return error if the sender is already created and his email is confirmed', async () => {
-		const mutation = `mutation {
-			  ${RouteNames.AUTH.REGISTER_SENDER}(input: {
-				email: "${defSenderEmail}",
-				password: "${defSenderPassword}"
-			  }) {
-				id
-				email
-				firstName
-				lastName
-				passportNum
-				balance
-				active
-			  }
-			}`
+		const registerSenderMutation = queries.auth.registerSender({
+			email: defSenderEmail,
+			password: defSenderPassword,
+		})
 
-		const createSenderResp1 = await makeGraphQLReq(app, mutation)
+		const createSenderResp1 = await makeGraphQLReq(app, registerSenderMutation)
 		const firstSenderId = createSenderResp1.data[RouteNames.AUTH.REGISTER_SENDER].id
 		await userRepository.makeEmailVerified(firstSenderId)
 
-		const createSenderResp2 = await makeGraphQLReq(app, mutation)
+		const createSenderResp2 = await makeGraphQLReq(app, registerSenderMutation)
 		const firstErr = extractErrObjFromResp(createSenderResp2)
 
 		expect(firstErr.message).toBe('Email is already registered')

@@ -6,7 +6,7 @@ export const errorMessage = {
 	emailIsNotConfirmed: 'Email is not confirmed',
 	emailConfirmationCodeIsExpired: 'Email confirmation code is expired',
 	emailConfirmationCodeNotFound: 'Email confirmation code not found',
-	// EmailOrPasswordDoNotMatch = 'Email or passwords do not match',
+	emailOrPasswordDoNotMatch: 'Email or passwords do not match',
 	// EmailNotFound = 'Email not found',
 	// USER
 	// UserNotFound = 'User not found',

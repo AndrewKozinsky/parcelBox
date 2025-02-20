@@ -1,13 +1,14 @@
 import { INestApplication } from '@nestjs/common'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
-import { EmailAdapterService } from '../../src/infrastructure/email-adapter/email-adapter.service'
+import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq } from '../helper'
 import { defAdminEmail, defAdminPassword, extractErrObjFromResp } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
+import { queries } from '../utils/queries'
 import { userUtils } from '../utils/userUtils'
 
 describe.skip('Confirm an user email (e2e)', () => {
@@ -34,15 +35,9 @@ describe.skip('Confirm an user email (e2e)', () => {
 	})
 
 	it('should return error if wrong confirmation code was passed', async () => {
-		const query = `query {
-			${RouteNames.AUTH.CONFIRM_EMAIL}(
-				input: {
-					code: "123",
-				}
-			)
-		}`
+		const confirmEmailQuery = queries.auth.confirmEmail('123')
 
-		const confirmEmailResp = await makeGraphQLReq(app, query)
+		const confirmEmailResp = await makeGraphQLReq(app, confirmEmailQuery)
 
 		expect(confirmEmailResp.data).toBe(null)
 
@@ -57,15 +52,9 @@ describe.skip('Confirm an user email (e2e)', () => {
 
 		const { emailConfirmationCode } = createdAdmin
 
-		const query = `query {
-			${RouteNames.AUTH.CONFIRM_EMAIL}(
-				input: {
-					code: "${emailConfirmationCode}",
-				}
-			)
-		}`
+		const confirmEmailQuery = queries.auth.confirmEmail(emailConfirmationCode!)
 
-		const confirmEmailResp = await makeGraphQLReq(app, query)
+		const confirmEmailResp = await makeGraphQLReq(app, confirmEmailQuery)
 		expect(confirmEmailResp.data).toStrictEqual({
 			[RouteNames.AUTH.CONFIRM_EMAIL]: true,
 		})
@@ -88,15 +77,9 @@ describe.skip('Confirm an user email (e2e)', () => {
 		const { emailConfirmationCode } = createdAdmin
 
 		// Try to confirm email
-		const query = `query {
-			${RouteNames.AUTH.CONFIRM_EMAIL}(
-				input: {
-					code: "${emailConfirmationCode}",
-				}
-			)
-		}`
+		const confirmEmailQuery = queries.auth.confirmEmail(emailConfirmationCode!)
 
-		const confirmEmailResp = await makeGraphQLReq(app, query)
+		const confirmEmailResp = await makeGraphQLReq(app, confirmEmailQuery)
 		const firstErr = extractErrObjFromResp(confirmEmailResp)
 		expect(firstErr.message).toBe('Email confirmation code is expired')
 		expect(firstErr.code).toBe(400)
@@ -115,21 +98,15 @@ describe.skip('Confirm an user email (e2e)', () => {
 		const { emailConfirmationCode } = createdAdmin
 
 		// Try to confirm email
-		const query = `query {
-			${RouteNames.AUTH.CONFIRM_EMAIL}(
-				input: {
-					code: "${emailConfirmationCode}",
-				}
-			)
-		}`
+		const confirmEmailQuery = queries.auth.confirmEmail(emailConfirmationCode!)
 
-		const confirmEmailResp = await makeGraphQLReq(app, query)
+		const confirmEmailResp = await makeGraphQLReq(app, confirmEmailQuery)
 		expect(confirmEmailResp.data).toStrictEqual({
 			[RouteNames.AUTH.CONFIRM_EMAIL]: true,
 		})
 
 		// Try to confirm email second time
-		const confirmEmailResp2 = await makeGraphQLReq(app, query)
+		const confirmEmailResp2 = await makeGraphQLReq(app, confirmEmailQuery)
 		const firstErr = extractErrObjFromResp(confirmEmailResp)
 		expect(firstErr.message).toBe('Email confirmation code not found')
 		expect(firstErr.code).toBe(400)

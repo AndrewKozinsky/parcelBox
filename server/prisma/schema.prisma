@@ -17,7 +17,19 @@ model User {
 	is_email_confirmed	Boolean	@default(false)
 	created_at	DateTime	@default(now())
 	role	Int
+	DeviceToken	DeviceToken[]
 	Sender	Sender?
+}
+
+model DeviceToken {
+	id	Int	@id	@default(autoincrement())
+	issued_at	String
+	expiration_date	String
+	device_ip	String
+	device_id	String
+	device_name	String
+	user User @relation(fields: [user_id], references: [id])
+	user_id Int
 }
 
 model Sender {

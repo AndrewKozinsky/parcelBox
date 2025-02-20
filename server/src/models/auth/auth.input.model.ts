@@ -11,3 +11,8 @@ export class CreateSenderInputModel {
 export class ConfirmEmailInputModel {
 	code: string
 }
+
+export class LoginInputModel {
+	email: string
+	password: string
+}

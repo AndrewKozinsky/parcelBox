@@ -3,20 +3,30 @@ import { CommandBus } from '@nestjs/cqrs'
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { CreateAdminCommand } from '../../features/auth/CreateAdmin.command'
 import { CreateSenderCommand } from '../../features/auth/CreateSender.command'
-import { ConfirmEmailCommand } from '../../features/auth/ConfirmEmailCommand'
+import { ConfirmEmailCommand } from '../../features/auth/ConfirmEmail.command'
+import { LoginCommand } from '../../features/auth/Login.command'
+import { BrowserService } from '../../infrastructure/browserService/browser.service'
+import { JwtAdapterService } from '../../infrastructure/jwtAdapter/jwtAdapter.service'
 import RouteNames from '../../infrastructure/routeNames'
 import { AdminOutModel } from '../../models/admin/admin.out.model'
 import { LoginOutModel } from '../../models/auth/auth.out.model'
 import { SenderOutModel } from '../../models/sender/sender.out.model'
+import { AuthService } from './auth.service'
 import { ConfirmEmailInput } from './inputs/confirmEmail.input'
 import { CreateAdminInput } from './inputs/createAdmin.input'
 import { CreateSenderInput } from './inputs/createSender.input'
 import { LoginInput } from './inputs/login.input'
 import { authResolversDesc } from './resolverDescriptions'
+import { Request, Response } from 'express'
 
 @Resolver()
 export class AuthResolver {
-	constructor(private readonly commandBus: CommandBus) {}
+	constructor(
+		private commandBus: CommandBus,
+		private browserService: BrowserService,
+		private authService: AuthService,
+		private jwtAdapter: JwtAdapterService,
+	) {}
 
 	@Mutation(() => AdminOutModel, {
 		name: RouteNames.AUTH.REGISTER_ADMIN,
@@ -50,35 +60,33 @@ export class AuthResolver {
 		description: authResolversDesc.login,
 	})
 	@UsePipes(new ValidationPipe({ transform: true }))
-	async login(@Args('input') input: LoginInput, @Context() context: { req: Request }): Promise<LoginOutModel> {
+	async login(
+		@Args('input') input: LoginInput,
+		@Context() context: { request: Request; response: Response },
+	): Promise<LoginOutModel> {
 		// Get the request object from the context
-		const request = context.req
+		const { request, response } = context
+
+		const clientIP = this.browserService.getClientIP(request)
+		const clientName = this.browserService.getClientName(request)
+
+		const commandRes = await this.commandBus.execute(new LoginCommand(input, clientIP, clientName))
+		const { refreshTokenStr, user } = commandRes
+
+		this.authService.setRefreshTokenInCookie(response, refreshTokenStr)
 
 		return {
+			accessToken: this.jwtAdapter.createAccessTokenStr(user.id),
+			user,
+		}
+
+		// TODO DELETE !!!
+		/*return {
 			accessToken: 'my accessToken',
 			user: {
 				id: 1,
 				email: 'email@email.com',
 			},
-		}
-
-		// const clientIP = this.browserService.getClientIP(req)
-		// const clientName = this.browserService.getClientName(req)
-		/*const commandRes = await this.commandBus.execute<
-			any,
-			ReturnType<typeof LoginHandler.prototype.execute>
-		>(new LoginCommand(body, clientIP, clientName))*/
-		// const { refreshTokenStr, user } = commandRes
-		// this.authService.setRefreshTokenInCookie(res, refreshTokenStr)
-		/*const respData: SWLoginRouteOut = createSuccessResp<LoginOutModel>(
-			authRoutesConfig.login,
-			{
-				accessToken: this.jwtAdapter.createAccessTokenStr(user.id),
-				user,
-			},
-		)*/
-		// res.status(HttpStatus.OK).send(respData)
-		// ----
-		// return await this.commandBus.execute(new LoginCommand(input))
+		}*/
 	}
 }
