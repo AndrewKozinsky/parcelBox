@@ -27,6 +27,10 @@ export interface LoginInput {
     password: string;
 }
 
+export interface ResendConfirmationEmailInput {
+    email: string;
+}
+
 export interface AdminOutModel {
     id: number;
     email: string;
@@ -60,6 +64,7 @@ export interface IMutation {
     auth_RegisterAdmin(input: CreateAdminInput): AdminOutModel | Promise<AdminOutModel>;
     auth_RegisterSender(input: CreateSenderInput): SenderOutModel | Promise<SenderOutModel>;
     auth_login(input: LoginInput): LoginOutModel | Promise<LoginOutModel>;
+    auth_resendConfirmationEmail(input: ResendConfirmationEmailInput): boolean | Promise<boolean>;
 }
 
 type Nullable<T> = T | null;

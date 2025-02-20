@@ -15,4 +15,5 @@ export const authResolversDesc: Record<keyof typeof AuthResolver.prototype, stri
 	**${errorMessage.emailConfirmationCodeNotFound}** — email confirmation code is not found in the database.
 	**${errorMessage.emailConfirmationCodeIsExpired}** — email confirmation code is expired.`,
 	login: 'User email confirmation',
+	resendConfirmationEmail: 'Send email confirmation email one more time',
 }

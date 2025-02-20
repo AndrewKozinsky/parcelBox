@@ -54,5 +54,14 @@ export const queries = {
 			  }
 			}`
 		},
+		resendConfirmationEmail(email: string) {
+			return `mutation {
+			  ${RouteNames.AUTH.RESEND_CONFIRMATION_EMAIL}(
+				input: {
+				  email: "${email}",
+				}
+				)
+			}`
+		},
 	},
 }

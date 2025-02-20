@@ -92,7 +92,7 @@ export function DtoFieldDecorators(
 	}
 	if (updatedFieldConf.type === 'email') {
 		decorators.push(IsString({ message: name + ' must be a string' }))
-		decorators.push(IsEmail({}, { message: 'The email must match the format example@example.com' }))
+		decorators.push(IsEmail({}, { message: 'The email must match the format example@mail.com' }))
 		if (!updatedFieldConf.required) {
 			decorators.push(IsOptional())
 		}

@@ -61,6 +61,9 @@ type Mutation {
 
   """User email confirmation"""
   auth_login(input: LoginInput!): LoginOutModel!
+
+  """Send email confirmation email one more time"""
+  auth_resendConfirmationEmail(input: ResendConfirmationEmailInput!): Boolean!
 }
 
 input CreateAdminInput {
@@ -85,4 +88,9 @@ input LoginInput {
 
   """User password"""
   password: String!
+}
+
+input ResendConfirmationEmailInput {
+  """User email"""
+  email: String!
 }

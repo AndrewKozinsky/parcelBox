@@ -34,37 +34,38 @@ describe.skip('Confirm an user email (e2e)', () => {
 		jest.clearAllMocks()
 	})
 
-	it('should return error if incorrect email and password was sent', async () => {
-		const loginQuery = queries.auth.login({ email: 'wrongemail.com', password: '123' })
-		const loginResp = await makeGraphQLReq(app, loginQuery)
-		const firstErr = extractErrObjFromResp(loginResp)
+	it('should return error if input has incorrect values', async () => {
+		const resendConfirmationEmailMutation = queries.auth.resendConfirmationEmail('johnexample.com')
+		const resendConfirmationEmailResp = await makeGraphQLReq(app, resendConfirmationEmailMutation)
 
-		expect(loginResp.data).toBe(null)
+		const firstErr = extractErrObjFromResp(resendConfirmationEmailResp)
 
 		expect(firstErr).toStrictEqual({
-			code: 400,
 			message: 'Wrong input data',
+			code: 400,
 			fields: {
 				email: ['The email must match the format example@mail.com'],
-				password: ['Minimum number of characters is 6'],
 			},
 		})
+
+		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(0)
 	})
 
-	it('should return 400 if email and password does not match', async () => {
-		const loginQuery = queries.auth.login({ email: 'wrong@email.com', password: '123456' })
-		const loginResp = await makeGraphQLReq(app, loginQuery)
-		const firstErr = extractErrObjFromResp(loginResp)
+	it('should return an error if the entered email is not exists', async () => {
+		const resendConfirmationEmailMutation = queries.auth.resendConfirmationEmail('john@example.com')
+		const resendConfirmationEmailResp = await makeGraphQLReq(app, resendConfirmationEmailMutation)
 
-		expect(loginResp.data).toBe(null)
+		const firstErr = extractErrObjFromResp(resendConfirmationEmailResp)
 
 		expect(firstErr).toStrictEqual({
+			message: 'Email is not found',
 			code: 400,
-			message: 'Email or passwords do not match',
 		})
+
+		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(0)
 	})
 
-	it('should return error if email is not confirmed', async () => {
+	it('should return success if input has correct values', async () => {
 		const admin = await userUtils.createAdminWithUnconfirmedEmail({
 			app,
 			userRepository,
@@ -73,20 +74,15 @@ describe.skip('Confirm an user email (e2e)', () => {
 		})
 		if (!admin) return
 
-		const loginQuery = queries.auth.login({ email: defAdminEmail, password: defAdminPassword })
-		const loginResp = await makeGraphQLReq(app, loginQuery)
+		const resendConfirmationEmailMutation = queries.auth.resendConfirmationEmail(admin.email)
+		const resendConfirmationEmailResp = await makeGraphQLReq(app, resendConfirmationEmailMutation)
 
-		expect(loginResp.data).toBe(null)
+		expect(resendConfirmationEmailResp.data).toBeTruthy()
 
-		const firstErr = extractErrObjFromResp(loginResp)
-
-		expect(firstErr).toStrictEqual({
-			code: 400,
-			message: 'Email is not confirmed',
-		})
+		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(1)
 	})
 
-	it('should return 200 if dto has correct values and email is confirmed', async () => {
+	it('should return an error if email is already confirmed', async () => {
 		const admin = await userUtils.createAdminWithConfirmedEmail({
 			app,
 			userRepository,
@@ -95,11 +91,16 @@ describe.skip('Confirm an user email (e2e)', () => {
 		})
 		if (!admin) return
 
-		const loginQuery = queries.auth.login({ email: defAdminEmail, password: defAdminPassword })
-		const loginResp = await makeGraphQLReq(app, loginQuery)
-		const data = loginResp.data[RouteNames.AUTH.LOGIN]
+		const resendConfirmationEmailMutation = queries.auth.resendConfirmationEmail(admin.email)
+		const resendConfirmationEmailResp = await makeGraphQLReq(app, resendConfirmationEmailMutation)
 
-		expect(typeof data.accessToken).toBe('string')
-		userUtils.checkUserOutModel(data.user)
+		const firstErr = extractErrObjFromResp(resendConfirmationEmailResp)
+
+		expect(firstErr).toStrictEqual({
+			message: 'Email is already confirmed',
+			code: 400,
+		})
+
+		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(1)
 	})
 })

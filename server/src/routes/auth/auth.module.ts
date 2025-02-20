@@ -6,6 +6,7 @@ import { CreateAdminHandler } from '../../features/auth/CreateAdmin.command'
 import { CreateRefreshTokenHandler } from '../../features/auth/CreateRefreshToken.command'
 import { CreateSenderHandler } from '../../features/auth/CreateSender.command'
 import { LoginHandler } from '../../features/auth/Login.command'
+import { ResendConfirmationEmailHandler } from '../../features/auth/ResendConfirmationEmail.command'
 import { EmailAdapterService } from '../../infrastructure/emailAdapter/email-adapter.service'
 import { DevicesRepository } from '../../repo/devices.repository'
 import { SenderQueryRepository } from '../../repo/sender.queryRepository'
@@ -25,6 +26,7 @@ const commandHandlers = [
 	ConfirmEmailHandler,
 	LoginHandler,
 	CreateRefreshTokenHandler,
+	ResendConfirmationEmailHandler,
 ]
 
 const resolvers = [AuthResolver]

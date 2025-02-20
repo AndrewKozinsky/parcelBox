@@ -44,6 +44,8 @@ describe.skip('Confirm an user email (e2e)', () => {
 		const firstErr = extractErrObjFromResp(confirmEmailResp)
 		expect(firstErr.message).toBe('Email confirmation code not found')
 		expect(firstErr.code).toBe(400)
+
+		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(0)
 	})
 
 	it('should return success if email successfully confirmed', async () => {
@@ -63,6 +65,8 @@ describe.skip('Confirm an user email (e2e)', () => {
 		if (!updatedUser) return
 
 		expect(userUtils.isUserEmailConfirmed(updatedUser)).toBe(true)
+
+		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(1)
 	})
 
 	it('should return error if email verification allowed time is over', async () => {
@@ -89,6 +93,8 @@ describe.skip('Confirm an user email (e2e)', () => {
 		if (!thisUser) return
 
 		expect(userUtils.isUserEmailConfirmed(thisUser)).toBe(false)
+
+		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(0)
 	})
 
 	it('should return 400 if they try to confirm email the second time', async () => {
@@ -107,8 +113,10 @@ describe.skip('Confirm an user email (e2e)', () => {
 
 		// Try to confirm email second time
 		const confirmEmailResp2 = await makeGraphQLReq(app, confirmEmailQuery)
-		const firstErr = extractErrObjFromResp(confirmEmailResp)
+		const firstErr = extractErrObjFromResp(confirmEmailResp2)
 		expect(firstErr.message).toBe('Email confirmation code not found')
 		expect(firstErr.code).toBe(400)
+
+		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(0)
 	})
 })

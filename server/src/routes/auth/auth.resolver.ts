@@ -5,6 +5,7 @@ import { CreateAdminCommand } from '../../features/auth/CreateAdmin.command'
 import { CreateSenderCommand } from '../../features/auth/CreateSender.command'
 import { ConfirmEmailCommand } from '../../features/auth/ConfirmEmail.command'
 import { LoginCommand } from '../../features/auth/Login.command'
+import { ResendConfirmationEmailCommand } from '../../features/auth/ResendConfirmationEmail.command'
 import { BrowserService } from '../../infrastructure/browserService/browser.service'
 import { JwtAdapterService } from '../../infrastructure/jwtAdapter/jwtAdapter.service'
 import RouteNames from '../../infrastructure/routeNames'
@@ -16,6 +17,7 @@ import { ConfirmEmailInput } from './inputs/confirmEmail.input'
 import { CreateAdminInput } from './inputs/createAdmin.input'
 import { CreateSenderInput } from './inputs/createSender.input'
 import { LoginInput } from './inputs/login.input'
+import { ResendConfirmationEmailInput } from './inputs/resendConfirmationEmail.input'
 import { authResolversDesc } from './resolverDescriptions'
 import { Request, Response } from 'express'
 
@@ -77,5 +79,14 @@ export class AuthResolver {
 			accessToken: this.jwtAdapter.createAccessTokenStr(user.id),
 			user,
 		}
+	}
+
+	@Mutation(() => Boolean, {
+		name: RouteNames.AUTH.RESEND_CONFIRMATION_EMAIL,
+		description: authResolversDesc.resendConfirmationEmail,
+	})
+	@UsePipes(new ValidationPipe({ transform: true }))
+	async resendConfirmationEmail(@Args('input') input: ResendConfirmationEmailInput) {
+		return await this.commandBus.execute(new ResendConfirmationEmailCommand(input.email))
 	}
 }

@@ -4,10 +4,11 @@ export const errorMessage = {
 	// EMAIL
 	emailIsAlreadyRegistered: 'Email is already registered',
 	emailIsNotConfirmed: 'Email is not confirmed',
+	emailIsAlreadyConfirmed: 'Email is already confirmed',
 	emailConfirmationCodeIsExpired: 'Email confirmation code is expired',
 	emailConfirmationCodeNotFound: 'Email confirmation code not found',
 	emailOrPasswordDoNotMatch: 'Email or passwords do not match',
-	// EmailNotFound = 'Email not found',
+	emailNotFound: 'Email is not found',
 	// USER
 	// UserNotFound = 'User not found',
 	// UserNameIsExists = 'User name is already exists',
