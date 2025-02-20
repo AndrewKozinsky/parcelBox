@@ -62,11 +62,9 @@ export class AuthResolver {
 	@UsePipes(new ValidationPipe({ transform: true }))
 	async login(
 		@Args('input') input: LoginInput,
-		@Context() context: { request: Request; response: Response },
+		@Context('req') request: Request,
+		@Context('res') response: Response,
 	): Promise<LoginOutModel> {
-		// Get the request object from the context
-		const { request, response } = context
-
 		const clientIP = this.browserService.getClientIP(request)
 		const clientName = this.browserService.getClientName(request)
 
@@ -79,14 +77,5 @@ export class AuthResolver {
 			accessToken: this.jwtAdapter.createAccessTokenStr(user.id),
 			user,
 		}
-
-		// TODO DELETE !!!
-		/*return {
-			accessToken: 'my accessToken',
-			user: {
-				id: 1,
-				email: 'email@email.com',
-			},
-		}*/
 	}
 }

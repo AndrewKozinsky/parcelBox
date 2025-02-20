@@ -16,8 +16,8 @@ export const queries = {
 		registerSender(props: { email: string; password: string }) {
 			return `mutation {
 			  ${RouteNames.AUTH.REGISTER_SENDER}(input: {
-				email: ${props.email},
-				password: ${props.password}
+				email: "${props.email}",
+				password: "${props.password}"
 			  }) {
 				id
 				email
@@ -33,17 +33,17 @@ export const queries = {
 			return `query {
 				${RouteNames.AUTH.CONFIRM_EMAIL}(
 					input: {
-						code: ${code},
+						code: "${code}",
 					}
 				)
 			}`
 		},
 		login(props: { email: string; password: string }) {
 			return `mutation {
-			  auth_login(
+			  ${RouteNames.AUTH.LOGIN}(
 				input: {
-				  email: ${props.email},
-				  password: ${props.password}
+				  email: "${props.email}",
+				  password: "${props.password}"
 				}
 			) {
 			  accessToken

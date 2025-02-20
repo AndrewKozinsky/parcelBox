@@ -34,6 +34,12 @@ import { TestsModule } from './routes/test/tests.module'
 							...(extensions?.fields ? { fields: extensions.fields } : {}),
 						}
 					},
+					context: ({ req, res, connection }) => {
+						if (connection) {
+							return { req: connection.context } // WebSocket connection
+						}
+						return { req, res } // HTTP request
+					},
 				}
 			},
 		}),

@@ -5,6 +5,7 @@ import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq } from '../helper'
 import { defAdminEmail, defAdminPassword } from './common'
 import { queries } from './queries'
+import { UserOutModel } from 'src/models/user/user.out.model'
 
 export const userUtils = {
 	async createAdminWithUnconfirmedEmail(props: {
@@ -27,6 +28,7 @@ export const userUtils = {
 
 		return props.userRepository.getUserById(adminId)
 	},
+
 	async createAdminWithConfirmedEmail(props: {
 		app: INestApplication
 		userRepository: UserRepository
@@ -34,10 +36,24 @@ export const userUtils = {
 		email?: string
 		password?: string
 	}) {
-		await this.createAdminWithUnconfirmedEmail(props)
+		const createdAdmin = await this.createAdminWithUnconfirmedEmail(props)
+		if (!createdAdmin) return
+
+		const { emailConfirmationCode } = createdAdmin
+
+		const confirmEmailQuery = queries.auth.confirmEmail(emailConfirmationCode!)
+
+		const confirmEmailResp = await makeGraphQLReq(props.app, confirmEmailQuery)
+
+		return props.userRepository.getUserById(createdAdmin.id)
 	},
 
 	isUserEmailConfirmed(user: UserServiceModel) {
 		return user.isEmailConfirmed && !user.emailConfirmationCode && !user.confirmationCodeExpirationDate
+	},
+
+	checkUserOutModel(user: UserOutModel) {
+		expect(typeof user.id).toBe('number')
+		expect(typeof user.email).toBe('string')
 	},
 }

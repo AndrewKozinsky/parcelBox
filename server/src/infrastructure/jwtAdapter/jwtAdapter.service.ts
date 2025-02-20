@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import jwt, { decode } from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken'
 import { addMilliseconds } from 'date-fns'
 import { MainConfigService } from '../../config/mainConfig.service'
 import { DeviceTokenServiceModel } from '../../models/security/security.service.model'
@@ -71,7 +71,7 @@ export class JwtAdapterService {
 
 	/*getTokenStrExpirationDate(tokenStr: string): null | Date {
 		try {
-			const tokenPayload = decode(tokenStr)
+			const tokenPayload = jwt.decode(tokenStr)
 
 			if (!tokenPayload || typeof tokenPayload === 'string') {
 				return null

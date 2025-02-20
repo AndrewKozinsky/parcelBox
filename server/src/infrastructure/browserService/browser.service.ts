@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Request } from 'express'
-import useragent from 'express-useragent'
 import { MainConfigService } from '../../config/mainConfig.service'
+const useragent = require('express-useragent')
 
 @Injectable()
 export class BrowserService {
@@ -15,6 +15,7 @@ export class BrowserService {
 	// Returns client's device name
 	getClientName(req: Request): string {
 		const source = req.headers['user-agent'] || ''
+
 		const browserInfo = useragent.parse(source)
 
 		return browserInfo.browser + ' ' + browserInfo.version

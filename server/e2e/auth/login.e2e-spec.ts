@@ -11,7 +11,7 @@ import { createApp } from '../utils/createMainApp'
 import { queries } from '../utils/queries'
 import { userUtils } from '../utils/userUtils'
 
-describe.skip('Confirm an user email (e2e)', () => {
+describe('Confirm an user email (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
@@ -34,83 +34,72 @@ describe.skip('Confirm an user email (e2e)', () => {
 		jest.clearAllMocks()
 	})
 
-	it('should return error if wrong confirmation code was passed', async () => {
-		const confirmEmailQuery = queries.auth.confirmEmail('')
-		// const confirmEmailResp = await makeGraphQLReq(app, query)
-		// expect(confirmEmailResp.data).toBe(null)
-		// const firstErr = extractErrObjFromResp(confirmEmailResp)
-		// expect(firstErr.message).toBe('Email confirmation code not found')
-		// expect(firstErr.code).toBe(400)
+	it('should return error if incorrect email and password was sent', async () => {
+		const loginQuery = queries.auth.login({ email: 'wrongemail.com', password: '123' })
+		const loginResp = await makeGraphQLReq(app, loginQuery)
+		const firstErr = extractErrObjFromResp(loginResp)
+
+		expect(loginResp.data).toBe(null)
+
+		expect(firstErr).toStrictEqual({
+			code: 400,
+			message: 'Wrong input data',
+			fields: {
+				email: ['The email must match the format example@example.com'],
+				password: ['Minimum number of characters is 6'],
+			},
+		})
 	})
 
-	// ------
+	it('should return 400 if email and password does not match', async () => {
+		const loginQuery = queries.auth.login({ email: 'wrong@email.com', password: '123456' })
+		const loginResp = await makeGraphQLReq(app, loginQuery)
+		const firstErr = extractErrObjFromResp(loginResp)
 
-	/*it('should return 400 if dto has incorrect values', async () => {
-		const loginRes = await postRequest(mainApp, RouteNames.AUTH.LOGIN.full).expect(
-			HTTP_STATUSES.BAD_REQUEST_400,
-		)
+		expect(loginResp.data).toBe(null)
 
-		const login = loginRes.body
-
-		checkErrorResponse(login, 400, 'Wrong body')
-
-		expect({}.toString.call(login.wrongFields)).toBe('[object Array]')
-		expect(login.wrongFields.length).toBe(2)
-		const [emailFieldErrText, passwordFieldErrText] = getFieldInErrorObject(login, [
-			'email',
-			'password',
-		])
-
-		expect(emailFieldErrText).toBe('Email must be a string')
-		expect(passwordFieldErrText).toBe('Password must be a string')
-	})*/
-
-	/*it('should return 400 if email and password does not match', async () => {
-		const user = await userUtils.createUserWithConfirmedEmail({
-			mainApp,
-			filesMicroservice,
-			userRepository,
+		expect(firstErr).toStrictEqual({
+			code: 400,
+			message: 'Email or passwords do not match',
 		})
+	})
 
-		const loginRes = await postRequest(mainApp, RouteNames.AUTH.LOGIN.full)
-			.send({ password: 'mywrongpassword', email: defUserEmail })
-			.expect(HTTP_STATUSES.BAD_REQUEST_400)
-
-		const login = loginRes.body
-
-		checkErrorResponse(login, 400, 'Email or passwords do not match')
-	})*/
-
-	/*it('should return 403 if email is not confirmed', async () => {
-		const user = await userUtils.createUserWithUnconfirmedEmail({
-			mainApp,
+	it('should return error if email is not confirmed', async () => {
+		const admin = await userUtils.createAdminWithUnconfirmedEmail({
+			app,
 			userRepository,
-			filesMicroservice,
+			email: defAdminEmail,
+			password: defAdminPassword,
 		})
+		if (!admin) return
 
-		const loginRes = await postRequest(mainApp, RouteNames.AUTH.LOGIN.full)
-			.send({ password: defUserPassword, email: defUserEmail })
-			.expect(HTTP_STATUSES.FORBIDDEN_403)
+		const loginQuery = queries.auth.login({ email: defAdminEmail, password: defAdminPassword })
+		const loginResp = await makeGraphQLReq(app, loginQuery)
 
-		const login = loginRes.body
-		checkErrorResponse(login, 403, 'Email is not confirmed')
-	})*/
+		expect(loginResp.data).toBe(null)
 
-	/*it('should return 200 if dto has correct values and email is confirmed', async () => {
-		const user = await userUtils.createUserWithConfirmedEmail({
-			mainApp,
-			filesMicroservice,
+		const firstErr = extractErrObjFromResp(loginResp)
+
+		expect(firstErr).toStrictEqual({
+			code: 400,
+			message: 'Email is not confirmed',
+		})
+	})
+
+	it('should return 200 if dto has correct values and email is confirmed', async () => {
+		const admin = await userUtils.createAdminWithConfirmedEmail({
+			app,
 			userRepository,
+			email: defAdminEmail,
+			password: defAdminPassword,
 		})
+		if (!admin) return
 
-		const loginRes = await postRequest(mainApp, RouteNames.AUTH.LOGIN.full)
-			.send({ password: defUserPassword, email: defUserEmail })
-			.expect(HTTP_STATUSES.OK_200)
+		const loginQuery = queries.auth.login({ email: defAdminEmail, password: defAdminPassword })
+		const loginResp = await makeGraphQLReq(app, loginQuery)
+		const data = loginResp.data[RouteNames.AUTH.LOGIN]
 
-		const login = loginRes.body
-		checkSuccessResponse(login, 200)
-
-		expect(typeof login.data.accessToken).toBe('string')
-		userUtils.checkUserOutModel(login.data.user)
-	})*/
+		expect(typeof data.accessToken).toBe('string')
+		userUtils.checkUserOutModel(data.user)
+	})
 })

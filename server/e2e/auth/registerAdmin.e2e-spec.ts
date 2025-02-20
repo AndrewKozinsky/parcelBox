@@ -41,11 +41,13 @@ describe.skip('Register an administrator (e2e)', () => {
 		expect(createAdminResp.data).toBe(null)
 
 		const firstErr = extractErrObjFromResp(createAdminResp)
-		expect(firstErr.message).toBe('Wrong input data')
 
-		expect(firstErr.fields).toStrictEqual({
-			email: ['The email must match the format example@example.com'],
-			password: ['Minimum number of characters is 6'],
+		expect(firstErr).toStrictEqual({
+			message: 'Wrong input data',
+			fields: {
+				email: ['The email must match the format example@example.com'],
+				password: ['Minimum number of characters is 6'],
+			},
 		})
 	})
 
