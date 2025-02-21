@@ -95,19 +95,19 @@ export class AuthResolver {
 		return await this.commandBus.execute(new ResendConfirmationEmailCommand(input.email))
 	}
 
-	@UseGuards(CheckAccessTokenGuard)
-	// @UseGuards(CheckDeviceRefreshTokenGuard)
+	// @UseGuards(CheckAccessTokenGuard)
+	@UseGuards(CheckDeviceRefreshTokenGuard)
 	@Mutation(() => Boolean, {
 		name: RouteNames.AUTH.LOGOUT,
 		description: authResolversDesc.logout,
 	})
 	@UsePipes(new ValidationPipe({ transform: true }))
 	async logout(@Context('req') request: Request, @Context('res') response: Response) {
-		const refreshToken = this.browserService.getRefreshTokenStrFromReq(request)
+		/*const refreshToken = this.browserService.getRefreshTokenStrFromReq(request)
 
 		await this.commandBus.execute(new LogoutCommand(refreshToken))
 
-		response.clearCookie(this.mainConfig.get().refreshToken.name)
+		response.clearCookie(this.mainConfig.get().refreshToken.name)*/
 		return true
 	}
 }

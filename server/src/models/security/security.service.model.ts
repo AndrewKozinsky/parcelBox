@@ -1,6 +1,5 @@
 export type DeviceTokenServiceModel = {
 	issuedAt: string
-	expirationDate: string
 	deviceIP: string
 	deviceId: string
 	deviceName: string
@@ -10,7 +9,6 @@ export type DeviceTokenServiceModel = {
 export type DeviceRefreshTokenServiceModel = {
 	id: number
 	issuedAt: string
-	expirationDate: string
 	deviceIP: string
 	deviceId: string
 	deviceName: string

@@ -1,23 +1,27 @@
 import { Injectable, NestMiddleware } from '@nestjs/common'
 import { NextFunction, Request, Response } from 'express'
+import { MainConfigService } from '../../config/mainConfig.service'
 import { UserRepository } from '../../repo/user.repository'
 import { JwtAdapterService } from '../jwtAdapter/jwtAdapter.service'
 
 @Injectable()
-export class SetReqUserMiddleware implements NestMiddleware {
+export class SetUserIntoReqMiddleware implements NestMiddleware {
 	constructor(
 		private jwtAdapter: JwtAdapterService,
 		private userRepository: UserRepository,
+		private mainConfig: MainConfigService,
 	) {}
 
 	async use(req: Request, res: Response, next: NextFunction) {
-		const authorizationHeader = req.headers['authorization']
-		if (!authorizationHeader) {
+		const accessTokenName = this.mainConfig.get().accessToken.name
+
+		const accessTokenCookieStr = req.cookies[accessTokenName]
+		if (!accessTokenCookieStr) {
 			next()
 			return
 		}
 
-		const token = getBearerTokenFromStr(authorizationHeader)
+		const token = getBearerTokenFromStr(accessTokenCookieStr)
 		if (!token) {
 			next()
 			return

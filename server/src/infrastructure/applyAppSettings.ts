@@ -1,16 +1,21 @@
 import { BadRequestException, INestApplication, ValidationPipe } from '@nestjs/common'
 import { Request, Response, NextFunction } from 'express'
+import * as cookieParser from 'cookie-parser'
+import { MainConfigService } from '../config/mainConfig.service'
 import { UserRepository } from '../repo/user.repository'
 import { GraphQLValidationFilter } from './exceptions/graphqlException.filter'
 import { JwtAdapterService } from './jwtAdapter/jwtAdapter.service'
-import { SetReqUserMiddleware } from './middlewares/setReqUser.middleware'
+import { SetUserIntoReqMiddleware } from './middlewares/setUserIntoReq.middleware'
 
 export function applyAppSettings(app: INestApplication) {
+	app.use(cookieParser())
+
 	app.use(async (req: Request, res: Response, next: NextFunction) => {
 		const jwtService = await app.resolve(JwtAdapterService)
 		const userRepository = await app.resolve(UserRepository)
+		const mainConfig = await app.resolve(MainConfigService)
 
-		const userMiddleware = new SetReqUserMiddleware(jwtService, userRepository)
+		const userMiddleware = new SetUserIntoReqMiddleware(jwtService, userRepository, mainConfig)
 		await userMiddleware.use(req, res, next)
 	})
 

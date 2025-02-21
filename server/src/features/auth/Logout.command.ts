@@ -21,7 +21,7 @@ export class LogoutHandler implements ICommandHandler<LogoutCommand> {
 
 		const refreshTokenInDb = await this.devicesRepository.getDeviceRefreshTokenByTokenStr(refreshToken)
 
-		if (!refreshTokenInDb || !this.jwtAdapter.isRefreshTokenStrValid(refreshToken)) {
+		if (!refreshTokenInDb || !this.jwtAdapter.getRefreshTokenFromStr(refreshToken)) {
 			throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.BadRequest_400)
 		}
 

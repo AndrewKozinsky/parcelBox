@@ -4,10 +4,6 @@ import { MainConfigService } from '../config/mainConfig.service'
 import { PrismaService } from '../db/prisma.service'
 import { JwtAdapterService } from '../infrastructure/jwtAdapter/jwtAdapter.service'
 import { DeviceRefreshTokenServiceModel, DeviceTokenServiceModel } from '../models/security/security.service.model'
-// import { DeviceToken } from '@prisma/client'
-// import { addMilliseconds } from 'date-fns'
-// import { DeviceTokenServiceModel } from '../models/auth/auth.service.model'
-// import { DeviceRefreshTokenServiceModel } from '../models/security/security.service.model'
 
 @Injectable()
 export class DevicesRepository {
@@ -75,7 +71,6 @@ export class DevicesRepository {
 			data: {
 				issued_at: new Date(deviceRefreshToken.issuedAt).toISOString(),
 				user_id: deviceRefreshToken.userId,
-				expiration_date: new Date(deviceRefreshToken.expirationDate).toISOString(),
 				device_ip: deviceRefreshToken.deviceIP,
 				device_id: deviceRefreshToken.deviceId,
 				device_name: deviceRefreshToken.deviceName,
@@ -88,13 +83,9 @@ export class DevicesRepository {
 	/*async updateDeviceRefreshTokenDate(deviceId: string) {
 		const issuedAt = new Date().toISOString()
 
-		const expirationDate = new Date(
-			addMilliseconds(new Date(), this.mainConfig.get().refreshToken.lifeDurationInMs),
-		).toISOString()
-
 		this.prisma.deviceToken.updateMany({
 			where: { device_id: deviceId },
-			data: { issued_at: issuedAt, expiration_date: expirationDate },
+			data: { issued_at: issuedAt },
 		})
 	}*/
 
@@ -102,7 +93,6 @@ export class DevicesRepository {
 		return {
 			id: dbDevice.id,
 			issuedAt: dbDevice.issued_at,
-			expirationDate: dbDevice.expiration_date,
 			deviceIP: dbDevice.device_ip,
 			deviceId: dbDevice.device_id,
 			deviceName: dbDevice.device_name,

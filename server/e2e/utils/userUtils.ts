@@ -1,5 +1,6 @@
 import { INestApplication } from '@nestjs/common'
 import { agent as request } from 'supertest'
+import * as dateFns from 'date-fns'
 import { MainConfigService } from '../../src/config/mainConfig.service'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { DeviceTokenOutModel } from '../../src/models/auth/auth.out.model'
@@ -90,9 +91,13 @@ export const userUtils = {
 			// Create expired token
 			const deviceId = createUniqString()
 
+			const expiredDate = dateFns.subMilliseconds(
+				new Date(),
+				props.mainConfig.get().refreshToken.lifeDurationInMs,
+			)
+
 			const expiredRefreshToken: DeviceTokenOutModel = {
-				issuedAt: new Date().toISOString(),
-				expirationDate: new Date().toISOString(),
+				issuedAt: expiredDate.toISOString(),
 				deviceIP: '123',
 				deviceId,
 				deviceName: 'Unknown',

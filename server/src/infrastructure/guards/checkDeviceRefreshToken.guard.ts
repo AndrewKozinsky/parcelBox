@@ -1,4 +1,5 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
+import { GqlExecutionContext } from '@nestjs/graphql'
 import { DevicesRepository } from '../../repo/devices.repository'
 import { BrowserService } from '../browserService/browser.service'
 import { CustomGraphQLError } from '../exceptions/customGraphQLError'
@@ -15,29 +16,42 @@ export class CheckDeviceRefreshTokenGuard implements CanActivate {
 	) {}
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
-		const request = context.switchToHttp().getRequest()
+		const ctx = GqlExecutionContext.create(context)
+		const request = ctx.getContext().req
 
 		try {
-			const refreshTokenStr = this.browserService.getRefreshTokenStrFromReq(request)
-
-			if (!refreshTokenStr || !this.jwtAdapter.isRefreshTokenStrValid(refreshTokenStr)) {
+			const regRefreshTokenStr = this.browserService.getRefreshTokenStrFromReq(request)
+			if (!this.jwtAdapter.verifyRefreshTokenFromStr(regRefreshTokenStr)) {
 				throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.Unauthorized_401)
 			}
 
-			// Check if refreshTokenStr has another expiration date
-			const refreshTokenStrExpirationDate = this.jwtAdapter.getTokenStrExpirationDate(refreshTokenStr)
+			const reqRefreshToken = this.jwtAdapter.getRefreshTokenFromStr(regRefreshTokenStr)
+			console.log(reqRefreshToken)
 
-			const deviceRefreshToken = await this.securityRepository.getDeviceRefreshTokenByTokenStr(refreshTokenStr)
-
-			if (!refreshTokenStrExpirationDate || !deviceRefreshToken) {
+			if (!reqRefreshToken || typeof reqRefreshToken === 'string') {
 				throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.Unauthorized_401)
 			}
 
-			if (deviceRefreshToken!.expirationDate !== refreshTokenStrExpirationDate!.toISOString()) {
+			// Check reqRefreshToken expiration date
+			const regRefreshTokenExpDate = this.jwtAdapter.getTokenExpirationDate(reqRefreshToken)
+			if (!regRefreshTokenExpDate || +regRefreshTokenExpDate <= +new Date()) {
+				throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.Unauthorized_401)
+			}
+
+			// Get refresh token from the database
+			const dbRefreshToken = await this.securityRepository.getDeviceRefreshTokenByTokenStr(regRefreshTokenStr)
+			if (!dbRefreshToken) {
+				throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.Unauthorized_401)
+			}
+
+			// Check if dates in tokens is different
+
+			console.log(dbRefreshToken)
+			if (reqRefreshToken!.issuedAt !== dbRefreshToken!.issuedAt) {
 				throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.BadRequest_400)
 			}
 
-			request.deviceRefreshToken = deviceRefreshToken
+			request.deviceRefreshToken = dbRefreshToken
 			return true
 		} catch (err: unknown) {
 			throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.Unauthorized_401)

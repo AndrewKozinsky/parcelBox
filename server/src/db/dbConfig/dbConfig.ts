@@ -98,11 +98,6 @@ export const bdConfig = {
 				description: 'When device token was created',
 				required: true,
 			},
-			expiration_date: {
-				type: 'string',
-				description: 'When device token will be expired',
-				required: true,
-			},
 			device_ip: {
 				type: 'string',
 				description: 'Token device IP address',
