@@ -9,6 +9,7 @@ export class CheckAccessTokenGuard implements CanActivate {
 	canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
 		const request = context.switchToHttp().getRequest()
 
+		console.log({ request })
 		const isRequestAllowed = !!request.user
 
 		if (!isRequestAllowed) {

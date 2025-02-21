@@ -8,3 +8,12 @@ export class LoginOutModel {
 	@Field(() => UserOutModel)
 	user: UserOutModel
 }
+
+export type DeviceTokenOutModel = {
+	issuedAt: string
+	expirationDate: string
+	deviceIP: string
+	deviceId: string
+	deviceName: string
+	userId: number
+}

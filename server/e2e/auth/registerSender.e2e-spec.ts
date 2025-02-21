@@ -5,7 +5,7 @@ import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email
 import RouteNames from '../../src/infrastructure/routeNames'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
-import { makeGraphQLReq } from '../helper'
+import { makeGraphQLReq } from '../makeGQReq'
 import { defSenderEmail, defSenderPassword, extractErrObjFromResp } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../utils/queries'

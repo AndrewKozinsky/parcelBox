@@ -63,5 +63,10 @@ export const queries = {
 				)
 			}`
 		},
+		logout() {
+			return `mutation {
+			  ${RouteNames.AUTH.LOGOUT}
+			}`
+		},
 	},
 }

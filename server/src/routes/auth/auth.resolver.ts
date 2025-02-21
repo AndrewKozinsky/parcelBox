@@ -96,7 +96,7 @@ export class AuthResolver {
 	}
 
 	@UseGuards(CheckAccessTokenGuard)
-	@UseGuards(CheckDeviceRefreshTokenGuard)
+	// @UseGuards(CheckDeviceRefreshTokenGuard)
 	@Mutation(() => Boolean, {
 		name: RouteNames.AUTH.LOGOUT,
 		description: authResolversDesc.logout,
@@ -108,5 +108,6 @@ export class AuthResolver {
 		await this.commandBus.execute(new LogoutCommand(refreshToken))
 
 		response.clearCookie(this.mainConfig.get().refreshToken.name)
+		return true
 	}
 }
