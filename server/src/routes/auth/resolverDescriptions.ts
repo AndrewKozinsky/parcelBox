@@ -14,6 +14,13 @@ export const authResolversDesc: Record<keyof typeof AuthResolver.prototype, stri
 	Possible errors:
 	**${errorMessage.emailConfirmationCodeNotFound}** — email confirmation code is not found in the database.
 	**${errorMessage.emailConfirmationCodeIsExpired}** — email confirmation code is expired.`,
-	login: 'User email confirmation',
-	resendConfirmationEmail: 'Send email confirmation email one more time',
+	login: `User login
+	Possible errors:
+	**${errorMessage.emailOrPasswordDoNotMatch}** — there is not any user with passed email and password.
+	**${errorMessage.emailIsNotConfirmed}** — user email is not confirmed yet.`,
+	resendConfirmationEmail: `Send email confirmation email one more time
+	Possible errors:
+	**${errorMessage.emailNotFound}** — passed email is not registered yet.
+	**${errorMessage.emailIsAlreadyConfirmed}** — email is already confirmed.`,
+	logout: 'User logout',
 }

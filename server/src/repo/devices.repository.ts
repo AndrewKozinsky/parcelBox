@@ -17,19 +17,16 @@ export class DevicesRepository {
 		private mainConfig: MainConfigService,
 	) {}
 
-	/*async getDeviceRefreshTokenByTokenStr(
-		tokenStr: string,
-	): Promise<null | DeviceTokenServiceModel> {
+	async getDeviceRefreshTokenByTokenStr(tokenStr: string): Promise<null | DeviceTokenServiceModel> {
 		try {
 			const refreshTokenPayload = this.jwtAdapter.getRefreshTokenDataFromTokenStr(tokenStr)
 			return this.getDeviceRefreshTokenByDeviceId(refreshTokenPayload!.deviceId)
 		} catch (err: unknown) {
 			return null
 		}
-	}*/
-	/*async getDeviceRefreshTokenByDeviceId(
-		deviceId: string,
-	): Promise<null | DeviceTokenServiceModel> {
+	}
+
+	async getDeviceRefreshTokenByDeviceId(deviceId: string): Promise<null | DeviceTokenServiceModel> {
 		const token = await this.prisma.deviceToken.findFirst({
 			where: { device_id: deviceId },
 		})
@@ -37,17 +34,20 @@ export class DevicesRepository {
 		if (!token) return null
 
 		return this.mapDbDeviceRefreshTokenToServiceDeviceRefreshToken(token)
-	}*/
+	}
+
 	/*async terminateAllDeviceRefreshTokensApartThis(currentDeviceId: string) {
 		await this.prisma.deviceToken.deleteMany({
 			where: { NOT: { device_id: currentDeviceId } },
 		})
 	}*/
-	/*async deleteRefreshTokenByDeviceId(deviceId: string) {
+
+	async deleteRefreshTokenByDeviceId(deviceId: string) {
 		await this.prisma.deviceToken.deleteMany({
 			where: { device_id: deviceId },
 		})
-	}*/
+	}
+
 	/*async getUserDevicesByDeviceId(deviceId: string) {
 		const userByDeviceToken = await this.prisma.deviceToken.findFirst({
 			where: { device_id: deviceId },

@@ -27,10 +27,10 @@ export class BrowserService {
 		return Boolean(header)!!
 	}*/
 
-	/*getRefreshTokenStrFromReq(req: Request): string {
+	getRefreshTokenStrFromReq(req: Request): string {
 		if (!req.cookies) return ''
 
 		const { refreshToken } = this.mainConfig.get()
 		return req.cookies[refreshToken.name]
-	}*/
+	}
 }

@@ -59,11 +59,24 @@ type Mutation {
   """
   auth_RegisterSender(input: CreateSenderInput!): SenderOutModel!
 
-  """User email confirmation"""
+  """
+  User login
+  	Possible errors:
+  	**Email or passwords do not match** — there is not any user with passed email and password.
+  	**Email is not confirmed** — user email is not confirmed yet.
+  """
   auth_login(input: LoginInput!): LoginOutModel!
 
-  """Send email confirmation email one more time"""
+  """
+  Send email confirmation email one more time
+  	Possible errors:
+  	**Email is not found** — passed email is not registered yet.
+  	**Email is already confirmed** — email is already confirmed.
+  """
   auth_resendConfirmationEmail(input: ResendConfirmationEmailInput!): Boolean!
+
+  """User logout"""
+  auth_logout: Boolean!
 }
 
 input CreateAdminInput {

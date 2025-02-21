@@ -65,6 +65,7 @@ export interface IMutation {
     auth_RegisterSender(input: CreateSenderInput): SenderOutModel | Promise<SenderOutModel>;
     auth_login(input: LoginInput): LoginOutModel | Promise<LoginOutModel>;
     auth_resendConfirmationEmail(input: ResendConfirmationEmailInput): boolean | Promise<boolean>;
+    auth_logout(): boolean | Promise<boolean>;
 }
 
 type Nullable<T> = T | null;

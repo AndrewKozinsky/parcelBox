@@ -13,8 +13,8 @@ export const errorMessage = {
 	// UserNotFound = 'User not found',
 	// UserNameIsExists = 'User name is already exists',
 	// AUTH
-	// RefreshTokenIsNotValid = 'Refresh token is not valid',
-	// AccessTokenIsNotValid = 'Access token is not valid',
+	refreshTokenIsNotValid: 'Refresh token is not valid',
+	accessTokenIsNotValid: 'Access token is not valid',
 	// CaptchaIsWrong = 'Captcha is wrong',
 	// RefreshTokenIsNotFound = 'Refresh token is not found',
 	// UserDoesNotOwnThisDeviceToken = 'User does not own this device token',

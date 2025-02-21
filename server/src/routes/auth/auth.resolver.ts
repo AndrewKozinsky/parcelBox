@@ -1,12 +1,16 @@
-import { UsePipes, ValidationPipe } from '@nestjs/common'
+import { UseGuards, UsePipes, ValidationPipe } from '@nestjs/common'
 import { CommandBus } from '@nestjs/cqrs'
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { MainConfigService } from '../../config/mainConfig.service'
 import { CreateAdminCommand } from '../../features/auth/CreateAdmin.command'
 import { CreateSenderCommand } from '../../features/auth/CreateSender.command'
 import { ConfirmEmailCommand } from '../../features/auth/ConfirmEmail.command'
 import { LoginCommand } from '../../features/auth/Login.command'
+import { LogoutCommand } from '../../features/auth/Logout.command'
 import { ResendConfirmationEmailCommand } from '../../features/auth/ResendConfirmationEmail.command'
 import { BrowserService } from '../../infrastructure/browserService/browser.service'
+import { CheckAccessTokenGuard } from '../../infrastructure/guards/checkAccessToken.guard'
+import { CheckDeviceRefreshTokenGuard } from '../../infrastructure/guards/checkDeviceRefreshToken.guard'
 import { JwtAdapterService } from '../../infrastructure/jwtAdapter/jwtAdapter.service'
 import RouteNames from '../../infrastructure/routeNames'
 import { AdminOutModel } from '../../models/admin/admin.out.model'
@@ -28,6 +32,7 @@ export class AuthResolver {
 		private browserService: BrowserService,
 		private authService: AuthService,
 		private jwtAdapter: JwtAdapterService,
+		private mainConfig: MainConfigService,
 	) {}
 
 	@Mutation(() => AdminOutModel, {
@@ -88,5 +93,20 @@ export class AuthResolver {
 	@UsePipes(new ValidationPipe({ transform: true }))
 	async resendConfirmationEmail(@Args('input') input: ResendConfirmationEmailInput) {
 		return await this.commandBus.execute(new ResendConfirmationEmailCommand(input.email))
+	}
+
+	@UseGuards(CheckAccessTokenGuard)
+	@UseGuards(CheckDeviceRefreshTokenGuard)
+	@Mutation(() => Boolean, {
+		name: RouteNames.AUTH.LOGOUT,
+		description: authResolversDesc.logout,
+	})
+	@UsePipes(new ValidationPipe({ transform: true }))
+	async logout(@Context('req') request: Request, @Context('res') response: Response) {
+		const refreshToken = this.browserService.getRefreshTokenStrFromReq(request)
+
+		await this.commandBus.execute(new LogoutCommand(refreshToken))
+
+		response.clearCookie(this.mainConfig.get().refreshToken.name)
 	}
 }

@@ -5,6 +5,7 @@ export const RouteNames = {
 		CONFIRM_EMAIL: 'auth_confirmEmail',
 		LOGIN: 'auth_login',
 		RESEND_CONFIRMATION_EMAIL: 'auth_resendConfirmationEmail',
+		LOGOUT: 'auth_logout',
 	},
 	TESTING: {
 		ALL_DATA: 'testing/all-data',
