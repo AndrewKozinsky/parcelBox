@@ -29,7 +29,7 @@ export const userUtils = {
 			password: fixedAdminPassword,
 		})
 
-		const createAdminResp = await makeGraphQLReq(props.app, registerAdminMutation)
+		const [createAdminResp] = await makeGraphQLReq(props.app, registerAdminMutation)
 		const adminId = createAdminResp.data[RouteNames.AUTH.REGISTER_ADMIN].id
 
 		return props.userRepository.getUserById(adminId)
@@ -48,7 +48,7 @@ export const userUtils = {
 
 		const confirmEmailQuery = queries.auth.confirmEmail(emailConfirmationCode!)
 
-		const confirmEmailResp = await makeGraphQLReq(props.app, confirmEmailQuery)
+		const [confirmEmailResp] = await makeGraphQLReq(props.app, confirmEmailQuery)
 
 		return props.userRepository.getUserById(createdAdmin.id)
 	},
@@ -78,7 +78,7 @@ export const userUtils = {
 
 	async loginUser(props: { app: INestApplication; email: string; password: string }) {
 		const loginQuery = queries.auth.login({ email: defAdminEmail, password: defAdminPassword })
-		const loginResp = await makeGraphQLReq(props.app, loginQuery)
+		const [loginResp] = await makeGraphQLReq(props.app, loginQuery)
 		const data = loginResp.data[RouteNames.AUTH.LOGIN]
 
 		// const { accessToken } = loginRes.body.data
@@ -99,7 +99,7 @@ export const userUtils = {
 	refreshDeviceTokenChecks: {
 		// should return 401 if there is not cookies
 		async tokenNotExist(app: INestApplication, queryOrMutationStr: string) {
-			const resendConfirmationEmailResp = await makeGraphQLReq(app, queryOrMutationStr)
+			const [resendConfirmationEmailResp] = await makeGraphQLReq(app, queryOrMutationStr)
 
 			expect(resendConfirmationEmailResp.data).toBe(null)
 
@@ -142,7 +142,7 @@ export const userUtils = {
 			// Create expired token string
 			const refreshTokenStr = props.jwtAdapterService.createRefreshTokenStr({ deviceId, issuedAt })
 
-			const requestRes = await makeGraphQLReqWithRefreshToken({
+			const [requestRes] = await makeGraphQLReqWithRefreshToken({
 				app: props.app,
 				query: props.queryOrMutationStr,
 				mainConfig: props.mainConfig,

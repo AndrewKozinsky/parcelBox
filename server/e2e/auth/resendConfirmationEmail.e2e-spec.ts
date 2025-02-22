@@ -36,7 +36,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 
 	it('should return error if input has incorrect values', async () => {
 		const resendConfirmationEmailMutation = queries.auth.resendConfirmationEmail('johnexample.com')
-		const resendConfirmationEmailResp = await makeGraphQLReq(app, resendConfirmationEmailMutation)
+		const [resendConfirmationEmailResp] = await makeGraphQLReq(app, resendConfirmationEmailMutation)
 
 		const firstErr = extractErrObjFromResp(resendConfirmationEmailResp)
 
@@ -53,7 +53,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 
 	it('should return an error if the entered email is not exists', async () => {
 		const resendConfirmationEmailMutation = queries.auth.resendConfirmationEmail('john@example.com')
-		const resendConfirmationEmailResp = await makeGraphQLReq(app, resendConfirmationEmailMutation)
+		const [resendConfirmationEmailResp] = await makeGraphQLReq(app, resendConfirmationEmailMutation)
 
 		const firstErr = extractErrObjFromResp(resendConfirmationEmailResp)
 
@@ -75,7 +75,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 		if (!admin) return
 
 		const resendConfirmationEmailMutation = queries.auth.resendConfirmationEmail(admin.email)
-		const resendConfirmationEmailResp = await makeGraphQLReq(app, resendConfirmationEmailMutation)
+		const [resendConfirmationEmailResp] = await makeGraphQLReq(app, resendConfirmationEmailMutation)
 
 		expect(resendConfirmationEmailResp.data).toBeTruthy()
 
@@ -92,7 +92,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 		if (!admin) return
 
 		const resendConfirmationEmailMutation = queries.auth.resendConfirmationEmail(admin.email)
-		const resendConfirmationEmailResp = await makeGraphQLReq(app, resendConfirmationEmailMutation)
+		const [resendConfirmationEmailResp] = await makeGraphQLReq(app, resendConfirmationEmailMutation)
 
 		const firstErr = extractErrObjFromResp(resendConfirmationEmailResp)
 

@@ -37,7 +37,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 	it('should return error if wrong confirmation code was passed', async () => {
 		const confirmEmailQuery = queries.auth.confirmEmail('123')
 
-		const confirmEmailResp = await makeGraphQLReq(app, confirmEmailQuery)
+		const [confirmEmailResp] = await makeGraphQLReq(app, confirmEmailQuery)
 
 		expect(confirmEmailResp.data).toBe(null)
 
@@ -59,7 +59,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 
 		const confirmEmailQuery = queries.auth.confirmEmail(emailConfirmationCode!)
 
-		const confirmEmailResp = await makeGraphQLReq(app, confirmEmailQuery)
+		const [confirmEmailResp] = await makeGraphQLReq(app, confirmEmailQuery)
 		expect(confirmEmailResp.data).toStrictEqual({
 			[RouteNames.AUTH.CONFIRM_EMAIL]: true,
 		})
@@ -86,7 +86,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 		// Try to confirm email
 		const confirmEmailQuery = queries.auth.confirmEmail(emailConfirmationCode!)
 
-		const confirmEmailResp = await makeGraphQLReq(app, confirmEmailQuery)
+		const [confirmEmailResp] = await makeGraphQLReq(app, confirmEmailQuery)
 		const firstErr = extractErrObjFromResp(confirmEmailResp)
 		expect(firstErr.message).toBe('Email confirmation code is expired')
 		expect(firstErr.code).toBe(400)
@@ -109,13 +109,13 @@ describe.skip('Confirm an user email (e2e)', () => {
 		// Try to confirm email
 		const confirmEmailQuery = queries.auth.confirmEmail(emailConfirmationCode!)
 
-		const confirmEmailResp = await makeGraphQLReq(app, confirmEmailQuery)
+		const [confirmEmailResp] = await makeGraphQLReq(app, confirmEmailQuery)
 		expect(confirmEmailResp.data).toStrictEqual({
 			[RouteNames.AUTH.CONFIRM_EMAIL]: true,
 		})
 
 		// Try to confirm email second time
-		const confirmEmailResp2 = await makeGraphQLReq(app, confirmEmailQuery)
+		const [confirmEmailResp2] = await makeGraphQLReq(app, confirmEmailQuery)
 		const firstErr = extractErrObjFromResp(confirmEmailResp2)
 		expect(firstErr.message).toBe('Email confirmation code not found')
 		expect(firstErr.code).toBe(400)

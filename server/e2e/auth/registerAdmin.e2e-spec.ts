@@ -36,7 +36,7 @@ describe.skip('Register an administrator (e2e)', () => {
 	it('should return error if wrong data was passed', async () => {
 		const registerAdminMutation = queries.auth.registerAdmin({ email: 'johnexample.com', password: 'my' })
 
-		const createAdminResp = await makeGraphQLReq(app, registerAdminMutation)
+		const [createAdminResp] = await makeGraphQLReq(app, registerAdminMutation)
 
 		expect(createAdminResp.data).toBe(null)
 
@@ -54,7 +54,7 @@ describe.skip('Register an administrator (e2e)', () => {
 	it('should return created administrator', async () => {
 		const registerAdminMutation = queries.auth.registerAdmin({ email: defAdminEmail, password: defAdminPassword })
 
-		const createAdminResp = await makeGraphQLReq(app, registerAdminMutation)
+		const [createAdminResp] = await makeGraphQLReq(app, registerAdminMutation)
 
 		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(1)
 
@@ -74,7 +74,7 @@ describe.skip('Register an administrator (e2e)', () => {
 		const registerAdminMutation = queries.auth.registerAdmin({ email: defAdminEmail, password: defAdminPassword })
 
 		await makeGraphQLReq(app, registerAdminMutation)
-		const createAdminResp2 = await makeGraphQLReq(app, registerAdminMutation)
+		const [createAdminResp2] = await makeGraphQLReq(app, registerAdminMutation)
 
 		const firstErr = extractErrObjFromResp(createAdminResp2)
 
@@ -85,11 +85,11 @@ describe.skip('Register an administrator (e2e)', () => {
 	it('should return error if administrator is already created and email is confirmed', async () => {
 		const registerAdminMutation = queries.auth.registerAdmin({ email: defAdminEmail, password: defAdminPassword })
 
-		const createAdminResp1 = await makeGraphQLReq(app, registerAdminMutation)
+		const [createAdminResp1] = await makeGraphQLReq(app, registerAdminMutation)
 		const firstAdminId = createAdminResp1.data[RouteNames.AUTH.REGISTER_ADMIN].id
 		await userRepository.makeEmailVerified(firstAdminId)
 
-		const createAdminResp2 = await makeGraphQLReq(app, registerAdminMutation)
+		const [createAdminResp2] = await makeGraphQLReq(app, registerAdminMutation)
 		const firstErr = extractErrObjFromResp(createAdminResp2)
 
 		expect(firstErr.message).toBe('Email is already registered')

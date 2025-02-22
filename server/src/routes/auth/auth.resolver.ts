@@ -14,8 +14,8 @@ import { CheckDeviceRefreshTokenGuard } from '../../infrastructure/guards/checkD
 import { JwtAdapterService } from '../../infrastructure/jwtAdapter/jwtAdapter.service'
 import RouteNames from '../../infrastructure/routeNames'
 import { AdminOutModel } from '../../models/admin/admin.out.model'
-import { LoginOutModel } from '../../models/auth/auth.out.model'
 import { SenderOutModel } from '../../models/sender/sender.out.model'
+import { UserOutModel } from '../../models/user/user.out.model'
 import { AuthService } from './auth.service'
 import { ConfirmEmailInput } from './inputs/confirmEmail.input'
 import { CreateAdminInput } from './inputs/createAdmin.input'
@@ -62,7 +62,7 @@ export class AuthResolver {
 		return await this.commandBus.execute(new ConfirmEmailCommand(input))
 	}
 
-	@Mutation(() => LoginOutModel, {
+	@Mutation(() => UserOutModel, {
 		name: RouteNames.AUTH.LOGIN,
 		description: authResolversDesc.login,
 	})
@@ -71,27 +71,17 @@ export class AuthResolver {
 		@Args('input') input: LoginInput,
 		@Context('req') request: Request,
 		@Context('res') response: Response,
-	): Promise<LoginOutModel> {
+	): Promise<UserOutModel> {
 		const clientIP = this.browserService.getClientIP(request)
 		const clientName = this.browserService.getClientName(request)
 
 		const commandRes = await this.commandBus.execute(new LoginCommand(input, clientIP, clientName))
-		const { refreshTokenStr, user } = commandRes
+		const { accessTokenStr, refreshTokenStr, user } = commandRes
 
 		this.authService.setRefreshTokenInCookie(response, refreshTokenStr)
+		this.authService.setAccessTokenInCookie(response, accessTokenStr)
 
-		return {
-			accessToken: this.jwtAdapter.createAccessTokenStr(user.id),
-			user,
-		}
-		// DELETE !!!
-		/*return {
-			accessToken: 'this.jwtAdapter.createAccessTokenStr(user.id)',
-			user: {
-				id: 1,
-				email: 'input@email.ru',
-			},
-		}*/
+		return user
 	}
 
 	@Mutation(() => Boolean, {

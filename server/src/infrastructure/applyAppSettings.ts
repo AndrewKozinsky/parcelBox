@@ -8,6 +8,12 @@ import { JwtAdapterService } from './jwtAdapter/jwtAdapter.service'
 import { SetUserIntoReqMiddleware } from './middlewares/setUserIntoReq.middleware'
 
 export function applyAppSettings(app: INestApplication) {
+	// ONLY IN DEVELOPMENT
+	/*app.enableCors({
+		origin: 'http://localhost:3000', // Your frontend URL
+		credentials: true, // Allow credentials (cookies, authorization headers)
+	})*/
+
 	app.use(cookieParser())
 
 	app.use(async (req: Request, res: Response, next: NextFunction) => {

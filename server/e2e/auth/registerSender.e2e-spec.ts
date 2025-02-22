@@ -36,7 +36,7 @@ describe.skip('Register a sender (e2e)', () => {
 	it('should return error if wrong data was passed', async () => {
 		const registerSenderMutation = queries.auth.registerSender({ email: 'johnexample.com', password: 'my' })
 
-		const createAdminResp = await makeGraphQLReq(app, registerSenderMutation)
+		const [createAdminResp] = await makeGraphQLReq(app, registerSenderMutation)
 
 		expect(createAdminResp.data).toBe(null)
 
@@ -57,7 +57,7 @@ describe.skip('Register a sender (e2e)', () => {
 			password: defSenderPassword,
 		})
 
-		const createSenderResp = await makeGraphQLReq(app, registerSenderMutation)
+		const [createSenderResp] = await makeGraphQLReq(app, registerSenderMutation)
 
 		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(1)
 
@@ -85,7 +85,7 @@ describe.skip('Register a sender (e2e)', () => {
 		})
 
 		await makeGraphQLReq(app, registerSenderMutation)
-		const createAdminResp2 = await makeGraphQLReq(app, registerSenderMutation)
+		const [createAdminResp2] = await makeGraphQLReq(app, registerSenderMutation)
 
 		const firstErr = extractErrObjFromResp(createAdminResp2)
 
@@ -99,11 +99,11 @@ describe.skip('Register a sender (e2e)', () => {
 			password: defSenderPassword,
 		})
 
-		const createSenderResp1 = await makeGraphQLReq(app, registerSenderMutation)
+		const [createSenderResp1] = await makeGraphQLReq(app, registerSenderMutation)
 		const firstSenderId = createSenderResp1.data[RouteNames.AUTH.REGISTER_SENDER].id
 		await userRepository.makeEmailVerified(firstSenderId)
 
-		const createSenderResp2 = await makeGraphQLReq(app, registerSenderMutation)
+		const [createSenderResp2] = await makeGraphQLReq(app, registerSenderMutation)
 		const firstErr = extractErrObjFromResp(createSenderResp2)
 
 		expect(firstErr.message).toBe('Email is already registered')

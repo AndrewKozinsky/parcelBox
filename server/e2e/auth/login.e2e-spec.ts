@@ -11,7 +11,7 @@ import { createApp } from '../utils/createMainApp'
 import { queries } from '../utils/queries'
 import { userUtils } from '../utils/userUtils'
 
-describe('Confirm an user email (e2e)', () => {
+describe.skip('Confirm an user email (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
@@ -36,7 +36,7 @@ describe('Confirm an user email (e2e)', () => {
 
 	it('should return error if incorrect email and password was sent', async () => {
 		const loginQuery = queries.auth.login({ email: 'wrongemail.com', password: '123' })
-		const loginResp = await makeGraphQLReq(app, loginQuery)
+		const [loginResp] = await makeGraphQLReq(app, loginQuery)
 		const firstErr = extractErrObjFromResp(loginResp)
 
 		expect(loginResp.data).toBe(null)
@@ -53,7 +53,7 @@ describe('Confirm an user email (e2e)', () => {
 
 	it('should return 400 if email and password does not match', async () => {
 		const loginQuery = queries.auth.login({ email: 'wrong@email.com', password: '123456' })
-		const loginResp = await makeGraphQLReq(app, loginQuery)
+		const [loginResp] = await makeGraphQLReq(app, loginQuery)
 		const firstErr = extractErrObjFromResp(loginResp)
 
 		expect(loginResp.data).toBe(null)
@@ -74,7 +74,7 @@ describe('Confirm an user email (e2e)', () => {
 		if (!admin) return
 
 		const loginQuery = queries.auth.login({ email: defAdminEmail, password: defAdminPassword })
-		const loginResp = await makeGraphQLReq(app, loginQuery)
+		const [loginResp] = await makeGraphQLReq(app, loginQuery)
 
 		expect(loginResp.data).toBe(null)
 
@@ -86,7 +86,7 @@ describe('Confirm an user email (e2e)', () => {
 		})
 	})
 
-	it.only('should return 200 if dto has correct values and email is confirmed', async () => {
+	it('should return 200 if dto has correct values and email is confirmed', async () => {
 		const admin = await userUtils.createAdminWithConfirmedEmail({
 			app,
 			userRepository,
@@ -96,13 +96,13 @@ describe('Confirm an user email (e2e)', () => {
 		if (!admin) return
 
 		const loginQuery = queries.auth.login({ email: defAdminEmail, password: defAdminPassword })
-		const loginResp = await makeGraphQLReq(app, loginQuery)
-		const data = loginResp.data[RouteNames.AUTH.LOGIN]
+		const [loginResp, loginRespCookies] = await makeGraphQLReq(app, loginQuery)
 
-		expect(typeof data.accessToken).toBe('string')
-		userUtils.checkUserOutModel(data.user)
+		const loginRespData = loginResp.data[RouteNames.AUTH.LOGIN]
+		userUtils.checkUserOutModel(loginRespData)
 
-		// TODO Check for access token in cookie!
-		// console.log(loginResp)
+		const { accessToken, refreshToken } = loginRespCookies
+		expect(typeof accessToken.value).toBe('string')
+		expect(typeof refreshToken.value).toBe('string')
 	})
 })

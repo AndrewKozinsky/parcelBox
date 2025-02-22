@@ -7,16 +7,6 @@ type AdminOutModel {
   email: String!
 }
 
-type UserOutModel {
-  id: Int!
-  email: String!
-}
-
-type LoginOutModel {
-  accessToken: String!
-  user: UserOutModel!
-}
-
 type SenderOutModel {
   id: Int!
   email: String!
@@ -25,6 +15,11 @@ type SenderOutModel {
   passportNum: String
   balance: Int!
   active: Boolean!
+}
+
+type UserOutModel {
+  id: Int!
+  email: String!
 }
 
 type Query {
@@ -65,7 +60,7 @@ type Mutation {
   	**Email or passwords do not match** — there is not any user with passed email and password.
   	**Email is not confirmed** — user email is not confirmed yet.
   """
-  auth_login(input: LoginInput!): LoginOutModel!
+  auth_login(input: LoginInput!): UserOutModel!
 
   """
   Send email confirmation email one more time

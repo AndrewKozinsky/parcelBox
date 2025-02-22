@@ -2,6 +2,7 @@ import { CommandBus, CommandHandler, ICommand, ICommandHandler } from '@nestjs/c
 import { CustomGraphQLError } from '../../infrastructure/exceptions/customGraphQLError'
 import { ErrorCode } from '../../infrastructure/exceptions/errorCode'
 import { errorMessage } from '../../infrastructure/exceptions/errorMessage'
+import { JwtAdapterService } from '../../infrastructure/jwtAdapter/jwtAdapter.service'
 import { LoginInputModel } from '../../models/auth/auth.input.model'
 import { UserQueryRepository } from '../../repo/user.queryRepository'
 import { UserRepository } from '../../repo/user.repository'
@@ -10,8 +11,8 @@ import { CreateRefreshTokenCommand } from './CreateRefreshToken.command'
 export class LoginCommand implements ICommand {
 	constructor(
 		public loginInput: LoginInputModel,
-		public readonly clientIP: string,
-		public readonly clientName: string,
+		public clientIP: string,
+		public clientName: string,
 	) {}
 }
 
@@ -21,6 +22,7 @@ export class LoginHandler implements ICommandHandler<LoginCommand> {
 		private userRepository: UserRepository,
 		private userQueryRepository: UserQueryRepository,
 		private commandBus: CommandBus,
+		private jwtAdapter: JwtAdapterService,
 	) {}
 
 	async execute(command: LoginCommand) {
@@ -40,10 +42,13 @@ export class LoginHandler implements ICommandHandler<LoginCommand> {
 			new CreateRefreshTokenCommand(user.id, clientIP, clientName),
 		)
 
+		const accessTokenStr = this.jwtAdapter.createAccessTokenStr(user.id)
+
 		const outUser = await this.userQueryRepository.getUserById(user.id)
 
 		return {
 			refreshTokenStr,
+			accessTokenStr,
 			user: outUser!,
 		}
 	}

@@ -46,11 +46,8 @@ export const queries = {
 				  password: "${props.password}"
 				}
 			) {
-			  accessToken
-			  user {
-				  id
-				  email
-				}
+			  id
+			  email
 			  }
 			}`
 		},

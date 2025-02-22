@@ -14,4 +14,13 @@ export class AuthService {
 			sameSite: 'none',
 		})
 	}
+
+	setAccessTokenInCookie(res: Response, accessTokenStr: string) {
+		res.cookie(this.mainConfig.get().accessToken.name, accessTokenStr, {
+			maxAge: this.mainConfig.get().accessToken.lifeDurationInMs,
+			httpOnly: false,
+			secure: true,
+			sameSite: 'none',
+		})
+	}
 }
