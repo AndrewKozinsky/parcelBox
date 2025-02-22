@@ -26,14 +26,13 @@ export class CheckDeviceRefreshTokenGuard implements CanActivate {
 			}
 
 			const reqRefreshToken = this.jwtAdapter.getRefreshTokenFromStr(regRefreshTokenStr)
-			console.log(reqRefreshToken)
 
 			if (!reqRefreshToken || typeof reqRefreshToken === 'string') {
 				throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.Unauthorized_401)
 			}
 
 			// Check reqRefreshToken expiration date
-			const regRefreshTokenExpDate = this.jwtAdapter.getTokenExpirationDate(reqRefreshToken)
+			const regRefreshTokenExpDate = this.jwtAdapter.getRefreshTokenExpirationDate(reqRefreshToken)
 			if (!regRefreshTokenExpDate || +regRefreshTokenExpDate <= +new Date()) {
 				throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.Unauthorized_401)
 			}
@@ -45,8 +44,6 @@ export class CheckDeviceRefreshTokenGuard implements CanActivate {
 			}
 
 			// Check if dates in tokens is different
-
-			console.log(dbRefreshToken)
 			if (reqRefreshToken!.issuedAt !== dbRefreshToken!.issuedAt) {
 				throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.BadRequest_400)
 			}

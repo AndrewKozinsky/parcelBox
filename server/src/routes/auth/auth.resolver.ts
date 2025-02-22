@@ -84,6 +84,14 @@ export class AuthResolver {
 			accessToken: this.jwtAdapter.createAccessTokenStr(user.id),
 			user,
 		}
+		// DELETE !!!
+		/*return {
+			accessToken: 'this.jwtAdapter.createAccessTokenStr(user.id)',
+			user: {
+				id: 1,
+				email: 'input@email.ru',
+			},
+		}*/
 	}
 
 	@Mutation(() => Boolean, {
@@ -95,7 +103,6 @@ export class AuthResolver {
 		return await this.commandBus.execute(new ResendConfirmationEmailCommand(input.email))
 	}
 
-	// @UseGuards(CheckAccessTokenGuard)
 	@UseGuards(CheckDeviceRefreshTokenGuard)
 	@Mutation(() => Boolean, {
 		name: RouteNames.AUTH.LOGOUT,

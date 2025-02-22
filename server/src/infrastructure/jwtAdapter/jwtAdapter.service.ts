@@ -13,8 +13,10 @@ export class JwtAdapterService {
 		return jwt.sign({ userId }, this.mainConfig.get().jwt.secret)
 	}
 
-	createRefreshTokenStr(deviceId: string): string {
-		const issuedAt = new Date().toISOString()
+	createRefreshTokenStr(props: { deviceId: string; issuedAt?: string }): string {
+		const deviceId = props.deviceId
+		const issuedAt = props.issuedAt || new Date().toISOString()
+
 		return jwt.sign({ deviceId, issuedAt }, this.mainConfig.get().jwt.secret)
 	}
 
@@ -59,7 +61,7 @@ export class JwtAdapterService {
 	}
 
 	// Check if token string is valid
-	verifyRefreshTokenFromStr(refreshTokenStr: string = '') {
+	verifyRefreshTokenFromStr(refreshTokenStr: string) {
 		try {
 			return jwt.verify(refreshTokenStr, this.mainConfig.get().jwt.secret)
 		} catch (error) {
@@ -96,16 +98,16 @@ export class JwtAdapterService {
 		}
 	}
 
-	getTokenExpirationDate(token: null | jwt.JwtPayload): null | Date {
+	getRefreshTokenExpirationDate(token: null | jwt.JwtPayload): null | Date {
 		try {
 			if (!token || !token.iat) {
 				return null
 			}
 
-			const issuedAtDate = new Date(token.iat * 1000)
+			const issuedAtDate = new Date(token.issuedAt)
 
 			const tokenLifetimeInMs = this.mainConfig.get().refreshToken.lifeDurationInMs
-			return dateFns.addSeconds(issuedAtDate, tokenLifetimeInMs)
+			return dateFns.addMilliseconds(issuedAtDate, tokenLifetimeInMs)
 		} catch (error) {
 			console.log(error)
 			return null

@@ -11,7 +11,7 @@ import { createApp } from '../utils/createMainApp'
 import { queries } from '../utils/queries'
 import { userUtils } from '../utils/userUtils'
 
-describe.skip('Confirm an user email (e2e)', () => {
+describe('Confirm an user email (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
@@ -86,7 +86,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 		})
 	})
 
-	it('should return 200 if dto has correct values and email is confirmed', async () => {
+	it.only('should return 200 if dto has correct values and email is confirmed', async () => {
 		const admin = await userUtils.createAdminWithConfirmedEmail({
 			app,
 			userRepository,
@@ -101,5 +101,8 @@ describe.skip('Confirm an user email (e2e)', () => {
 
 		expect(typeof data.accessToken).toBe('string')
 		userUtils.checkUserOutModel(data.user)
+
+		// TODO Check for access token in cookie!
+		// console.log(loginResp)
 	})
 })

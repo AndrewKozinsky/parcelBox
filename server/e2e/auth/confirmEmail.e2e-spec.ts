@@ -42,8 +42,11 @@ describe.skip('Confirm an user email (e2e)', () => {
 		expect(confirmEmailResp.data).toBe(null)
 
 		const firstErr = extractErrObjFromResp(confirmEmailResp)
-		expect(firstErr.message).toBe('Email confirmation code not found')
-		expect(firstErr.code).toBe(400)
+
+		expect(firstErr).toEqual({
+			code: 400,
+			message: 'Email confirmation code not found',
+		})
 
 		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(0)
 	})

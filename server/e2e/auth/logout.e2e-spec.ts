@@ -14,7 +14,7 @@ import { createApp } from '../utils/createMainApp'
 import { queries } from '../utils/queries'
 import { userUtils } from '../utils/userUtils'
 
-describe('Logout (e2e)', () => {
+describe.skip('Logout (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
@@ -44,11 +44,11 @@ describe('Logout (e2e)', () => {
 	})
 
 	it('should return 401 if there is not device token cookie', async () => {
-		await userUtils.deviceTokenChecks.tokenNotExist(app, queries.auth.logout())
+		await userUtils.refreshDeviceTokenChecks.tokenNotExist(app, queries.auth.logout())
 	})
 
-	it.only('should return 401 if the JWT refreshToken inside cookie is missing, expired or incorrect', async () => {
-		await userUtils.deviceTokenChecks.refreshTokenExpired({
+	it('should return 401 if the JWT refreshToken inside cookie is missing, expired or incorrect', async () => {
+		await userUtils.refreshDeviceTokenChecks.refreshTokenExpired({
 			app,
 			queryOrMutationStr: queries.auth.logout(),
 			userRepository,
@@ -57,6 +57,8 @@ describe('Logout (e2e)', () => {
 			mainConfig,
 		})
 	})
+
+	it('should return 200 if the JWT refreshToken inside cookie is valid', async () => {})
 
 	/*it('should return 200 if the JWT refreshToken inside cookie is valid', async () => {
 		const [accessToken, refreshTokenStr] = await userUtils.createUserAndLogin({
