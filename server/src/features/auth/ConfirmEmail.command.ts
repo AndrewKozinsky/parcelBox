@@ -17,16 +17,16 @@ export class ConfirmEmailHandler implements ICommandHandler<ConfirmEmailCommand>
 		const { createAdminInput } = command
 
 		const user = await this.userRepository.getUserByConfirmationCode(createAdminInput.code)
+
 		if (!user) {
 			throw new CustomGraphQLError(errorMessage.emailConfirmationCodeNotFound, ErrorCode.BadRequest_400)
 		}
 
-		if (new Date(user.confirmationCodeExpirationDate!) < new Date()) {
+		if (new Date(user.confirmationCodeExpirationDate!) <= new Date()) {
 			throw new CustomGraphQLError(errorMessage.emailConfirmationCodeIsExpired, ErrorCode.BadRequest_400)
 		}
 
 		await this.userRepository.makeEmailVerified(user.id)
-
 		return true
 	}
 }

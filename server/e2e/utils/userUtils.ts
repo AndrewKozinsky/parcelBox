@@ -1,5 +1,4 @@
 import { INestApplication } from '@nestjs/common'
-import { agent as request } from 'supertest'
 import * as dateFns from 'date-fns'
 import { MainConfigService } from '../../src/config/mainConfig.service'
 import RouteNames from '../../src/infrastructure/routeNames'
@@ -60,7 +59,7 @@ export const userUtils = {
 		password?: string
 	}) {
 		const email = props.email ?? defAdminEmail
-		const password = props.email ?? defAdminPassword
+		const password = props.password ?? defAdminPassword
 
 		await this.createAdminWithConfirmedEmail({
 			app: props.app,
@@ -78,13 +77,13 @@ export const userUtils = {
 
 	async loginUser(props: { app: INestApplication; email: string; password: string }) {
 		const loginQuery = queries.auth.login({ email: defAdminEmail, password: defAdminPassword })
-		const [loginResp] = await makeGraphQLReq(props.app, loginQuery)
-		const data = loginResp.data[RouteNames.AUTH.LOGIN]
+		const [loginResp, cookies] = await makeGraphQLReq(props.app, loginQuery)
 
-		// const { accessToken } = loginRes.body.data
-		// const refreshTokenStr = loginRes.headers['set-cookie'][0]
-
-		// return [accessToken, refreshTokenStr, loginRes.body.data.user]*/
+		return {
+			loginData: loginResp.data[RouteNames.AUTH.LOGIN],
+			accessToken: cookies?.accessToken,
+			refreshToken: cookies?.refreshToken,
+		}
 	},
 
 	isUserEmailConfirmed(user: UserServiceModel) {
@@ -97,7 +96,7 @@ export const userUtils = {
 	},
 
 	refreshDeviceTokenChecks: {
-		// should return 401 if there is not cookies
+		// should return 401 if there arn't cookies
 		async tokenNotExist(app: INestApplication, queryOrMutationStr: string) {
 			const [resendConfirmationEmailResp] = await makeGraphQLReq(app, queryOrMutationStr)
 
@@ -119,7 +118,7 @@ export const userUtils = {
 			jwtAdapterService: JwtAdapterService
 			mainConfig: MainConfigService
 		}) {
-			const admin = await userUtils.createAdminWithUnconfirmedEmail(props)
+			const admin = await userUtils.createAdminWithConfirmedEmail(props)
 
 			// Create expired token in database
 			const deviceId = createUniqString()
@@ -156,26 +155,5 @@ export const userUtils = {
 				message: 'Refresh token is not valid',
 			})
 		},
-		/*async tokenValid(props: {
-			mainApp: INestApplication
-			filesMicroservice: ClientProxy
-			routeUrl: string
-			userRepository: UserRepository
-			mainConfig: MainConfigService
-		}) {
-			const [accessToken, refreshTokenStr] = await userUtils.createUserAndLogin({
-				mainApp: props.mainApp,
-				filesMicroservice: props.filesMicroservice,
-				userRepository: props.userRepository,
-				email: defUserEmail,
-				password: defUserPassword,
-			})
-
-			const refreshTokenValue = parseCookieStringToObj(refreshTokenStr).cookieValue
-
-			await postRequest(props.mainApp, props.routeUrl)
-				.set('Cookie', props.mainConfig.get().refreshToken.name + '=' + refreshTokenValue)
-				.expect(HTTP_STATUSES.OK_200)
-		},*/
 	},
 }

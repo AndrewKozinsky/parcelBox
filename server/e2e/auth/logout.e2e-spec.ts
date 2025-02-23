@@ -8,13 +8,13 @@ import RouteNames from '../../src/infrastructure/routeNames'
 import { DevicesRepository } from '../../src/repo/devices.repository'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
-import { makeGraphQLReq } from '../makeGQReq'
+import { makeGraphQLReq, makeGraphQLReqWithRefreshToken } from '../makeGQReq'
 import { defAdminEmail, defAdminPassword, extractErrObjFromResp } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../utils/queries'
 import { userUtils } from '../utils/userUtils'
 
-describe.skip('Logout (e2e)', () => {
+describe('Logout (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
@@ -43,11 +43,11 @@ describe.skip('Logout (e2e)', () => {
 		jest.clearAllMocks()
 	})
 
-	it('should return 401 if there is not device token cookie', async () => {
+	it('should return 401 if there is not refresh device token cookie', async () => {
 		await userUtils.refreshDeviceTokenChecks.tokenNotExist(app, queries.auth.logout())
 	})
 
-	it('should return 401 if the JWT refreshToken inside cookie is missing, expired or incorrect', async () => {
+	it('should return 401 if the JWT refreshToken inside cookie is expired', async () => {
 		await userUtils.refreshDeviceTokenChecks.refreshTokenExpired({
 			app,
 			queryOrMutationStr: queries.auth.logout(),
@@ -58,23 +58,34 @@ describe.skip('Logout (e2e)', () => {
 		})
 	})
 
-	it('should return 200 if the JWT refreshToken inside cookie is valid', async () => {})
-
-	/*it('should return 200 if the JWT refreshToken inside cookie is valid', async () => {
-		const [accessToken, refreshTokenStr] = await userUtils.createUserAndLogin({
-			mainApp,
-			filesMicroservice,
+	it.only('should gives success answer if the JWT refreshToken is valid', async () => {
+		const { loginData, accessToken, refreshToken } = await userUtils.createAdminAndLogin({
+			app,
 			userRepository,
-			userName: defUserName,
-			email: defUserEmail,
-			password: defUserPassword,
+			email: defAdminEmail,
+			password: defAdminPassword,
 		})
 
-		const refreshTokenValue = parseCookieStringToObj(refreshTokenStr).cookieValue
+		const logoutMutation = queries.auth.logout()
+		const [logoutResp, cookies] = await makeGraphQLReqWithRefreshToken({
+			app,
+			query: logoutMutation,
+			refreshTokenStr: refreshToken?.value,
+			mainConfig,
+		})
 
-		await postRequest(mainApp, RouteNames.AUTH.LOGOUT.full)
-			.set('authorization', 'Bearer ' + accessToken)
-			.set('Cookie', mainConfig.get().refreshToken.name + '=' + refreshTokenValue)
-			.expect(HTTP_STATUSES.OK_200)
-	})*/
+		expect(logoutResp.data[RouteNames.AUTH.LOGOUT]).toBe(true)
+
+		// Check if refresh token in cookie is already expired
+		const clearedRefreshToken = cookies[mainConfig.get().refreshToken.name]
+		const clearedRefreshTokenExpiredDate = new Date(clearedRefreshToken.expires)
+		expect(+clearedRefreshTokenExpiredDate <= +new Date()).toBe(true)
+
+		// Check if refresh token doesn't exist in database
+		const userDevices = await devicesRepository.getDevicesByUserId(loginData.id)
+		expect(userDevices.length).toBe(0)
+
+		// Check if I cannot log in with old or new accessToken!
+		// Do it later when you get a route which requires access token.
+	})
 })

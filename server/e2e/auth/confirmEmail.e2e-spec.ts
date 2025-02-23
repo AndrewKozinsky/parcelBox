@@ -48,7 +48,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 			message: 'Email confirmation code not found',
 		})
 
-		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(0)
+		expect(emailAdapter.sendEmailConfirmationMessage).toHaveBeenCalledTimes(0)
 	})
 
 	it('should return success if email successfully confirmed', async () => {
@@ -69,7 +69,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 
 		expect(userUtils.isUserEmailConfirmed(updatedUser)).toBe(true)
 
-		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(1)
+		expect(emailAdapter.sendEmailConfirmationMessage).toHaveBeenCalledTimes(1)
 	})
 
 	it('should return error if email verification allowed time is over', async () => {
@@ -88,16 +88,17 @@ describe.skip('Confirm an user email (e2e)', () => {
 
 		const [confirmEmailResp] = await makeGraphQLReq(app, confirmEmailQuery)
 		const firstErr = extractErrObjFromResp(confirmEmailResp)
-		expect(firstErr.message).toBe('Email confirmation code is expired')
-		expect(firstErr.code).toBe(400)
+
+		expect(firstErr).toEqual({
+			code: 400,
+			message: 'Email confirmation code is expired',
+		})
 
 		// Check the user's email is still unconfirmed
 		const thisUser = await userRepository.getUserById(createdAdmin.id)
 		if (!thisUser) return
 
 		expect(userUtils.isUserEmailConfirmed(thisUser)).toBe(false)
-
-		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(0)
 	})
 
 	it('should return 400 if they try to confirm email the second time', async () => {
@@ -117,9 +118,12 @@ describe.skip('Confirm an user email (e2e)', () => {
 		// Try to confirm email second time
 		const [confirmEmailResp2] = await makeGraphQLReq(app, confirmEmailQuery)
 		const firstErr = extractErrObjFromResp(confirmEmailResp2)
-		expect(firstErr.message).toBe('Email confirmation code not found')
-		expect(firstErr.code).toBe(400)
 
-		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(0)
+		expect(firstErr).toEqual({
+			code: 400,
+			message: 'Email confirmation code not found',
+		})
+
+		expect(emailAdapter.sendEmailConfirmationMessage).toHaveBeenCalledTimes(1)
 	})
 })

@@ -9,7 +9,6 @@ import { LoginCommand } from '../../features/auth/Login.command'
 import { LogoutCommand } from '../../features/auth/Logout.command'
 import { ResendConfirmationEmailCommand } from '../../features/auth/ResendConfirmationEmail.command'
 import { BrowserService } from '../../infrastructure/browserService/browser.service'
-import { CheckAccessTokenGuard } from '../../infrastructure/guards/checkAccessToken.guard'
 import { CheckDeviceRefreshTokenGuard } from '../../infrastructure/guards/checkDeviceRefreshToken.guard'
 import { JwtAdapterService } from '../../infrastructure/jwtAdapter/jwtAdapter.service'
 import RouteNames from '../../infrastructure/routeNames'
@@ -100,11 +99,11 @@ export class AuthResolver {
 	})
 	@UsePipes(new ValidationPipe({ transform: true }))
 	async logout(@Context('req') request: Request, @Context('res') response: Response) {
-		/*const refreshToken = this.browserService.getRefreshTokenStrFromReq(request)
+		const refreshToken = this.browserService.getRefreshTokenStrFromReq(request)
 
 		await this.commandBus.execute(new LogoutCommand(refreshToken))
 
-		response.clearCookie(this.mainConfig.get().refreshToken.name)*/
+		response.clearCookie(this.mainConfig.get().refreshToken.name)
 		return true
 	}
 }

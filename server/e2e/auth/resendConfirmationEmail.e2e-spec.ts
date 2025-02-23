@@ -2,7 +2,6 @@ import { INestApplication } from '@nestjs/common'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
-import RouteNames from '../../src/infrastructure/routeNames'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq } from '../makeGQReq'
@@ -48,7 +47,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 			},
 		})
 
-		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(0)
+		expect(emailAdapter.sendEmailConfirmationMessage).toHaveBeenCalledTimes(0)
 	})
 
 	it('should return an error if the entered email is not exists', async () => {
@@ -62,7 +61,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 			code: 400,
 		})
 
-		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(0)
+		expect(emailAdapter.sendEmailConfirmationMessage).toHaveBeenCalledTimes(0)
 	})
 
 	it('should return success if input has correct values', async () => {
@@ -79,7 +78,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 
 		expect(resendConfirmationEmailResp.data).toBeTruthy()
 
-		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(1)
+		expect(emailAdapter.sendEmailConfirmationMessage).toHaveBeenCalledTimes(2)
 	})
 
 	it('should return an error if email is already confirmed', async () => {
@@ -101,6 +100,6 @@ describe.skip('Confirm an user email (e2e)', () => {
 			code: 400,
 		})
 
-		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(1)
+		expect(emailAdapter.sendEmailConfirmationMessage).toHaveBeenCalledTimes(1)
 	})
 })

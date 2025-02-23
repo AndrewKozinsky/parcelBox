@@ -9,7 +9,7 @@ async function bootstrap() {
 
 	const mainConfig = app.get(MainConfigService)
 	await app.listen(mainConfig.get().port)
-	console.log('Postamat server has just started 🔥')
+	console.log('ParcelBox server has just started 🔥')
 }
 
 bootstrap()

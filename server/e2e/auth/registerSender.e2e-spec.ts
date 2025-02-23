@@ -1,4 +1,5 @@
 import { INestApplication } from '@nestjs/common'
+import { isLogLevelEnabled } from '@nestjs/common/services/utils'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
@@ -43,6 +44,7 @@ describe.skip('Register a sender (e2e)', () => {
 		const firstErr = extractErrObjFromResp(createAdminResp)
 
 		expect(firstErr).toStrictEqual({
+			code: 400,
 			message: 'Wrong input data',
 			fields: {
 				email: ['The email must match the format example@mail.com'],
@@ -59,7 +61,7 @@ describe.skip('Register a sender (e2e)', () => {
 
 		const [createSenderResp] = await makeGraphQLReq(app, registerSenderMutation)
 
-		expect(emailAdapter.sendEmailConfirmationMessage).toBeCalledTimes(1)
+		expect(emailAdapter.sendEmailConfirmationMessage).toHaveBeenCalledTimes(1)
 
 		expect(createSenderResp.data).toStrictEqual({
 			[RouteNames.AUTH.REGISTER_SENDER]: {
@@ -89,8 +91,10 @@ describe.skip('Register a sender (e2e)', () => {
 
 		const firstErr = extractErrObjFromResp(createAdminResp2)
 
-		expect(firstErr.message).toBe('Email is not confirmed')
-		expect(firstErr.code).toBe(400)
+		expect(firstErr).toStrictEqual({
+			code: 400,
+			message: 'Email is not confirmed',
+		})
 	})
 
 	it('should return error if the sender is already created and his email is confirmed', async () => {
@@ -106,7 +110,9 @@ describe.skip('Register a sender (e2e)', () => {
 		const [createSenderResp2] = await makeGraphQLReq(app, registerSenderMutation)
 		const firstErr = extractErrObjFromResp(createSenderResp2)
 
-		expect(firstErr.message).toBe('Email is already registered')
-		expect(firstErr.code).toBe(400)
+		expect(firstErr).toStrictEqual({
+			code: 400,
+			message: 'Email is already registered',
+		})
 	})
 })

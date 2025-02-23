@@ -22,15 +22,11 @@ export class JwtAdapterService {
 
 	getExpiresInSeconds() {
 		const expiresInMs = this.mainConfig.get().refreshToken.lifeDurationInMs
-		const expiresInSeconds = expiresInMs / 1000
-		return expiresInSeconds
+		return expiresInMs / 1000
 	}
 
 	createDeviceRefreshToken(userId: number, deviceIP: string, deviceName: string): DeviceTokenServiceModel {
 		const deviceId = createUniqString()
-
-		const expirationDate = dateFns.addMilliseconds(new Date(), this.mainConfig.get().refreshToken.lifeDurationInMs)
-		expirationDate.setMilliseconds(0)
 
 		return {
 			issuedAt: new Date().toISOString(),

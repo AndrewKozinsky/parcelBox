@@ -44,6 +44,14 @@ export class DevicesRepository {
 		})
 	}
 
+	async getDevicesByUserId(userId: number) {
+		const userDevices = await this.prisma.deviceToken.findMany({
+			where: { user_id: userId },
+		})
+
+		return userDevices.map(this.mapDbDeviceRefreshTokenToServiceDeviceRefreshToken)
+	}
+
 	/*async getUserDevicesByDeviceId(deviceId: string) {
 		const userByDeviceToken = await this.prisma.deviceToken.findFirst({
 			where: { device_id: deviceId },
@@ -69,7 +77,7 @@ export class DevicesRepository {
 	async insertDeviceRefreshToken(deviceRefreshToken: DeviceTokenServiceModel): Promise<DeviceTokenServiceModel> {
 		const deviceToken = await this.prisma.deviceToken.create({
 			data: {
-				issued_at: new Date(deviceRefreshToken.issuedAt).toISOString(),
+				issued_at: deviceRefreshToken.issuedAt,
 				user_id: deviceRefreshToken.userId,
 				device_ip: deviceRefreshToken.deviceIP,
 				device_id: deviceRefreshToken.deviceId,

@@ -38,17 +38,17 @@ export class LoginHandler implements ICommandHandler<LoginCommand> {
 			throw new CustomGraphQLError(errorMessage.emailIsNotConfirmed, ErrorCode.BadRequest_400)
 		}
 
+		const accessTokenStr = this.jwtAdapter.createAccessTokenStr(user.id)
+
 		const refreshTokenStr = await this.commandBus.execute(
 			new CreateRefreshTokenCommand(user.id, clientIP, clientName),
 		)
 
-		const accessTokenStr = this.jwtAdapter.createAccessTokenStr(user.id)
-
 		const outUser = await this.userQueryRepository.getUserById(user.id)
 
 		return {
-			refreshTokenStr,
 			accessTokenStr,
+			refreshTokenStr,
 			user: outUser!,
 		}
 	}
