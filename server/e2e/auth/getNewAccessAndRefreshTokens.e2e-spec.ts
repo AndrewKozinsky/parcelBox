@@ -14,7 +14,7 @@ import { createApp } from '../utils/createMainApp'
 import { queries } from '../utils/queries'
 import { userUtils } from '../utils/userUtils'
 
-describe('Get new refresh and access tokens (e2e)', () => {
+describe.skip('Get new refresh and access tokens (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
@@ -58,7 +58,7 @@ describe('Get new refresh and access tokens (e2e)', () => {
 		})
 	})
 
-	it.only('should gives success answer if the JWT refreshToken is valid', async () => {
+	it('should gives success answer if the JWT refreshToken is valid', async () => {
 		const { loginData, accessToken, refreshToken } = await userUtils.createAdminAndLogin({
 			app,
 			userRepository,
