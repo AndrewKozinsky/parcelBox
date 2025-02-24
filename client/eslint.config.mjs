@@ -1,16 +1,35 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import tseslint from 'typescript-eslint'
+import prettierPlugin from 'eslint-plugin-prettier'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-];
-
-export default eslintConfig;
+export default tseslint.config([{
+  files: ['**/*.ts', '**/*.tsx'],
+  languageOptions: {
+    parser: tseslint.parser
+  },
+  plugins: {
+    prettier: prettierPlugin,
+  },
+  rules: {
+    'no-multiple-empty-lines': ['error', {
+      max: 1,
+      maxEOF: 1,
+      maxBOF: 0
+    }],
+    'object-curly-spacing': ['warn', 'always'],
+    indent: ['warn', 'tab'],
+    quotes: ['warn', 'single'],
+    'jsx-quotes': ['warn', 'prefer-single'],
+    semi: ['warn', 'never'],
+    'no-multi-spaces': 'error',
+    'space-in-parens': 'error',
+    'prettier/prettier': ['error', {
+      semi: false,
+      singleQuote: true,
+      tabWidth: 4,
+      useTabs: true,
+      printWidth: 120,
+      trailingComma: 'all',
+      jsxSingleQuote: true,
+    }],
+  }
+}])
