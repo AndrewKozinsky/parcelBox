@@ -88,14 +88,14 @@ export class DevicesRepository {
 		return this.mapDbDeviceRefreshTokenToServiceDeviceRefreshToken(deviceToken)
 	}
 
-	/*async updateDeviceRefreshTokenDate(deviceId: string) {
+	async updateDeviceRefreshTokenDate(deviceId: string) {
 		const issuedAt = new Date().toISOString()
 
 		this.prisma.deviceToken.updateMany({
 			where: { device_id: deviceId },
 			data: { issued_at: issuedAt },
 		})
-	}*/
+	}
 
 	mapDbDeviceRefreshTokenToServiceDeviceRefreshToken(dbDevice: DeviceToken): DeviceRefreshTokenServiceModel {
 		return {

@@ -22,5 +22,8 @@ export const authResolversDesc: Record<keyof typeof AuthResolver.prototype, stri
 	Possible errors:
 	**${errorMessage.emailNotFound}** — passed email is not registered yet.
 	**${errorMessage.emailIsAlreadyConfirmed}** — email is already confirmed.`,
-	logout: 'User logout',
+	logout: `User logout
+	Possible errors:
+	**${errorMessage.refreshTokenIsNotValid}** — refresh token is not valid`,
+	getNewAccessAndRefreshToken: 'Get new access and refresh token',
 }

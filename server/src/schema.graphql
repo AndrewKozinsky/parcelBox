@@ -70,8 +70,15 @@ type Mutation {
   """
   auth_resendConfirmationEmail(input: ResendConfirmationEmailInput!): Boolean!
 
-  """User logout"""
+  """
+  User logout
+  	Possible errors:
+  	**Refresh token is not valid** — refresh token is not valid
+  """
   auth_logout: Boolean!
+
+  """Get new access and refresh token"""
+  auth_refreshToken: Boolean!
 }
 
 input CreateAdminInput {

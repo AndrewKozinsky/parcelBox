@@ -14,7 +14,7 @@ import { createApp } from '../utils/createMainApp'
 import { queries } from '../utils/queries'
 import { userUtils } from '../utils/userUtils'
 
-describe.skip('Logout (e2e)', () => {
+describe('Get new refresh and access tokens (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
@@ -44,13 +44,13 @@ describe.skip('Logout (e2e)', () => {
 	})
 
 	it('should return 401 if there is not refresh device token cookie', async () => {
-		await userUtils.refreshDeviceTokenChecks.tokenNotExist(app, queries.auth.logout())
+		await userUtils.refreshDeviceTokenChecks.tokenNotExist(app, queries.auth.getNewAccessAndRefreshTokens())
 	})
 
 	it('should return 401 if the JWT refreshToken inside cookie is expired', async () => {
 		await userUtils.refreshDeviceTokenChecks.refreshTokenExpired({
 			app,
-			queryOrMutationStr: queries.auth.logout(),
+			queryOrMutationStr: queries.auth.getNewAccessAndRefreshTokens(),
 			userRepository,
 			devicesRepository,
 			jwtAdapterService,
@@ -58,7 +58,7 @@ describe.skip('Logout (e2e)', () => {
 		})
 	})
 
-	it('should gives success answer if the JWT refreshToken is valid', async () => {
+	it.only('should gives success answer if the JWT refreshToken is valid', async () => {
 		const { loginData, accessToken, refreshToken } = await userUtils.createAdminAndLogin({
 			app,
 			userRepository,
@@ -66,26 +66,16 @@ describe.skip('Logout (e2e)', () => {
 			password: defAdminPassword,
 		})
 
-		const logoutMutation = queries.auth.logout()
-		const [logoutResp, cookies] = await makeGraphQLReqWithRefreshToken({
+		const updateTokensMutation = queries.auth.getNewAccessAndRefreshTokens()
+		const [updateTokensResp, cookies] = await makeGraphQLReqWithRefreshToken({
 			app,
-			query: logoutMutation,
+			query: updateTokensMutation,
 			refreshTokenStr: refreshToken?.value,
 			mainConfig,
 		})
 
-		expect(logoutResp.data[RouteNames.AUTH.LOGOUT]).toBe(true)
+		expect(updateTokensResp.data[RouteNames.AUTH.GET_NEW_ACCESS_AND_REFRESH_TOKENS]).toBe(true)
 
-		// Check if refresh token in cookie is already expired
-		const clearedRefreshToken = cookies[mainConfig.get().refreshToken.name]
-		const clearedRefreshTokenExpiredDate = new Date(clearedRefreshToken.expires)
-		expect(+clearedRefreshTokenExpiredDate <= +new Date()).toBe(true)
-
-		// Check if refresh token doesn't exist in database
-		const userDevices = await devicesRepository.getDevicesByUserId(loginData.id)
-		expect(userDevices.length).toBe(0)
-
-		// Check if I cannot log in with old or new accessToken!
-		// Do it later when you get a route which requires access token.
+		// TODO Check if new access and refresh tokens are valid...
 	})
 })

@@ -10,7 +10,7 @@ export const errorMessage = {
 	emailOrPasswordDoNotMatch: 'Email or passwords do not match',
 	emailNotFound: 'Email is not found',
 	// USER
-	// UserNotFound = 'User not found',
+	userNotFound: 'User not found',
 	// UserNameIsExists = 'User name is already exists',
 	// AUTH
 	refreshTokenIsNotValid: 'Refresh token is not valid',

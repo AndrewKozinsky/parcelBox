@@ -65,5 +65,10 @@ export const queries = {
 			  ${RouteNames.AUTH.LOGOUT}
 			}`
 		},
+		getNewAccessAndRefreshTokens() {
+			return `mutation {
+			  ${RouteNames.AUTH.GET_NEW_ACCESS_AND_REFRESH_TOKENS}
+			}`
+		},
 	},
 }

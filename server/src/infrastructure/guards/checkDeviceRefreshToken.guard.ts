@@ -21,7 +21,7 @@ export class CheckDeviceRefreshTokenGuard implements CanActivate {
 
 		try {
 			const regRefreshTokenStr = this.browserService.getRefreshTokenStrFromReq(request)
-			if (!this.jwtAdapter.verifyRefreshTokenFromStr(regRefreshTokenStr)) {
+			if (!regRefreshTokenStr || !this.jwtAdapter.verifyRefreshTokenFromStr(regRefreshTokenStr)) {
 				throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.Unauthorized_401)
 			}
 

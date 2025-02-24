@@ -5,6 +5,7 @@ import { MainConfigService } from '../../config/mainConfig.service'
 import { CreateAdminCommand } from '../../features/auth/CreateAdmin.command'
 import { CreateSenderCommand } from '../../features/auth/CreateSender.command'
 import { ConfirmEmailCommand } from '../../features/auth/ConfirmEmail.command'
+import { GenerateAccessAndRefreshTokensCommand } from '../../features/auth/GenerateAccessAndRefreshTokens.command'
 import { LoginCommand } from '../../features/auth/Login.command'
 import { LogoutCommand } from '../../features/auth/Logout.command'
 import { ResendConfirmationEmailCommand } from '../../features/auth/ResendConfirmationEmail.command'
@@ -104,6 +105,22 @@ export class AuthResolver {
 		await this.commandBus.execute(new LogoutCommand(refreshToken))
 
 		response.clearCookie(this.mainConfig.get().refreshToken.name)
+		return true
+	}
+
+	@UseGuards(CheckDeviceRefreshTokenGuard)
+	@Mutation(() => Boolean, {
+		name: RouteNames.AUTH.GET_NEW_ACCESS_AND_REFRESH_TOKENS,
+		description: authResolversDesc.getNewAccessAndRefreshToken,
+	})
+	@UsePipes(new ValidationPipe({ transform: true }))
+	async getNewAccessAndRefreshToken(@Context('req') request: Request, @Context('res') response: Response) {
+		const { newAccessToken, newRefreshTokenStr } = await this.commandBus.execute(
+			new GenerateAccessAndRefreshTokensCommand(request.deviceRefreshToken!),
+		)
+
+		this.authService.setRefreshTokenInCookie(response, newRefreshTokenStr)
+		this.authService.setAccessTokenInCookie(response, newAccessToken)
 		return true
 	}
 }
