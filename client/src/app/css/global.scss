@@ -1,0 +1,57 @@
+@use '../../style/variables' as *;
+@use "sass:color";
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400&display=swap');
+
+:root {
+	// Стандартный размер шрифта в браузере 16 пикселей.
+	// Поэтому 10 пикселей будет 62.5%.
+	// Размер в процентах указывается для слабовидящих у которых в браузере стоит увеличенный шрифт.
+	font-size: 62.5%;
+}
+
+*:not(svg, g, path) {
+	all: unset;
+	display: revert;
+	list-style: none;
+
+	&:focus {
+		outline: 2px solid $blueColor-2;
+	}
+}
+
+body {
+	font-family: 'Manrope', Arial, sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 500;
+	font-size: 1.5rem;
+	line-height: 2.2rem;
+	color: $textColor;
+	overflow: hidden;
+
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+a,
+button {
+	cursor: pointer;
+
+	&:focus {
+		outline: 1px solid $blueColor-2;
+	}
+}
+
+.link {
+	color: $blueColor-2;
+	border-bottom: 1px solid rgba($blueColor-2, .2);
+	transition: color .2s, border-bottom-color .2s;
+
+	&:hover {
+		color: color.adjust($blueColor-2, $lightness: 100%);
+		border-bottom-color: rgba($blueColor-2, .35);
+	}
+}
+
+.mini-space {
+	font-size: 0.4em;
+}
