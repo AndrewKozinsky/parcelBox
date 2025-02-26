@@ -18,8 +18,8 @@ import { SenderOutModel } from '../../models/sender/sender.out.model'
 import { UserOutModel } from '../../models/user/user.out.model'
 import { AuthService } from './auth.service'
 import { ConfirmEmailInput } from './inputs/confirmEmail.input'
-import { CreateAdminInput } from './inputs/createAdmin.input'
-import { CreateSenderInput } from './inputs/createSender.input'
+import { RegisterAdminInput } from './inputs/registerAdmin.input'
+import { RegisterSenderInput } from './inputs/registerSender.input'
 import { LoginInput } from './inputs/login.input'
 import { ResendConfirmationEmailInput } from './inputs/resendConfirmationEmail.input'
 import { authResolversDesc } from './resolverDescriptions'
@@ -40,7 +40,7 @@ export class AuthResolver {
 		description: authResolversDesc.registerAdmin,
 	})
 	@UsePipes(new ValidationPipe({ transform: true }))
-	async registerAdmin(@Args('input') input: CreateAdminInput): Promise<AdminOutModel> {
+	async registerAdmin(@Args('input') input: RegisterAdminInput): Promise<AdminOutModel> {
 		return await this.commandBus.execute(new CreateAdminCommand(input))
 	}
 
@@ -49,7 +49,7 @@ export class AuthResolver {
 		description: authResolversDesc.registerSender,
 	})
 	@UsePipes(new ValidationPipe({ transform: true }))
-	async registerSender(@Args('input') input: CreateSenderInput): Promise<SenderOutModel> {
+	async registerSender(@Args('input') input: RegisterSenderInput): Promise<SenderOutModel> {
 		return await this.commandBus.execute(new CreateSenderCommand(input))
 	}
 

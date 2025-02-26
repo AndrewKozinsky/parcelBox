@@ -12,12 +12,12 @@ export interface ConfirmEmailInput {
     code: string;
 }
 
-export interface CreateAdminInput {
+export interface RegisterAdminInput {
     email: string;
     password: string;
 }
 
-export interface CreateSenderInput {
+export interface RegisterSenderInput {
     email: string;
     password: string;
 }
@@ -56,8 +56,8 @@ export interface IQuery {
 }
 
 export interface IMutation {
-    auth_RegisterAdmin(input: CreateAdminInput): AdminOutModel | Promise<AdminOutModel>;
-    auth_RegisterSender(input: CreateSenderInput): SenderOutModel | Promise<SenderOutModel>;
+    auth_registerAdmin(input: RegisterAdminInput): AdminOutModel | Promise<AdminOutModel>;
+    auth_registerSender(input: RegisterSenderInput): SenderOutModel | Promise<SenderOutModel>;
     auth_login(input: LoginInput): UserOutModel | Promise<UserOutModel>;
     auth_resendConfirmationEmail(input: ResendConfirmationEmailInput): boolean | Promise<boolean>;
     auth_logout(): boolean | Promise<boolean>;

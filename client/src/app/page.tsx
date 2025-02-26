@@ -1,3 +1,5 @@
+'use client'
+
 export default function Home() {
-	return <div>123</div>
+	return <div>1234</div>
 }

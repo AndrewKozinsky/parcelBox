@@ -1,0 +1,3 @@
+query AuthConfirmEmail($input: ConfirmEmailInput!) {
+	auth_confirmEmail(input: $input)
+}

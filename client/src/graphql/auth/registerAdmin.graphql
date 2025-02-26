@@ -1,0 +1,6 @@
+mutation AuthRegisterAdmin($input: RegisterAdminInput!) {
+	auth_registerAdmin(input: $input) {
+		id
+		email
+	}
+}

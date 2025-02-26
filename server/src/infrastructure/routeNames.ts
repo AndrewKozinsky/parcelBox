@@ -1,7 +1,7 @@
 export const RouteNames = {
 	AUTH: {
-		REGISTER_ADMIN: 'auth_RegisterAdmin',
-		REGISTER_SENDER: 'auth_RegisterSender',
+		REGISTER_ADMIN: 'auth_registerAdmin',
+		REGISTER_SENDER: 'auth_registerSender',
 		CONFIRM_EMAIL: 'auth_confirmEmail',
 		LOGIN: 'auth_login',
 		RESEND_CONFIRMATION_EMAIL: 'auth_resendConfirmationEmail',

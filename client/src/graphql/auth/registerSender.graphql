@@ -1,0 +1,11 @@
+mutation AuthRegisterSender($input: RegisterSenderInput!) {
+	auth_registerSender(input: $input) {
+		id
+		email
+		firstName
+		lastName
+		passportNum
+		balance
+		active
+	}
+}

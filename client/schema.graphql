@@ -1,35 +1,6 @@
-# ------------------------------------------------------
-# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
-# ------------------------------------------------------
-
 type AdminOutModel {
-  id: Int!
   email: String!
-}
-
-type SenderOutModel {
   id: Int!
-  email: String!
-  firstName: String
-  lastName: String
-  passportNum: String
-  balance: Int!
-  active: Boolean!
-}
-
-type UserOutModel {
-  id: Int!
-  email: String!
-}
-
-type Query {
-  """
-  User email confirmation.
-  	Possible errors:
-  	**Email confirmation code not found** — email confirmation code is not found in the database.
-  	**Email confirmation code is expired** — email confirmation code is expired.
-  """
-  auth_confirmEmail(input: ConfirmEmailInput!): Boolean!
 }
 
 input ConfirmEmailInput {
@@ -37,7 +8,33 @@ input ConfirmEmailInput {
   code: String!
 }
 
+input LoginInput {
+  """User email"""
+  email: String!
+
+  """User password"""
+  password: String!
+}
+
 type Mutation {
+  """
+  User login
+  	Possible errors:
+  	**Email or passwords do not match** — there is not any user with passed email and password.
+  	**Email is not confirmed** — user email is not confirmed yet.
+  """
+  auth_login(input: LoginInput!): UserOutModel!
+
+  """
+  User logout
+  	Possible errors:
+  	**Refresh token is not valid** — refresh token is not valid
+  """
+  auth_logout: Boolean!
+
+  """Get new access and refresh token"""
+  auth_refreshToken: Boolean!
+
   """
   Register a user as a administrator.
   	Possible errors:
@@ -55,30 +52,22 @@ type Mutation {
   auth_registerSender(input: RegisterSenderInput!): SenderOutModel!
 
   """
-  User login
-  	Possible errors:
-  	**Email or passwords do not match** — there is not any user with passed email and password.
-  	**Email is not confirmed** — user email is not confirmed yet.
-  """
-  auth_login(input: LoginInput!): UserOutModel!
-
-  """
   Send email confirmation email one more time
   	Possible errors:
   	**Email is not found** — passed email is not registered yet.
   	**Email is already confirmed** — email is already confirmed.
   """
   auth_resendConfirmationEmail(input: ResendConfirmationEmailInput!): Boolean!
+}
 
+type Query {
   """
-  User logout
+  User email confirmation.
   	Possible errors:
-  	**Refresh token is not valid** — refresh token is not valid
+  	**Email confirmation code not found** — email confirmation code is not found in the database.
+  	**Email confirmation code is expired** — email confirmation code is expired.
   """
-  auth_logout: Boolean!
-
-  """Get new access and refresh token"""
-  auth_refreshToken: Boolean!
+  auth_confirmEmail(input: ConfirmEmailInput!): Boolean!
 }
 
 input RegisterAdminInput {
@@ -97,15 +86,22 @@ input RegisterSenderInput {
   password: String!
 }
 
-input LoginInput {
-  """User email"""
-  email: String!
-
-  """User password"""
-  password: String!
-}
-
 input ResendConfirmationEmailInput {
   """User email"""
   email: String!
+}
+
+type SenderOutModel {
+  active: Boolean!
+  balance: Int!
+  email: String!
+  firstName: String
+  id: Int!
+  lastName: String
+  passportNum: String
+}
+
+type UserOutModel {
+  email: String!
+  id: Int!
 }

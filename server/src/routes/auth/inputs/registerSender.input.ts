@@ -4,7 +4,7 @@ import { bdConfig } from '../../../db/dbConfig/dbConfig'
 import { DtoFieldDecorators } from '../../../db/dtoFieldDecorators'
 
 @InputType()
-export class CreateSenderInput {
+export class RegisterSenderInput {
 	@Field({ description: 'User email' })
 	@DtoFieldDecorators('email', bdConfig.User.dbFields.email)
 	email: string
