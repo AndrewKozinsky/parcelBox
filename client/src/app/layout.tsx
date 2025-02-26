@@ -1,8 +1,7 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import { ApolloWrapper } from './_mainPage/ApolloWrapper'
-import { UserProvider } from './_mainPage/getUserDataAndSetToStore/UserProvider'
-import './_mainPage/css/global.scss'
+import { ApolloWrapper } from '../myPages/mainPage/ApolloWrapper'
+import { UserProvider } from '../myPages/mainPage/userProvider/UserProvider'
 
 export const metadata: Metadata = {
 	title: 'Create Next App',

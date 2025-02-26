@@ -1,5 +1,7 @@
 'use client'
 
-export default function Home() {
-	return <div>1234</div>
+import { MainPage } from '../myPages/mainPage/MainPage/MainPage'
+
+export default function Page() {
+	return <MainPage />
 }
