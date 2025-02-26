@@ -1,4 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { USER_ROLE } from '../common'
 
 @ObjectType()
 export class SenderOutModel {
@@ -22,4 +23,7 @@ export class SenderOutModel {
 
 	@Field(() => Boolean)
 	active: boolean
+
+	@Field(() => USER_ROLE)
+	role: 'sender'
 }

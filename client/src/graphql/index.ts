@@ -21,6 +21,7 @@ export type AdminOutModel = {
 	__typename?: 'AdminOutModel'
 	email: Scalars['String']['output']
 	id: Scalars['Int']['output']
+	role: User_Role
 }
 
 export type ConfirmEmailInput = {
@@ -134,12 +135,20 @@ export type SenderOutModel = {
 	id: Scalars['Int']['output']
 	lastName: Maybe<Scalars['String']['output']>
 	passportNum: Maybe<Scalars['String']['output']>
+	role: User_Role
+}
+
+/** User roles in the system */
+export enum User_Role {
+	Admin = 'admin',
+	Sender = 'sender',
 }
 
 export type UserOutModel = {
 	__typename?: 'UserOutModel'
 	email: Scalars['String']['output']
 	id: Scalars['Int']['output']
+	role: Scalars['String']['output']
 }
 
 export type AuthConfirmEmailVariables = Exact<{

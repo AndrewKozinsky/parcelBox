@@ -7,10 +7,13 @@ export async function makeGraphQLReq(app: INestApplication<App>, query: string) 
 	return base({ app, query })
 }
 
-export async function makeGraphQLReqWithRefreshToken(props: {
+export async function makeGraphQLReqWithTokens(props: {
 	app: INestApplication<App>
 	query: string
-	refreshTokenStr: string
+	refreshTokenStr?: string
+	refreshTokenMaxAgeInSeconds?: number
+	accessTokenStr?: string
+	accessTokenMaxAgeInSeconds?: number
 	mainConfig: MainConfigService
 }) {
 	return base(props)
@@ -20,6 +23,9 @@ async function base(props: {
 	app: INestApplication<App>
 	query: string
 	refreshTokenStr?: string
+	refreshTokenMaxAgeInSeconds?: number | string
+	accessTokenStr?: string
+	accessTokenMaxAgeInSeconds?: number | string
 	mainConfig?: MainConfigService
 }) {
 	const supertestRequest = request(props.app.getHttpServer())
@@ -30,7 +36,21 @@ async function base(props: {
 		)
 
 	if (props.refreshTokenStr) {
-		supertestRequest.set('Cookie', props.mainConfig!.get().refreshToken.name + '=' + props.refreshTokenStr)
+		let refreshTokenCookie = props.mainConfig!.get().refreshToken.name + '=' + props.refreshTokenStr
+		if (props.refreshTokenMaxAgeInSeconds) {
+			refreshTokenCookie += `max-age=${props.refreshTokenMaxAgeInSeconds}; Path=/`
+		}
+
+		supertestRequest.set('Cookie', refreshTokenCookie)
+	}
+
+	if (props.accessTokenStr) {
+		let accessTokenCookie = props.mainConfig!.get().accessToken.name + '=' + props.accessTokenStr
+		if (props.refreshTokenMaxAgeInSeconds) {
+			accessTokenCookie += `max-age=${props.refreshTokenMaxAgeInSeconds}; Path=/`
+		}
+
+		supertestRequest.set('Cookie', accessTokenCookie)
 	}
 
 	const response = await supertestRequest.send({ query: props.query })

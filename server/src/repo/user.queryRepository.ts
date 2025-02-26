@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { User } from '@prisma/client'
+import { UserRole } from '../db/dbConstants'
 import { PrismaService } from '../db/prisma.service'
 import CatchDbError from '../infrastructure/exceptions/CatchErrors'
 import { UserOutModel } from '../models/user/user.out.model'
@@ -25,6 +26,7 @@ export class UserQueryRepository {
 		return {
 			id: dbUser.id,
 			email: dbUser.email,
+			role: dbUser.role === UserRole.Admin ? 'admin' : 'sender',
 		}
 	}
 }

@@ -72,12 +72,13 @@ describe.skip('Register a sender (e2e)', () => {
 				passportNum: null,
 				balance: 0,
 				active: false,
+				role: 'sender',
 			},
 		})
 
 		const senderId = createSenderResp.data[RouteNames.AUTH.REGISTER_SENDER].id
 		const createdUser = await userQueryRepository.getUserById(senderId)
-		expect(createdUser).toEqual({ id: 1, email: defSenderEmail })
+		expect(createdUser).toEqual({ id: 1, email: defSenderEmail, role: 'sender' })
 	})
 
 	it('should return error if a sender is already created, but his email is not confirmed', async () => {

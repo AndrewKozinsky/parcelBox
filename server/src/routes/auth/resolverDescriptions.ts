@@ -26,4 +26,5 @@ export const authResolversDesc: Record<keyof typeof AuthResolver.prototype, stri
 	Possible errors:
 	**${errorMessage.refreshTokenIsNotValid}** — refresh token is not valid`,
 	getNewAccessAndRefreshToken: 'Get new access and refresh token',
+	getMe: 'Get current user data',
 }

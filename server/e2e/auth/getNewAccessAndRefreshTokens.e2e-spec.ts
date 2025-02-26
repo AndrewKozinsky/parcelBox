@@ -8,7 +8,7 @@ import RouteNames from '../../src/infrastructure/routeNames'
 import { DevicesRepository } from '../../src/repo/devices.repository'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
-import { makeGraphQLReq, makeGraphQLReqWithRefreshToken } from '../makeGQReq'
+import { makeGraphQLReq, makeGraphQLReqWithTokens } from '../makeGQReq'
 import { defAdminEmail, defAdminPassword, extractErrObjFromResp } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../utils/queries'
@@ -48,7 +48,7 @@ describe.skip('Get new refresh and access tokens (e2e)', () => {
 	})
 
 	it('should return 401 if the JWT refreshToken inside cookie is expired', async () => {
-		await userUtils.refreshDeviceTokenChecks.refreshTokenExpired({
+		await userUtils.refreshDeviceTokenChecks.tokenExpired({
 			app,
 			queryOrMutationStr: queries.auth.getNewAccessAndRefreshTokens(),
 			userRepository,
@@ -67,7 +67,7 @@ describe.skip('Get new refresh and access tokens (e2e)', () => {
 		})
 
 		const updateTokensMutation = queries.auth.getNewAccessAndRefreshTokens()
-		const [updateTokensResp, cookies] = await makeGraphQLReqWithRefreshToken({
+		const [updateTokensResp, cookies] = await makeGraphQLReqWithTokens({
 			app,
 			query: updateTokensMutation,
 			refreshTokenStr: refreshToken?.value,

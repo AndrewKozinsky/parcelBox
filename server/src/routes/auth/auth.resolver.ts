@@ -6,10 +6,12 @@ import { CreateAdminCommand } from '../../features/auth/CreateAdmin.command'
 import { CreateSenderCommand } from '../../features/auth/CreateSender.command'
 import { ConfirmEmailCommand } from '../../features/auth/ConfirmEmail.command'
 import { GenerateAccessAndRefreshTokensCommand } from '../../features/auth/GenerateAccessAndRefreshTokens.command'
+import { GetMeCommand } from '../../features/auth/GetMe.command'
 import { LoginCommand } from '../../features/auth/Login.command'
 import { LogoutCommand } from '../../features/auth/Logout.command'
 import { ResendConfirmationEmailCommand } from '../../features/auth/ResendConfirmationEmail.command'
 import { BrowserService } from '../../infrastructure/browserService/browser.service'
+import { CheckAccessTokenGuard } from '../../infrastructure/guards/checkAccessToken.guard'
 import { CheckDeviceRefreshTokenGuard } from '../../infrastructure/guards/checkDeviceRefreshToken.guard'
 import { JwtAdapterService } from '../../infrastructure/jwtAdapter/jwtAdapter.service'
 import RouteNames from '../../infrastructure/routeNames'
@@ -24,6 +26,7 @@ import { LoginInput } from './inputs/login.input'
 import { ResendConfirmationEmailInput } from './inputs/resendConfirmationEmail.input'
 import { authResolversDesc } from './resolverDescriptions'
 import { Request, Response } from 'express'
+import { GetMeResponse } from './types'
 
 @Resolver()
 export class AuthResolver {
@@ -122,5 +125,15 @@ export class AuthResolver {
 		this.authService.setRefreshTokenInCookie(response, newRefreshTokenStr)
 		this.authService.setAccessTokenInCookie(response, newAccessToken)
 		return true
+	}
+
+	@UseGuards(CheckAccessTokenGuard)
+	@Query(() => GetMeResponse, {
+		name: RouteNames.AUTH.GET_ME,
+		description: authResolversDesc.getMe,
+	})
+	@UsePipes(new ValidationPipe({ transform: true }))
+	async getMe(@Context('req') request: Request) {
+		return await this.commandBus.execute(new GetMeCommand(request.user!.id))
 	}
 }

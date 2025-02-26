@@ -5,6 +5,13 @@
 type AdminOutModel {
   id: Int!
   email: String!
+  role: USER_ROLE!
+}
+
+"""User roles in the system"""
+enum USER_ROLE {
+  admin
+  sender
 }
 
 type SenderOutModel {
@@ -15,11 +22,13 @@ type SenderOutModel {
   passportNum: String
   balance: Int!
   active: Boolean!
+  role: USER_ROLE!
 }
 
 type UserOutModel {
   id: Int!
   email: String!
+  role: String!
 }
 
 type Query {
@@ -30,12 +39,17 @@ type Query {
   	**Email confirmation code is expired** — email confirmation code is expired.
   """
   auth_confirmEmail(input: ConfirmEmailInput!): Boolean!
+
+  """Get current user data"""
+  auth_getMe: GetMeResponse!
 }
 
 input ConfirmEmailInput {
   """User email"""
   code: String!
 }
+
+union GetMeResponse = SenderOutModel | UserOutModel
 
 type Mutation {
   """

@@ -39,6 +39,7 @@ export class SenderQueryRepository {
 			passportNum: dbSender.passport_num,
 			balance: dbSender.balance,
 			active: dbSender.active,
+			role: 'sender',
 		}
 	}
 }

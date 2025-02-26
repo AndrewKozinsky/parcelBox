@@ -6,6 +6,7 @@ import { CreateAdminHandler } from '../../features/auth/CreateAdmin.command'
 import { CreateRefreshTokenHandler } from '../../features/auth/CreateRefreshToken.command'
 import { CreateSenderHandler } from '../../features/auth/CreateSender.command'
 import { GenerateAccessAndRefreshTokensHandler } from '../../features/auth/GenerateAccessAndRefreshTokens.command'
+import { GetMeHandler } from '../../features/auth/GetMe.command'
 import { LoginHandler } from '../../features/auth/Login.command'
 import { LogoutHandler } from '../../features/auth/Logout.command'
 import { ResendConfirmationEmailHandler } from '../../features/auth/ResendConfirmationEmail.command'
@@ -31,6 +32,7 @@ const commandHandlers = [
 	ResendConfirmationEmailHandler,
 	LogoutHandler,
 	GenerateAccessAndRefreshTokensHandler,
+	GetMeHandler,
 ]
 
 const resolvers = [AuthResolver]

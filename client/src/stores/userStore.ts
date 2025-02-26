@@ -1,13 +1,16 @@
 import { create } from 'zustand'
+import { SenderOutModel, UserOutModel } from '../graphql'
 
 interface UserStore {
-	user: number
-	// increase: (by: number) => void
+	user: null | UserOutModel | SenderOutModel
+	isLoading: boolean
+	isError: boolean
 }
 
-const useBearStore = create<UserStore>()((set) => {
+export const useUserStore = create<UserStore>()((set) => {
 	return {
-		user: 0,
-		// increase: (by) => set((state) => ({ user: state.user + by })),
+		user: null,
+		isLoading: true,
+		isError: false,
 	}
 })

@@ -7,6 +7,7 @@ export const RouteNames = {
 		RESEND_CONFIRMATION_EMAIL: 'auth_resendConfirmationEmail',
 		LOGOUT: 'auth_logout',
 		GET_NEW_ACCESS_AND_REFRESH_TOKENS: 'auth_refreshToken',
+		GET_ME: 'auth_getMe',
 	},
 	TESTING: {
 		ALL_DATA: 'testing/all-data',

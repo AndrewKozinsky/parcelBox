@@ -15,19 +15,18 @@ export class SetUserIntoReqMiddleware implements NestMiddleware {
 	async use(req: Request, res: Response, next: NextFunction) {
 		const accessTokenName = this.mainConfig.get().accessToken.name
 
-		const accessTokenCookieStr = req.cookies[accessTokenName]
-		if (!accessTokenCookieStr) {
+		const accessTokenStr = req.cookies[accessTokenName]
+		if (!accessTokenStr) {
 			next()
 			return
 		}
 
-		const token = getBearerTokenFromStr(accessTokenCookieStr)
-		if (!token) {
+		if (!this.jwtAdapter.verifyTokenFromStr(accessTokenStr)) {
 			next()
 			return
 		}
 
-		const userId = this.jwtAdapter.getUserIdByAccessTokenStr(token)
+		const userId = this.jwtAdapter.getUserIdByAccessTokenStr(accessTokenStr)
 		if (!userId) {
 			next()
 			return
@@ -36,14 +35,4 @@ export class SetUserIntoReqMiddleware implements NestMiddleware {
 		req.user = await this.userRepository.getUserById(userId)
 		next()
 	}
-}
-
-function getBearerTokenFromStr(authorizationHeader: string) {
-	const [authType, token] = authorizationHeader.split(' ')
-
-	if (authType !== 'Bearer' || !token) {
-		return false
-	}
-
-	return token
 }

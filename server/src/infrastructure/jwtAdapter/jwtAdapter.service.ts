@@ -10,14 +10,18 @@ export class JwtAdapterService {
 	constructor(private mainConfig: MainConfigService) {}
 
 	createAccessTokenStr(userId: number) {
-		return jwt.sign({ userId }, this.mainConfig.get().jwt.secret)
+		return jwt.sign({ userId }, this.mainConfig.get().jwt.secret, {
+			expiresIn: this.mainConfig.get().accessToken.lifeDurationInMs / 1000,
+		})
 	}
 
 	createRefreshTokenStr(props: { deviceId: string; issuedAt?: string }): string {
 		const deviceId = props.deviceId
 		const issuedAt = props.issuedAt || new Date().toISOString()
 
-		return jwt.sign({ deviceId, issuedAt }, this.mainConfig.get().jwt.secret)
+		return jwt.sign({ deviceId, issuedAt }, this.mainConfig.get().jwt.secret, {
+			expiresIn: this.mainConfig.get().refreshToken.lifeDurationInMs / 1000,
+		})
 	}
 
 	getExpiresInSeconds() {
@@ -57,7 +61,7 @@ export class JwtAdapterService {
 	}
 
 	// Check if token string is valid
-	verifyRefreshTokenFromStr(refreshTokenStr: string) {
+	verifyTokenFromStr(refreshTokenStr: string) {
 		try {
 			return jwt.verify(refreshTokenStr, this.mainConfig.get().jwt.secret)
 		} catch (error) {

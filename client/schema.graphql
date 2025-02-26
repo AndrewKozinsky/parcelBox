@@ -1,6 +1,7 @@
 type AdminOutModel {
   email: String!
   id: Int!
+  role: USER_ROLE!
 }
 
 input ConfirmEmailInput {
@@ -99,9 +100,17 @@ type SenderOutModel {
   id: Int!
   lastName: String
   passportNum: String
+  role: USER_ROLE!
+}
+
+"""User roles in the system"""
+enum USER_ROLE {
+  admin
+  sender
 }
 
 type UserOutModel {
   email: String!
   id: Int!
+  role: String!
 }

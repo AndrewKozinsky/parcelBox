@@ -10,6 +10,7 @@ export const queries = {
 			  }) {
 				id
 				email
+				role
 			  }
 			}`
 		},
@@ -26,6 +27,7 @@ export const queries = {
 				passportNum
 				balance
 				active
+				role
 			  }
 			}`
 		},
@@ -68,6 +70,33 @@ export const queries = {
 		getNewAccessAndRefreshTokens() {
 			return `mutation {
 			  ${RouteNames.AUTH.GET_NEW_ACCESS_AND_REFRESH_TOKENS}
+			}`
+		},
+		getMe() {
+			/*return `query {
+			  ${RouteNames.AUTH.GET_ME} {
+			  id
+			  email
+			  }
+			}`*/
+			return `query {
+			  ${RouteNames.AUTH.GET_ME} {
+				... on UserOutModel {
+					id
+					email
+					role
+				}
+				... on SenderOutModel {
+					id
+					email
+					firstName
+					lastName
+					passportNum
+					balance
+					active
+					role
+				}
+			  }
 			}`
 		},
 	},

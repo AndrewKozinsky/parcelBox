@@ -8,6 +8,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export enum USER_ROLE {
+    admin = "admin",
+    sender = "sender"
+}
+
 export interface ConfirmEmailInput {
     code: string;
 }
@@ -34,6 +39,7 @@ export interface ResendConfirmationEmailInput {
 export interface AdminOutModel {
     id: number;
     email: string;
+    role: USER_ROLE;
 }
 
 export interface SenderOutModel {
@@ -44,15 +50,18 @@ export interface SenderOutModel {
     passportNum?: Nullable<string>;
     balance: number;
     active: boolean;
+    role: USER_ROLE;
 }
 
 export interface UserOutModel {
     id: number;
     email: string;
+    role: string;
 }
 
 export interface IQuery {
     auth_confirmEmail(input: ConfirmEmailInput): boolean | Promise<boolean>;
+    auth_getMe(): GetMeResponse | Promise<GetMeResponse>;
 }
 
 export interface IMutation {
@@ -64,4 +73,5 @@ export interface IMutation {
     auth_refreshToken(): boolean | Promise<boolean>;
 }
 
+export type GetMeResponse = SenderOutModel | UserOutModel;
 type Nullable<T> = T | null;
