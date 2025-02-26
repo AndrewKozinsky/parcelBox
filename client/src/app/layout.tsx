@@ -16,9 +16,9 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body>
-				<UserProvider>
-					<ApolloWrapper>{children}</ApolloWrapper>
-				</UserProvider>
+				<ApolloWrapper>
+					<UserProvider>{children}</UserProvider>
+				</ApolloWrapper>
 			</body>
 		</html>
 	)

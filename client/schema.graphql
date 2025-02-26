@@ -9,6 +9,8 @@ input ConfirmEmailInput {
   code: String!
 }
 
+union GetMeResponse = SenderOutModel | UserOutModel
+
 input LoginInput {
   """User email"""
   email: String!
@@ -69,6 +71,9 @@ type Query {
   	**Email confirmation code is expired** — email confirmation code is expired.
   """
   auth_confirmEmail(input: ConfirmEmailInput!): Boolean!
+
+  """Get current user data"""
+  auth_getMe: GetMeResponse!
 }
 
 input RegisterAdminInput {
@@ -112,5 +117,5 @@ enum USER_ROLE {
 type UserOutModel {
   email: String!
   id: Int!
-  role: String!
+  role: USER_ROLE!
 }

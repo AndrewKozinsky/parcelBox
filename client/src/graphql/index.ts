@@ -1,194 +1,202 @@
-import { gql } from '@apollo/client'
-import * as Apollo from '@apollo/client'
-export type Maybe<T> = T | null
-export type InputMaybe<T> = Maybe<T>
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> }
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> }
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never }
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never }
-const defaultOptions = {} as const
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
+export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-	ID: { input: string; output: string }
-	String: { input: string; output: string }
-	Boolean: { input: boolean; output: boolean }
-	Int: { input: number; output: number }
-	Float: { input: number; output: number }
-}
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+};
 
 export type AdminOutModel = {
-	__typename?: 'AdminOutModel'
-	email: Scalars['String']['output']
-	id: Scalars['Int']['output']
-	role: User_Role
-}
+  __typename?: 'AdminOutModel';
+  email: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  role: User_Role;
+};
 
 export type ConfirmEmailInput = {
-	/** User email */
-	code: Scalars['String']['input']
-}
+  /** User email */
+  code: Scalars['String']['input'];
+};
+
+export type GetMeResponse = SenderOutModel | UserOutModel;
 
 export type LoginInput = {
-	/** User email */
-	email: Scalars['String']['input']
-	/** User password */
-	password: Scalars['String']['input']
-}
+  /** User email */
+  email: Scalars['String']['input'];
+  /** User password */
+  password: Scalars['String']['input'];
+};
 
 export type Mutation = {
-	__typename?: 'Mutation'
-	/**
-	 * User login
-	 * 	Possible errors:
-	 * 	**Email or passwords do not match** — there is not any user with passed email and password.
-	 * 	**Email is not confirmed** — user email is not confirmed yet.
-	 */
-	auth_login: UserOutModel
-	/**
-	 * User logout
-	 * 	Possible errors:
-	 * 	**Refresh token is not valid** — refresh token is not valid
-	 */
-	auth_logout: Scalars['Boolean']['output']
-	/** Get new access and refresh token */
-	auth_refreshToken: Scalars['Boolean']['output']
-	/**
-	 * Register a user as a administrator.
-	 * 	Possible errors:
-	 * 	**Email is not confirmed** — the user is already registered, but doesn't confirm his email.
-	 * 	**Email is already registered** — the user is already registered and confirmed his email.
-	 */
-	auth_registerAdmin: AdminOutModel
-	/**
-	 * Register a user as a administrator.
-	 * 	Possible errors:
-	 * 	**Email is not confirmed** — the user is already registered, but doesn't confirm his email.
-	 * 	**Email is already registered** — the user is already registered and confirmed his email.
-	 */
-	auth_registerSender: SenderOutModel
-	/**
-	 * Send email confirmation email one more time
-	 * 	Possible errors:
-	 * 	**Email is not found** — passed email is not registered yet.
-	 * 	**Email is already confirmed** — email is already confirmed.
-	 */
-	auth_resendConfirmationEmail: Scalars['Boolean']['output']
-}
+  __typename?: 'Mutation';
+  /**
+   * User login
+   * 	Possible errors:
+   * 	**Email or passwords do not match** — there is not any user with passed email and password.
+   * 	**Email is not confirmed** — user email is not confirmed yet.
+   */
+  auth_login: UserOutModel;
+  /**
+   * User logout
+   * 	Possible errors:
+   * 	**Refresh token is not valid** — refresh token is not valid
+   */
+  auth_logout: Scalars['Boolean']['output'];
+  /** Get new access and refresh token */
+  auth_refreshToken: Scalars['Boolean']['output'];
+  /**
+   * Register a user as a administrator.
+   * 	Possible errors:
+   * 	**Email is not confirmed** — the user is already registered, but doesn't confirm his email.
+   * 	**Email is already registered** — the user is already registered and confirmed his email.
+   */
+  auth_registerAdmin: AdminOutModel;
+  /**
+   * Register a user as a administrator.
+   * 	Possible errors:
+   * 	**Email is not confirmed** — the user is already registered, but doesn't confirm his email.
+   * 	**Email is already registered** — the user is already registered and confirmed his email.
+   */
+  auth_registerSender: SenderOutModel;
+  /**
+   * Send email confirmation email one more time
+   * 	Possible errors:
+   * 	**Email is not found** — passed email is not registered yet.
+   * 	**Email is already confirmed** — email is already confirmed.
+   */
+  auth_resendConfirmationEmail: Scalars['Boolean']['output'];
+};
+
 
 export type MutationAuth_LoginArgs = {
-	input: LoginInput
-}
+  input: LoginInput;
+};
+
 
 export type MutationAuth_RegisterAdminArgs = {
-	input: RegisterAdminInput
-}
+  input: RegisterAdminInput;
+};
+
 
 export type MutationAuth_RegisterSenderArgs = {
-	input: RegisterSenderInput
-}
+  input: RegisterSenderInput;
+};
+
 
 export type MutationAuth_ResendConfirmationEmailArgs = {
-	input: ResendConfirmationEmailInput
-}
+  input: ResendConfirmationEmailInput;
+};
 
 export type Query = {
-	__typename?: 'Query'
-	/**
-	 * User email confirmation.
-	 * 	Possible errors:
-	 * 	**Email confirmation code not found** — email confirmation code is not found in the database.
-	 * 	**Email confirmation code is expired** — email confirmation code is expired.
-	 */
-	auth_confirmEmail: Scalars['Boolean']['output']
-}
+  __typename?: 'Query';
+  /**
+   * User email confirmation.
+   * 	Possible errors:
+   * 	**Email confirmation code not found** — email confirmation code is not found in the database.
+   * 	**Email confirmation code is expired** — email confirmation code is expired.
+   */
+  auth_confirmEmail: Scalars['Boolean']['output'];
+  /** Get current user data */
+  auth_getMe: GetMeResponse;
+};
+
 
 export type QueryAuth_ConfirmEmailArgs = {
-	input: ConfirmEmailInput
-}
+  input: ConfirmEmailInput;
+};
 
 export type RegisterAdminInput = {
-	/** User email */
-	email: Scalars['String']['input']
-	/** User password */
-	password: Scalars['String']['input']
-}
+  /** User email */
+  email: Scalars['String']['input'];
+  /** User password */
+  password: Scalars['String']['input'];
+};
 
 export type RegisterSenderInput = {
-	/** User email */
-	email: Scalars['String']['input']
-	/** User password */
-	password: Scalars['String']['input']
-}
+  /** User email */
+  email: Scalars['String']['input'];
+  /** User password */
+  password: Scalars['String']['input'];
+};
 
 export type ResendConfirmationEmailInput = {
-	/** User email */
-	email: Scalars['String']['input']
-}
+  /** User email */
+  email: Scalars['String']['input'];
+};
 
 export type SenderOutModel = {
-	__typename?: 'SenderOutModel'
-	active: Scalars['Boolean']['output']
-	balance: Scalars['Int']['output']
-	email: Scalars['String']['output']
-	firstName: Maybe<Scalars['String']['output']>
-	id: Scalars['Int']['output']
-	lastName: Maybe<Scalars['String']['output']>
-	passportNum: Maybe<Scalars['String']['output']>
-	role: User_Role
-}
+  __typename?: 'SenderOutModel';
+  active: Scalars['Boolean']['output'];
+  balance: Scalars['Int']['output'];
+  email: Scalars['String']['output'];
+  firstName: Maybe<Scalars['String']['output']>;
+  id: Scalars['Int']['output'];
+  lastName: Maybe<Scalars['String']['output']>;
+  passportNum: Maybe<Scalars['String']['output']>;
+  role: User_Role;
+};
 
 /** User roles in the system */
 export enum User_Role {
-	Admin = 'admin',
-	Sender = 'sender',
+  Admin = 'admin',
+  Sender = 'sender'
 }
 
 export type UserOutModel = {
-	__typename?: 'UserOutModel'
-	email: Scalars['String']['output']
-	id: Scalars['Int']['output']
-	role: Scalars['String']['output']
-}
+  __typename?: 'UserOutModel';
+  email: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  role: User_Role;
+};
 
 export type AuthConfirmEmailVariables = Exact<{
-	input: ConfirmEmailInput
-}>
+  input: ConfirmEmailInput;
+}>;
 
-export type AuthConfirmEmail = { __typename?: 'Query'; auth_confirmEmail: boolean }
+
+export type AuthConfirmEmail = { __typename?: 'Query', auth_confirmEmail: boolean };
+
+export type AuthGetMeVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AuthGetMe = { __typename?: 'Query', auth_getMe: { __typename?: 'SenderOutModel', id: number, email: string, firstName: string | null, lastName: string | null, passportNum: string | null, balance: number, active: boolean, role: User_Role } | { __typename?: 'UserOutModel', id: number, email: string, role: User_Role } };
+
+export type AuthRefreshTokenVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AuthRefreshToken = { __typename?: 'Mutation', auth_refreshToken: boolean };
 
 export type AuthRegisterAdminVariables = Exact<{
-	input: RegisterAdminInput
-}>
+  input: RegisterAdminInput;
+}>;
 
-export type AuthRegisterAdmin = {
-	__typename?: 'Mutation'
-	auth_registerAdmin: { __typename?: 'AdminOutModel'; id: number; email: string }
-}
+
+export type AuthRegisterAdmin = { __typename?: 'Mutation', auth_registerAdmin: { __typename?: 'AdminOutModel', id: number, email: string } };
 
 export type AuthRegisterSenderVariables = Exact<{
-	input: RegisterSenderInput
-}>
+  input: RegisterSenderInput;
+}>;
 
-export type AuthRegisterSender = {
-	__typename?: 'Mutation'
-	auth_registerSender: {
-		__typename?: 'SenderOutModel'
-		id: number
-		email: string
-		firstName: string | null
-		lastName: string | null
-		passportNum: string | null
-		balance: number
-		active: boolean
-	}
-}
+
+export type AuthRegisterSender = { __typename?: 'Mutation', auth_registerSender: { __typename?: 'SenderOutModel', id: number, email: string, firstName: string | null, lastName: string | null, passportNum: string | null, balance: number, active: boolean } };
+
 
 export const AuthConfirmEmailDocument = gql`
-	query AuthConfirmEmail($input: ConfirmEmailInput!) {
-		auth_confirmEmail(input: $input)
-	}
-`
+    query AuthConfirmEmail($input: ConfirmEmailInput!) {
+  auth_confirmEmail(input: $input)
+}
+    `;
 
 /**
  * __useAuthConfirmEmail__
@@ -206,38 +214,114 @@ export const AuthConfirmEmailDocument = gql`
  *   },
  * });
  */
-export function useAuthConfirmEmail(
-	baseOptions: Apollo.QueryHookOptions<AuthConfirmEmail, AuthConfirmEmailVariables> &
-		({ variables: AuthConfirmEmailVariables; skip?: boolean } | { skip: boolean }),
-) {
-	const options = { ...defaultOptions, ...baseOptions }
-	return Apollo.useQuery<AuthConfirmEmail, AuthConfirmEmailVariables>(AuthConfirmEmailDocument, options)
+export function useAuthConfirmEmail(baseOptions: Apollo.QueryHookOptions<AuthConfirmEmail, AuthConfirmEmailVariables> & ({ variables: AuthConfirmEmailVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AuthConfirmEmail, AuthConfirmEmailVariables>(AuthConfirmEmailDocument, options);
+      }
+export function useAuthConfirmEmailLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AuthConfirmEmail, AuthConfirmEmailVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AuthConfirmEmail, AuthConfirmEmailVariables>(AuthConfirmEmailDocument, options);
+        }
+export function useAuthConfirmEmailSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<AuthConfirmEmail, AuthConfirmEmailVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AuthConfirmEmail, AuthConfirmEmailVariables>(AuthConfirmEmailDocument, options);
+        }
+export type AuthConfirmEmailHookResult = ReturnType<typeof useAuthConfirmEmail>;
+export type AuthConfirmEmailLazyQueryHookResult = ReturnType<typeof useAuthConfirmEmailLazyQuery>;
+export type AuthConfirmEmailSuspenseQueryHookResult = ReturnType<typeof useAuthConfirmEmailSuspenseQuery>;
+export type AuthConfirmEmailQueryResult = Apollo.QueryResult<AuthConfirmEmail, AuthConfirmEmailVariables>;
+export const AuthGetMeDocument = gql`
+    query AuthGetMe {
+  auth_getMe {
+    ... on UserOutModel {
+      id
+      email
+      role
+    }
+    ... on SenderOutModel {
+      id
+      email
+      firstName
+      lastName
+      passportNum
+      balance
+      active
+      role
+    }
+  }
 }
-export function useAuthConfirmEmailLazyQuery(
-	baseOptions?: Apollo.LazyQueryHookOptions<AuthConfirmEmail, AuthConfirmEmailVariables>,
-) {
-	const options = { ...defaultOptions, ...baseOptions }
-	return Apollo.useLazyQuery<AuthConfirmEmail, AuthConfirmEmailVariables>(AuthConfirmEmailDocument, options)
+    `;
+
+/**
+ * __useAuthGetMe__
+ *
+ * To run a query within a React component, call `useAuthGetMe` and pass it any options that fit your needs.
+ * When your component renders, `useAuthGetMe` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAuthGetMe({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAuthGetMe(baseOptions?: Apollo.QueryHookOptions<AuthGetMe, AuthGetMeVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AuthGetMe, AuthGetMeVariables>(AuthGetMeDocument, options);
+      }
+export function useAuthGetMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AuthGetMe, AuthGetMeVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AuthGetMe, AuthGetMeVariables>(AuthGetMeDocument, options);
+        }
+export function useAuthGetMeSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<AuthGetMe, AuthGetMeVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AuthGetMe, AuthGetMeVariables>(AuthGetMeDocument, options);
+        }
+export type AuthGetMeHookResult = ReturnType<typeof useAuthGetMe>;
+export type AuthGetMeLazyQueryHookResult = ReturnType<typeof useAuthGetMeLazyQuery>;
+export type AuthGetMeSuspenseQueryHookResult = ReturnType<typeof useAuthGetMeSuspenseQuery>;
+export type AuthGetMeQueryResult = Apollo.QueryResult<AuthGetMe, AuthGetMeVariables>;
+export const AuthRefreshTokenDocument = gql`
+    mutation AuthRefreshToken {
+  auth_refreshToken
 }
-export function useAuthConfirmEmailSuspenseQuery(
-	baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<AuthConfirmEmail, AuthConfirmEmailVariables>,
-) {
-	const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-	return Apollo.useSuspenseQuery<AuthConfirmEmail, AuthConfirmEmailVariables>(AuthConfirmEmailDocument, options)
-}
-export type AuthConfirmEmailHookResult = ReturnType<typeof useAuthConfirmEmail>
-export type AuthConfirmEmailLazyQueryHookResult = ReturnType<typeof useAuthConfirmEmailLazyQuery>
-export type AuthConfirmEmailSuspenseQueryHookResult = ReturnType<typeof useAuthConfirmEmailSuspenseQuery>
-export type AuthConfirmEmailQueryResult = Apollo.QueryResult<AuthConfirmEmail, AuthConfirmEmailVariables>
+    `;
+export type AuthRefreshTokenMutationFn = Apollo.MutationFunction<AuthRefreshToken, AuthRefreshTokenVariables>;
+
+/**
+ * __useAuthRefreshToken__
+ *
+ * To run a mutation, you first call `useAuthRefreshToken` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAuthRefreshToken` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [authRefreshToken, { data, loading, error }] = useAuthRefreshToken({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAuthRefreshToken(baseOptions?: Apollo.MutationHookOptions<AuthRefreshToken, AuthRefreshTokenVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AuthRefreshToken, AuthRefreshTokenVariables>(AuthRefreshTokenDocument, options);
+      }
+export type AuthRefreshTokenHookResult = ReturnType<typeof useAuthRefreshToken>;
+export type AuthRefreshTokenMutationResult = Apollo.MutationResult<AuthRefreshToken>;
+export type AuthRefreshTokenMutationOptions = Apollo.BaseMutationOptions<AuthRefreshToken, AuthRefreshTokenVariables>;
 export const AuthRegisterAdminDocument = gql`
-	mutation AuthRegisterAdmin($input: RegisterAdminInput!) {
-		auth_registerAdmin(input: $input) {
-			id
-			email
-		}
-	}
-`
-export type AuthRegisterAdminMutationFn = Apollo.MutationFunction<AuthRegisterAdmin, AuthRegisterAdminVariables>
+    mutation AuthRegisterAdmin($input: RegisterAdminInput!) {
+  auth_registerAdmin(input: $input) {
+    id
+    email
+  }
+}
+    `;
+export type AuthRegisterAdminMutationFn = Apollo.MutationFunction<AuthRegisterAdmin, AuthRegisterAdminVariables>;
 
 /**
  * __useAuthRegisterAdmin__
@@ -256,29 +340,27 @@ export type AuthRegisterAdminMutationFn = Apollo.MutationFunction<AuthRegisterAd
  *   },
  * });
  */
-export function useAuthRegisterAdmin(
-	baseOptions?: Apollo.MutationHookOptions<AuthRegisterAdmin, AuthRegisterAdminVariables>,
-) {
-	const options = { ...defaultOptions, ...baseOptions }
-	return Apollo.useMutation<AuthRegisterAdmin, AuthRegisterAdminVariables>(AuthRegisterAdminDocument, options)
-}
-export type AuthRegisterAdminHookResult = ReturnType<typeof useAuthRegisterAdmin>
-export type AuthRegisterAdminMutationResult = Apollo.MutationResult<AuthRegisterAdmin>
-export type AuthRegisterAdminMutationOptions = Apollo.BaseMutationOptions<AuthRegisterAdmin, AuthRegisterAdminVariables>
+export function useAuthRegisterAdmin(baseOptions?: Apollo.MutationHookOptions<AuthRegisterAdmin, AuthRegisterAdminVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AuthRegisterAdmin, AuthRegisterAdminVariables>(AuthRegisterAdminDocument, options);
+      }
+export type AuthRegisterAdminHookResult = ReturnType<typeof useAuthRegisterAdmin>;
+export type AuthRegisterAdminMutationResult = Apollo.MutationResult<AuthRegisterAdmin>;
+export type AuthRegisterAdminMutationOptions = Apollo.BaseMutationOptions<AuthRegisterAdmin, AuthRegisterAdminVariables>;
 export const AuthRegisterSenderDocument = gql`
-	mutation AuthRegisterSender($input: RegisterSenderInput!) {
-		auth_registerSender(input: $input) {
-			id
-			email
-			firstName
-			lastName
-			passportNum
-			balance
-			active
-		}
-	}
-`
-export type AuthRegisterSenderMutationFn = Apollo.MutationFunction<AuthRegisterSender, AuthRegisterSenderVariables>
+    mutation AuthRegisterSender($input: RegisterSenderInput!) {
+  auth_registerSender(input: $input) {
+    id
+    email
+    firstName
+    lastName
+    passportNum
+    balance
+    active
+  }
+}
+    `;
+export type AuthRegisterSenderMutationFn = Apollo.MutationFunction<AuthRegisterSender, AuthRegisterSenderVariables>;
 
 /**
  * __useAuthRegisterSender__
@@ -297,15 +379,10 @@ export type AuthRegisterSenderMutationFn = Apollo.MutationFunction<AuthRegisterS
  *   },
  * });
  */
-export function useAuthRegisterSender(
-	baseOptions?: Apollo.MutationHookOptions<AuthRegisterSender, AuthRegisterSenderVariables>,
-) {
-	const options = { ...defaultOptions, ...baseOptions }
-	return Apollo.useMutation<AuthRegisterSender, AuthRegisterSenderVariables>(AuthRegisterSenderDocument, options)
-}
-export type AuthRegisterSenderHookResult = ReturnType<typeof useAuthRegisterSender>
-export type AuthRegisterSenderMutationResult = Apollo.MutationResult<AuthRegisterSender>
-export type AuthRegisterSenderMutationOptions = Apollo.BaseMutationOptions<
-	AuthRegisterSender,
-	AuthRegisterSenderVariables
->
+export function useAuthRegisterSender(baseOptions?: Apollo.MutationHookOptions<AuthRegisterSender, AuthRegisterSenderVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AuthRegisterSender, AuthRegisterSenderVariables>(AuthRegisterSenderDocument, options);
+      }
+export type AuthRegisterSenderHookResult = ReturnType<typeof useAuthRegisterSender>;
+export type AuthRegisterSenderMutationResult = Apollo.MutationResult<AuthRegisterSender>;
+export type AuthRegisterSenderMutationOptions = Apollo.BaseMutationOptions<AuthRegisterSender, AuthRegisterSenderVariables>;
