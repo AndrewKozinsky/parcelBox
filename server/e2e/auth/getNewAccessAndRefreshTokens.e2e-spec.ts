@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common'
 import { App } from 'supertest/types'
 import { MainConfigService } from '../../src/config/mainConfig.service'
 import { clearAllDB } from '../../src/db/clearDB'
+import { UserRole } from '../../src/db/dbConstants'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
 import { JwtAdapterService } from '../../src/infrastructure/jwtAdapter/jwtAdapter.service'
 import RouteNames from '../../src/infrastructure/routeNames'
@@ -9,6 +10,7 @@ import { DevicesRepository } from '../../src/repo/devices.repository'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq, makeGraphQLReqWithTokens } from '../makeGQReq'
+import { authUtils } from '../utils/authUtils'
 import { defAdminEmail, defAdminPassword, extractErrObjFromResp } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../utils/queries'
@@ -20,7 +22,7 @@ describe.skip('Get new refresh and access tokens (e2e)', () => {
 	let userRepository: UserRepository
 	let userQueryRepository: UserQueryRepository
 	let devicesRepository: DevicesRepository
-	let jwtAdapterService: JwtAdapterService
+	let jwtAdapter: JwtAdapterService
 	let mainConfig: MainConfigService
 
 	beforeAll(async () => {
@@ -31,7 +33,7 @@ describe.skip('Get new refresh and access tokens (e2e)', () => {
 		userRepository = await app.resolve(UserRepository)
 		userQueryRepository = await app.resolve(UserQueryRepository)
 		devicesRepository = await app.resolve(DevicesRepository)
-		jwtAdapterService = await app.resolve(JwtAdapterService)
+		jwtAdapter = await app.resolve(JwtAdapterService)
 		mainConfig = await app.resolve(MainConfigService)
 	})
 
@@ -44,24 +46,26 @@ describe.skip('Get new refresh and access tokens (e2e)', () => {
 	})
 
 	it('should return 401 if there is not refresh device token cookie', async () => {
-		await userUtils.refreshDeviceTokenChecks.tokenNotExist(app, queries.auth.getNewAccessAndRefreshTokens())
+		await authUtils.refreshDeviceTokenChecks.tokenNotExist(app, queries.auth.getNewAccessAndRefreshTokens())
 	})
 
 	it('should return 401 if the JWT refreshToken inside cookie is expired', async () => {
-		await userUtils.refreshDeviceTokenChecks.tokenExpired({
+		await authUtils.refreshDeviceTokenChecks.tokenExpired({
 			app,
 			queryOrMutationStr: queries.auth.getNewAccessAndRefreshTokens(),
 			userRepository,
 			devicesRepository,
-			jwtAdapterService,
+			jwtAdapter,
 			mainConfig,
+			role: UserRole.Admin,
 		})
 	})
 
 	it('should gives success answer if the JWT refreshToken is valid', async () => {
-		const { loginData, accessToken, refreshToken } = await userUtils.createAdminAndLogin({
+		const { loginData, accessToken, refreshToken } = await userUtils.createUserAndLogin({
 			app,
 			userRepository,
+			role: UserRole.Admin,
 			email: defAdminEmail,
 			password: defAdminPassword,
 		})

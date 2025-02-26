@@ -56,7 +56,7 @@ export interface SenderOutModel {
 export interface UserOutModel {
     id: number;
     email: string;
-    role: string;
+    role: USER_ROLE;
 }
 
 export interface IQuery {

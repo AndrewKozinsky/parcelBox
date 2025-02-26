@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common'
 import * as dateFns from 'date-fns'
 import { MainConfigService } from '../../src/config/mainConfig.service'
+import { UserRole } from '../../src/db/dbConstants'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { DeviceTokenOutModel } from '../../src/models/auth/auth.out.model'
 import { UserServiceModel } from '../../src/models/auth/auth.service.model'
@@ -37,8 +38,9 @@ export const authUtils = {
 			devicesRepository: DevicesRepository
 			jwtAdapter: JwtAdapterService
 			mainConfig: MainConfigService
+			role: UserRole
 		}) {
-			const admin = await userUtils.createAdminWithConfirmedEmail(props)
+			const admin = await userUtils.createUserWithConfirmedEmail(props)
 			if (!admin) {
 				throw new Error('User is not created')
 			}
@@ -84,8 +86,9 @@ export const authUtils = {
 			devicesRepository: DevicesRepository
 			jwtAdapter: JwtAdapterService
 			mainConfig: MainConfigService
+			role: UserRole
 		}) {
-			const admin = await userUtils.createAdminWithConfirmedEmail(props)
+			const admin = await userUtils.createUserWithConfirmedEmail(props)
 			if (!admin) {
 				throw new Error('User is not created')
 			}

@@ -1,76 +1,87 @@
 import { INestApplication } from '@nestjs/common'
+import { UserOutModel } from 'src/models/user/user.out.model'
+import { UserRole } from '../../src/db/dbConstants'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { UserServiceModel } from '../../src/models/auth/auth.service.model'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq } from '../makeGQReq'
-import { defAdminEmail, defAdminPassword } from './common'
+import { defAdminEmail, defAdminPassword, defSenderEmail, defSenderPassword } from './common'
 import { queries } from './queries'
-import { UserOutModel } from 'src/models/user/user.out.model'
 
 export const userUtils = {
-	async createAdminWithUnconfirmedEmail(props: {
+	async createUserWithUnconfirmedEmail(props: {
 		app: INestApplication
 		userRepository: UserRepository
+		role: UserRole
 		email?: string
 		password?: string
 	}) {
-		const fixedAdminEmail = props.email ?? defAdminEmail
-		const fixedAdminPassword = props.password ?? defAdminPassword
+		const { fixedEmail, fixedPassword } = userUtils.getUserEmailAndPasswordDependsOnRole(props)
 
-		const registerAdminMutation = queries.auth.registerAdmin({
-			email: fixedAdminEmail,
-			password: fixedAdminPassword,
-		})
+		const mutationArgs = {
+			email: fixedEmail,
+			password: fixedPassword,
+		}
 
-		const [createAdminResp] = await makeGraphQLReq(props.app, registerAdminMutation)
-		const adminId = createAdminResp.data[RouteNames.AUTH.REGISTER_ADMIN].id
+		const createUserMutation =
+			props.role === UserRole.Admin
+				? queries.auth.registerAdmin(mutationArgs)
+				: queries.auth.registerSender(mutationArgs)
 
-		return props.userRepository.getUserById(adminId)
+		const [createUserResp] = await makeGraphQLReq(props.app, createUserMutation)
+
+		const routeName =
+			props.role === UserRole.Admin ? RouteNames.AUTH.REGISTER_ADMIN : RouteNames.AUTH.REGISTER_SENDER
+		const userId = createUserResp.data[routeName].id
+
+		return props.userRepository.getUserById(userId)
 	},
 
-	async createAdminWithConfirmedEmail(props: {
+	async createUserWithConfirmedEmail(props: {
 		app: INestApplication
 		userRepository: UserRepository
+		role: UserRole
 		email?: string
 		password?: string
 	}) {
-		const createdAdmin = await this.createAdminWithUnconfirmedEmail(props)
-		if (!createdAdmin) return
+		const createdUser = await userUtils.createUserWithUnconfirmedEmail(props)
+		if (!createdUser) return
 
-		const { emailConfirmationCode } = createdAdmin
+		const { emailConfirmationCode } = createdUser
 
 		const confirmEmailQuery = queries.auth.confirmEmail(emailConfirmationCode!)
 
 		const [confirmEmailResp] = await makeGraphQLReq(props.app, confirmEmailQuery)
 
-		return props.userRepository.getUserById(createdAdmin.id)
+		return props.userRepository.getUserById(createdUser.id)
 	},
 
-	async createAdminAndLogin(props: {
+	async createUserAndLogin(props: {
 		app: INestApplication
 		userRepository: UserRepository
+		role: UserRole
 		email?: string
 		password?: string
 	}) {
-		const email = props.email ?? defAdminEmail
-		const password = props.password ?? defAdminPassword
+		const { fixedEmail, fixedPassword } = userUtils.getUserEmailAndPasswordDependsOnRole(props)
 
-		await this.createAdminWithConfirmedEmail({
+		await userUtils.createUserWithConfirmedEmail({
 			app: props.app,
 			userRepository: props.userRepository,
-			email,
-			password,
+			role: props.role,
+			email: fixedEmail,
+			password: fixedPassword,
 		})
 
-		return this.loginUser({
+		return userUtils.loginUser({
 			app: props.app,
-			email,
-			password,
+			email: fixedEmail,
+			password: fixedPassword,
 		})
 	},
 
 	async loginUser(props: { app: INestApplication; email: string; password: string }) {
-		const loginQuery = queries.auth.login({ email: defAdminEmail, password: defAdminPassword })
+		const loginQuery = queries.auth.login({ email: props.email, password: props.password })
 		const [loginResp, cookies] = await makeGraphQLReq(props.app, loginQuery)
 
 		return {
@@ -88,5 +99,26 @@ export const userUtils = {
 		expect(typeof user.id).toBe('number')
 		expect(typeof user.email).toBe('string')
 		expect(['admin', 'sender']).toContain(user.role)
+	},
+
+	getUserEmailAndPasswordDependsOnRole(props: { role?: UserRole; email?: string; password?: string }) {
+		if (!props.role && !props.email && !props.password) {
+			throw new Error('You must provide or role or email and password')
+		}
+
+		let fixedEmail = props.email
+		if (!fixedEmail) {
+			fixedEmail = props.role === UserRole.Admin ? defAdminEmail : defSenderEmail
+		}
+
+		let fixedPassword = props.password
+		if (!fixedPassword) {
+			fixedPassword = props.role === UserRole.Admin ? defAdminPassword : defSenderPassword
+		}
+
+		return {
+			fixedEmail,
+			fixedPassword,
+		}
 	},
 }

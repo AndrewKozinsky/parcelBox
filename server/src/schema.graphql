@@ -28,7 +28,7 @@ type SenderOutModel {
 type UserOutModel {
   id: Int!
   email: String!
-  role: String!
+  role: USER_ROLE!
 }
 
 type Query {

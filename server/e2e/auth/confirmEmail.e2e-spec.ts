@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
+import { UserRole } from '../../src/db/dbConstants'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
@@ -52,7 +53,11 @@ describe.skip('Confirm an user email (e2e)', () => {
 	})
 
 	it('should return success if email successfully confirmed', async () => {
-		const createdAdmin = await userUtils.createAdminWithUnconfirmedEmail({ userRepository, app })
+		const createdAdmin = await userUtils.createUserWithUnconfirmedEmail({
+			userRepository,
+			app,
+			role: UserRole.Admin,
+		})
 		if (!createdAdmin) return
 
 		const { emailConfirmationCode } = createdAdmin
@@ -73,7 +78,11 @@ describe.skip('Confirm an user email (e2e)', () => {
 	})
 
 	it('should return error if email verification allowed time is over', async () => {
-		const createdAdmin = await userUtils.createAdminWithUnconfirmedEmail({ userRepository, app })
+		const createdAdmin = await userUtils.createUserWithUnconfirmedEmail({
+			userRepository,
+			app,
+			role: UserRole.Admin,
+		})
 		if (!createdAdmin) return
 
 		// Change email confirmation allowed time to past
@@ -102,7 +111,11 @@ describe.skip('Confirm an user email (e2e)', () => {
 	})
 
 	it('should return 400 if they try to confirm email the second time', async () => {
-		const createdAdmin = await userUtils.createAdminWithUnconfirmedEmail({ userRepository, app })
+		const createdAdmin = await userUtils.createUserWithUnconfirmedEmail({
+			userRepository,
+			app,
+			role: UserRole.Admin,
+		})
 		if (!createdAdmin) return
 
 		const { emailConfirmationCode } = createdAdmin

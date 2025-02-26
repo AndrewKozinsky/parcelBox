@@ -2,20 +2,21 @@ import { INestApplication } from '@nestjs/common'
 import { App } from 'supertest/types'
 import { MainConfigService } from '../../src/config/mainConfig.service'
 import { clearAllDB } from '../../src/db/clearDB'
+import { UserRole } from '../../src/db/dbConstants'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
 import { JwtAdapterService } from '../../src/infrastructure/jwtAdapter/jwtAdapter.service'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { DevicesRepository } from '../../src/repo/devices.repository'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
-import { makeGraphQLReq, makeGraphQLReqWithTokens } from '../makeGQReq'
+import { makeGraphQLReqWithTokens } from '../makeGQReq'
 import { authUtils } from '../utils/authUtils'
-import { defAdminEmail, defAdminPassword, extractErrObjFromResp } from '../utils/common'
+import { defAdminEmail, defAdminPassword, defSenderEmail, defSenderPassword } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../utils/queries'
 import { userUtils } from '../utils/userUtils'
 
-describe('Get me (e2e)', () => {
+describe.skip('Get me (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
@@ -56,13 +57,15 @@ describe('Get me (e2e)', () => {
 			devicesRepository,
 			jwtAdapter: jwtAdapterService,
 			mainConfig,
+			role: UserRole.Admin,
 		})
 	})
 
-	it.only('should gives success answer if the accessToken is valid', async () => {
-		const { loginData, accessToken, refreshToken } = await userUtils.createAdminAndLogin({
+	it('should return an admin if passed access token is valid', async () => {
+		const { loginData, accessToken, refreshToken } = await userUtils.createUserAndLogin({
 			app,
 			userRepository,
+			role: UserRole.Admin,
 			email: defAdminEmail,
 			password: defAdminPassword,
 		})
@@ -78,20 +81,40 @@ describe('Get me (e2e)', () => {
 			accessTokenStr: accessToken.value,
 			mainConfig,
 		})
-		console.log(getMeResp.data)
 
-		// expect(getMeResp.data[RouteNames.AUTH.LOGOUT]).toBe(true)
+		expect(getMeResp.data[RouteNames.AUTH.GET_ME]).toStrictEqual({ id: 1, email: defAdminEmail, role: 'admin' })
+	})
 
-		// Check if refresh token in cookie is already expired
-		// const clearedRefreshToken = cookies[mainConfig.get().refreshToken.name]
-		// const clearedRefreshTokenExpiredDate = new Date(clearedRefreshToken.expires)
-		// expect(+clearedRefreshTokenExpiredDate <= +new Date()).toBe(true)
+	it.only('should return a sender if passed access token is valid', async () => {
+		const { loginData, accessToken, refreshToken } = await userUtils.createUserAndLogin({
+			app,
+			userRepository,
+			role: UserRole.Sender,
+			email: defSenderEmail,
+			password: defSenderPassword,
+		})
 
-		// Check if refresh token doesn't exist in database
-		// const userDevices = await devicesRepository.getDevicesByUserId(loginData.id)
-		// expect(userDevices.length).toBe(0)
+		if (!loginData || !accessToken) {
+			throw new Error('Unable to login user')
+		}
 
-		// Check if I cannot log in with old or new accessToken!
-		// Do it later when you get a route which requires access token.
+		const getMeQuery = queries.auth.getMe()
+		const [getMeResp, cookies] = await makeGraphQLReqWithTokens({
+			app,
+			query: getMeQuery,
+			accessTokenStr: accessToken.value,
+			mainConfig,
+		})
+
+		expect(getMeResp.data[RouteNames.AUTH.GET_ME]).toStrictEqual({
+			id: 1,
+			email: defSenderEmail,
+			firstName: null,
+			lastName: null,
+			passportNum: null,
+			balance: 0,
+			active: false,
+			role: 'sender',
+		})
 	})
 })

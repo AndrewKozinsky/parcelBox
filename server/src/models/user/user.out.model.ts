@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
-import { USER_ROLE } from '../../graphql'
+import { USER_ROLE } from '../common'
 
 @ObjectType()
 export class UserOutModel {

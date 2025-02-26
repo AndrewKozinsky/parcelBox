@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
+import { UserRole } from '../../src/db/dbConstants'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
@@ -65,9 +66,10 @@ describe.skip('Confirm an user email (e2e)', () => {
 	})
 
 	it('should return success if input has correct values', async () => {
-		const admin = await userUtils.createAdminWithUnconfirmedEmail({
+		const admin = await userUtils.createUserWithUnconfirmedEmail({
 			app,
 			userRepository,
+			role: UserRole.Admin,
 			email: defAdminEmail,
 			password: defAdminPassword,
 		})
@@ -82,9 +84,10 @@ describe.skip('Confirm an user email (e2e)', () => {
 	})
 
 	it('should return an error if email is already confirmed', async () => {
-		const admin = await userUtils.createAdminWithConfirmedEmail({
+		const admin = await userUtils.createUserWithConfirmedEmail({
 			app,
 			userRepository,
+			role: UserRole.Admin,
 			email: defAdminEmail,
 			password: defAdminPassword,
 		})
