@@ -11,7 +11,7 @@ export function useRedirectToMainPageIfUserAuthorized() {
 		function () {
 			if (!user) return
 
-			router.push(routeNames.main)
+			router.push(routeNames.main.path)
 		},
 		[user],
 	)

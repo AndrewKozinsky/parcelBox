@@ -3,6 +3,7 @@ import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
 import { UserRole } from '../../src/db/dbConstants'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
+import { errorMessage } from '../../src/infrastructure/exceptions/errorMessage'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq } from '../makeGQReq'
@@ -41,7 +42,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 		const firstErr = extractErrObjFromResp(resendConfirmationEmailResp)
 
 		expect(firstErr).toStrictEqual({
-			message: 'Wrong input data',
+			message: errorMessage.wrongInputData,
 			code: 400,
 			fields: {
 				email: ['The email must match the format example@mail.com'],

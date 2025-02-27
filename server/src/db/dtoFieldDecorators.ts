@@ -15,6 +15,7 @@ import {
 	ValidatorConstraint,
 	ValidatorConstraintInterface,
 } from 'class-validator'
+import { errorMessage } from '../infrastructure/exceptions/errorMessage'
 import { Trim } from '../infrastructure/pipes/Trim.decorator'
 import { BdConfig } from './dbConfig/dbConfigType'
 // import { Trim } from '../infrastructure/pipes/Trim.decorator'
@@ -49,7 +50,7 @@ export function DtoFieldDecorators(
 		if (updatedFieldConf.minLength) {
 			decorators.push(
 				MinLength(updatedFieldConf.minLength, {
-					message: 'Minimum number of characters is ' + updatedFieldConf.minLength,
+					message: errorMessage.minNumberOfCharacters(updatedFieldConf.minLength),
 				}),
 			)
 		}

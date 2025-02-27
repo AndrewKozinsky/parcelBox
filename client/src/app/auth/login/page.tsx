@@ -1,6 +1,6 @@
 'use client'
 
-import { LoginPage } from '../../../myPages/loginPage/LoginPage/LoginPage'
+import { LoginPage } from '../../../myPages/auth/login/LoginPage/LoginPage'
 
 export default function Page() {
 	return <LoginPage />

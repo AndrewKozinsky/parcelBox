@@ -2,6 +2,7 @@ import React from 'react'
 import type { Metadata } from 'next'
 import { ApolloWrapper } from '../myPages/mainPage/ApolloWrapper'
 import { UserProvider } from '../myPages/mainPage/userProvider/UserProvider'
+import '../myPages/mainPage/css/global.scss'
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -14,7 +15,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang='en'>
+		<html lang='ru'>
 			<body>
 				<ApolloWrapper>
 					<UserProvider>{children}</UserProvider>

@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
+import { errorMessage } from '../../src/infrastructure/exceptions/errorMessage'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
@@ -43,11 +44,11 @@ describe.skip('Register an administrator (e2e)', () => {
 		const firstErr = extractErrObjFromResp(createAdminResp)
 
 		expect(firstErr).toStrictEqual({
-			message: 'Wrong input data',
+			message: errorMessage.wrongInputData,
 			code: 400,
 			fields: {
 				email: ['The email must match the format example@mail.com'],
-				password: ['Minimum number of characters is 6'],
+				password: [errorMessage.minNumberOfCharacters(6)],
 			},
 		})
 	})
@@ -87,7 +88,7 @@ describe.skip('Register an administrator (e2e)', () => {
 
 		expect(firstErr).toStrictEqual({
 			code: 400,
-			message: 'Email is not confirmed',
+			message: errorMessage.emailIsNotConfirmed,
 		})
 	})
 
@@ -103,7 +104,7 @@ describe.skip('Register an administrator (e2e)', () => {
 
 		expect(firstErr).toStrictEqual({
 			code: 400,
-			message: 'Email is already registered',
+			message: errorMessage.emailIsAlreadyRegistered,
 		})
 	})
 })

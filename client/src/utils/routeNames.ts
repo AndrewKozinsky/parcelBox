@@ -1,5 +1,18 @@
 export const routeNames = {
-	main: '/',
-	login: '/auth/login',
-	register: '/auth/register',
+	main: {
+		name: 'Главная',
+		path: '/',
+	},
+	login: {
+		name: 'Вход',
+		path: '/auth/login',
+	},
+	register: {
+		name: 'Регистрация',
+		path: '/auth/register',
+	},
+	rememberPassword: {
+		name: 'Вспомнить пароль',
+		path: '/auth/remember-password',
+	},
 }

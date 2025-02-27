@@ -1,6 +1,7 @@
 import { ArgumentsHost, BadRequestException, Catch, ExceptionFilter } from '@nestjs/common'
 import { isArray } from 'class-validator'
 import { GraphQLError } from 'graphql'
+import { errorMessage } from './errorMessage'
 
 @Catch()
 export class GraphQLValidationFilter implements ExceptionFilter {
@@ -18,7 +19,7 @@ export class GraphQLValidationFilter implements ExceptionFilter {
 
 			if (typeof response === 'object' && 'message' in response) {
 				if (isArray(response.message)) {
-					return new GraphQLError('Wrong input data', {
+					return new GraphQLError(errorMessage.wrongInputData, {
 						extensions: {
 							code: 400,
 							fields: this.convertErrorsArrToErrorsObj(response.message as any),

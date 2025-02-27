@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useAuthGetMe, useAuthRefreshToken } from '../../../../graphql'
 import { useUserStore } from '../../../../stores/userStore'
@@ -22,6 +22,7 @@ type LiveStatus =
  */
 export function useManageUserInStore() {
 	const router = useRouter()
+	const pathname = usePathname() // Get current route
 
 	const [liveStatus, setLiveStatus] = useState<LiveStatus>('checkForUserInStore')
 
@@ -31,9 +32,9 @@ export function useManageUserInStore() {
 
 	useEffect(
 		function () {
-			if (liveStatus === 'goToLoginPage') {
+			if (liveStatus === 'goToLoginPage' && pathname !== routeNames.register.path) {
 				// Redirect to login page
-				router.push(routeNames.login)
+				router.push(routeNames.login.path)
 			}
 		},
 		[liveStatus],

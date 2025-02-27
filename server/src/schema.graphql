@@ -35,8 +35,8 @@ type Query {
   """
   User email confirmation.
   	Possible errors:
-  	**Email confirmation code not found** — email confirmation code is not found in the database.
-  	**Email confirmation code is expired** — email confirmation code is expired.
+  	**Email confirmation code not found.** — email confirmation code is not found in the database.
+  	**Email confirmation code is expired.** — email confirmation code is expired.
   """
   auth_confirmEmail(input: ConfirmEmailInput!): Boolean!
 
@@ -55,39 +55,39 @@ type Mutation {
   """
   Register a user as a administrator.
   	Possible errors:
-  	**Email is not confirmed** — the user is already registered, but doesn't confirm his email.
-  	**Email is already registered** — the user is already registered and confirmed his email.
+  	**Почта уже зарегистрирована, но не подтверждена.** — the user is already registered, but doesn't confirm his email.
+  	**Почта уже зарегистрирована.** — the user is already registered and confirmed his email.
   """
   auth_registerAdmin(input: RegisterAdminInput!): AdminOutModel!
 
   """
   Register a user as a administrator.
   	Possible errors:
-  	**Email is not confirmed** — the user is already registered, but doesn't confirm his email.
-  	**Email is already registered** — the user is already registered and confirmed his email.
+  	**Почта уже зарегистрирована, но не подтверждена.** — the user is already registered, but doesn't confirm his email.
+  	**Почта уже зарегистрирована.** — the user is already registered and confirmed his email.
   """
   auth_registerSender(input: RegisterSenderInput!): SenderOutModel!
 
   """
   User login
   	Possible errors:
-  	**Email or passwords do not match** — there is not any user with passed email and password.
-  	**Email is not confirmed** — user email is not confirmed yet.
+  	**Email or passwords do not match.** — there is not any user with passed email and password.
+  	**Почта уже зарегистрирована, но не подтверждена.** — user email is not confirmed yet.
   """
   auth_login(input: LoginInput!): UserOutModel!
 
   """
   Send email confirmation email one more time
   	Possible errors:
-  	**Email is not found** — passed email is not registered yet.
-  	**Email is already confirmed** — email is already confirmed.
+  	**Email is not found.** — passed email is not registered yet.
+  	**Email is already confirmed.** — email is already confirmed.
   """
   auth_resendConfirmationEmail(input: ResendConfirmationEmailInput!): Boolean!
 
   """
   User logout
   	Possible errors:
-  	**Refresh token is not valid** — refresh token is not valid
+  	**Refresh token is not valid.** — refresh token is not valid
   """
   auth_logout: Boolean!
 

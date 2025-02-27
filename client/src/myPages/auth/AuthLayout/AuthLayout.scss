@@ -1,0 +1,14 @@
+.auth-layout {
+	display: flex;
+	flex-grow: 1;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.auth-layout__container {
+	display: flex;
+	flex-grow: 1;
+	width: 100%;
+	max-width: 35rem;
+}
