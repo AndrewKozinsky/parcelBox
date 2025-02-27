@@ -3,6 +3,7 @@ import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
 import { UserRole } from '../../src/db/dbConstants'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
+import { errorMessage } from '../../src/infrastructure/exceptions/errorMessage'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
@@ -46,7 +47,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 
 		expect(firstErr).toEqual({
 			code: 400,
-			message: 'Email confirmation code not found',
+			message: errorMessage.emailConfirmationCodeNotFound,
 		})
 
 		expect(emailAdapter.sendEmailConfirmationMessage).toHaveBeenCalledTimes(0)
@@ -100,7 +101,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 
 		expect(firstErr).toEqual({
 			code: 400,
-			message: 'Email confirmation code is expired',
+			message: errorMessage.emailConfirmationCodeIsExpired,
 		})
 
 		// Check the user's email is still unconfirmed

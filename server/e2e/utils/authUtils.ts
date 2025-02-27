@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common'
 import * as dateFns from 'date-fns'
 import { MainConfigService } from '../../src/config/mainConfig.service'
 import { UserRole } from '../../src/db/dbConstants'
+import { errorMessage } from '../../src/infrastructure/exceptions/errorMessage'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { DeviceTokenOutModel } from '../../src/models/auth/auth.out.model'
 import { UserServiceModel } from '../../src/models/auth/auth.service.model'
@@ -26,7 +27,7 @@ export const authUtils = {
 			const firstErr = extractErrObjFromResp(queryResp)
 
 			expect(firstErr).toStrictEqual({
-				message: 'Access token is not valid',
+				message: errorMessage.accessTokenIsNotValid,
 				code: 401,
 			})
 		},
@@ -59,7 +60,7 @@ export const authUtils = {
 
 			expect(firstErr).toEqual({
 				code: 401,
-				message: 'Access token is not valid',
+				message: errorMessage.accessTokenIsNotValid,
 			})
 		},
 	},
@@ -74,7 +75,7 @@ export const authUtils = {
 			const firstErr = extractErrObjFromResp(queryResp)
 
 			expect(firstErr).toStrictEqual({
-				message: 'Refresh token is not valid',
+				message: errorMessage.refreshTokenIsNotValid,
 				code: 401,
 			})
 		},
@@ -109,7 +110,7 @@ export const authUtils = {
 
 			expect(firstErr).toEqual({
 				code: 401,
-				message: 'Refresh token is not valid',
+				message: errorMessage.refreshTokenIsNotValid,
 			})
 		},
 	},

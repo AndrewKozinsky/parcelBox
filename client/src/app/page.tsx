@@ -1,6 +1,6 @@
 'use client'
 
-import { MainPage } from '../myPages/mainPage/MainPage/MainPage'
+import { MainPage } from '../myPages/main/MainPage/MainPage'
 
 export default function Page() {
 	return <MainPage />

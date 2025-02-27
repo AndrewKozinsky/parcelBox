@@ -32,7 +32,9 @@ export function useManageUserInStore() {
 
 	useEffect(
 		function () {
-			if (liveStatus === 'goToLoginPage' && pathname !== routeNames.register.path) {
+			if (pathname.startsWith(routeNames.auth.path + '/')) return
+
+			if (liveStatus === 'goToLoginPage') {
 				// Redirect to login page
 				router.push(routeNames.login.path)
 			}

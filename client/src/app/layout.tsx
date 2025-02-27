@@ -1,8 +1,9 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import { ApolloWrapper } from '../myPages/mainPage/ApolloWrapper'
-import { UserProvider } from '../myPages/mainPage/userProvider/UserProvider'
-import '../myPages/mainPage/css/global.scss'
+import { ApolloWrapper } from '../myPages/main/ApolloWrapper'
+import MainLayout from '../myPages/main/MainLayout/MainLayout'
+import { UserProvider } from '../myPages/main/userProvider/UserProvider'
+import '../myPages/main/css/global.scss'
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -17,9 +18,7 @@ export default function RootLayout({
 	return (
 		<html lang='ru'>
 			<body>
-				<ApolloWrapper>
-					<UserProvider>{children}</UserProvider>
-				</ApolloWrapper>
+				<MainLayout>{children}</MainLayout>
 			</body>
 		</html>
 	)

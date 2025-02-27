@@ -22,7 +22,7 @@ export function AuthPageLayout(props: AuthPageLayoutProps) {
 				<div className='auth-page-layout__after-form-links'>{afterFormLinks}</div>
 			</div>
 			<Text>
-				В случае технических проблем обращайтесь на{' '}
+				В случае технических проблем пишите на{' '}
 				<a href={'mailto:' + constants.supportEmail}>{constants.supportEmail}</a>.
 			</Text>
 		</div>

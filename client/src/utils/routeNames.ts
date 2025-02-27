@@ -3,6 +3,10 @@ export const routeNames = {
 		name: 'Главная',
 		path: '/',
 	},
+	auth: {
+		name: 'Авторизация',
+		path: '/auth',
+	},
 	login: {
 		name: 'Вход',
 		path: '/auth/login',

@@ -59,7 +59,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 		const firstErr = extractErrObjFromResp(resendConfirmationEmailResp)
 
 		expect(firstErr).toStrictEqual({
-			message: 'Email is not found',
+			message: errorMessage.emailNotFound,
 			code: 400,
 		})
 
@@ -100,7 +100,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 		const firstErr = extractErrObjFromResp(resendConfirmationEmailResp)
 
 		expect(firstErr).toStrictEqual({
-			message: 'Email is already confirmed',
+			message: errorMessage.emailIsAlreadyConfirmed,
 			code: 400,
 		})
 

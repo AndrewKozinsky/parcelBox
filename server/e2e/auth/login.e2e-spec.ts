@@ -62,7 +62,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 
 		expect(firstErr).toStrictEqual({
 			code: 400,
-			message: 'Email or passwords do not match',
+			message: errorMessage.emailOrPasswordDoNotMatch,
 		})
 	})
 
