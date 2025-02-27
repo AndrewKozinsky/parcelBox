@@ -1,4 +1,5 @@
 import React from 'react'
+import '@ant-design/v5-patch-for-react-19'
 import { ApolloWrapper } from '../ApolloWrapper'
 import { UserProvider } from '../userProvider/UserProvider'
 import './MainLayout.scss'
