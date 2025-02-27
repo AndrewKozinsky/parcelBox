@@ -11,11 +11,9 @@ export const errorMessage = {
 	emailNotFound: 'Email is not found',
 	// USER
 	userNotFound: 'User not found',
-	// UserNameIsExists = 'User name is already exists',
 	// AUTH
 	refreshTokenIsNotValid: 'Refresh token is not valid',
 	accessTokenIsNotValid: 'Access token is not valid',
-	// CaptchaIsWrong = 'Captcha is wrong',
 	// RefreshTokenIsNotFound = 'Refresh token is not found',
 	// UserDoesNotOwnThisDeviceToken = 'User does not own this device token',
 	// UserDeviceNotFound = 'User device not found',

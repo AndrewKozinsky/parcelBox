@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Prisma } from '@prisma/client'
 import { PrismaService } from '../db/prisma.service'
-import CatchDbError from '../infrastructure/exceptions/CatchErrors'
+import CatchDbError from '../infrastructure/exceptions/CatchDBErrors'
 import { SenderOutModel } from '../models/sender/sender.out.model'
 
 type SenderWithUser = Prisma.SenderGetPayload<{

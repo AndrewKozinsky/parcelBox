@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Sender } from '@prisma/client'
 import { PrismaService } from '../db/prisma.service'
-import CatchDbError from '../infrastructure/exceptions/CatchErrors'
+import CatchDbError from '../infrastructure/exceptions/CatchDBErrors'
 import { SenderServiceModel } from '../models/sender/sender.service.model'
 
 @Injectable()

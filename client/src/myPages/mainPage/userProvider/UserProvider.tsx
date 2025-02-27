@@ -14,7 +14,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
 type ProviderLiveStatus =
 	| 'checkForUserInStore'
-	| 'makeRequestToMe'
+	| 'makeRequestToMeFirstTime'
+	| 'makeRequestToMeSecondTime'
 	| 'makeRequestToRefreshToken'
 	| 'finish'
 	| 'goToLoginPage'
@@ -44,7 +45,7 @@ function useDetermineWhetherRequestToMeNeeds(setLiveStatus: React.Dispatch<React
 
 	useEffect(
 		function () {
-			setLiveStatus(!!user ? 'finish' : 'makeRequestToMe')
+			setLiveStatus(!!user ? 'finish' : 'makeRequestToMeFirstTime')
 		},
 		[user],
 	)
@@ -54,15 +55,27 @@ function useMakeRequestToMe(
 	liveStatus: ProviderLiveStatus,
 	setLiveStatus: React.Dispatch<React.SetStateAction<ProviderLiveStatus>>,
 ) {
-	const { data, error, loading } = useAuthGetMe({ skip: liveStatus !== 'makeRequestToMe' })
+	const { data, error, loading } = useAuthGetMe({ skip: liveStatus !== 'makeRequestToMeFirstTime' })
 
-	if (liveStatus === 'makeRequestToMe') {
+	if (liveStatus == 'makeRequestToMeFirstTime') {
 		if (loading) {
 			useUserStore.setState({ isLoading: true })
 		} else {
 			if (error) {
-				useUserStore.setState({ isLoading: false, isError: true, user: null })
+				useUserStore.setState({ isLoading: false })
 				setLiveStatus('makeRequestToRefreshToken')
+			} else if (data) {
+				useUserStore.setState({ isLoading: false, isError: false, user: data.auth_getMe })
+				setLiveStatus('finish')
+			}
+		}
+	} else if (liveStatus == 'makeRequestToMeSecondTime') {
+		if (loading) {
+			useUserStore.setState({ isLoading: true })
+		} else {
+			if (error) {
+				useUserStore.setState({ isLoading: false })
+				setLiveStatus('goToLoginPage')
 			} else if (data) {
 				useUserStore.setState({ isLoading: false, isError: false, user: data.auth_getMe })
 				setLiveStatus('finish')
@@ -77,19 +90,19 @@ function useMakeRequestToRefreshToken(
 ) {
 	const [authRefreshToken, { loading, error, data }] = useAuthRefreshToken()
 
-	if (liveStatus === 'makeRequestToRefreshToken') {
-		authRefreshToken()
+	if (liveStatus !== 'makeRequestToRefreshToken') return
 
-		if (loading) {
-			useUserStore.setState({ isLoading: true })
-		} else {
-			useUserStore.setState({ isLoading: false })
+	authRefreshToken()
 
-			if (error) {
-				setLiveStatus('goToLoginPage')
-			} else if (data) {
-				setLiveStatus('makeRequestToMe')
-			}
+	if (loading) {
+		useUserStore.setState({ isLoading: true })
+	} else {
+		useUserStore.setState({ isLoading: false })
+
+		if (error) {
+			setLiveStatus('goToLoginPage')
+		} else if (data) {
+			setLiveStatus('makeRequestToMeSecondTime')
 		}
 	}
 }
