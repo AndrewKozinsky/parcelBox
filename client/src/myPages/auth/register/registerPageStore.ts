@@ -1,22 +1,16 @@
 import { create } from 'zustand'
-
-export enum RegisterFormStatus {
-	default,
-	submitPending,
-	success,
-	failure,
-}
+import { AuthFormStatus } from '../common/fieldRules'
 
 export type RegisterPageStore = {
 	isFormValid: boolean
-	formStatus: RegisterFormStatus
+	formStatus: AuthFormStatus
 	registeredEmailDomain: null | string
 	formError: null | string
 }
 
 export const registerPageStoreInitial: RegisterPageStore = {
 	isFormValid: false,
-	formStatus: RegisterFormStatus.default,
+	formStatus: AuthFormStatus.default,
 	registeredEmailDomain: null,
 	formError: null,
 }

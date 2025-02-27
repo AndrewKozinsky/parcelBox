@@ -1,7 +1,7 @@
 export const errorMessage = {
 	// EMAIL
 	emailIsAlreadyRegistered: 'Почта уже зарегистрирована.',
-	emailIsNotConfirmed: 'Почта уже зарегистрирована, но не подтверждена.',
+	emailIsNotConfirmed: 'Почта зарегистрирована, но не подтверждена.',
 	emailIsAlreadyConfirmed: 'Почта уже подтверждена.',
 	emailConfirmationCodeIsExpired: 'Срок действия кода подтверждения почты истек.',
 	emailConfirmationCodeNotFound: 'Код подтверждения почты не найден.',

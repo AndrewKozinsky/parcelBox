@@ -2,13 +2,12 @@ import { Alert, Button, Form, Input, Radio, RadioChangeEvent, Typography } from 
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { UserRole } from '../../../../utils/constants'
-import { RegisterFormStatus, useRegisterPageStore } from '../registerPageStore'
+import { AuthFormStatus, formEmailFieldRules, formPasswordFieldRules } from '../../common/fieldRules'
+import { useRegisterPageStore } from '../registerPageStore'
 import {
 	FieldType,
 	FormNames,
 	regFormAgainPasswordFieldRules,
-	regFormEmailFieldRules,
-	regFormPasswordFieldRules,
 	regFormRoleFieldRules,
 	useIsNewOrderFormValid,
 } from './fn/form'
@@ -26,17 +25,16 @@ function RegisterForm() {
 		<div>
 			<Form
 				form={form}
-				name='basic'
 				onChange={failedSubmitNewOrderForm}
 				onFinish={onSubmit}
 				autoComplete='on'
 				layout='vertical'
-				disabled={formStatus === RegisterFormStatus.success}
+				disabled={formStatus === AuthFormStatus.success}
 			>
 				<RoleRadios />
 				<EmailField />
 				<PasswordFields />
-				<RegisterFormSubmit />
+				<SubmitFormButton />
 				<FormWasSentMessage />
 				<FormWasNotSentMessage />
 			</Form>
@@ -80,7 +78,7 @@ function RoleRadios() {
 
 function EmailField() {
 	return (
-		<Form.Item<FieldType> label='Почта' name={FormNames.email} rules={regFormEmailFieldRules}>
+		<Form.Item<FieldType> label='Почта' name={FormNames.email} rules={formEmailFieldRules}>
 			<Input autoComplete='email' />
 		</Form.Item>
 	)
@@ -89,7 +87,7 @@ function EmailField() {
 function PasswordFields() {
 	return (
 		<>
-			<Form.Item<FieldType> label='Пароль' name={FormNames.password} rules={regFormPasswordFieldRules}>
+			<Form.Item<FieldType> label='Пароль' name={FormNames.password} rules={formPasswordFieldRules}>
 				<Input.Password autoComplete='new-password' />
 			</Form.Item>
 
@@ -104,17 +102,13 @@ function PasswordFields() {
 	)
 }
 
-function RegisterFormSubmit() {
+function SubmitFormButton() {
 	const isFormValid = useRegisterPageStore((s) => s.isFormValid)
 	const formStatus = useRegisterPageStore((s) => s.formStatus)
 
 	return (
 		<Form.Item>
-			<Button
-				type='primary'
-				htmlType='submit'
-				disabled={!isFormValid || formStatus === RegisterFormStatus.success}
-			>
+			<Button type='primary' htmlType='submit' disabled={!isFormValid || formStatus === AuthFormStatus.success}>
 				Зарегистрироваться
 			</Button>
 		</Form.Item>
@@ -125,7 +119,7 @@ function FormWasSentMessage() {
 	const formStatus = useRegisterPageStore((s) => s.formStatus)
 	const emailDomain = useRegisterPageStore((s) => s.registeredEmailDomain)
 
-	if (formStatus !== RegisterFormStatus.success) {
+	if (formStatus !== AuthFormStatus.success) {
 		return null
 	}
 
@@ -153,7 +147,7 @@ function FormWasNotSentMessage() {
 	const formStatus = useRegisterPageStore((s) => s.formStatus)
 	const formError = useRegisterPageStore((s) => s.formError)
 
-	if (formStatus !== RegisterFormStatus.failure) {
+	if (formStatus !== AuthFormStatus.failure) {
 		return null
 	}
 

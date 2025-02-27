@@ -1,0 +1,6 @@
+mutation AuthLogin($input: LoginInput!) {
+	auth_login(input: $input) {
+		id
+		email
+	}
+}

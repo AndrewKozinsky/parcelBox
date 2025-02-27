@@ -1,6 +1,7 @@
 import { FormInstance } from 'antd'
 import { UserRole } from '../../../../../utils/constants'
-import { RegisterFormStatus, useRegisterPageStore } from '../../registerPageStore'
+import { AuthFormStatus } from '../../../common/fieldRules'
+import { useRegisterPageStore } from '../../registerPageStore'
 import { Rule } from 'antd/es/form'
 
 export type FieldType = {
@@ -18,7 +19,7 @@ export enum FormNames {
 
 export function useIsNewOrderFormValid(form: FormInstance) {
 	return async function () {
-		useRegisterPageStore.setState({ formStatus: RegisterFormStatus.default })
+		useRegisterPageStore.setState({ formStatus: AuthFormStatus.default })
 
 		form.validateFields({ validateOnly: true })
 			.then(() => {
@@ -31,10 +32,6 @@ export function useIsNewOrderFormValid(form: FormInstance) {
 			})
 	}
 }
-
-export const regFormEmailFieldRules: Rule[] = [{ required: true, message: 'Введите электронную почту' }]
-
-export const regFormPasswordFieldRules: Rule[] = [{ required: true, message: 'Введите пароль', min: 6, max: 30 }]
 
 export const regFormAgainPasswordFieldRules: Rule[] = [
 	{ required: true, message: 'Введите пароль ещё раз' },
