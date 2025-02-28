@@ -1,12 +1,22 @@
-# Сервер для управления посыльными ящиками
+# Managing parcel boxes project
 
-## Запуск
-1. Запустите на компьютере Докер.
-2. Зайдите в папку проекта.
-3. Выполните
+## Start project
+1. Clone project from GitHub. 
+2. Switch to the project folder.
+
+### Starting the database
+1. Run Docker Desktop.
+2. Run
 ```docker compose -f docker-compose.dev.yml up```
-для запуска базы данных
-4. Перейдите в папку сервера
+
+### Starting the server
+1. Go to the server folder:
 ```cd server```
-5. Запустите сервер
-```go run /cmd/api/main.go```
+2. Run the server:
+```yarn run start:dev```
+
+### Starting the client
+1. Go to the client folder:
+```cd client```
+2. Run the client:
+```npm run dev```
