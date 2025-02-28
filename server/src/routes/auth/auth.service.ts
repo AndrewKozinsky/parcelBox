@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { Response } from 'express'
+import { addDays } from 'date-fns'
+import { CookieOptions, Response } from 'express'
 import { MainConfigService } from '../../config/mainConfig.service'
 
 @Injectable()
@@ -7,20 +8,27 @@ export class AuthService {
 	constructor(private mainConfig: MainConfigService) {}
 
 	setRefreshTokenInCookie(res: Response, refreshTokenStr: string) {
-		res.cookie(this.mainConfig.get().refreshToken.name, refreshTokenStr, {
-			maxAge: this.mainConfig.get().refreshToken.lifeDurationInMs,
-			httpOnly: false,
-			secure: true,
-			sameSite: 'none',
-		})
+		const cookieOptions = this.getCookieOptions(this.mainConfig.get().refreshToken.lifeDurationInMs)
+
+		res.cookie(this.mainConfig.get().refreshToken.name, refreshTokenStr, cookieOptions)
 	}
 
 	setAccessTokenInCookie(res: Response, accessTokenStr: string) {
-		res.cookie(this.mainConfig.get().accessToken.name, accessTokenStr, {
-			maxAge: this.mainConfig.get().accessToken.lifeDurationInMs,
+		const cookieOptions = this.getCookieOptions(this.mainConfig.get().accessToken.lifeDurationInMs)
+
+		res.cookie(this.mainConfig.get().accessToken.name, accessTokenStr, cookieOptions)
+	}
+
+	getCookieOptions(maxAge: number): CookieOptions {
+		const sameSite = this.mainConfig.get().mode === 'development' ? 'lax' : 'none'
+		const secure = this.mainConfig.get().mode !== 'development'
+
+		return {
+			maxAge,
 			httpOnly: false,
-			secure: true,
-			sameSite: 'none',
-		})
+			secure,
+			sameSite,
+			path: '/',
+		}
 	}
 }

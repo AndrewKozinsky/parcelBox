@@ -17,6 +17,7 @@ function makeClient() {
 		// via the `context` property on the options passed as a second argument
 		// to an Apollo Client data fetching hook, e.g.:
 		// const { data } = useSuspenseQuery(MY_QUERY, { context: { fetchOptions: { cache: "force-cache" }}});
+		credentials: 'include',
 	})
 
 	// use the `ApolloClient` from "@apollo/experimental-nextjs-app-support"

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Request } from 'express'
-import { MainConfigService } from '../../config/mainConfig.service'
 const useragent = require('express-useragent')
+import { MainConfigService } from '../../config/mainConfig.service'
 
 @Injectable()
 export class BrowserService {

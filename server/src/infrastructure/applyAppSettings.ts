@@ -7,14 +7,17 @@ import { GraphQLValidationFilter } from './exceptions/graphqlException.filter'
 import { JwtAdapterService } from './jwtAdapter/jwtAdapter.service'
 import { SetUserIntoReqMiddleware } from './middlewares/setUserIntoReq.middleware'
 
-export function applyAppSettings(app: INestApplication) {
-	// ONLY IN DEVELOPMENT
-	app.enableCors({
-		origin: 'http://localhost:3001', // Your frontend URL
-		credentials: true, // Allow credentials (cookies, authorization headers)
-	})
-
+export async function applyAppSettings(app: INestApplication) {
 	app.use(cookieParser())
+
+	const mainConfig = await app.resolve(MainConfigService)
+
+	if (mainConfig.get().mode === 'development') {
+		app.enableCors({
+			origin: 'http://localhost:3001', // Your frontend URL
+			credentials: true, // Allow credentials (cookies, authorization headers)
+		})
+	}
 
 	app.use(async (req: Request, res: Response, next: NextFunction) => {
 		const jwtService = await app.resolve(JwtAdapterService)

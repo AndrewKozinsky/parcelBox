@@ -16,7 +16,7 @@ export async function createApp(emailAdapter: EmailAdapterService) {
 		.compile()
 
 	const app = moduleFixture.createNestApplication()
-	applyAppSettings(app)
+	await applyAppSettings(app)
 	await app.init()
 
 	emailAdapter = moduleFixture.get<EmailAdapterService>(EmailAdapterService)

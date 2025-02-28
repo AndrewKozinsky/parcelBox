@@ -5,7 +5,7 @@ import { applyAppSettings } from './infrastructure/applyAppSettings'
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
-	applyAppSettings(app)
+	await applyAppSettings(app)
 
 	const mainConfig = app.get(MainConfigService)
 	await app.listen(mainConfig.get().port)
