@@ -1,16 +1,16 @@
+import { AdminOutModel, AuthLogin, SenderOutModel, useAuthLogin, User_Role } from '@/graphql'
 import { FetchResult } from '@apollo/client'
+import { FormInstance } from 'antd'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
-import { FormInstance } from 'antd'
 import { useUserStore } from '../../../../../stores/userStore'
 import { routeNames } from '../../../../../utils/routeNames'
 import { AuthFormStatus } from '../../../common/fieldRules'
 import { useLoginPageStore } from '../../loginPageStore'
 import { FieldType } from './form'
-import { AuthLogin, useAuthLogin } from '@/graphql'
 
-export function useGetOnSubmit(form: FormInstance) {
+export function useGetOnLoginFormSubmit(form: FormInstance) {
 	const router = useRouter()
 	const [loginRequest] = useAuthLogin()
 
@@ -30,9 +30,23 @@ export function useGetOnSubmit(form: FormInstance) {
 function afterSuccessfulRequest(data: FetchResult<AuthLogin>, router: AppRouterInstance) {
 	useLoginPageStore.setState({ formStatus: AuthFormStatus.success })
 
+	useUserStore.setState({
+		isLoading: false,
+		isError: false,
+	})
+
 	try {
+		if (!data.data) return
+		const userData = data.data.auth_login
+
 		// Set data to the UserStore
-		useUserStore.setState({ senderUser: null, adminUser: null, isLoading: false, isError: false })
+		if (userData.role === User_Role.Admin) {
+			useUserStore.setState({
+				adminUser: userData as AdminOutModel,
+			})
+		} else if (userData.role === User_Role.Sender) {
+			useUserStore.setState({ senderUser: userData as SenderOutModel })
+		}
 
 		// Redirect to the main page
 		router.push(routeNames.main.path)

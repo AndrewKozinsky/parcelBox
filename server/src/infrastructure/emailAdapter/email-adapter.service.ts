@@ -8,17 +8,17 @@ export class EmailAdapterService {
 
 	async sendEmailConfirmationMessage(userEmail: string, confirmationCode: string) {
 		const siteName = this.mainConfig.get().site.name
-		const domainRoot = this.mainConfig.get().site.domainRoot
+		const domainRootWithProtocol = this.mainConfig.get().site.domainRootWithProtocol
 
-		const subject = 'Registration at ' + siteName
-		const textMessage = 'Registration at ' + siteName
+		const subject = 'Регистрация на ' + siteName
+		const textMessage = 'Регистрация на ' + siteName
 		const htmlMessage = `
 <h1>Thanks for your registration</h1>
 <p>To finish registration please confirm your email by follow the link below:
-	<a href='https://${domainRoot}/emailConfirmation?code=${confirmationCode}'>confirm email</a>
+	<a href="${domainRootWithProtocol}/auth/email-confirmation?code=${confirmationCode}">confirm email</a>
 </p>
 <p>
-	<a href="https://${domainRoot}/unsubscribe">unsubscribe</a>
+	<a href="${domainRootWithProtocol}/unsubscribe">отписаться</a>
 </p>`
 
 		// Send an email
@@ -26,14 +26,14 @@ export class EmailAdapterService {
 	}
 
 	async sendPasswordRecoveryMessage(userEmail: string, recoveryCode: string) {
-		const domainApi = this.mainConfig.get().site.domainRoot
+		const domainRootWithProtocol = this.mainConfig.get().site.domainRootWithProtocol
 
 		const subject = 'Password recovery at our web-site'
 		const textMessage = 'Password recovery at our web-site'
 		const htmlMessage = `
 <h1>Password recovery</h1>
 <p>To finish password recovery please follow the link below:
-  <a href='https://${domainApi}/password-recovery?recoveryCode=${recoveryCode}'>recovery password</a>
+  <a href='${domainRootWithProtocol}/auth/password-recovery?recoveryCode=${recoveryCode}'>recovery password</a>
 </p>`
 
 		// Send an email

@@ -43,7 +43,7 @@ export function useManageUserInStore() {
 
 			if (liveStatus === 'goToLoginPage') {
 				// Redirect to login page
-				router.push(routeNames.login.path)
+				router.push(routeNames.auth.login.path)
 			}
 		},
 		[liveStatus],

@@ -3,23 +3,23 @@ import Link from 'next/link'
 import { routeNames } from '../../../../utils/routeNames'
 import { useRedirectToMainPageIfUserAuthorized } from '../../../common/auth/redirectToMainPageIfUserAuthorized'
 import { AuthPageLayout } from '../../common/AuthPageWithFormLayout/AuthPageLayout'
-import LoginForm from '../LoginForm/LoginForm'
+import ResendConfirmationLetterForm from '../ResendConfirmationLetterForm/ResendConfirmationLetterForm'
 
 const { Text } = Typography
 
-export function LoginPage() {
+export function ResendConfirmationLetterPage() {
 	useRedirectToMainPageIfUserAuthorized()
 
 	return (
 		<AuthPageLayout
-			pageTitle={routeNames.auth.login.name}
-			form={<LoginForm />}
+			pageTitle={routeNames.auth.resendConfirmationLetter.name}
+			form={<ResendConfirmationLetterForm />}
 			afterFormLinks={[
 				<Text key='1'>
 					<Link href={routeNames.auth.register.path}>{routeNames.auth.register.name}</Link>
 				</Text>,
 				<Text key='2'>
-					<Link href={routeNames.auth.rememberPassword.path}>{routeNames.auth.rememberPassword.name}</Link>
+					<Link href={routeNames.auth.login.path}>{routeNames.auth.login.name}</Link>
 				</Text>,
 			]}
 		/>

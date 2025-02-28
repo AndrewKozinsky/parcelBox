@@ -1,7 +1,7 @@
 import React from 'react'
 import { Typography } from 'antd'
-import './AuthPageLayout.scss'
 import { constants } from '../../../../utils/constants'
+import './AuthPageLayout.scss'
 
 const { Text, Title } = Typography
 
@@ -22,7 +22,7 @@ export function AuthPageLayout(props: AuthPageLayoutProps) {
 				<div className='auth-page-layout__after-form-links'>{afterFormLinks}</div>
 			</div>
 			<Text>
-				В случае технических проблем пишите на{' '}
+				В случае технических проблем обращайтесь на{' '}
 				<a href={'mailto:' + constants.supportEmail}>{constants.supportEmail}</a>.
 			</Text>
 		</div>

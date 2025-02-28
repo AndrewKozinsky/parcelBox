@@ -1,6 +1,6 @@
 import { useRedirectToMainPageIfUserAuthorized } from '../../../common/auth/redirectToMainPageIfUserAuthorized'
 
-export function RememberPasswordPage() {
+export function ForgetPasswordPage() {
 	useRedirectToMainPageIfUserAuthorized()
 
 	return <p>RememberPasswordPage</p>

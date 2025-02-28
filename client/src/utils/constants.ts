@@ -1,3 +1,3 @@
 export const constants = {
-	supportEmail: 'support@gmail.com',
+	supportEmail: 'andkozinskiy@yandex.ru',
 }

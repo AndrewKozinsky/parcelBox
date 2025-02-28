@@ -126,8 +126,7 @@ export class UserRepository {
 			password: await this.hashAdapter.hashString(dto.password),
 			email_confirmation_code: createUniqString(),
 			email_confirmation_code_expiration_date: add(new Date(), {
-				hours: 0,
-				minutes: 5,
+				days: 3,
 			}).toISOString(),
 			is_email_confirmed: false,
 			role,

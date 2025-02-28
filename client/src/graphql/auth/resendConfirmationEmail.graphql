@@ -1,0 +1,3 @@
+mutation AuthResendConfirmationEmail($input: ResendConfirmationEmailInput!) {
+	auth_resendConfirmationEmail(input: $input)
+}

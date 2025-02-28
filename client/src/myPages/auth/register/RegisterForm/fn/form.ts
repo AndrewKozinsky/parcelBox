@@ -1,8 +1,8 @@
 import { FormInstance } from 'antd'
+import { Rule } from 'antd/es/form'
 import { User_Role } from '../../../../../graphql'
 import { AuthFormStatus } from '../../../common/fieldRules'
 import { useRegisterPageStore } from '../../registerPageStore'
-import { Rule } from 'antd/es/form'
 
 export type FieldType = {
 	[FormNames.role]: User_Role
@@ -17,7 +17,7 @@ export enum FormNames {
 	passwordAgain = 'passwordAgain',
 }
 
-export function useIsNewOrderFormValid(form: FormInstance) {
+export function useGetOnChangeRegisterForm(form: FormInstance) {
 	return async function () {
 		useRegisterPageStore.setState({ formStatus: AuthFormStatus.default })
 

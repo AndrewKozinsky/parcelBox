@@ -191,6 +191,13 @@ export type AuthRegisterSenderVariables = Exact<{
 
 export type AuthRegisterSender = { __typename?: 'Mutation', auth_registerSender: { __typename?: 'SenderOutModel', id: number, email: string, firstName: string | null, lastName: string | null, passportNum: string | null, balance: number, active: boolean } };
 
+export type AuthResendConfirmationEmailVariables = Exact<{
+  input: ResendConfirmationEmailInput;
+}>;
+
+
+export type AuthResendConfirmationEmail = { __typename?: 'Mutation', auth_resendConfirmationEmail: boolean };
+
 
 export const AuthConfirmEmailDocument = gql`
     query AuthConfirmEmail($input: ConfirmEmailInput!) {
@@ -433,3 +440,34 @@ export function useAuthRegisterSender(baseOptions?: Apollo.MutationHookOptions<A
 export type AuthRegisterSenderHookResult = ReturnType<typeof useAuthRegisterSender>;
 export type AuthRegisterSenderMutationResult = Apollo.MutationResult<AuthRegisterSender>;
 export type AuthRegisterSenderMutationOptions = Apollo.BaseMutationOptions<AuthRegisterSender, AuthRegisterSenderVariables>;
+export const AuthResendConfirmationEmailDocument = gql`
+    mutation AuthResendConfirmationEmail($input: ResendConfirmationEmailInput!) {
+  auth_resendConfirmationEmail(input: $input)
+}
+    `;
+export type AuthResendConfirmationEmailMutationFn = Apollo.MutationFunction<AuthResendConfirmationEmail, AuthResendConfirmationEmailVariables>;
+
+/**
+ * __useAuthResendConfirmationEmail__
+ *
+ * To run a mutation, you first call `useAuthResendConfirmationEmail` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAuthResendConfirmationEmail` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [authResendConfirmationEmail, { data, loading, error }] = useAuthResendConfirmationEmail({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAuthResendConfirmationEmail(baseOptions?: Apollo.MutationHookOptions<AuthResendConfirmationEmail, AuthResendConfirmationEmailVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AuthResendConfirmationEmail, AuthResendConfirmationEmailVariables>(AuthResendConfirmationEmailDocument, options);
+      }
+export type AuthResendConfirmationEmailHookResult = ReturnType<typeof useAuthResendConfirmationEmail>;
+export type AuthResendConfirmationEmailMutationResult = Apollo.MutationResult<AuthResendConfirmationEmail>;
+export type AuthResendConfirmationEmailMutationOptions = Apollo.BaseMutationOptions<AuthResendConfirmationEmail, AuthResendConfirmationEmailVariables>;

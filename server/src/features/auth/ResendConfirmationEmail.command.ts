@@ -1,4 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
+import { addDays } from 'date-fns'
 import { EmailAdapterService } from '../../infrastructure/emailAdapter/email-adapter.service'
 import { CustomGraphQLError } from '../../infrastructure/exceptions/customGraphQLError'
 import { ErrorCode } from '../../infrastructure/exceptions/errorCode'
@@ -31,8 +32,10 @@ export class ResendConfirmationEmailHandler implements ICommandHandler<ResendCon
 		}
 
 		const confirmationCode = createUniqString()
+
 		await this.userRepository.updateUser(user.id, {
 			email_confirmation_code: confirmationCode,
+			email_confirmation_code_expiration_date: addDays(new Date(), 3).toISOString(),
 		})
 
 		this.emailAdapter.sendEmailConfirmationMessage(email, confirmationCode)

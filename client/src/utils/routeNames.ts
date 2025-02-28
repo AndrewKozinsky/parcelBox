@@ -6,17 +6,21 @@ export const routeNames = {
 	auth: {
 		name: 'Авторизация',
 		path: '/auth',
-	},
-	login: {
-		name: 'Вход',
-		path: '/auth/login',
-	},
-	register: {
-		name: 'Регистрация',
-		path: '/auth/register',
-	},
-	rememberPassword: {
-		name: 'Вспомнить пароль',
-		path: '/auth/remember-password',
+		login: {
+			name: 'Вход',
+			path: '/auth/login',
+		},
+		register: {
+			name: 'Регистрация',
+			path: '/auth/register',
+		},
+		rememberPassword: {
+			name: 'Вспомнить пароль',
+			path: '/auth/remember-password',
+		},
+		resendConfirmationLetter: {
+			name: 'Повторная отправка письма подтверждения почты',
+			path: '/auth/resend-confirmation-letter',
+		},
 	},
 }

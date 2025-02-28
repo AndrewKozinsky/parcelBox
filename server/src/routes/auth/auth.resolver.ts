@@ -84,8 +84,6 @@ export class AuthResolver {
 		return user
 	}
 
-	// ---
-
 	@Mutation(() => Boolean, {
 		name: RouteNames.AUTH.RESEND_CONFIRMATION_EMAIL,
 		description: authResolversDesc.resendConfirmationEmail,

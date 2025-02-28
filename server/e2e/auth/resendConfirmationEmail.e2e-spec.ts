@@ -1,4 +1,5 @@
 import { INestApplication } from '@nestjs/common'
+import { add, subDays } from 'date-fns'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
 import { UserRole } from '../../src/db/dbConstants'
@@ -76,12 +77,31 @@ describe.skip('Confirm an user email (e2e)', () => {
 		})
 		if (!admin) return
 
+		// Make expiration data expired
+		await userRepository.updateUser(admin.id, {
+			email_confirmation_code_expiration_date: subDays(new Date(), 5).toISOString(),
+		})
+
+		// Send another confirmation email
 		const resendConfirmationEmailMutation = queries.auth.resendConfirmationEmail(admin.email)
 		const [resendConfirmationEmailResp] = await makeGraphQLReq(app, resendConfirmationEmailMutation)
 
+		// Check for successful answer and thet email adapter was run
 		expect(resendConfirmationEmailResp.data).toBeTruthy()
-
 		expect(emailAdapter.sendEmailConfirmationMessage).toHaveBeenCalledTimes(2)
+
+		// Check if an expiration data is bigger than now for 3 hours
+		const updatedAdmin = await userRepository.getUserById(admin.id)
+		if (!updatedAdmin || !updatedAdmin.confirmationCodeExpirationDate) {
+			throw new Error('User does not exist')
+		}
+
+		expect(+new Date(updatedAdmin.confirmationCodeExpirationDate)).toBeGreaterThan(
+			+add(new Date(), { days: 2, hours: 23, minutes: 59 }),
+		)
+		expect(+new Date(updatedAdmin.confirmationCodeExpirationDate)).toBeLessThan(
+			+add(new Date(), { days: 3, minutes: 1 }),
+		)
 	})
 
 	it('should return an error if email is already confirmed', async () => {

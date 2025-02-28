@@ -11,7 +11,7 @@ export enum FormNames {
 	password = 'password',
 }
 
-export function useIsNewOrderFormValid(form: FormInstance) {
+export function useGetOnChangeLoginForm(form: FormInstance) {
 	return async function () {
 		useLoginPageStore.setState({ formStatus: AuthFormStatus.default })
 

@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common'
-import { Admin } from '@prisma/client'
 import { PrismaService } from '../db/prisma.service'
 import CatchDbError from '../infrastructure/exceptions/CatchDBErrors'
 import { AdminServiceModel } from '../models/admin/admin.service.model'

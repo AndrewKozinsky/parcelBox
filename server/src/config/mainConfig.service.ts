@@ -19,6 +19,7 @@ export class MainConfigService {
 			site: {
 				name: enVariables.siteName,
 				domainRoot: enVariables.siteDomainRoot,
+				domainRootWithProtocol: enVariables.siteDomainRootWithProtocol,
 			},
 			emailAdapter: {
 				userId: enVariables.emailAdapterUserId,
@@ -50,6 +51,7 @@ export class MainConfigService {
 			dnUserPassword: this.configService.get<string>('DB_USER_PASSWORD') as string,
 			siteName: this.configService.get<string>('SITE_NAME') as string,
 			siteDomainRoot: this.configService.get<string>('SITE_DOMAIN_ROOT') as string,
+			siteDomainRootWithProtocol: this.configService.get<string>('SITE_DOMAIN_ROOT_WITH_PROTOCOL') as string,
 			emailAdapterUserId: this.configService.get<string>('EMAIL_ADAPTER_USER_ID') as string,
 			emailAdapterSecret: this.configService.get<string>('EMAIL_ADAPTER_SECRET') as string,
 			emailAdapterFromName: this.configService.get<string>('EMAIL_ADAPTER_FROM_NAME') as string,

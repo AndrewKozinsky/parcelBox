@@ -1,0 +1,102 @@
+import React from 'react'
+import Link from 'next/link'
+import { Alert, Button, Form, Input } from 'antd'
+import { AuthFormStatus, formEmailFieldRules } from '../../common/fieldRules'
+import { useResendConfirmationEmailStore } from '../resendConfirmationLetterPageStore'
+import { FieldType, FormNames, useGetOnChangeResendConfirmationEmailForm } from './fn/form'
+import { useGetOnSubmit } from './fn/submit'
+
+function ResendConfirmationLetterForm() {
+	const [form] = Form.useForm()
+
+	const formStatus = useResendConfirmationEmailStore((s) => s.formStatus)
+
+	const onChangeResendConfEmailForm = useGetOnChangeResendConfirmationEmailForm(form)
+	const onSubmit = useGetOnSubmit(form)
+
+	return (
+		<div>
+			<Form
+				form={form}
+				onChange={onChangeResendConfEmailForm}
+				onFinish={onSubmit}
+				autoComplete='on'
+				layout='vertical'
+				disabled={[AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)}
+			>
+				<EmailField />
+				<SubmitFormButton />
+				<FormWasSentMessage />
+				<FormWasNotSentMessage />
+			</Form>
+		</div>
+	)
+}
+
+export default ResendConfirmationLetterForm
+
+function EmailField() {
+	return (
+		<Form.Item<FieldType> label='Почта' name={FormNames.email} rules={formEmailFieldRules}>
+			<Input autoComplete='email' />
+		</Form.Item>
+	)
+}
+
+function SubmitFormButton() {
+	const isFormValid = useResendConfirmationEmailStore((s) => s.isFormValid)
+	const formStatus = useResendConfirmationEmailStore((s) => s.formStatus)
+
+	const isDisabled = !isFormValid || [AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)
+
+	return (
+		<Form.Item>
+			<Button type='primary' htmlType='submit' disabled={isDisabled}>
+				Отправить письмо
+			</Button>
+		</Form.Item>
+	)
+}
+
+function FormWasSentMessage() {
+	const formStatus = useResendConfirmationEmailStore((s) => s.formStatus)
+	const emailDomain = useResendConfirmationEmailStore((s) => s.emailDomain)
+
+	if (formStatus !== AuthFormStatus.success) {
+		return null
+	}
+
+	let message: React.ReactNode = 'Письмо отправлено.'
+	if (emailDomain) {
+		message = (
+			<p>
+				Письмо отправлено. Проверьте на{' '}
+				<Link className='link' href={'https://' + emailDomain} target='_blank'>
+					{emailDomain}
+				</Link>
+				.
+			</p>
+		)
+	}
+
+	return (
+		<Form.Item>
+			<Alert message={message} type='success' />
+		</Form.Item>
+	)
+}
+
+function FormWasNotSentMessage() {
+	const formStatus = useResendConfirmationEmailStore((s) => s.formStatus)
+	const formError = useResendConfirmationEmailStore((s) => s.formError)
+
+	if (formStatus !== AuthFormStatus.failure) {
+		return null
+	}
+
+	return (
+		<Form.Item>
+			<Alert message={formError} type='error' />
+		</Form.Item>
+	)
+}

@@ -9,7 +9,7 @@ import {
 	FormNames,
 	regFormAgainPasswordFieldRules,
 	regFormRoleFieldRules,
-	useIsNewOrderFormValid,
+	useGetOnChangeRegisterForm,
 } from './fn/form'
 import { useGetOnSubmit } from './fn/submit'
 
@@ -18,14 +18,14 @@ function RegisterForm() {
 
 	const formStatus = useRegisterPageStore((s) => s.formStatus)
 
-	const failedSubmitNewOrderForm = useIsNewOrderFormValid(form)
+	const onRegisterFormChange = useGetOnChangeRegisterForm(form)
 	const onSubmit = useGetOnSubmit(form)
 
 	return (
 		<div>
 			<Form
 				form={form}
-				onChange={failedSubmitNewOrderForm}
+				onChange={onRegisterFormChange}
 				onFinish={onSubmit}
 				autoComplete='on'
 				layout='vertical'
@@ -106,9 +106,11 @@ function SubmitFormButton() {
 	const isFormValid = useRegisterPageStore((s) => s.isFormValid)
 	const formStatus = useRegisterPageStore((s) => s.formStatus)
 
+	const isDisabled = !isFormValid || [AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)
+
 	return (
 		<Form.Item>
-			<Button type='primary' htmlType='submit' disabled={!isFormValid || formStatus === AuthFormStatus.success}>
+			<Button type='primary' htmlType='submit' disabled={isDisabled}>
 				Зарегистрироваться
 			</Button>
 		</Form.Item>
@@ -128,7 +130,7 @@ function FormWasSentMessage() {
 		message = (
 			<p>
 				Форма успешно отправлена. Проверьте письмо отправленное на{' '}
-				<Link className='link' href={'https://' + emailDomain}>
+				<Link className='link' href={'https://' + emailDomain} target='_blank'>
 					{emailDomain}
 				</Link>
 				.

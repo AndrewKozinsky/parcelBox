@@ -2,23 +2,23 @@ import React from 'react'
 import { Alert, Button, Form, Input } from 'antd'
 import { AuthFormStatus, formEmailFieldRules, formPasswordFieldRules } from '../../common/fieldRules'
 import { useLoginPageStore } from '../loginPageStore'
-import { FieldType, FormNames, useIsNewOrderFormValid } from './fn/form'
-import { useGetOnSubmit } from './fn/submit'
+import { FieldType, FormNames, useGetOnChangeLoginForm } from './fn/form'
+import { useGetOnLoginFormSubmit } from './fn/submit'
 
 function LoginForm() {
 	const [form] = Form.useForm()
 
 	const formStatus = useLoginPageStore((s) => s.formStatus)
 
-	const failedSubmitNewOrderForm = useIsNewOrderFormValid(form)
-	const onSubmit = useGetOnSubmit(form)
+	const onChangeLoginForm = useGetOnChangeLoginForm(form)
+	const onLoginFormSubmit = useGetOnLoginFormSubmit(form)
 
 	return (
 		<div>
 			<Form
 				form={form}
-				onChange={failedSubmitNewOrderForm}
-				onFinish={onSubmit}
+				onChange={onChangeLoginForm}
+				onFinish={onLoginFormSubmit}
 				autoComplete='on'
 				layout='vertical'
 				disabled={[AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)}
@@ -56,9 +56,11 @@ function SubmitFormButton() {
 	const isFormValid = useLoginPageStore((s) => s.isFormValid)
 	const formStatus = useLoginPageStore((s) => s.formStatus)
 
+	const isDisabled = !isFormValid || [AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)
+
 	return (
 		<Form.Item>
-			<Button type='primary' htmlType='submit' disabled={!isFormValid || formStatus === AuthFormStatus.success}>
+			<Button type='primary' htmlType='submit' disabled={isDisabled}>
 				Войти
 			</Button>
 		</Form.Item>
