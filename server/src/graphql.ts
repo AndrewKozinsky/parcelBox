@@ -53,25 +53,19 @@ export interface SenderOutModel {
     role: USER_ROLE;
 }
 
-export interface UserOutModel {
-    id: number;
-    email: string;
-    role: USER_ROLE;
-}
-
 export interface IQuery {
     auth_confirmEmail(input: ConfirmEmailInput): boolean | Promise<boolean>;
-    auth_getMe(): GetMeResponse | Promise<GetMeResponse>;
+    auth_getMe(): AdminOrSender | Promise<AdminOrSender>;
 }
 
 export interface IMutation {
     auth_registerAdmin(input: RegisterAdminInput): AdminOutModel | Promise<AdminOutModel>;
     auth_registerSender(input: RegisterSenderInput): SenderOutModel | Promise<SenderOutModel>;
-    auth_login(input: LoginInput): UserOutModel | Promise<UserOutModel>;
+    auth_login(input: LoginInput): AdminOrSender | Promise<AdminOrSender>;
     auth_resendConfirmationEmail(input: ResendConfirmationEmailInput): boolean | Promise<boolean>;
     auth_logout(): boolean | Promise<boolean>;
     auth_refreshToken(): boolean | Promise<boolean>;
 }
 
-export type GetMeResponse = SenderOutModel | UserOutModel;
+export type AdminOrSender = SenderOutModel | AdminOutModel;
 type Nullable<T> = T | null;

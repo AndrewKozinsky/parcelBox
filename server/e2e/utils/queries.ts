@@ -40,7 +40,7 @@ export const queries = {
 				)
 			}`
 		},
-		login(props: { email: string; password: string }) {
+		/*login(props: { email: string; password: string }) {
 			return `mutation {
 			  ${RouteNames.AUTH.LOGIN}(
 				input: {
@@ -50,6 +50,32 @@ export const queries = {
 			) {
 			  id
 			  email
+			  }
+			}`
+		},*/
+		login(props: { email: string; password: string }) {
+			return `mutation {
+			  ${RouteNames.AUTH.LOGIN}(
+				input: {
+				  email: "${props.email}",
+				  password: "${props.password}"
+				}
+			) {
+			  ... on AdminOutModel {
+					id
+					email
+					role
+				}
+				... on SenderOutModel {
+					id
+					email
+					firstName
+					lastName
+					passportNum
+					balance
+					active
+					role
+				}
 			  }
 			}`
 		},
@@ -73,15 +99,9 @@ export const queries = {
 			}`
 		},
 		getMe() {
-			/*return `query {
-			  ${RouteNames.AUTH.GET_ME} {
-			  id
-			  email
-			  }
-			}`*/
 			return `query {
 			  ${RouteNames.AUTH.GET_ME} {
-				... on UserOutModel {
+				... on AdminOutModel {
 					id
 					email
 					role

@@ -6,8 +6,8 @@ import {
 	AuthRegisterSender,
 	useAuthRegisterAdmin,
 	useAuthRegisterSender,
+	User_Role,
 } from '../../../../../graphql'
-import { UserRole } from '../../../../../utils/constants'
 import { getEmailDomain } from '../../../../../utils/stringUtils'
 import { AuthFormStatus } from '../../../common/fieldRules'
 import { useRegisterPageStore } from '../../registerPageStore'
@@ -18,7 +18,7 @@ export function useGetOnSubmit(form: FormInstance) {
 	const [registerSender] = useAuthRegisterSender()
 
 	return useCallback(function (values: FieldType) {
-		const makeRequest = values.role === UserRole.Admin ? registerAdmin : registerSender
+		const makeRequest = values.role === User_Role.Admin ? registerAdmin : registerSender
 
 		const requestParams = { variables: { input: { email: values.email, password: values.password } } }
 
@@ -38,7 +38,7 @@ function afterSuccessfulRequest(
 ) {
 	useRegisterPageStore.setState({ formStatus: AuthFormStatus.success })
 
-	const requestName = values.role === UserRole.Admin ? 'auth_registerAdmin' : 'auth_registerSender'
+	const requestName = values.role === User_Role.Admin ? 'auth_registerAdmin' : 'auth_registerSender'
 
 	try {
 		// @ts-ignore

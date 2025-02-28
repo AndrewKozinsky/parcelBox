@@ -83,6 +83,9 @@ export const userUtils = {
 	async loginUser(props: { app: INestApplication; email: string; password: string }) {
 		const loginQuery = queries.auth.login({ email: props.email, password: props.password })
 		const [loginResp, cookies] = await makeGraphQLReq(props.app, loginQuery)
+		if (!loginResp.data) {
+			throw new Error('Unable to log in')
+		}
 
 		return {
 			loginData: loginResp.data[RouteNames.AUTH.LOGIN],

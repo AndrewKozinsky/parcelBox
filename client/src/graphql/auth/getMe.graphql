@@ -1,6 +1,6 @@
 query AuthGetMe {
 	auth_getMe {
-		... on UserOutModel {
+		... on AdminOutModel {
 			id
 			email
 			role

@@ -73,7 +73,7 @@ describe.skip('Register an administrator (e2e)', () => {
 		// Find created admin in the database
 		const adminId = createAdminResp.data[RouteNames.AUTH.REGISTER_ADMIN].id
 		const createdUser = await userQueryRepository.getUserById(adminId)
-		expect(createdUser).toEqual({ id: 1, email: defAdminEmail, role: 'admin' })
+		expect(createdUser).toStrictEqual({ id: 1, email: defAdminEmail, role: 'admin' })
 	})
 
 	it('should return error if administrator is already created, but email is not confirmed', async () => {

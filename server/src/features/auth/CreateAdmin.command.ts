@@ -5,7 +5,8 @@ import { CustomGraphQLError } from '../../infrastructure/exceptions/customGraphQ
 import { ErrorCode } from '../../infrastructure/exceptions/errorCode'
 import { errorMessage } from '../../infrastructure/exceptions/errorMessage'
 import { CreateAdminInputModel } from '../../models/auth/auth.input.model'
-import { UserQueryRepository } from '../../repo/user.queryRepository'
+import { AdminQueryRepository } from '../../repo/admin.queryRepository'
+import { AdminRepository } from '../../repo/admin.repository'
 import { UserRepository } from '../../repo/user.repository'
 
 export class CreateAdminCommand implements ICommand {
@@ -16,7 +17,8 @@ export class CreateAdminCommand implements ICommand {
 export class CreateAdminHandler implements ICommandHandler<CreateAdminCommand> {
 	constructor(
 		private userRepository: UserRepository,
-		private userQueryRepository: UserQueryRepository,
+		private adminRepository: AdminRepository,
+		private adminQueryRepository: AdminQueryRepository,
 		private emailAdapter: EmailAdapterService,
 	) {}
 
@@ -34,10 +36,15 @@ export class CreateAdminHandler implements ICommandHandler<CreateAdminCommand> {
 		}
 
 		const createdUser = await this.userRepository.createUser(createAdminInput, UserRole.Admin)
-		const newUser = await this.userQueryRepository.getUserById(createdUser.id)
+		await this.adminRepository.createAdmin(createdUser.id)
+
+		const newAdmin = await this.adminQueryRepository.getAdminByUserId(createdUser.id)
+		if (!newAdmin) {
+			throw new CustomGraphQLError(errorMessage.unknownDbError, ErrorCode.InternalServerError_500)
+		}
 
 		await this.emailAdapter.sendEmailConfirmationMessage(createdUser.email, createdUser.emailConfirmationCode!)
 
-		return newUser
+		return newAdmin
 	}
 }

@@ -5,14 +5,14 @@ import { routeNames } from '../../../utils/routeNames'
 
 export function useRedirectToMainPageIfUserAuthorized() {
 	const router = useRouter()
-	const { user } = useUserStore.getState()
+	const { senderUser } = useUserStore.getState()
 
 	useEffect(
 		function () {
-			if (!user) return
+			if (!senderUser) return
 
 			router.push(routeNames.main.path)
 		},
-		[user],
+		[senderUser],
 	)
 }

@@ -1,15 +1,17 @@
 import { create } from 'zustand'
-import { SenderOutModel, UserOutModel } from '../graphql'
+import { AdminOutModel, SenderOutModel } from '../graphql'
 
-interface UserStore {
-	user: null | UserOutModel | SenderOutModel
+export interface UserStore {
+	senderUser: null | SenderOutModel
+	adminUser: null | AdminOutModel
 	isLoading: boolean
 	isError: boolean
 }
 
 export const useUserStore = create<UserStore>()((set) => {
 	return {
-		user: null,
+		senderUser: null,
+		adminUser: null,
 		isLoading: true,
 		isError: false,
 	}

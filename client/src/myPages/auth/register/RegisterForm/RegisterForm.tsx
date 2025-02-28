@@ -1,7 +1,7 @@
-import { Alert, Button, Form, Input, Radio, RadioChangeEvent, Typography } from 'antd'
-import Link from 'next/link'
 import React, { useState } from 'react'
-import { UserRole } from '../../../../utils/constants'
+import { Alert, Button, Form, Input, Radio, RadioChangeEvent } from 'antd'
+import Link from 'next/link'
+import { User_Role } from '../../../../graphql'
 import { AuthFormStatus, formEmailFieldRules, formPasswordFieldRules } from '../../common/fieldRules'
 import { useRegisterPageStore } from '../registerPageStore'
 import {
@@ -29,7 +29,7 @@ function RegisterForm() {
 				onFinish={onSubmit}
 				autoComplete='on'
 				layout='vertical'
-				disabled={formStatus === AuthFormStatus.success}
+				disabled={[AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)}
 			>
 				<RoleRadios />
 				<EmailField />
@@ -56,18 +56,18 @@ function RoleRadios() {
 			label='Что хотите делать'
 			name={FormNames.role}
 			rules={regFormRoleFieldRules}
-			initialValue={UserRole.Sender}
+			initialValue={User_Role.Sender}
 		>
 			<Radio.Group
 				onChange={onChange}
 				value={value}
 				options={[
 					{
-						value: UserRole.Sender,
+						value: User_Role.Sender,
 						label: 'Использовать ячейки',
 					},
 					{
-						value: UserRole.Admin,
+						value: User_Role.Admin,
 						label: 'Администрировать шкафы',
 					},
 				]}

@@ -1,11 +1,11 @@
 import { FormInstance } from 'antd'
-import { UserRole } from '../../../../../utils/constants'
+import { User_Role } from '../../../../../graphql'
 import { AuthFormStatus } from '../../../common/fieldRules'
 import { useRegisterPageStore } from '../../registerPageStore'
 import { Rule } from 'antd/es/form'
 
 export type FieldType = {
-	[FormNames.role]: UserRole
+	[FormNames.role]: User_Role
 	[FormNames.email]: string
 	[FormNames.password]: string
 	[FormNames.passwordAgain]: string

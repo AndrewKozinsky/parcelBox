@@ -6,11 +6,13 @@ import { CreateAdminHandler } from '../../features/auth/CreateAdmin.command'
 import { CreateRefreshTokenHandler } from '../../features/auth/CreateRefreshToken.command'
 import { CreateSenderHandler } from '../../features/auth/CreateSender.command'
 import { GenerateAccessAndRefreshTokensHandler } from '../../features/auth/GenerateAccessAndRefreshTokens.command'
-import { GetMeHandler } from '../../features/auth/GetMe.command'
+import { GetAdminOrSenderByIdHandler } from '../../features/auth/GetAdminOrSenderById.command'
 import { LoginHandler } from '../../features/auth/Login.command'
 import { LogoutHandler } from '../../features/auth/Logout.command'
 import { ResendConfirmationEmailHandler } from '../../features/auth/ResendConfirmationEmail.command'
 import { EmailAdapterService } from '../../infrastructure/emailAdapter/email-adapter.service'
+import { AdminQueryRepository } from '../../repo/admin.queryRepository'
+import { AdminRepository } from '../../repo/admin.repository'
 import { DevicesRepository } from '../../repo/devices.repository'
 import { SenderQueryRepository } from '../../repo/sender.queryRepository'
 import { SenderRepository } from '../../repo/sender.repository'
@@ -21,7 +23,15 @@ import { AuthService } from './auth.service'
 
 const services = [PrismaService, EmailAdapterService, AuthService]
 
-const repositories = [UserRepository, UserQueryRepository, SenderRepository, SenderQueryRepository, DevicesRepository]
+const repositories = [
+	UserRepository,
+	UserQueryRepository,
+	SenderRepository,
+	SenderQueryRepository,
+	AdminRepository,
+	AdminQueryRepository,
+	DevicesRepository,
+]
 
 const commandHandlers = [
 	CreateAdminHandler,
@@ -32,7 +42,7 @@ const commandHandlers = [
 	ResendConfirmationEmailHandler,
 	LogoutHandler,
 	GenerateAccessAndRefreshTokensHandler,
-	GetMeHandler,
+	GetAdminOrSenderByIdHandler,
 ]
 
 const resolvers = [AuthResolver]

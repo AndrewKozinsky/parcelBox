@@ -1,3 +1,5 @@
+union AdminOrSender = AdminOutModel | SenderOutModel
+
 type AdminOutModel {
   email: String!
   id: Int!
@@ -8,8 +10,6 @@ input ConfirmEmailInput {
   """User email"""
   code: String!
 }
-
-union GetMeResponse = SenderOutModel | UserOutModel
 
 input LoginInput {
   """User email"""
@@ -24,9 +24,9 @@ type Mutation {
   User login
   	Possible errors:
   	**Почта и пароль не совпадают.** — there is not any user with passed email and password.
-  	**Почта уже зарегистрирована, но не подтверждена.** — user email is not confirmed yet.
+  	**Почта зарегистрирована, но не подтверждена.** — user email is not confirmed yet.
   """
-  auth_login(input: LoginInput!): UserOutModel!
+  auth_login(input: LoginInput!): AdminOrSender!
 
   """
   User logout
@@ -41,7 +41,7 @@ type Mutation {
   """
   Register a user as a administrator.
   	Possible errors:
-  	**Почта уже зарегистрирована, но не подтверждена.** — the user is already registered, but doesn't confirm his email.
+  	**Почта зарегистрирована, но не подтверждена.** — the user is already registered, but doesn't confirm his email.
   	**Почта уже зарегистрирована.** — the user is already registered and confirmed his email.
   """
   auth_registerAdmin(input: RegisterAdminInput!): AdminOutModel!
@@ -49,7 +49,7 @@ type Mutation {
   """
   Register a user as a administrator.
   	Possible errors:
-  	**Почта уже зарегистрирована, но не подтверждена.** — the user is already registered, but doesn't confirm his email.
+  	**Почта зарегистрирована, но не подтверждена.** — the user is already registered, but doesn't confirm his email.
   	**Почта уже зарегистрирована.** — the user is already registered and confirmed his email.
   """
   auth_registerSender(input: RegisterSenderInput!): SenderOutModel!
@@ -73,7 +73,7 @@ type Query {
   auth_confirmEmail(input: ConfirmEmailInput!): Boolean!
 
   """Get current user data"""
-  auth_getMe: GetMeResponse!
+  auth_getMe: AdminOrSender!
 }
 
 input RegisterAdminInput {
@@ -112,10 +112,4 @@ type SenderOutModel {
 enum USER_ROLE {
   admin
   sender
-}
-
-type UserOutModel {
-  email: String!
-  id: Int!
-  role: USER_ROLE!
 }

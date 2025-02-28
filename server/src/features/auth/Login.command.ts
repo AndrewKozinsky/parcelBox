@@ -7,6 +7,7 @@ import { LoginInputModel } from '../../models/auth/auth.input.model'
 import { UserQueryRepository } from '../../repo/user.queryRepository'
 import { UserRepository } from '../../repo/user.repository'
 import { CreateRefreshTokenCommand } from './CreateRefreshToken.command'
+import { GetAdminOrSenderByIdCommand } from './GetAdminOrSenderById.command'
 
 export class LoginCommand implements ICommand {
 	constructor(
@@ -20,7 +21,6 @@ export class LoginCommand implements ICommand {
 export class LoginHandler implements ICommandHandler<LoginCommand> {
 	constructor(
 		private userRepository: UserRepository,
-		private userQueryRepository: UserQueryRepository,
 		private commandBus: CommandBus,
 		private jwtAdapter: JwtAdapterService,
 	) {}
@@ -44,7 +44,7 @@ export class LoginHandler implements ICommandHandler<LoginCommand> {
 			new CreateRefreshTokenCommand(user.id, clientIP, clientName),
 		)
 
-		const outUser = await this.userQueryRepository.getUserById(user.id)
+		const outUser = await this.commandBus.execute(new GetAdminOrSenderByIdCommand(user!.id))
 
 		return {
 			accessTokenStr,

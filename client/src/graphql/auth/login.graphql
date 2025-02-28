@@ -1,6 +1,19 @@
 mutation AuthLogin($input: LoginInput!) {
 	auth_login(input: $input) {
-		id
-		email
+		... on AdminOutModel {
+			id
+			email
+			role
+		}
+		... on SenderOutModel {
+			id
+			email
+			firstName
+			lastName
+			passportNum
+			balance
+			active
+			role
+		}
 	}
 }

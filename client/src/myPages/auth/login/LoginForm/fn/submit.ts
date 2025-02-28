@@ -32,7 +32,7 @@ function afterSuccessfulRequest(data: FetchResult<AuthLogin>, router: AppRouterI
 
 	try {
 		// Set data to the UserStore
-		useUserStore.setState({ user: null, isLoading: false, isError: false })
+		useUserStore.setState({ senderUser: null, adminUser: null, isLoading: false, isError: false })
 
 		// Redirect to the main page
 		router.push(routeNames.main.path)

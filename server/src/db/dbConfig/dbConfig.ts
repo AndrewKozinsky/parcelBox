@@ -179,6 +179,17 @@ export const bdConfig = {
 			},*/
 		},
 	},
+	Admin: {
+		dtoProps: {},
+		dbFields: {
+			user_id: {
+				type: 'childOneToOne',
+				thisField: 'user_id',
+				foreignTable: 'User',
+				foreignField: 'id',
+			},
+		},
+	},
 	/*PostPhoto: {
 		dtoProps: {},
 		dbFields: {

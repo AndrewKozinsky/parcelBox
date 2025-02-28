@@ -21,7 +21,7 @@ function LoginForm() {
 				onFinish={onSubmit}
 				autoComplete='on'
 				layout='vertical'
-				disabled={formStatus === AuthFormStatus.success}
+				disabled={[AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)}
 			>
 				<EmailField />
 				<PasswordField />

@@ -38,8 +38,8 @@ export class CreateSenderHandler implements ICommandHandler<CreateSenderCommand>
 
 		const createdUser = await this.userRepository.createUser(createSenderInput, UserRole.Sender)
 		await this.senderRepository.createSender(createdUser.id)
-		const newSender = await this.senderQueryRepository.getSenderByUserId(createdUser.id)
 
+		const newSender = await this.senderQueryRepository.getSenderByUserId(createdUser.id)
 		if (!newSender) {
 			throw new CustomGraphQLError(errorMessage.unknownDbError, ErrorCode.InternalServerError_500)
 		}

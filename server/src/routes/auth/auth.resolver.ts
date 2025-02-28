@@ -6,18 +6,16 @@ import { CreateAdminCommand } from '../../features/auth/CreateAdmin.command'
 import { CreateSenderCommand } from '../../features/auth/CreateSender.command'
 import { ConfirmEmailCommand } from '../../features/auth/ConfirmEmail.command'
 import { GenerateAccessAndRefreshTokensCommand } from '../../features/auth/GenerateAccessAndRefreshTokens.command'
-import { GetMeCommand } from '../../features/auth/GetMe.command'
+import { GetAdminOrSenderByIdCommand } from '../../features/auth/GetAdminOrSenderById.command'
 import { LoginCommand } from '../../features/auth/Login.command'
 import { LogoutCommand } from '../../features/auth/Logout.command'
 import { ResendConfirmationEmailCommand } from '../../features/auth/ResendConfirmationEmail.command'
 import { BrowserService } from '../../infrastructure/browserService/browser.service'
 import { CheckAccessTokenGuard } from '../../infrastructure/guards/checkAccessToken.guard'
 import { CheckDeviceRefreshTokenGuard } from '../../infrastructure/guards/checkDeviceRefreshToken.guard'
-import { JwtAdapterService } from '../../infrastructure/jwtAdapter/jwtAdapter.service'
 import RouteNames from '../../infrastructure/routeNames'
 import { AdminOutModel } from '../../models/admin/admin.out.model'
 import { SenderOutModel } from '../../models/sender/sender.out.model'
-import { UserOutModel } from '../../models/user/user.out.model'
 import { AuthService } from './auth.service'
 import { ConfirmEmailInput } from './inputs/confirmEmail.input'
 import { RegisterAdminInput } from './inputs/registerAdmin.input'
@@ -26,7 +24,7 @@ import { LoginInput } from './inputs/login.input'
 import { ResendConfirmationEmailInput } from './inputs/resendConfirmationEmail.input'
 import { authResolversDesc } from './resolverDescriptions'
 import { Request, Response } from 'express'
-import { GetMeResponse } from './types'
+import { AdminOrSender } from './types'
 
 @Resolver()
 export class AuthResolver {
@@ -34,7 +32,6 @@ export class AuthResolver {
 		private commandBus: CommandBus,
 		private browserService: BrowserService,
 		private authService: AuthService,
-		private jwtAdapter: JwtAdapterService,
 		private mainConfig: MainConfigService,
 	) {}
 
@@ -65,7 +62,7 @@ export class AuthResolver {
 		return await this.commandBus.execute(new ConfirmEmailCommand(input))
 	}
 
-	@Mutation(() => UserOutModel, {
+	@Mutation(() => AdminOrSender, {
 		name: RouteNames.AUTH.LOGIN,
 		description: authResolversDesc.login,
 	})
@@ -74,7 +71,7 @@ export class AuthResolver {
 		@Args('input') input: LoginInput,
 		@Context('req') request: Request,
 		@Context('res') response: Response,
-	): Promise<UserOutModel> {
+	) {
 		const clientIP = this.browserService.getClientIP(request)
 		const clientName = this.browserService.getClientName(request)
 
@@ -86,6 +83,8 @@ export class AuthResolver {
 
 		return user
 	}
+
+	// ---
 
 	@Mutation(() => Boolean, {
 		name: RouteNames.AUTH.RESEND_CONFIRMATION_EMAIL,
@@ -128,12 +127,12 @@ export class AuthResolver {
 	}
 
 	@UseGuards(CheckAccessTokenGuard)
-	@Query(() => GetMeResponse, {
+	@Query(() => AdminOrSender, {
 		name: RouteNames.AUTH.GET_ME,
 		description: authResolversDesc.getMe,
 	})
 	@UsePipes(new ValidationPipe({ transform: true }))
 	async getMe(@Context('req') request: Request) {
-		return await this.commandBus.execute(new GetMeCommand(request.user!.id))
+		return await this.commandBus.execute(new GetAdminOrSenderByIdCommand(request.user!.id))
 	}
 }

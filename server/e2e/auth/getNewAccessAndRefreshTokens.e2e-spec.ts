@@ -61,14 +61,16 @@ describe.skip('Get new refresh and access tokens (e2e)', () => {
 		})
 	})
 
-	it('should gives success answer if the JWT refreshToken is valid', async () => {
-		const { loginData, accessToken, refreshToken } = await userUtils.createUserAndLogin({
+	it.only('should gives success answer if the JWT refreshToken is valid', async () => {
+		const loginRes = await userUtils.createUserAndLogin({
 			app,
 			userRepository,
 			role: UserRole.Admin,
 			email: defAdminEmail,
 			password: defAdminPassword,
 		})
+
+		const { loginData, accessToken, refreshToken } = loginRes
 
 		const updateTokensMutation = queries.auth.getNewAccessAndRefreshTokens()
 		const [updateTokensResp, cookies] = await makeGraphQLReqWithTokens({

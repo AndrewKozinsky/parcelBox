@@ -1,42 +1,48 @@
 generator client {
-	provider      = "prisma-client-js"
-	binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
-	provider = "postgresql"
-	url      = env("DB_URL")
+    provider = "postgresql"
+    url      = env("DB_URL")
 }
 
 model User {
-	id	Int	@id	@default(autoincrement())
-	email	String	@unique
-	password	String
-	email_confirmation_code	String?
-	email_confirmation_code_expiration_date	String?
-	is_email_confirmed	Boolean	@default(false)
-	created_at	DateTime	@default(now())
-	role	Int
-	DeviceToken	DeviceToken[]
-	Sender	Sender?
+    id                                      Int           @id @default(autoincrement())
+    email                                   String        @unique
+    password                                String
+    email_confirmation_code                 String?
+    email_confirmation_code_expiration_date String?
+    is_email_confirmed                      Boolean       @default(false)
+    created_at                              DateTime      @default(now())
+    role                                    Int
+    DeviceToken                             DeviceToken[]
+    Sender                                  Sender?
+    Admin                                   Admin?
 }
 
 model DeviceToken {
-	id	Int	@id	@default(autoincrement())
-	issued_at	String
-	device_ip	String
-	device_id	String
-	device_name	String
-	user User @relation(fields: [user_id], references: [id])
-	user_id Int
+    id          Int    @id @default(autoincrement())
+    issued_at   String
+    device_ip   String
+    device_id   String
+    device_name String
+    user        User   @relation(fields: [user_id], references: [id])
+    user_id     Int
 }
 
 model Sender {
-	first_name	String?
-	last_name	String?
-	passport_num	String?
-	balance	Int	@default(0)
-	active	Boolean	@default(false)
-	user User @relation(fields: [user_id], references: [id])
-	user_id Int	@unique
+    first_name   String?
+    last_name    String?
+    passport_num String?
+    balance      Int     @default(0)
+    active       Boolean @default(false)
+    user         User    @relation(fields: [user_id], references: [id])
+    user_id      Int     @unique
+}
+
+model Admin {
+    user    User @relation(fields: [user_id], references: [id])
+    user_id Int  @unique
 }

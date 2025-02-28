@@ -135,7 +135,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 
 		expect(firstErr).toEqual({
 			code: 400,
-			message: 'Email confirmation code not found',
+			message: errorMessage.emailConfirmationCodeNotFound,
 		})
 
 		expect(emailAdapter.sendEmailConfirmationMessage).toHaveBeenCalledTimes(1)

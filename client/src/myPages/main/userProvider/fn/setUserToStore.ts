@@ -1,7 +1,14 @@
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { useAuthGetMe, useAuthRefreshToken } from '../../../../graphql'
-import { useUserStore } from '../../../../stores/userStore'
+import {
+	AdminOutModel,
+	AuthGetMe,
+	SenderOutModel,
+	useAuthGetMe,
+	useAuthRefreshToken,
+	User_Role,
+} from '../../../../graphql'
+import { UserStore, useUserStore } from '../../../../stores/userStore'
 import { routeNames } from '../../../../utils/routeNames'
 
 type LiveStatus =
@@ -49,13 +56,13 @@ export function useManageUserInStore() {
  * @param setLiveStatus
  */
 function useDetermineWhetherRequestToMeNeeds(setLiveStatus: React.Dispatch<React.SetStateAction<LiveStatus>>) {
-	const { user } = useUserStore.getState()
+	const { senderUser } = useUserStore.getState()
 
 	useEffect(
 		function () {
-			setLiveStatus(!!user ? 'finish' : 'makeRequestToMeFirstTime')
+			setLiveStatus(!!senderUser ? 'finish' : 'makeRequestToMeFirstTime')
 		},
-		[user],
+		[senderUser],
 	)
 }
 
@@ -77,8 +84,7 @@ function useMakeRequestToMe(liveStatus: LiveStatus, setLiveStatus: React.Dispatc
 						useUserStore.setState({ isLoading: false })
 						setLiveStatus('makeRequestToRefreshToken')
 					} else if (data) {
-						useUserStore.setState({ isLoading: false, isError: false, user: data.auth_getMe })
-						setLiveStatus('finish')
+						dataWasGotSuccessful(data)
 					}
 				}
 			} else if (liveStatus == 'makeRequestToMeSecondTime') {
@@ -89,14 +95,30 @@ function useMakeRequestToMe(liveStatus: LiveStatus, setLiveStatus: React.Dispatc
 						useUserStore.setState({ isLoading: false })
 						setLiveStatus('goToLoginPage')
 					} else if (data) {
-						useUserStore.setState({ isLoading: false, isError: false, user: data.auth_getMe })
-						setLiveStatus('finish')
+						dataWasGotSuccessful(data)
 					}
 				}
 			}
 		},
 		[liveStatus, loading],
 	)
+
+	function dataWasGotSuccessful(data: AuthGetMe) {
+		const changeUserStoreObj: Partial<UserStore> = {
+			isLoading: false,
+			isError: false,
+		}
+
+		if (data.auth_getMe.role === User_Role.Admin) {
+			changeUserStoreObj.adminUser = data.auth_getMe as AdminOutModel
+		} else if (data.auth_getMe.role === User_Role.Sender) {
+			changeUserStoreObj.senderUser = data.auth_getMe as SenderOutModel
+		}
+
+		useUserStore.setState(changeUserStoreObj)
+
+		setLiveStatus('finish')
+	}
 }
 
 /**

@@ -2,21 +2,23 @@ import { CommandHandler, ICommand, ICommandHandler } from '@nestjs/cqrs'
 import { CustomGraphQLError } from '../../infrastructure/exceptions/customGraphQLError'
 import { ErrorCode } from '../../infrastructure/exceptions/errorCode'
 import { errorMessage } from '../../infrastructure/exceptions/errorMessage'
+import { AdminQueryRepository } from '../../repo/admin.queryRepository'
 import { SenderQueryRepository } from '../../repo/sender.queryRepository'
 import { UserQueryRepository } from '../../repo/user.queryRepository'
 
-export class GetMeCommand implements ICommand {
+export class GetAdminOrSenderByIdCommand implements ICommand {
 	constructor(public userId: number) {}
 }
 
-@CommandHandler(GetMeCommand)
-export class GetMeHandler implements ICommandHandler<GetMeCommand> {
+@CommandHandler(GetAdminOrSenderByIdCommand)
+export class GetAdminOrSenderByIdHandler implements ICommandHandler<GetAdminOrSenderByIdCommand> {
 	constructor(
 		private userQueryRepository: UserQueryRepository,
+		private adminQueryRepository: AdminQueryRepository,
 		private senderQueryRepository: SenderQueryRepository,
 	) {}
 
-	async execute(command: GetMeCommand) {
+	async execute(command: GetAdminOrSenderByIdCommand) {
 		const { userId } = command
 
 		const existingUser = await this.userQueryRepository.getUserById(userId)
@@ -25,14 +27,9 @@ export class GetMeHandler implements ICommandHandler<GetMeCommand> {
 		}
 
 		if (existingUser.role === 'admin') {
-			return existingUser
+			return await this.adminQueryRepository.getAdminByUserId(userId)
+		} else if (existingUser.role === 'sender') {
+			return await this.senderQueryRepository.getSenderByUserId(userId)
 		}
-
-		const existingSender = await this.senderQueryRepository.getSenderByUserId(userId)
-		if (!existingSender) {
-			throw new CustomGraphQLError(errorMessage.userNotFound, ErrorCode.BadRequest_400)
-		}
-
-		return existingSender
 	}
 }

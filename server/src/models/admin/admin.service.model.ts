@@ -1,4 +1,4 @@
-export type SenderServiceModel = {
+export type AdminServiceModel = {
 	id: number
 	email: string
 	// password: string
