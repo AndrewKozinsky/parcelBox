@@ -1,15 +1,12 @@
 import { Typography } from 'antd'
 import Link from 'next/link'
 import { routeNames } from '../../../../utils/routeNames'
-import { useRedirectToMainPageIfUserAuthorized } from '../../../common/auth/redirectToMainPageIfUserAuthorized'
 import { AuthPageLayout } from '../../common/AuthPageWithFormLayout/AuthPageLayout'
 import LoginForm from '../LoginForm/LoginForm'
 
 const { Text } = Typography
 
 export function LoginPage() {
-	useRedirectToMainPageIfUserAuthorized()
-
 	return (
 		<AuthPageLayout
 			pageTitle={routeNames.auth.login.name}

@@ -137,10 +137,10 @@ function useMakeRequestToRefreshToken(
 			if (liveStatus !== 'makeRequestToRefreshToken') return
 
 			authRefreshToken()
-				.then(() => {
+				.then((data) => {
 					setLiveStatus('makeRequestToMeSecondTime')
 				})
-				.catch(() => {
+				.catch((err) => {
 					setLiveStatus('goToLoginPage')
 				})
 				.finally(() => {

@@ -32,10 +32,15 @@ export class GenerateAccessAndRefreshTokensHandler implements ICommandHandler<Ge
 			throw new CustomGraphQLError(errorMessage.userNotFound, ErrorCode.BadRequest_400)
 		}
 
-		await this.securityRepository.updateDeviceRefreshTokenDate(currentDeviceRefreshToken.deviceId)
+		const currentTime = new Date()
+		await this.securityRepository.updateDeviceRefreshTokenDate({
+			deviceId: currentDeviceRefreshToken.deviceId,
+			issuedAt: currentTime,
+		})
 
 		const newRefreshTokenStr = this.jwtAdapter.createRefreshTokenStr({
 			deviceId: currentDeviceRefreshToken.deviceId,
+			issuedAt: currentTime,
 		})
 
 		return {

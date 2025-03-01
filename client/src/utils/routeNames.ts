@@ -23,4 +23,12 @@ export const routeNames = {
 			path: '/auth/resend-confirmation-letter',
 		},
 	},
+	admin: {
+		name: 'Главная',
+		path: '/a',
+	},
+	sender: {
+		name: 'Главная',
+		path: '/s',
+	},
 }

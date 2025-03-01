@@ -1,0 +1,21 @@
+@use '../../../style/variables' as *;
+
+.content-layout {
+	flex-grow: 1;
+	max-width: $max-page-width;
+	margin: 0 auto;
+}
+
+@mixin section-paddings {
+	padding: 1.5rem 1rem;
+}
+
+.content-layout__header {
+	display: flex;
+	justify-content: flex-end;
+	@include section-paddings;
+}
+
+.content-layout__main {
+	@include section-paddings;
+}

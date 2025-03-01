@@ -15,9 +15,9 @@ export class JwtAdapterService {
 		})
 	}
 
-	createRefreshTokenStr(props: { deviceId: string; issuedAt?: string }): string {
+	createRefreshTokenStr(props: { deviceId: string; issuedAt: Date }): string {
 		const deviceId = props.deviceId
-		const issuedAt = props.issuedAt || new Date().toISOString()
+		const issuedAt = props.issuedAt.toISOString()
 
 		return jwt.sign({ deviceId, issuedAt }, this.mainConfig.get().jwt.secret, {
 			expiresIn: this.mainConfig.get().refreshToken.lifeDurationInMs / 1000,

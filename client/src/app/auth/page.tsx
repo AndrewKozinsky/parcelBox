@@ -1,5 +1,5 @@
 'use client'
 
-export default function AuthPage() {
+export default function Page() {
 	return <div>AuthPage</div>
 }

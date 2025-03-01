@@ -1,15 +1,12 @@
 import { Typography } from 'antd'
 import Link from 'next/link'
 import { routeNames } from '../../../../utils/routeNames'
-import { useRedirectToMainPageIfUserAuthorized } from '../../../common/auth/redirectToMainPageIfUserAuthorized'
 import { AuthPageLayout } from '../../common/AuthPageWithFormLayout/AuthPageLayout'
 import ResendConfirmationLetterForm from '../ResendConfirmationLetterForm/ResendConfirmationLetterForm'
 
 const { Text } = Typography
 
 export function ResendConfirmationLetterPage() {
-	useRedirectToMainPageIfUserAuthorized()
-
 	return (
 		<AuthPageLayout
 			pageTitle={routeNames.auth.resendConfirmationLetter.name}

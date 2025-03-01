@@ -26,7 +26,7 @@ export class CreateRefreshTokenHandler implements ICommandHandler<CreateRefreshT
 
 		return this.jwtAdapter.createRefreshTokenStr({
 			deviceId: newDeviceRefreshToken.deviceId,
-			issuedAt: newDeviceRefreshToken.issuedAt,
+			issuedAt: new Date(newDeviceRefreshToken.issuedAt),
 		})
 	}
 }

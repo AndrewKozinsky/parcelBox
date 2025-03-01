@@ -1,3 +1,7 @@
+import { useRedirectToRoleMainPageIfUserAuthorized } from '../../common/autoRedirect/redirects'
+
 export function MainPage() {
-	return <p>MainPage</p>
+	useRedirectToRoleMainPageIfUserAuthorized()
+
+	return null
 }

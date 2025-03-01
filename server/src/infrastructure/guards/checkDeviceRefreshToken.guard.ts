@@ -43,6 +43,8 @@ export class CheckDeviceRefreshTokenGuard implements CanActivate {
 		}
 
 		// Check if dates in tokens are different
+		console.log(reqRefreshToken)
+		console.log(dbRefreshToken)
 		if (reqRefreshToken!.issuedAt !== dbRefreshToken!.issuedAt) {
 			throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.BadRequest_400)
 		}
