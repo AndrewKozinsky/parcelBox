@@ -1,5 +1,5 @@
-import { Button } from 'antd'
 import React from 'react'
+import LogoutButton from '../LogoutButton/LogoutButton'
 import './ContentLayout.scss'
 
 type ContentLayoutProps = {
@@ -12,7 +12,7 @@ function ContentLayout(props: ContentLayoutProps) {
 	return (
 		<section className='content-layout'>
 			<div className='content-layout__header'>
-				<Button size='small'>Выйти</Button>
+				<LogoutButton />
 			</div>
 			<div className='content-layout__main'>{children}</div>
 		</section>

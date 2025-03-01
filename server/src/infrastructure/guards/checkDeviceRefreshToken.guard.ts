@@ -19,7 +19,7 @@ export class CheckDeviceRefreshTokenGuard implements CanActivate {
 		const ctx = GqlExecutionContext.create(context)
 		const request = ctx.getContext().req
 
-		const regRefreshTokenStr = this.browserService.getRefreshTokenStrFromReq(request)
+		const regRefreshTokenStr = this.browserService.getTokenStrFromReq(request, 'refreshToken')
 		if (!regRefreshTokenStr || !this.jwtAdapter.verifyTokenFromStr(regRefreshTokenStr)) {
 			throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.Unauthorized_401)
 		}

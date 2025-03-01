@@ -95,21 +95,6 @@ export class AuthResolver {
 
 	@UseGuards(CheckDeviceRefreshTokenGuard)
 	@Mutation(() => Boolean, {
-		name: RouteNames.AUTH.LOGOUT,
-		description: authResolversDesc.logout,
-	})
-	@UsePipes(new ValidationPipe({ transform: true }))
-	async logout(@Context('req') request: Request, @Context('res') response: Response) {
-		const refreshToken = this.browserService.getRefreshTokenStrFromReq(request)
-
-		await this.commandBus.execute(new LogoutCommand(refreshToken))
-
-		response.clearCookie(this.mainConfig.get().refreshToken.name)
-		return true
-	}
-
-	@UseGuards(CheckDeviceRefreshTokenGuard)
-	@Mutation(() => Boolean, {
 		name: RouteNames.AUTH.GET_NEW_ACCESS_AND_REFRESH_TOKENS,
 		description: authResolversDesc.getNewAccessAndRefreshToken,
 	})
@@ -132,5 +117,23 @@ export class AuthResolver {
 	@UsePipes(new ValidationPipe({ transform: true }))
 	async getMe(@Context('req') request: Request) {
 		return await this.commandBus.execute(new GetAdminOrSenderByIdCommand(request.user!.id))
+	}
+
+	@UseGuards(CheckDeviceRefreshTokenGuard)
+	@Mutation(() => Boolean, {
+		name: RouteNames.AUTH.LOGOUT,
+		description: authResolversDesc.logout,
+	})
+	@UsePipes(new ValidationPipe({ transform: true }))
+	async logout(@Context('req') request: Request, @Context('res') response: Response) {
+		const refreshToken = this.browserService.getTokenStrFromReq(request, 'refreshToken')
+
+		await this.commandBus.execute(new LogoutCommand(refreshToken))
+
+		response.clearCookie(this.mainConfig.get().refreshToken.name)
+
+		this.authService.addExpiredCookieInRes(response, this.mainConfig.get().accessToken.name)
+
+		return true
 	}
 }

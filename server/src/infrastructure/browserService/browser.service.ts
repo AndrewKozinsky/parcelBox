@@ -27,10 +27,16 @@ export class BrowserService {
 		return Boolean(header)!!
 	}*/
 
-	getRefreshTokenStrFromReq(req: Request): string {
+	getTokenStrFromReq(req: Request, type: 'refreshToken' | 'accessToken'): string {
 		if (!req.cookies) return ''
 
-		const { refreshToken } = this.mainConfig.get()
-		return req.cookies[refreshToken.name]
+		let tokenName = ''
+		if (type === 'refreshToken') {
+			tokenName = this.mainConfig.get().refreshToken.name
+		} else if (type === 'accessToken') {
+			tokenName = this.mainConfig.get().accessToken.name
+		}
+
+		return req.cookies[tokenName]
 	}
 }

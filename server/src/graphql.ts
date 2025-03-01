@@ -63,8 +63,8 @@ export interface IMutation {
     auth_registerSender(input: RegisterSenderInput): SenderOutModel | Promise<SenderOutModel>;
     auth_login(input: LoginInput): AdminOrSender | Promise<AdminOrSender>;
     auth_resendConfirmationEmail(input: ResendConfirmationEmailInput): boolean | Promise<boolean>;
-    auth_logout(): boolean | Promise<boolean>;
     auth_refreshToken(): boolean | Promise<boolean>;
+    auth_logout(): boolean | Promise<boolean>;
 }
 
 export type AdminOrSender = SenderOutModel | AdminOutModel;

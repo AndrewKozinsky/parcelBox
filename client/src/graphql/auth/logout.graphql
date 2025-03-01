@@ -1,0 +1,3 @@
+mutation AuthLogout {
+	auth_logout
+}

@@ -78,15 +78,15 @@ type Mutation {
   """
   auth_resendConfirmationEmail(input: ResendConfirmationEmailInput!): Boolean!
 
+  """Get new access and refresh token"""
+  auth_refreshToken: Boolean!
+
   """
   User logout
   	Possible errors:
   	**Токен обновления недействителен.** — refresh token is not valid
   """
   auth_logout: Boolean!
-
-  """Get new access and refresh token"""
-  auth_refreshToken: Boolean!
 }
 
 input RegisterAdminInput {

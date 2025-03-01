@@ -31,4 +31,10 @@ export class AuthService {
 			path: '/',
 		}
 	}
+
+	addExpiredCookieInRes(res: Response, cookieName: string) {
+		const cookieOptions = this.getCookieOptions(-1)
+
+		res.cookie(cookieName, '123', cookieOptions)
+	}
 }

@@ -1,13 +1,13 @@
+import { useCallback } from 'react'
 import { AdminOutModel, AuthLogin, SenderOutModel, useAuthLogin, User_Role } from '@/graphql'
 import { FetchResult } from '@apollo/client'
 import { FormInstance } from 'antd'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import { useRouter } from 'next/navigation'
-import { useCallback } from 'react'
 import { useUserStore } from '../../../../../stores/userStore'
 import { routeNames } from '../../../../../utils/routeNames'
 import { AuthFormStatus } from '../../../common/fieldRules'
-import { useLoginPageStore } from '../../loginPageStore'
+import { loginPageStoreInitial, useLoginPageStore } from '../../loginPageStore'
 import { FieldType } from './form'
 
 export function useGetOnLoginFormSubmit(form: FormInstance) {
@@ -47,6 +47,9 @@ function afterSuccessfulRequest(data: FetchResult<AuthLogin>, router: AppRouterI
 		} else if (userData.role === User_Role.Sender) {
 			useUserStore.setState({ senderUser: userData as SenderOutModel })
 		}
+
+		// Clear form blocking
+		useLoginPageStore.setState({ formStatus: AuthFormStatus.default })
 
 		// Redirect to the main page
 		router.push(routeNames.main.path)

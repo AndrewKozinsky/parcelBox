@@ -6,7 +6,7 @@ import { JwtAdapterService } from '../../infrastructure/jwtAdapter/jwtAdapter.se
 import { DevicesRepository } from '../../repo/devices.repository'
 
 export class LogoutCommand {
-	constructor(public readonly refreshToken: string) {}
+	constructor(public refreshToken: string) {}
 }
 
 @CommandHandler(LogoutCommand)
