@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common'
-import { addDays } from 'date-fns'
 import { CookieOptions, Response } from 'express'
 import { MainConfigService } from '../../config/mainConfig.service'
 
 @Injectable()
-export class AuthService {
+export class CookieService {
 	constructor(private mainConfig: MainConfigService) {}
 
 	setRefreshTokenInCookie(res: Response, refreshTokenStr: string) {

@@ -19,9 +19,8 @@ import { SenderRepository } from '../../repo/sender.repository'
 import { UserQueryRepository } from '../../repo/user.queryRepository'
 import { UserRepository } from '../../repo/user.repository'
 import { AuthResolver } from './auth.resolver'
-import { AuthService } from './auth.service'
 
-const services = [PrismaService, EmailAdapterService, AuthService]
+const services = [PrismaService, EmailAdapterService]
 
 const repositories = [
 	UserRepository,

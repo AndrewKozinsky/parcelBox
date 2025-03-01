@@ -11,12 +11,12 @@ import { LoginCommand } from '../../features/auth/Login.command'
 import { LogoutCommand } from '../../features/auth/Logout.command'
 import { ResendConfirmationEmailCommand } from '../../features/auth/ResendConfirmationEmail.command'
 import { BrowserService } from '../../infrastructure/browserService/browser.service'
+import { CookieService } from '../../infrastructure/cookieService/cookie.service'
 import { CheckAccessTokenGuard } from '../../infrastructure/guards/checkAccessToken.guard'
 import { CheckDeviceRefreshTokenGuard } from '../../infrastructure/guards/checkDeviceRefreshToken.guard'
 import RouteNames from '../../infrastructure/routeNames'
 import { AdminOutModel } from '../../models/admin/admin.out.model'
 import { SenderOutModel } from '../../models/sender/sender.out.model'
-import { AuthService } from './auth.service'
 import { ConfirmEmailInput } from './inputs/confirmEmail.input'
 import { RegisterAdminInput } from './inputs/registerAdmin.input'
 import { RegisterSenderInput } from './inputs/registerSender.input'
@@ -31,7 +31,7 @@ export class AuthResolver {
 	constructor(
 		private commandBus: CommandBus,
 		private browserService: BrowserService,
-		private authService: AuthService,
+		private cookieService: CookieService,
 		private mainConfig: MainConfigService,
 	) {}
 
@@ -78,8 +78,8 @@ export class AuthResolver {
 		const commandRes = await this.commandBus.execute(new LoginCommand(input, clientIP, clientName))
 		const { accessTokenStr, refreshTokenStr, user } = commandRes
 
-		this.authService.setRefreshTokenInCookie(response, refreshTokenStr)
-		this.authService.setAccessTokenInCookie(response, accessTokenStr)
+		this.cookieService.setRefreshTokenInCookie(response, refreshTokenStr)
+		this.cookieService.setAccessTokenInCookie(response, accessTokenStr)
 
 		return user
 	}
@@ -104,8 +104,8 @@ export class AuthResolver {
 			new GenerateAccessAndRefreshTokensCommand(request.deviceRefreshToken!),
 		)
 
-		this.authService.setRefreshTokenInCookie(response, newRefreshTokenStr)
-		this.authService.setAccessTokenInCookie(response, newAccessToken)
+		this.cookieService.setRefreshTokenInCookie(response, newRefreshTokenStr)
+		this.cookieService.setAccessTokenInCookie(response, newAccessToken)
 		return true
 	}
 
@@ -132,7 +132,7 @@ export class AuthResolver {
 
 		response.clearCookie(this.mainConfig.get().refreshToken.name)
 
-		this.authService.addExpiredCookieInRes(response, this.mainConfig.get().accessToken.name)
+		this.cookieService.addExpiredCookieInRes(response, this.mainConfig.get().accessToken.name)
 
 		return true
 	}

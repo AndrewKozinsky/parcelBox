@@ -3,6 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { join } from 'path'
 import { BrowserModule } from './infrastructure/browserService/browser.module'
+import { CookieModule } from './infrastructure/cookieService/cookie.module'
 import { EmailAdapterModule } from './infrastructure/emailAdapter/email-adapter.module'
 import { HashAdapterModule } from './infrastructure/hashAdapter/hash-adapter.module'
 import { JwtAdapterModule } from './infrastructure/jwtAdapter/jwtAdapter.module'
@@ -52,6 +53,7 @@ import { TestsModule } from './routes/test/tests.module'
 		TestsModule,
 		EmailAdapterModule,
 		BrowserModule,
+		CookieModule,
 		JwtAdapterModule,
 	],
 	controllers: [],
