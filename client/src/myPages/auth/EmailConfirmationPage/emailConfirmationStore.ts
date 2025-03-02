@@ -2,7 +2,7 @@ import { create } from 'zustand'
 
 export type EmailConfirmationStore = {
 	errorMessage: null | string
-	// If a mail confirmation reques is made set to true
+	// If a mail confirmation request is made set to true
 	confirmEmailLoading: boolean
 }
 

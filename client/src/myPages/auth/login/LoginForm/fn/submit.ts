@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useUserStore } from '../../../../../stores/userStore'
 import { routeNames } from '../../../../../utils/routeNames'
 import { AuthFormStatus } from '../../../common/fieldRules'
-import { loginPageStoreInitial, useLoginPageStore } from '../../loginPageStore'
+import { useLoginPageStore } from '../../loginPageStore'
 import { FieldType } from './form'
 
 export function useGetOnLoginFormSubmit(form: FormInstance) {
@@ -32,7 +32,6 @@ function afterSuccessfulRequest(data: FetchResult<AuthLogin>, router: AppRouterI
 
 	useUserStore.setState({
 		isLoading: false,
-		isError: false,
 	})
 
 	try {
@@ -41,11 +40,9 @@ function afterSuccessfulRequest(data: FetchResult<AuthLogin>, router: AppRouterI
 
 		// Set data to the UserStore
 		if (userData.role === User_Role.Admin) {
-			useUserStore.setState({
-				adminUser: userData as AdminOutModel,
-			})
+			useUserStore.getState().setAdminUser(userData as AdminOutModel)
 		} else if (userData.role === User_Role.Sender) {
-			useUserStore.setState({ senderUser: userData as SenderOutModel })
+			useUserStore.getState().setSenderUser(userData as SenderOutModel)
 		}
 
 		// Clear form blocking

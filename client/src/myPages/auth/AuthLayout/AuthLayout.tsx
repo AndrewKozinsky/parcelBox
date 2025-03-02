@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import './AuthLayout.scss'
 import { useRedirectToRoleMainPageIfUserAuthorized } from '../../common/autoRedirect/redirects'
+import './AuthLayout.scss'
 
 type AuthPageProps = {
 	children: React.ReactNode
