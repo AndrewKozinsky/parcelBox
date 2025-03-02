@@ -16,7 +16,7 @@ export const routeNames = {
 		},
 		rememberPassword: {
 			name: 'Вспомнить пароль',
-			path: '/auth/remember-password',
+			path: '/auth/forget-password',
 		},
 		resendConfirmationLetter: {
 			name: 'Повторная отправка письма подтверждения почты',

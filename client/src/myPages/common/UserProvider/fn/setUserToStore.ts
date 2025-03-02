@@ -15,7 +15,9 @@ export function useManageUserInStore() {
 	const gqiClient = useApolloClient()
 	const router = useRouter()
 	const pathname = usePathname() // Get current route
-	const { senderUser, adminUser, isLoggedOut } = useUserStore.getState()
+	const senderUser = useUserStore((s) => s.senderUser)
+	const adminUser = useUserStore((s) => s.adminUser)
+	const isLoggedOut = useUserStore((s) => s.isLoggedOut)
 
 	useEffect(
 		function () {
@@ -33,13 +35,13 @@ export function useManageUserInStore() {
 					// Redirect to login page
 					router.push(routeNames.auth.login.path)
 				}
-
 				// In other cases leave the user in an auth page
 			}
 			// If a user is in the content pages
 			else {
-				// Is the user logged out leave him
+				// Is the user logged out redirect him to login page
 				if (isLoggedOut) {
+					router.push(routeNames.auth.login.path)
 					return
 				}
 
