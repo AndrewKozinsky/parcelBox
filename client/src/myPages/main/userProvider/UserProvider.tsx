@@ -17,7 +17,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 	useManageUserInStore()
 
 	if (isUserLoading) {
-		return <p>Loading...</p>
+		return null
 	}
 
 	return children

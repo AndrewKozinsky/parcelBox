@@ -2,6 +2,7 @@ import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
 import { DevicesRepository } from '../../repo/devices.repository'
 import { BrowserService } from '../browserService/browser.service'
+import { CookieService } from '../cookieService/cookie.service'
 import { CustomGraphQLError } from '../exceptions/customGraphQLError'
 import { ErrorCode } from '../exceptions/errorCode'
 import { errorMessage } from '../exceptions/errorMessage'
@@ -10,7 +11,7 @@ import { JwtAdapterService } from '../jwtAdapter/jwtAdapter.service'
 @Injectable()
 export class CheckDeviceRefreshTokenGuard implements CanActivate {
 	constructor(
-		private browserService: BrowserService,
+		private cookieService: CookieService,
 		private jwtAdapter: JwtAdapterService,
 		private securityRepository: DevicesRepository,
 	) {}
@@ -19,7 +20,7 @@ export class CheckDeviceRefreshTokenGuard implements CanActivate {
 		const ctx = GqlExecutionContext.create(context)
 		const request = ctx.getContext().req
 
-		const regRefreshTokenStr = this.browserService.getTokenStrFromReq(request, 'refreshToken')
+		const regRefreshTokenStr = this.cookieService.getCookieInRequest(request, 'refreshToken')
 		if (!regRefreshTokenStr || !this.jwtAdapter.verifyTokenFromStr(regRefreshTokenStr)) {
 			throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.Unauthorized_401)
 		}

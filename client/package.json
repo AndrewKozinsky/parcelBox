@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3001",
     "graphql-generate": "npx graphql-codegen --config ./src/graphql/codegen.ts",
+	  "cy:open": "cypress open",
     "build": "next build -p 3001",
     "start": "next start -p 3001"
   },
@@ -32,6 +33,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cypress": "^14.1.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
     "i": "^0.3.7",

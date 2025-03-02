@@ -1,12 +1,11 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
-import { CustomGraphQLError } from '../../infrastructure/exceptions/customGraphQLError'
-import { ErrorCode } from '../../infrastructure/exceptions/errorCode'
-import { errorMessage } from '../../infrastructure/exceptions/errorMessage'
+import { Request } from 'express'
+import { CookieService } from '../../infrastructure/cookieService/cookie.service'
 import { JwtAdapterService } from '../../infrastructure/jwtAdapter/jwtAdapter.service'
 import { DevicesRepository } from '../../repo/devices.repository'
 
 export class LogoutCommand {
-	constructor(public refreshToken: string) {}
+	constructor(public request: Request) {}
 }
 
 @CommandHandler(LogoutCommand)
@@ -14,17 +13,27 @@ export class LogoutHandler implements ICommandHandler<LogoutCommand> {
 	constructor(
 		private devicesRepository: DevicesRepository,
 		private jwtAdapter: JwtAdapterService,
+		private cookieService: CookieService,
 	) {}
 
 	async execute(command: LogoutCommand) {
-		const { refreshToken } = command
+		const { request } = command
 
-		const refreshTokenInDb = await this.devicesRepository.getDeviceRefreshTokenByTokenStr(refreshToken)
+		try {
+			const regRefreshTokenStr = this.cookieService.getCookieInRequest(request, 'refreshToken')
+			if (!regRefreshTokenStr || !this.jwtAdapter.verifyTokenFromStr(regRefreshTokenStr)) {
+				return
+			}
 
-		if (!refreshTokenInDb || !this.jwtAdapter.getRefreshTokenFromStr(refreshToken)) {
-			throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.BadRequest_400)
+			const refreshTokenInDb = await this.devicesRepository.getDeviceRefreshTokenByTokenStr(regRefreshTokenStr)
+
+			if (!refreshTokenInDb || !this.jwtAdapter.getRefreshTokenFromStr(regRefreshTokenStr)) {
+				return
+			}
+
+			await this.devicesRepository.deleteRefreshTokenByDeviceId(refreshTokenInDb.deviceId)
+		} catch (err: unknown) {
+			console.log(err)
 		}
-
-		await this.devicesRepository.deleteRefreshTokenByDeviceId(refreshTokenInDb.deviceId)
 	}
 }

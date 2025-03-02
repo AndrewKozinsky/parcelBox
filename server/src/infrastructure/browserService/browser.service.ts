@@ -26,17 +26,4 @@ export class BrowserService {
 		const header = req.rawHeaders.find((header) => header.includes('localhost'))
 		return Boolean(header)!!
 	}*/
-
-	getTokenStrFromReq(req: Request, type: 'refreshToken' | 'accessToken'): string {
-		if (!req.cookies) return ''
-
-		let tokenName = ''
-		if (type === 'refreshToken') {
-			tokenName = this.mainConfig.get().refreshToken.name
-		} else if (type === 'accessToken') {
-			tokenName = this.mainConfig.get().accessToken.name
-		}
-
-		return req.cookies[tokenName]
-	}
 }

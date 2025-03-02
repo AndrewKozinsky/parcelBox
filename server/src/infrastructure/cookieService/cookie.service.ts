@@ -1,10 +1,23 @@
 import { Injectable } from '@nestjs/common'
-import { CookieOptions, Response } from 'express'
+import { CookieOptions, Request, Response } from 'express'
 import { MainConfigService } from '../../config/mainConfig.service'
 
 @Injectable()
 export class CookieService {
 	constructor(private mainConfig: MainConfigService) {}
+
+	getCookieInRequest(req: Request, type: 'refreshToken' | 'accessToken') {
+		if (!req.cookies) return ''
+
+		let tokenName = ''
+		if (type === 'refreshToken') {
+			tokenName = this.mainConfig.get().refreshToken.name
+		} else if (type === 'accessToken') {
+			tokenName = this.mainConfig.get().accessToken.name
+		}
+
+		return req.cookies[tokenName]
+	}
 
 	setRefreshTokenInCookie(res: Response, refreshTokenStr: string) {
 		const cookieOptions = this.getCookieOptions(this.mainConfig.get().refreshToken.lifeDurationInMs)

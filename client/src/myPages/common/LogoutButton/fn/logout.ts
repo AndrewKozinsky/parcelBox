@@ -14,9 +14,10 @@ export function useGetOnLogoutBtnClick() {
 				console.log('Successfully logged out')
 				useUserStore.setState({ adminUser: null, senderUser: null })
 
-				setTimeout(() => {
+				/*setTimeout(() => {
+					console.log('Redirecting to login')
 					router.push(routeNames.auth.login.path)
-				}, 10)
+				}, 200)*/
 			})
 			.catch((err) => {
 				console.log(err)
