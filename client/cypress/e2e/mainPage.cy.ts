@@ -1,17 +1,15 @@
-describe('My First Test', () => {
-	it('Gets, types and asserts', () => {
-		cy.visit('https://example.cypress.io')
+import { routeNames } from '../../src/utils/routeNames'
 
-		cy.contains('type').click()
+describe('Main page', () => {
+	it('should redirect from main to login page if there is not logged in user', () => {
+		cy.visit(routeNames.main.path)
 
-		// Should be on a new URL which
-		// includes '/commands/actions'
-		cy.url().should('include', '/commands/actions')
+		cy.url().should('eql', routeNames.auth.login.path)
+	})
 
-		// Get an input, type into it
-		cy.get('.action-email').type('fake@email.com')
+	it.only('should redirect from main to admin main page if the user logged in', () => {
+		cy.visit(routeNames.main.path)
 
-		//  Verify that the value has been updated
-		cy.get('.action-email').should('have.value', 'fake@email.com')
+		cy.url().should('eql', routeNames.admin.path)
 	})
 })

@@ -8,7 +8,7 @@ import RouteNames from '../../src/infrastructure/routeNames'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq } from '../makeGQReq'
-import { extractErrObjFromResp, seedDbWithTestData } from '../utils/common'
+import { extractErrObjFromResp, seedTestData } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../utils/queries'
 import { userUtils } from '../utils/userUtils'
@@ -30,7 +30,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 
 	beforeEach(async () => {
 		await clearAllDB(app)
-		await seedDbWithTestData({ app, userRepository })
+		await seedTestData({ app, userRepository })
 		jest.clearAllMocks()
 	})
 

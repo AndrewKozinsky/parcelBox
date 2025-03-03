@@ -56,7 +56,7 @@ export function makeProductionMode(moduleFixture: TestingModule) {
  * Seed database with some data for testing.
  * @param props
  */
-export async function seedDbWithTestData(props: { app: INestApplication; userRepository: UserRepository }) {
+export async function seedTestData(props: { app: INestApplication; userRepository: UserRepository }) {
 	const { app, userRepository } = props
 
 	// Create the first admin

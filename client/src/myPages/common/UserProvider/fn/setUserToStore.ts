@@ -58,10 +58,10 @@ export function useManageUserInStore() {
 
 				// In other case try to get user data by tokens in cookies...
 				userFetch.getUser(gqiClient).then((userData) => {
-					console.log(userData)
 					if (!userData) {
 						// Redirect to login page
 						router.push(routeNames.auth.login.path)
+						useUserStore.setState({ isLoading: false })
 						return
 					}
 

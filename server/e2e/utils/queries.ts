@@ -40,19 +40,6 @@ export const queries = {
 				)
 			}`
 		},
-		/*login(props: { email: string; password: string }) {
-			return `mutation {
-			  ${RouteNames.AUTH.LOGIN}(
-				input: {
-				  email: "${props.email}",
-				  password: "${props.password}"
-				}
-			) {
-			  id
-			  email
-			  }
-			}`
-		},*/
 		login(props: { email: string; password: string }) {
 			return `mutation {
 			  ${RouteNames.AUTH.LOGIN}(

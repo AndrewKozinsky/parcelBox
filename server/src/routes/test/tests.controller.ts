@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Delete, HttpStatus, Res, UseGuards } from '@nestjs/common'
+import { BadRequestException, Controller, Delete, HttpCode, HttpStatus, Post, Res, UseGuards } from '@nestjs/common'
 import { Response } from 'express'
 import { DbService } from '../../db/dbService'
 import { OnlyDevModeGuard } from '../../infrastructure/guards/onlyDevMode.guard'
@@ -19,5 +19,12 @@ export class TestsController {
 		}
 
 		throw new BadRequestException()
+	}
+
+	@HttpCode(HttpStatus.NO_CONTENT)
+	@UseGuards(OnlyDevModeGuard)
+	@Post()
+	async seedTestData() {
+		//
 	}
 }
