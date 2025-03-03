@@ -16,6 +16,13 @@ export class UserRepository {
 	) {}
 
 	@CatchDbError()
+	async getAllUsers() {
+		const users = await this.prisma.user.findMany({})
+
+		return users.map((user) => this.mapDbUserToServiceUser(user))
+	}
+
+	@CatchDbError()
 	async getUserById(id: number) {
 		const user = await this.prisma.user.findUnique({
 			where: { id },

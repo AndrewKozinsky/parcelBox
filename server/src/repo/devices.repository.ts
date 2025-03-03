@@ -13,6 +13,12 @@ export class DevicesRepository {
 		private mainConfig: MainConfigService,
 	) {}
 
+	async getAllDevices() {
+		const allDevices = await this.prisma.deviceToken.findMany()
+
+		return allDevices.map((device: DeviceToken) => this.mapDbDeviceRefreshTokenToServiceDeviceRefreshToken(device))
+	}
+
 	async getDeviceRefreshTokenByTokenStr(tokenStr: string): Promise<null | DeviceTokenServiceModel> {
 		try {
 			const refreshTokenPayload = this.jwtAdapter.getRefreshTokenDataFromTokenStr(tokenStr)
