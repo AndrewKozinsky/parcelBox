@@ -11,12 +11,12 @@ import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReqWithTokens } from '../makeGQReq'
 import { authUtils } from '../utils/authUtils'
-import { defAdminEmail, defAdminPassword, defSenderEmail, defSenderPassword } from '../utils/common'
+import { defAdminEmail, defAdminPassword, defSenderEmail, defSenderPassword, seedDbWithTestData } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../utils/queries'
 import { userUtils } from '../utils/userUtils'
 
-describe.skip('Get me (e2e)', () => {
+describe('Get me (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
@@ -39,6 +39,8 @@ describe.skip('Get me (e2e)', () => {
 
 	beforeEach(async () => {
 		await clearAllDB(app)
+		await seedDbWithTestData({ app, userRepository })
+		jest.clearAllMocks()
 	})
 
 	afterEach(() => {
@@ -49,7 +51,7 @@ describe.skip('Get me (e2e)', () => {
 		await authUtils.accessTokenChecks.tokenNotExist(app, queries.auth.getMe())
 	})
 
-	it('should return 401 if the JWT accessToken inside cookie is expired', async () => {
+	it.only('should return 401 if the JWT accessToken inside cookie is expired', async () => {
 		await authUtils.accessTokenChecks.tokenExpired({
 			app,
 			queryOrMutationStr: queries.auth.getMe(),
@@ -85,7 +87,7 @@ describe.skip('Get me (e2e)', () => {
 		expect(getMeResp.data[RouteNames.AUTH.GET_ME]).toStrictEqual({ id: 1, email: defAdminEmail, role: 'admin' })
 	})
 
-	it.only('should return a sender if passed access token is valid', async () => {
+	it('should return a sender if passed access token is valid', async () => {
 		const { loginData, accessToken, refreshToken } = await userUtils.createUserAndLogin({
 			app,
 			userRepository,

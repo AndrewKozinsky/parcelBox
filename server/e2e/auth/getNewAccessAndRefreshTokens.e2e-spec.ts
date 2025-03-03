@@ -11,7 +11,7 @@ import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq, makeGraphQLReqWithTokens } from '../makeGQReq'
 import { authUtils } from '../utils/authUtils'
-import { defAdminEmail, defAdminPassword, extractErrObjFromResp } from '../utils/common'
+import { defAdminEmail, defAdminPassword, extractErrObjFromResp, seedDbWithTestData } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../utils/queries'
 import { userUtils } from '../utils/userUtils'
@@ -39,6 +39,8 @@ describe.skip('Get new refresh and access tokens (e2e)', () => {
 
 	beforeEach(async () => {
 		await clearAllDB(app)
+		await seedDbWithTestData({ app, userRepository })
+		jest.clearAllMocks()
 	})
 
 	afterEach(() => {
