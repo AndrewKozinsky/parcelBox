@@ -1,7 +1,11 @@
 # Parcel boxes project
 
 ## In a nutshell
-This is a server and a website where a user can be either an administrator or a regular user. An administrator can create parcel boxes and set up their location and working hours. A regular user can rent a free cell to store their belongings. A user's money is debited from their account. There are no payments in this iteration. An administrator can manually increase a user's balance. 
+This is a server and a website where a user can be either an administrator or a regular user. An administrator can create parcel boxes and set up their location and working hours. A regular user can rent a free cell to store their belongings. A user's money is debited from their account. There are no payments in this iteration. An administrator can manually increase a user's balance.
+
+Before start this project you have to install Node.js if it isn't installed yet. You can learn it with
+```node -v```
+If you see a version then Node.js is installed on your machine.
 
 ## Start the project
 1. Clone project from GitHub. 
@@ -22,7 +26,12 @@ This is a server and a website where a user can be either an administrator or a 
 ```npm run start:dev```
 
 ### Starting the client
+If you don't have Yarn installed on you computer install it with
+```npm install --global yarn```
+
 1. Open next tab in Terminal and move to the client folder:
 ```cd client```
 2. Run the client server:
 ```yarn run dev```
+
+The client will be opened on http://localhost:3001.

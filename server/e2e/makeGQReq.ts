@@ -46,8 +46,8 @@ async function base(props: {
 
 	if (props.accessTokenStr) {
 		let accessTokenCookie = props.mainConfig!.get().accessToken.name + '=' + props.accessTokenStr
-		if (props.refreshTokenMaxAgeInSeconds) {
-			accessTokenCookie += `max-age=${props.refreshTokenMaxAgeInSeconds}; Path=/`
+		if (props.accessTokenMaxAgeInSeconds) {
+			accessTokenCookie += `max-age=${props.accessTokenMaxAgeInSeconds}; Path=/`
 		}
 
 		supertestRequest.set('Cookie', accessTokenCookie)

@@ -47,20 +47,20 @@ describe.skip('Logout (e2e)', () => {
 		jest.clearAllMocks()
 	})
 
-	it('should return 401 if there is not refresh device token cookie', async () => {
-		await authUtils.refreshDeviceTokenChecks.tokenNotExist(app, queries.auth.logout())
-	})
-
-	it('should return 401 if the JWT refreshToken inside cookie is expired', async () => {
-		await authUtils.refreshDeviceTokenChecks.tokenExpired({
+	it('should gives success answer even access and refreshToken was not passed', async () => {
+		const logoutMutation = queries.auth.logout()
+		const [logoutResp, cookies] = await makeGraphQLReqWithTokens({
 			app,
-			queryOrMutationStr: queries.auth.logout(),
-			userRepository,
-			devicesRepository,
-			jwtAdapter,
+			query: logoutMutation,
 			mainConfig,
-			role: UserRole.Admin,
 		})
+
+		expect(logoutResp.data[RouteNames.AUTH.LOGOUT]).toBe(true)
+
+		// Check if refresh token in cookie is already expired
+		const clearedRefreshToken = cookies[mainConfig.get().refreshToken.name]
+		const clearedRefreshTokenExpiredDate = new Date(clearedRefreshToken.expires)
+		expect(+clearedRefreshTokenExpiredDate <= +new Date()).toBe(true)
 	})
 
 	it('should gives success answer if the JWT refreshToken is valid', async () => {

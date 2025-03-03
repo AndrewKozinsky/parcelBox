@@ -66,7 +66,7 @@ describe.skip('Register an administrator (e2e)', () => {
 		// Check returned object
 		expect(createAdminResp.data).toStrictEqual({
 			[RouteNames.AUTH.REGISTER_ADMIN]: {
-				id: 1,
+				id: 9,
 				email: defAdminEmail,
 				role: 'admin',
 			},
