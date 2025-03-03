@@ -1,6 +1,6 @@
 import { Injectable, NestMiddleware } from '@nestjs/common'
 import { NextFunction, Request, Response } from 'express'
-import { MainConfigService } from '../../config/mainConfig.service'
+import { MainConfigService } from '../config/mainConfig.service'
 import { UserRepository } from '../../repo/user.repository'
 import { JwtAdapterService } from '../jwtAdapter/jwtAdapter.service'
 

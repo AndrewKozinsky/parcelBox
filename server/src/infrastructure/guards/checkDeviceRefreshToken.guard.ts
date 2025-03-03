@@ -1,9 +1,8 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
 import { DevicesRepository } from '../../repo/devices.repository'
-import { BrowserService } from '../browserService/browser.service'
 import { CookieService } from '../cookieService/cookie.service'
-import { CustomGraphQLError } from '../exceptions/customGraphQLError'
+import { CustomGraphQLError } from '../exceptions/customErrors'
 import { ErrorCode } from '../exceptions/errorCode'
 import { errorMessage } from '../exceptions/errorMessage'
 import { JwtAdapterService } from '../jwtAdapter/jwtAdapter.service'
@@ -44,8 +43,6 @@ export class CheckDeviceRefreshTokenGuard implements CanActivate {
 		}
 
 		// Check if dates in tokens are different
-		console.log(reqRefreshToken)
-		console.log(dbRefreshToken)
 		if (reqRefreshToken!.issuedAt !== dbRefreshToken!.issuedAt) {
 			throw new CustomGraphQLError(errorMessage.refreshTokenIsNotValid, ErrorCode.BadRequest_400)
 		}

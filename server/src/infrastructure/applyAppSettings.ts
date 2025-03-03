@@ -1,7 +1,7 @@
 import { BadRequestException, INestApplication, ValidationPipe } from '@nestjs/common'
 import { Request, Response, NextFunction } from 'express'
 import * as cookieParser from 'cookie-parser'
-import { MainConfigService } from '../config/mainConfig.service'
+import { MainConfigService } from './config/mainConfig.service'
 import { UserRepository } from '../repo/user.repository'
 import { GraphQLValidationFilter } from './exceptions/graphqlException.filter'
 import { JwtAdapterService } from './jwtAdapter/jwtAdapter.service'

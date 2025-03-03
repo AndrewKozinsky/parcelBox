@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common'
 import { App } from 'supertest/types'
-import { MainConfigService } from '../../src/config/mainConfig.service'
+import { MainConfigService } from '../../src/infrastructure/config/mainConfig.service'
 import { clearAllDB } from '../../src/db/clearDB'
 import { UserRole } from '../../src/db/dbConstants'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
@@ -26,7 +26,7 @@ describe.skip('Logout (e2e)', () => {
 	let mainConfig: MainConfigService
 
 	beforeAll(async () => {
-		const createMainAppRes = await createApp(emailAdapter)
+		const createMainAppRes = await createApp({ emailAdapter })
 
 		app = createMainAppRes.app
 		emailAdapter = createMainAppRes.emailAdapter

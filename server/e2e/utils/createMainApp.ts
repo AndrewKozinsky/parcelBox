@@ -3,7 +3,7 @@ import { AppModule } from '../../src/app.module'
 import { applyAppSettings } from '../../src/infrastructure/applyAppSettings'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
 
-export async function createApp(emailAdapter: EmailAdapterService) {
+export async function createApp(props: { emailAdapter: EmailAdapterService }) {
 	const moduleFixture: TestingModule = await Test.createTestingModule({
 		imports: [AppModule],
 	})
@@ -19,10 +19,11 @@ export async function createApp(emailAdapter: EmailAdapterService) {
 	await applyAppSettings(app)
 	await app.init()
 
-	emailAdapter = moduleFixture.get<EmailAdapterService>(EmailAdapterService)
+	props.emailAdapter = moduleFixture.get<EmailAdapterService>(EmailAdapterService)
 
 	return {
 		app,
-		emailAdapter,
+		moduleFixture,
+		emailAdapter: props.emailAdapter,
 	}
 }

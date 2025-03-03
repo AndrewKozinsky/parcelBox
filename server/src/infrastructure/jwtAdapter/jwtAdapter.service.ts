@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import * as jwt from 'jsonwebtoken'
 import * as dateFns from 'date-fns'
-import { MainConfigService } from '../../config/mainConfig.service'
+import { MainConfigService } from '../config/mainConfig.service'
 import { DeviceTokenServiceModel } from '../../models/security/security.service.model'
 import { createUniqString } from '../../utils/stringUtils'
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { DeviceToken } from '@prisma/client'
-import { MainConfigService } from '../config/mainConfig.service'
+import { MainConfigService } from '../infrastructure/config/mainConfig.service'
 import { PrismaService } from '../db/prisma.service'
 import { JwtAdapterService } from '../infrastructure/jwtAdapter/jwtAdapter.service'
 import { DeviceRefreshTokenServiceModel, DeviceTokenServiceModel } from '../models/security/security.service.model'

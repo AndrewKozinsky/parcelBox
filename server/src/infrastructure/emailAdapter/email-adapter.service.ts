@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { MainConfigService } from '../../config/mainConfig.service'
+import { MainConfigService } from '../config/mainConfig.service'
 const sendpulse = require('sendpulse-api')
 
 @Injectable()

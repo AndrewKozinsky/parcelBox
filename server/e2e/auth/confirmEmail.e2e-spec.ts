@@ -8,7 +8,7 @@ import RouteNames from '../../src/infrastructure/routeNames'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq } from '../makeGQReq'
-import { defAdminEmail, defAdminPassword, extractErrObjFromResp } from '../utils/common'
+import { extractErrObjFromResp } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../utils/queries'
 import { userUtils } from '../utils/userUtils'
@@ -20,7 +20,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 	let userQueryRepository: UserQueryRepository
 
 	beforeAll(async () => {
-		const createMainAppRes = await createApp(emailAdapter)
+		const createMainAppRes = await createApp({ emailAdapter })
 
 		app = createMainAppRes.app
 		emailAdapter = createMainAppRes.emailAdapter

@@ -18,7 +18,7 @@ describe.skip('Register an administrator (e2e)', () => {
 	let userQueryRepository: UserQueryRepository
 
 	beforeAll(async () => {
-		const createMainAppRes = await createApp(emailAdapter)
+		const createMainAppRes = await createApp({ emailAdapter })
 
 		app = createMainAppRes.app
 		emailAdapter = createMainAppRes.emailAdapter

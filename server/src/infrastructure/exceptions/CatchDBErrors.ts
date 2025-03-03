@@ -1,4 +1,4 @@
-import { CustomGraphQLError } from './customGraphQLError'
+import { CustomGraphQLError } from './customErrors'
 import { ErrorCode } from './errorCode'
 import { errorMessage } from './errorMessage'
 

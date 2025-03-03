@@ -1,6 +1,8 @@
 import { ArgumentsHost, BadRequestException, Catch, ExceptionFilter } from '@nestjs/common'
+import { Response } from 'express'
 import { isArray } from 'class-validator'
 import { GraphQLError } from 'graphql'
+import { CustomRestError } from './customErrors'
 import { errorMessage } from './errorMessage'
 
 @Catch()
@@ -12,6 +14,13 @@ export class GraphQLValidationFilter implements ExceptionFilter {
 					code: exception.extensions.code,
 				},
 			})
+		}
+
+		if (exception instanceof CustomRestError) {
+			const ctx = host.switchToHttp()
+			const response = ctx.getResponse<Response>()
+
+			response.status(exception.code).json({ message: exception.message })
 		}
 
 		if (exception instanceof BadRequestException) {

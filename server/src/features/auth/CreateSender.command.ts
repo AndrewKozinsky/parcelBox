@@ -1,7 +1,7 @@
 import { CommandHandler, ICommand, ICommandHandler } from '@nestjs/cqrs'
 import { UserRole } from '../../db/dbConstants'
 import { EmailAdapterService } from '../../infrastructure/emailAdapter/email-adapter.service'
-import { CustomGraphQLError } from '../../infrastructure/exceptions/customGraphQLError'
+import { CustomGraphQLError } from '../../infrastructure/exceptions/customErrors'
 import { ErrorCode } from '../../infrastructure/exceptions/errorCode'
 import { errorMessage } from '../../infrastructure/exceptions/errorMessage'
 import { CreateSenderInputModel } from '../../models/auth/auth.input.model'

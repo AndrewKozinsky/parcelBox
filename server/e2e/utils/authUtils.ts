@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common'
 import * as dateFns from 'date-fns'
-import { MainConfigService } from '../../src/config/mainConfig.service'
+import { MainConfigService } from '../../src/infrastructure/config/mainConfig.service'
 import { UserRole } from '../../src/db/dbConstants'
 import { errorMessage } from '../../src/infrastructure/exceptions/errorMessage'
 import { DeviceTokenOutModel } from '../../src/models/auth/auth.out.model'
@@ -122,10 +122,8 @@ export const authUtils = {
 
 		const expiredDate = dateFns.subMilliseconds(new Date(), props.mainConfig.get().refreshToken.lifeDurationInMs)
 
-		const issuedAt = expiredDate.toISOString()
-
 		const expiredRefreshToken: DeviceTokenOutModel = {
-			issuedAt,
+			issuedAt: expiredDate.toISOString(),
 			deviceIP: '123',
 			deviceId,
 			deviceName: 'Unknown',
@@ -135,6 +133,6 @@ export const authUtils = {
 		await props.devicesRepository.insertDeviceRefreshToken(expiredRefreshToken)
 
 		// Create expired token string
-		return props.jwtAdapter.createRefreshTokenStr({ deviceId, issuedAt })
+		return props.jwtAdapter.createRefreshTokenStr({ deviceId, issuedAt: expiredDate })
 	},
 }

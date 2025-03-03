@@ -8,8 +8,8 @@ import { EmailAdapterModule } from './infrastructure/emailAdapter/email-adapter.
 import { HashAdapterModule } from './infrastructure/hashAdapter/hash-adapter.module'
 import { JwtAdapterModule } from './infrastructure/jwtAdapter/jwtAdapter.module'
 import { AuthModule } from './routes/auth/auth.module'
-import { MainConfigModule } from './config/mainConfig.module'
-import { MainConfigService } from './config/mainConfig.service'
+import { MainConfigModule } from './infrastructure/config/mainConfig.module'
+import { MainConfigService } from './infrastructure/config/mainConfig.service'
 import { TestsModule } from './routes/test/tests.module'
 
 @Module({
