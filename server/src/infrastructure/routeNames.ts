@@ -11,6 +11,7 @@ export const RouteNames = {
 	},
 	TESTING: {
 		ALL_DATA: 'testing/all-data',
+		SEED_TEST_DATA: 'testing/seed-test-data',
 	},
 }
 

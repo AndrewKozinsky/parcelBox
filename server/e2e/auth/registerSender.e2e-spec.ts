@@ -10,7 +10,7 @@ import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq } from '../makeGQReq'
 import { defSenderEmail, defSenderPassword, extractErrObjFromResp, seedTestData } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
-import { queries } from '../utils/queries'
+import { queries } from '../../src/features/test/queries'
 
 describe.skip('Register a sender (e2e)', () => {
 	let app: INestApplication<App>

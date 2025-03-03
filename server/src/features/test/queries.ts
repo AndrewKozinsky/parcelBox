@@ -1,4 +1,4 @@
-import RouteNames from '../../src/infrastructure/routeNames'
+import RouteNames from '../../infrastructure/routeNames'
 
 export const queries = {
 	auth: {

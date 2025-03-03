@@ -6,7 +6,7 @@ import { UserServiceModel } from '../../src/models/auth/auth.service.model'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq } from '../makeGQReq'
 import { defAdminEmail, defAdminPassword, defSenderEmail, defSenderPassword } from './common'
-import { queries } from './queries'
+import { queries } from '../../src/features/test/queries'
 
 export const userUtils = {
 	async createUserWithUnconfirmedEmail(props: {

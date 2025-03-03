@@ -9,11 +9,11 @@ import RouteNames from '../../src/infrastructure/routeNames'
 import { DevicesRepository } from '../../src/repo/devices.repository'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
-import { makeGraphQLReq, makeGraphQLReqWithTokens } from '../makeGQReq'
+import { makeGraphQLReqWithTokens } from '../makeGQReq'
 import { authUtils } from '../utils/authUtils'
 import { defAdminEmail, defAdminPassword, extractErrObjFromResp, seedTestData } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
-import { queries } from '../utils/queries'
+import { queries } from '../../src/features/test/queries'
 import { userUtils } from '../utils/userUtils'
 
 describe.skip('Get new refresh and access tokens (e2e)', () => {

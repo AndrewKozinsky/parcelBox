@@ -10,7 +10,7 @@ import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq } from '../makeGQReq'
 import { defAdminEmail, defAdminPassword, extractErrObjFromResp, seedTestData } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
-import { queries } from '../utils/queries'
+import { queries } from '../../src/features/test/queries'
 import { userUtils } from '../utils/userUtils'
 
 describe.skip('Confirm an user email (e2e)', () => {

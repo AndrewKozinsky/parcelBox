@@ -13,7 +13,7 @@ import { makeGraphQLReqWithTokens } from '../makeGQReq'
 import { authUtils } from '../utils/authUtils'
 import { defAdminEmail, defAdminPassword, defSenderEmail, defSenderPassword, seedTestData } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
-import { queries } from '../utils/queries'
+import { queries } from '../../src/features/test/queries'
 import { userUtils } from '../utils/userUtils'
 
 describe.skip('Get me (e2e)', () => {
