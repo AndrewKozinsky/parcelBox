@@ -14,7 +14,8 @@ export class SeedTestDataHandler implements ICommandHandler<SeedTestDataCommand>
 	constructor(private userRepository: UserRepository) {}
 
 	async execute() {
-		const usersConfig: { email: string; password: string; role: UserRole; isEmailConfirmed: boolean }[] = [
+		type UserConfig = { email: string; password: string; role: UserRole; isEmailConfirmed: boolean }
+		const usersConfig: UserConfig[] = [
 			{ email: 'unconfirmedAdmin@mail.com', password: '123456', role: UserRole.Admin, isEmailConfirmed: false },
 			{ email: 'confirmedAdmin@mail.com', password: '123456', role: UserRole.Admin, isEmailConfirmed: true },
 			{ email: 'admin@mail.com', password: '123456', role: UserRole.Admin, isEmailConfirmed: true },
