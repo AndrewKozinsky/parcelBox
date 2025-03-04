@@ -1,6 +1,14 @@
 import { useCallback } from 'react'
-import { AdminOutModel, AuthLogin, SenderOutModel, useAuthLogin, User_Role } from '@/graphql'
-import { FetchResult } from '@apollo/client'
+import {
+	AdminOutModel,
+	AuthGetMeDocument,
+	AuthLogin,
+	AuthLoginDocument,
+	SenderOutModel,
+	useAuthLogin,
+	User_Role,
+} from '@/graphql'
+import { FetchResult, useApolloClient } from '@apollo/client'
 import { FormInstance } from 'antd'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import { useRouter } from 'next/navigation'
@@ -12,16 +20,18 @@ import { FieldType } from './form'
 
 export function useGetOnLoginFormSubmit(form: FormInstance) {
 	const router = useRouter()
-	const [loginRequest] = useAuthLogin()
+	const [loginRequest] = useAuthLogin({ fetchPolicy: 'no-cache' })
 
-	return useCallback(function (values: FieldType) {
+	return useCallback(async function (values: FieldType) {
 		const requestParams = { variables: { input: { email: values.email, password: values.password } } }
 
 		loginRequest(requestParams)
 			.then((data) => {
+				console.log(data)
 				afterSuccessfulRequest(data, router)
 			})
 			.catch((error) => {
+				console.log(error)
 				afterFailedRequest(form, error)
 			})
 	}, [])

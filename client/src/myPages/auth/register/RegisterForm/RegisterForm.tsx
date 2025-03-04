@@ -3,12 +3,14 @@ import { Alert, Button, Form, Input, Radio, RadioChangeEvent } from 'antd'
 import Link from 'next/link'
 import { User_Role } from '../../../../graphql'
 import { AuthFormStatus, formEmailFieldRules, formPasswordFieldRules } from '../../common/fieldRules'
+import { LoginFormTest } from '../../login/LoginForm/fn/form'
 import { useRegisterPageStore } from '../registerPageStore'
 import {
 	FieldType,
 	FormNames,
 	regFormAgainPasswordFieldRules,
 	regFormRoleFieldRules,
+	RegisterFormTest,
 	useGetOnChangeRegisterForm,
 } from './fn/form'
 import { useGetOnSubmit } from './fn/submit'
@@ -30,6 +32,7 @@ function RegisterForm() {
 				autoComplete='on'
 				layout='vertical'
 				disabled={[AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)}
+				data-testid={RegisterFormTest.form.id}
 			>
 				<RoleRadios />
 				<EmailField />
@@ -71,6 +74,7 @@ function RoleRadios() {
 						label: 'Администрировать шкафы',
 					},
 				]}
+				data-testid={RegisterFormTest.roleRadio.id}
 			/>
 		</Form.Item>
 	)
@@ -79,7 +83,7 @@ function RoleRadios() {
 function EmailField() {
 	return (
 		<Form.Item<FieldType> label='Почта' name={FormNames.email} rules={formEmailFieldRules}>
-			<Input autoComplete='email' />
+			<Input autoComplete='email' data-testid={RegisterFormTest.emailField.id} />
 		</Form.Item>
 	)
 }
@@ -88,7 +92,7 @@ function PasswordFields() {
 	return (
 		<>
 			<Form.Item<FieldType> label='Пароль' name={FormNames.password} rules={formPasswordFieldRules}>
-				<Input.Password autoComplete='new-password' />
+				<Input.Password autoComplete='new-password' data-testid={RegisterFormTest.passwordField.id} />
 			</Form.Item>
 
 			<Form.Item<FieldType>
@@ -96,7 +100,7 @@ function PasswordFields() {
 				name={FormNames.passwordAgain}
 				rules={regFormAgainPasswordFieldRules}
 			>
-				<Input.Password autoComplete='new-password' />
+				<Input.Password autoComplete='new-password' data-testid={RegisterFormTest.passwordAgainField.id} />
 			</Form.Item>
 		</>
 	)
@@ -106,11 +110,18 @@ function SubmitFormButton() {
 	const isFormValid = useRegisterPageStore((s) => s.isFormValid)
 	const formStatus = useRegisterPageStore((s) => s.formStatus)
 
-	const isDisabled = !isFormValid || [AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)
+	const isDisabled =
+		!isFormValid ||
+		[AuthFormStatus.success, AuthFormStatus.submitPending, AuthFormStatus.failure].includes(formStatus)
 
 	return (
 		<Form.Item>
-			<Button type='primary' htmlType='submit' disabled={isDisabled}>
+			<Button
+				type='primary'
+				htmlType='submit'
+				disabled={isDisabled}
+				data-testid={RegisterFormTest.submitButton.id}
+			>
 				Зарегистрироваться
 			</Button>
 		</Form.Item>
@@ -140,7 +151,7 @@ function FormWasSentMessage() {
 
 	return (
 		<Form.Item>
-			<Alert message={message} type='success' />
+			<Alert message={message} type='success' data-testid={RegisterFormTest.successMessage.id} />
 		</Form.Item>
 	)
 }
@@ -154,7 +165,7 @@ function FormWasNotSentMessage() {
 	}
 
 	return (
-		<Form.Item>
+		<Form.Item data-testid={RegisterFormTest.failMessage.id}>
 			<Alert message={formError} type='error' />
 		</Form.Item>
 	)

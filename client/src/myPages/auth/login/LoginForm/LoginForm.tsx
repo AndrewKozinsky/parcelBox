@@ -14,21 +14,20 @@ function LoginForm() {
 	const onLoginFormSubmit = useGetOnLoginFormSubmit(form)
 
 	return (
-		<div>
-			<Form
-				form={form}
-				onChange={onChangeLoginForm}
-				onFinish={onLoginFormSubmit}
-				autoComplete='on'
-				layout='vertical'
-				disabled={[AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)}
-			>
-				<EmailField />
-				<PasswordField />
-				<SubmitFormButton />
-				<FormWasNotSentMessage />
-			</Form>
-		</div>
+		<Form
+			form={form}
+			onChange={onChangeLoginForm}
+			onFinish={onLoginFormSubmit}
+			autoComplete='on'
+			layout='vertical'
+			disabled={[AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)}
+			data-testid={LoginFormTest.form.id}
+		>
+			<EmailField />
+			<PasswordField />
+			<SubmitFormButton />
+			<FormWasNotSentMessage />
+		</Form>
 	)
 }
 
@@ -60,7 +59,7 @@ function SubmitFormButton() {
 
 	return (
 		<Form.Item>
-			<Button type='primary' htmlType='submit' disabled={isDisabled}>
+			<Button type='primary' htmlType='submit' disabled={isDisabled} data-testid={LoginFormTest.submitButton.id}>
 				Войти
 			</Button>
 		</Form.Item>

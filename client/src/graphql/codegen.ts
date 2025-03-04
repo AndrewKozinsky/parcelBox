@@ -13,7 +13,6 @@ const config: CodegenConfig = {
 				dedupeOperationSuffix: true,
 				omitOperationSuffix: true,
 				avoidOptionals: true,
-				withHooks: true, // Generates React hooks
 			},
 		},
 	},

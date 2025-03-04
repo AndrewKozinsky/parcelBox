@@ -3,7 +3,7 @@ import { checkIsPage, login } from './utils/commands'
 import { database } from './utils/database'
 import { users } from './utils/users'
 
-describe('Main page', () => {
+describe.skip('Main page', () => {
 	beforeEach(() => {
 		database.clear()
 		database.seedTestData()

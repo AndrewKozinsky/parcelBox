@@ -25,6 +25,17 @@ function makeClient() {
 		// use the `InMemoryCache` from "@apollo/experimental-nextjs-app-support"
 		cache: new InMemoryCache(),
 		link: httpLink,
+		/*defaultOptions: {
+			watchQuery: {
+				fetchPolicy: 'no-cache', // Prevent cache issues globally
+			},
+			query: {
+				fetchPolicy: 'no-cache',
+			},
+			mutate: {
+				fetchPolicy: 'no-cache',
+			},
+		},*/
 	})
 }
 

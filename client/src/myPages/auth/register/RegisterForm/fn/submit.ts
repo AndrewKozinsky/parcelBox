@@ -14,8 +14,8 @@ import { useRegisterPageStore } from '../../registerPageStore'
 import { FieldType } from './form'
 
 export function useGetOnSubmit(form: FormInstance) {
-	const [registerAdmin] = useAuthRegisterAdmin()
-	const [registerSender] = useAuthRegisterSender()
+	const [registerAdmin] = useAuthRegisterAdmin({ fetchPolicy: 'no-cache' })
+	const [registerSender] = useAuthRegisterSender({ fetchPolicy: 'no-cache' })
 
 	return useCallback(function (values: FieldType) {
 		const makeRequest = values.role === User_Role.Admin ? registerAdmin : registerSender

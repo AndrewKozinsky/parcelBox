@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { useRedirectToRoleMainPageIfUserAuthorized } from '../../common/autoRedirect/redirects'
 import './AuthLayout.scss'
 
 type AuthPageProps = {
@@ -10,8 +9,6 @@ type AuthPageProps = {
 
 export function AuthLayout(props: AuthPageProps) {
 	const { children } = props
-
-	useRedirectToRoleMainPageIfUserAuthorized()
 
 	return (
 		<section className='auth-layout'>

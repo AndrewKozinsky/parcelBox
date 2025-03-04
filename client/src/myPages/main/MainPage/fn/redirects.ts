@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import { useUserStore } from '../../../stores/userStore'
-import { routeNames } from '../../../utils/routeNames'
+import { useUserStore } from '../../../../stores/userStore'
+import { routeNames } from '../../../../utils/routeNames'
 
 export function useRedirectToRoleMainPageIfUserAuthorized() {
 	const router = useRouter()

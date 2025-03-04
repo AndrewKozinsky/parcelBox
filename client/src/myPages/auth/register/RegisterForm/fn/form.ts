@@ -4,6 +4,17 @@ import { User_Role } from '../../../../../graphql'
 import { AuthFormStatus } from '../../../common/fieldRules'
 import { useRegisterPageStore } from '../../registerPageStore'
 
+export const RegisterFormTest = {
+	form: { id: 'form', query: 'form[data-testid=form]' },
+	roleRadio: { id: 'role-radio', query: '*[data-testid=role-radio]' },
+	emailField: { id: 'email-field', query: 'input[data-testid=email-field]' },
+	passwordField: { id: 'password-field', query: 'input[data-testid=password-field]' },
+	passwordAgainField: { id: 'password-again-field', query: 'input[data-testid=password-again-field]' },
+	submitButton: { id: 'submit-button', query: 'button[data-testid=submit-button]' },
+	failMessage: { id: 'fail-message', query: '*[data-testid=fail-message]' },
+	successMessage: { id: 'success-message', query: '*[data-testid=success-message]' },
+}
+
 export type FieldType = {
 	[FormNames.role]: User_Role
 	[FormNames.email]: string

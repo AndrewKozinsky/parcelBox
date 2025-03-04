@@ -1,4 +1,4 @@
-import { useRedirectToRoleMainPageIfUserAuthorized } from '../../common/autoRedirect/redirects'
+import { useRedirectToRoleMainPageIfUserAuthorized } from './fn/redirects'
 
 export function MainPage() {
 	useRedirectToRoleMainPageIfUserAuthorized()

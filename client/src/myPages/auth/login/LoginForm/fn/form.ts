@@ -3,8 +3,10 @@ import { AuthFormStatus } from '../../../common/fieldRules'
 import { useLoginPageStore } from '../../loginPageStore'
 
 export const LoginFormTest = {
+	form: { id: 'form', query: 'form[data-testid=form]' },
 	emailField: { id: 'email-field', query: 'input[data-testid=email-field]' },
 	passwordField: { id: 'password-field', query: 'input[data-testid=password-field]' },
+	submitButton: { id: 'submit-button', query: 'button[data-testid=submit-button]' },
 }
 
 export type FieldType = {
