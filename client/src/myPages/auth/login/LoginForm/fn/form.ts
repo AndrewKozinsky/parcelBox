@@ -7,6 +7,7 @@ export const LoginFormTest = {
 	emailField: { id: 'email-field', query: 'input[data-testid=email-field]' },
 	passwordField: { id: 'password-field', query: 'input[data-testid=password-field]' },
 	submitButton: { id: 'submit-button', query: 'button[data-testid=submit-button]' },
+	failMessage: { id: 'fail-message', query: '*[data-testid=fail-message]' },
 }
 
 export type FieldType = {

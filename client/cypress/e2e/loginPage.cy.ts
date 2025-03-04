@@ -14,7 +14,7 @@ describe.skip('Login page', () => {
 		// Visit to the login page
 		cy.visit(routeNames.auth.login.path)
 
-		cy.wait(100)
+		cy.wait(200)
 		cy.get(LoginFormTest.emailField.query).type('admin@ma')
 		cy.get(LoginFormTest.passwordField.query).type('12345')
 
@@ -28,7 +28,7 @@ describe.skip('Login page', () => {
 		// Visit to the login page
 		cy.visit(routeNames.auth.login.path)
 
-		cy.wait(100)
+		cy.wait(200)
 
 		// Write data of the user with unconfirmed email
 		cy.get(LoginFormTest.emailField.query).type(users.unconfirmedAdmin.email)
@@ -66,7 +66,7 @@ describe.skip('Login page', () => {
 	})
 })
 
-describe.skip('A try to move to the login page if a user already logged in', () => {
+describe('A try to move to the login page if a user already logged in', () => {
 	it('should redirect from login page to admin main page if an admin logged in', () => {
 		login(users.confirmedAdmin)
 

@@ -1,6 +1,6 @@
 import { RegisterFormTest } from '../../src/myPages/auth/register/RegisterForm/fn/form'
 import { routeNames } from '../../src/utils/routeNames'
-import { checkIsPage, checkRadio, login } from './utils/commands'
+import { checkIsPage, switchRadioTo, login, isFormInputsDisabled } from './utils/commands'
 import { database } from './utils/database'
 import { users } from './utils/users'
 
@@ -57,7 +57,7 @@ describe.skip('Register page', () => {
 
 		cy.get(RegisterFormTest.form.query).submit()
 
-		// cy.get(RegisterFormTest.submitButton.query).should('be.disabled')
+		cy.get(RegisterFormTest.submitButton.query).should('be.disabled')
 		cy.get(RegisterFormTest.failMessage.query).contains('Почта зарегистрирована, но не подтверждена.')
 
 		// Check the program didn't change address
@@ -90,7 +90,7 @@ describe.skip('Register page', () => {
 })
 
 function successfullyRegisterUserWithRole(role: 'admin' | 'sender') {
-	checkRadio(RegisterFormTest.roleRadio.query, role)
+	switchRadioTo(RegisterFormTest.roleRadio.query, role)
 
 	cy.get(RegisterFormTest.emailField.query).type('my@google.com')
 	cy.get(RegisterFormTest.passwordField.query).type('12345000')
@@ -106,14 +106,14 @@ function successfullyRegisterUserWithRole(role: 'admin' | 'sender') {
 	)
 
 	// All inputs must be disabled
-	cy.get(RegisterFormTest.form.query).get('input').should('have.attr', 'disabled')
+	isFormInputsDisabled(RegisterFormTest.form.query)
 
 	// Check the program didn't change address
 	cy.wait(200)
 	checkIsPage(routeNames.auth.register.path)
 }
 
-describe.skip('Register page if a user already logged in', () => {
+describe('Register page if a user already logged in', () => {
 	beforeEach(() => {
 		database.clear()
 		database.seedTestData()

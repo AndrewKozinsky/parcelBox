@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Alert, Button, Form, Input } from 'antd'
 import { AuthFormStatus, formEmailFieldRules } from '../../common/fieldRules'
 import { useResendConfirmationEmailStore } from '../resendConfirmationLetterPageStore'
-import { FieldType, FormNames, useGetOnChangeResendConfirmationEmailForm } from './fn/form'
+import { FieldType, FormNames, RCLFormTest, useGetOnChangeResendConfirmationEmailForm } from './fn/form'
 import { useGetOnSubmit } from './fn/submit'
 
 function ResendConfirmationLetterForm() {
@@ -23,6 +23,7 @@ function ResendConfirmationLetterForm() {
 				autoComplete='on'
 				layout='vertical'
 				disabled={[AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)}
+				data-testid={RCLFormTest.form.id}
 			>
 				<EmailField />
 				<SubmitFormButton />
@@ -38,7 +39,7 @@ export default ResendConfirmationLetterForm
 function EmailField() {
 	return (
 		<Form.Item<FieldType> label='Почта' name={FormNames.email} rules={formEmailFieldRules}>
-			<Input autoComplete='email' />
+			<Input autoComplete='email' data-testid={RCLFormTest.emailField.id} />
 		</Form.Item>
 	)
 }
@@ -51,7 +52,7 @@ function SubmitFormButton() {
 
 	return (
 		<Form.Item>
-			<Button type='primary' htmlType='submit' disabled={isDisabled}>
+			<Button type='primary' htmlType='submit' disabled={isDisabled} data-testid={RCLFormTest.submitButton.id}>
 				Отправить письмо
 			</Button>
 		</Form.Item>
@@ -81,7 +82,7 @@ function FormWasSentMessage() {
 
 	return (
 		<Form.Item>
-			<Alert message={message} type='success' />
+			<Alert message={message} type='success' data-testid={RCLFormTest.successMessage.id} />
 		</Form.Item>
 	)
 }
@@ -96,7 +97,7 @@ function FormWasNotSentMessage() {
 
 	return (
 		<Form.Item>
-			<Alert message={formError} type='error' />
+			<Alert message={formError} type='error' data-testid={RCLFormTest.failMessage.id} />
 		</Form.Item>
 	)
 }

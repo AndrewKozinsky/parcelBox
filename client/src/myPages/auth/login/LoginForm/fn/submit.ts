@@ -8,7 +8,7 @@ import {
 	useAuthLogin,
 	User_Role,
 } from '@/graphql'
-import { FetchResult, useApolloClient } from '@apollo/client'
+import { FetchResult } from '@apollo/client'
 import { FormInstance } from 'antd'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import { useRouter } from 'next/navigation'

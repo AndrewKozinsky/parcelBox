@@ -1,6 +1,7 @@
 import React from 'react'
 import { Alert, Button, Form, Input } from 'antd'
 import { AuthFormStatus, formEmailFieldRules, formPasswordFieldRules } from '../../common/fieldRules'
+import { RegisterFormTest } from '../../register/RegisterForm/fn/form'
 import { useLoginPageStore } from '../loginPageStore'
 import { FieldType, FormNames, LoginFormTest, useGetOnChangeLoginForm } from './fn/form'
 import { useGetOnLoginFormSubmit } from './fn/submit'
@@ -76,7 +77,7 @@ function FormWasNotSentMessage() {
 
 	return (
 		<Form.Item>
-			<Alert message={formError} type='error' />
+			<Alert message={formError} type='error' data-testid={LoginFormTest.failMessage.id} />
 		</Form.Item>
 	)
 }

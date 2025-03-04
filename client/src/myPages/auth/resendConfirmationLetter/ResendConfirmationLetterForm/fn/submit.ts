@@ -9,7 +9,7 @@ import { useAuthResendConfirmationEmail } from '@/graphql'
 
 export function useGetOnSubmit(form: FormInstance) {
 	const router = useRouter()
-	const [resendConfirmationEmailRequest] = useAuthResendConfirmationEmail()
+	const [resendConfirmationEmailRequest] = useAuthResendConfirmationEmail({ fetchPolicy: 'no-cache' })
 
 	return useCallback(function (values: FieldType) {
 		const requestParams = { variables: { input: { email: values.email } } }

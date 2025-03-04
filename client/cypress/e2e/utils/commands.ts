@@ -4,7 +4,7 @@ import { UserConfig } from './users'
 
 export function login(userConfig: UserConfig) {
 	cy.visit(routeNames.auth.login.path)
-	cy.wait(100)
+	cy.wait(200)
 
 	const emailField = cy.get(LoginFormTest.emailField.query)
 	emailField.type(userConfig.email)
@@ -17,6 +17,10 @@ export function checkIsPage(path: string) {
 	cy.url().should('eql', 'http://localhost:3001' + path)
 }
 
-export function checkRadio(query: string, value: string) {
+export function switchRadioTo(query: string, value: string) {
 	cy.get(query).get('input[type="radio"]').check(value)
+}
+
+export function isFormInputsDisabled(query: string) {
+	cy.get(query).get('input').should('have.attr', 'disabled')
 }
