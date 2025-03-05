@@ -25,6 +25,15 @@ type SenderOutModel {
   role: USER_ROLE!
 }
 
+type CellTypeOutModel {
+  id: Int!
+  name: String!
+  width: Int!
+  height: Int!
+  depth: Int!
+  parcelBoxTypeId: Int!
+}
+
 type ParcelBoxTypeOutModel {
   id: Int!
   name: String!
@@ -94,11 +103,11 @@ type Mutation {
   auth_logout: Boolean!
 
   """
-  Create parcel box type.
+  Create cell type.
   	Possible errors:
-  	**Тип посыльного ящика не создан.** — parcel box type couldn't create for some reason.
+  	**Тип ячейки не создан.** — parcel cell couldn't create for some reason.
   """
-  parcelBoxType_create(input: CreateParcelBoxTypeInput!): ParcelBoxTypeOutModel!
+  parcelBoxType_create(input: CreateCellTypeInput!): CellTypeOutModel!
 }
 
 input RegisterAdminInput {
@@ -130,7 +139,19 @@ input ResendConfirmationEmailInput {
   email: String!
 }
 
-input CreateParcelBoxTypeInput {
-  """Parcel box type name"""
+input CreateCellTypeInput {
+  """Cell type name"""
   name: String!
+
+  """Cell width"""
+  width: Float!
+
+  """Cell height"""
+  height: Float!
+
+  """Cell depth"""
+  depth: Float!
+
+  """Cell depth"""
+  parcelBoxTypeId: Float!
 }

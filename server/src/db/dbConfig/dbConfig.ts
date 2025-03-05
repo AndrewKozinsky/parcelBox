@@ -210,7 +210,11 @@ export const bdConfig = {
 		},
 	},
 	CellType: {
-		dtoProps: {},
+		dtoProps: {
+			parcelBoxTypeId: {
+				type: 'index',
+			},
+		},
 		dbFields: {
 			id: {
 				type: 'index',

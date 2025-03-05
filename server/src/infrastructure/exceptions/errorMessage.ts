@@ -21,6 +21,9 @@ export const errorMessage = {
 	// PARCEL BOX TYPE
 	parcelBoxTypeDidNotCreated: 'Тип посыльного ящика не создан.',
 
+	// CELL BOX TYPE
+	cellTypeDidNotCreated: 'Тип ячейки не создан.',
+
 	// INPUT DATA
 	wrongInputData: 'Неверные значения полей.',
 	minNumberOfCharacters(num: number) {

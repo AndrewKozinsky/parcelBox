@@ -10,6 +10,7 @@ import { JwtAdapterModule } from './infrastructure/jwtAdapter/jwtAdapter.module'
 import { AuthModule } from './routes/auth/auth.module'
 import { MainConfigModule } from './infrastructure/config/mainConfig.module'
 import { MainConfigService } from './infrastructure/config/mainConfig.service'
+import { CellTypeModule } from './routes/cellType/cellType.module'
 import { ParcelBoxTypeModule } from './routes/parcelBoxType/parcelBoxType.module'
 import { TestsModule } from './routes/test/tests.module'
 
@@ -52,6 +53,7 @@ import { TestsModule } from './routes/test/tests.module'
 		HashAdapterModule,
 		AuthModule,
 		ParcelBoxTypeModule,
+		CellTypeModule,
 		TestsModule,
 		EmailAdapterModule,
 		BrowserModule,
