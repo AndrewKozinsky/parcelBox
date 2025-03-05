@@ -7,6 +7,7 @@ import {
 	IsOptional,
 	IsString,
 	Matches,
+	Max,
 	MaxLength,
 	Min,
 	MinLength,
@@ -106,7 +107,7 @@ export function DtoFieldDecorators(
 			decorators.push(Min(updatedFieldConf.min, { message: 'Minimum number is ' + updatedFieldConf.min }))
 		}
 		if (updatedFieldConf.max) {
-			decorators.push(Min(updatedFieldConf.max, { message: 'Maximum number is ' + updatedFieldConf.max }))
+			decorators.push(Max(updatedFieldConf.max, { message: 'Maximum number is ' + updatedFieldConf.max }))
 		}
 		if (!updatedFieldConf.required) {
 			decorators.push(IsOptional())

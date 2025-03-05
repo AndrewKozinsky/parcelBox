@@ -36,6 +36,10 @@ export interface ResendConfirmationEmailInput {
     email: string;
 }
 
+export interface CreateParcelBoxTypeInput {
+    name: string;
+}
+
 export interface CreateCellTypeInput {
     name: string;
     width: number;
@@ -87,7 +91,8 @@ export interface IMutation {
     auth_resendConfirmationEmail(input: ResendConfirmationEmailInput): boolean | Promise<boolean>;
     auth_refreshToken(): boolean | Promise<boolean>;
     auth_logout(): boolean | Promise<boolean>;
-    parcelBoxType_create(input: CreateCellTypeInput): CellTypeOutModel | Promise<CellTypeOutModel>;
+    parcelBoxType_create(input: CreateParcelBoxTypeInput): ParcelBoxTypeOutModel | Promise<ParcelBoxTypeOutModel>;
+    cellType_create(input: CreateCellTypeInput): CellTypeOutModel | Promise<CellTypeOutModel>;
 }
 
 export type AdminOrSender = SenderOutModel | AdminOutModel;

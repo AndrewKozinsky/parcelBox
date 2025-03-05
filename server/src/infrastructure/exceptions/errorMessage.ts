@@ -20,6 +20,7 @@ export const errorMessage = {
 
 	// PARCEL BOX TYPE
 	parcelBoxTypeDidNotCreated: 'Тип посыльного ящика не создан.',
+	parcelBoxTypeDoesNotExist: 'Тип посыльного ящика не найден.',
 
 	// CELL BOX TYPE
 	cellTypeDidNotCreated: 'Тип ячейки не создан.',

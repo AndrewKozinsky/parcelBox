@@ -119,4 +119,24 @@ export const queries = {
 			}`
 		},
 	},
+	cellType: {
+		create(props: { name: string; width: number; height: number; depth: number; parcelBoxTypeId: number }) {
+			return `mutation {
+			  ${RouteNames.CELL_TYPE.CREATE}(input: {
+				name: "${props.name}",
+				width: "${props.width}",
+				height: "${props.height}",
+				depth: "${props.depth}",
+				parcelBoxTypeId: "${props.parcelBoxTypeId}",
+			  }) {
+				id
+				name
+				width
+				height
+				depth
+				parcelBoxTypeId
+			  }
+			}`
+		},
+	},
 }

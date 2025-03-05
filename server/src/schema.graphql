@@ -103,11 +103,18 @@ type Mutation {
   auth_logout: Boolean!
 
   """
+  Create parcel box type.
+  	Possible errors:
+  	**Тип посыльного ящика не создан.** — parcel box type couldn't create for some reason.
+  """
+  parcelBoxType_create(input: CreateParcelBoxTypeInput!): ParcelBoxTypeOutModel!
+
+  """
   Create cell type.
   	Possible errors:
   	**Тип ячейки не создан.** — parcel cell couldn't create for some reason.
   """
-  parcelBoxType_create(input: CreateCellTypeInput!): CellTypeOutModel!
+  cellType_create(input: CreateCellTypeInput!): CellTypeOutModel!
 }
 
 input RegisterAdminInput {
@@ -139,19 +146,24 @@ input ResendConfirmationEmailInput {
   email: String!
 }
 
+input CreateParcelBoxTypeInput {
+  """Parcel box type name"""
+  name: String!
+}
+
 input CreateCellTypeInput {
   """Cell type name"""
   name: String!
 
   """Cell width"""
-  width: Float!
+  width: Int!
 
   """Cell height"""
-  height: Float!
+  height: Int!
 
   """Cell depth"""
-  depth: Float!
+  depth: Int!
 
   """Cell depth"""
-  parcelBoxTypeId: Float!
+  parcelBoxTypeId: Int!
 }
