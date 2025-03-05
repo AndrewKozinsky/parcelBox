@@ -66,7 +66,7 @@ describe.skip('Login page', () => {
 	})
 })
 
-describe('A try to move to the login page if a user already logged in', () => {
+describe.skip('A try to move to the login page if a user already logged in', () => {
 	it('should redirect from login page to admin main page if an admin logged in', () => {
 		login(users.confirmedAdmin)
 

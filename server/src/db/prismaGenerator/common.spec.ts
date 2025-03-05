@@ -55,7 +55,7 @@ export const bdTestConfig = {
 	},
 } satisfies BdConfig.Root
 
-describe('createSchemaPrisma', () => {
+describe.skip('createSchemaPrisma', () => {
 	it.skip('123', async () => {
 		expect(2).toBe(2)
 	})

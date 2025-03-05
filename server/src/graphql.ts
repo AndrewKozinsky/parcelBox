@@ -57,6 +57,11 @@ export interface SenderOutModel {
     role: USER_ROLE;
 }
 
+export interface ParcelBoxTypeOutModel {
+    id: number;
+    name: string;
+}
+
 export interface IQuery {
     auth_confirmEmail(input: ConfirmEmailInput): boolean | Promise<boolean>;
     auth_getMe(): AdminOrSender | Promise<AdminOrSender>;
@@ -69,7 +74,7 @@ export interface IMutation {
     auth_resendConfirmationEmail(input: ResendConfirmationEmailInput): boolean | Promise<boolean>;
     auth_refreshToken(): boolean | Promise<boolean>;
     auth_logout(): boolean | Promise<boolean>;
-    parcelBoxType_create(input: CreateParcelBoxTypeInput): AdminOutModel | Promise<AdminOutModel>;
+    parcelBoxType_create(input: CreateParcelBoxTypeInput): ParcelBoxTypeOutModel | Promise<ParcelBoxTypeOutModel>;
 }
 
 export type AdminOrSender = SenderOutModel | AdminOutModel;

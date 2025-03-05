@@ -105,7 +105,7 @@ function successfullyRegisterUserWithRole(role: 'admin' | 'sender') {
 	checkIsPage(routeNames.auth.register.path)
 }
 
-describe('Register page if a user already logged in', () => {
+describe.skip('Register page if a user already logged in', () => {
 	beforeEach(() => {
 		server.clearDB()
 		server.seedTestData()

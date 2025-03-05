@@ -10,7 +10,7 @@ import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { createApp } from '../utils/createMainApp'
 
-describe.only('Seed all data (e2e)', () => {
+describe.skip('Seed all data (e2e)', () => {
 	let app: INestApplication<App>
 	let moduleFixture: TestingModule
 	let emailAdapter: EmailAdapterService

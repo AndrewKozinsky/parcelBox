@@ -107,4 +107,16 @@ export const queries = {
 			}`
 		},
 	},
+	parcelBoxType: {
+		create(props: { name: string }) {
+			return `mutation {
+			  ${RouteNames.PARCEL_BOX_TYPE.CREATE}(input: {
+				name: "${props.name}",
+			  }) {
+				id
+				name
+			  }
+			}`
+		},
+	},
 }

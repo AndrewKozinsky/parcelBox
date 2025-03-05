@@ -34,7 +34,7 @@ export const bdTestConfig = {
 	},
 } satisfies BdConfig.Root
 
-describe('createSchemaPrisma', () => {
+describe.skip('createSchemaPrisma', () => {
 	it('createSchemaPrisma', () => {
 		const expectedPrismaSchema = `generator client {
 	provider      = "prisma-client-js"

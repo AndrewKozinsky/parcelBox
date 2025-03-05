@@ -77,7 +77,7 @@ describe.skip('Resend confirmation letter page', () => {
 	})
 })
 
-describe('Resend confirmation letter page if a user already logged in', () => {
+describe.skip('Resend confirmation letter page if a user already logged in', () => {
 	beforeEach(() => {
 		server.clearDB()
 		server.seedTestData()

@@ -3,7 +3,7 @@ import { CommandBus } from '@nestjs/cqrs'
 import { Args, Mutation, Resolver } from '@nestjs/graphql'
 import { CreateParcelBoxTypeCommand } from '../../features/parcelBoxType/CreateParcelBoxType.command'
 import RouteNames from '../../infrastructure/routeNames'
-import { AdminOutModel } from '../../models/admin/admin.out.model'
+import { ParcelBoxTypeOutModel } from '../../models/parcelBoxType/parcelBoxType.out.model'
 import { CreateParcelBoxTypeInput } from './inputs/createParcelBoxType.input'
 import { parcelBoxTypeResolversDesc } from './resolverDescriptions'
 
@@ -11,12 +11,12 @@ import { parcelBoxTypeResolversDesc } from './resolverDescriptions'
 export class ParcelBoxTypeResolver {
 	constructor(private commandBus: CommandBus) {}
 
-	@Mutation(() => AdminOutModel, {
+	@Mutation(() => ParcelBoxTypeOutModel, {
 		name: RouteNames.PARCEL_BOX_TYPE.CREATE,
 		description: parcelBoxTypeResolversDesc.create,
 	})
 	@UsePipes(new ValidationPipe({ transform: true }))
-	async create(@Args('input') input: CreateParcelBoxTypeInput): Promise<AdminOutModel> {
+	async create(@Args('input') input: CreateParcelBoxTypeInput): Promise<ParcelBoxTypeOutModel> {
 		return await this.commandBus.execute(new CreateParcelBoxTypeCommand(input))
 	}
 }

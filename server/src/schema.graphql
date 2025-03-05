@@ -25,6 +25,11 @@ type SenderOutModel {
   role: USER_ROLE!
 }
 
+type ParcelBoxTypeOutModel {
+  id: Int!
+  name: String!
+}
+
 type Query {
   """
   User email confirmation.
@@ -91,10 +96,9 @@ type Mutation {
   """
   Create parcel box type.
   	Possible errors:
-  	**Почта зарегистрирована, но не подтверждена.** — the user is already registered, but doesn't confirm his email.
-  	**Почта уже зарегистрирована.** — the user is already registered and confirmed his email.
+  	**Тип посыльного ящика не создан.** — parcel box type couldn't create for some reason.
   """
-  parcelBoxType_create(input: CreateParcelBoxTypeInput!): AdminOutModel!
+  parcelBoxType_create(input: CreateParcelBoxTypeInput!): ParcelBoxTypeOutModel!
 }
 
 input RegisterAdminInput {

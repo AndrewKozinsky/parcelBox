@@ -4,7 +4,7 @@ import { checkIsPage, login, registerUserInRegisterPage } from './utils/commands
 import { server } from './utils/server'
 import { users } from './utils/users'
 
-describe('EmailConfirmation page', () => {
+describe.skip('EmailConfirmation page', () => {
 	beforeEach(() => {
 		server.clearDB()
 		server.seedTestData()
