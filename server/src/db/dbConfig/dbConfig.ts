@@ -190,6 +190,62 @@ export const bdConfig = {
 			},
 		},
 	},
+	ParcelBoxType: {
+		dtoProps: {},
+		dbFields: {
+			id: {
+				type: 'index',
+			},
+			name: {
+				type: 'string',
+				minLength: 1,
+				maxLength: 100,
+				description: 'Parcel box name',
+				example: 'Compact',
+				required: true,
+			},
+			CellType: {
+				type: 'oneToMany',
+			},
+		},
+	},
+	CellType: {
+		dtoProps: {},
+		dbFields: {
+			id: {
+				type: 'index',
+			},
+			name: {
+				type: 'string',
+				minLength: 1,
+				maxLength: 100,
+				description: 'Parcel box name',
+				example: 'Compact',
+				required: true,
+			},
+			width: {
+				type: 'number',
+				description: 'A cell width',
+				required: true,
+			},
+			height: {
+				type: 'number',
+				description: 'A cell width',
+				required: true,
+			},
+			depth: {
+				type: 'number',
+				description: 'A cell width',
+				required: true,
+			},
+			parcel_box_type_id: {
+				type: 'manyToOne',
+				thisField: 'parcel_box_type_id',
+				foreignTable: 'ParcelBoxType',
+				foreignField: 'id',
+			},
+		},
+	},
 	/*PostPhoto: {
 		dtoProps: {},
 		dbFields: {

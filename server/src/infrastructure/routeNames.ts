@@ -9,6 +9,9 @@ export const RouteNames = {
 		GET_NEW_ACCESS_AND_REFRESH_TOKENS: 'auth_refreshToken',
 		GET_ME: 'auth_getMe',
 	},
+	PARCEL_BOX_TYPE: {
+		CREATE: 'parcelBoxType_create',
+	},
 	TESTING: {
 		ALL_DATA: 'testing/all-data',
 		SEED_TEST_DATA: 'testing/seed-test-data',

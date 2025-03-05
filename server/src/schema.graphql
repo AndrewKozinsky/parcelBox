@@ -87,6 +87,14 @@ type Mutation {
   	**Токен обновления недействителен.** — refresh token is not valid
   """
   auth_logout: Boolean!
+
+  """
+  Create parcel box type.
+  	Possible errors:
+  	**Почта зарегистрирована, но не подтверждена.** — the user is already registered, but doesn't confirm his email.
+  	**Почта уже зарегистрирована.** — the user is already registered and confirmed his email.
+  """
+  parcelBoxType_create(input: CreateParcelBoxTypeInput!): AdminOutModel!
 }
 
 input RegisterAdminInput {
@@ -116,4 +124,9 @@ input LoginInput {
 input ResendConfirmationEmailInput {
   """User email"""
   email: String!
+}
+
+input CreateParcelBoxTypeInput {
+  """Parcel box type name"""
+  name: String!
 }

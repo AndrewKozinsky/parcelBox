@@ -4,10 +4,11 @@ import { checkIsPage, login, registerUserInRegisterPage } from './utils/commands
 import { server } from './utils/server'
 import { users } from './utils/users'
 
-describe.skip('EmailConfirmation page', () => {
+describe('EmailConfirmation page', () => {
 	beforeEach(() => {
 		server.clearDB()
 		server.seedTestData()
+		cy.wait(100)
 	})
 
 	it('should show error if there is not confirmation code in address bar', () => {
@@ -27,7 +28,7 @@ describe.skip('EmailConfirmation page', () => {
 	})
 
 	it('should show error if a confirmation code in address bar is wrong', () => {
-		// Visit to the n page
+		// Visit to the confirmation page
 		cy.visit(routeNames.auth.emailConfirmation.path + '?code=123')
 
 		cy.wait(200)
@@ -50,6 +51,8 @@ describe.skip('EmailConfirmation page', () => {
 
 		registerUserInRegisterPage({ role, email, password })
 
+		cy.wait(100)
+
 		const getUserRes: any = await server.getUserByEmail(email)
 		const user: any = getUserRes.body
 		if (!user) {
@@ -57,6 +60,8 @@ describe.skip('EmailConfirmation page', () => {
 		}
 
 		const { emailConfirmationCode } = user
+
+		cy.wait(100)
 
 		// Visit to the confirmation email page
 		cy.visit(routeNames.auth.emailConfirmation.path + '?code=' + emailConfirmationCode)

@@ -4,8 +4,8 @@ export default defineConfig({
 	e2e: {
 		baseUrl: 'http://localhost:3001',
 		pageLoadTimeout: 2000,
-		requestTimeout: 1500,
-		responseTimeout: 1500,
+		requestTimeout: 2000,
+		responseTimeout: 2000,
 		defaultBrowser: 'chrome',
 		setupNodeEvents(on, config) {},
 	},

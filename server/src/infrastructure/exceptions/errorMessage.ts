@@ -18,6 +18,9 @@ export const errorMessage = {
 	// UserDoesNotOwnThisDeviceToken = 'User does not own this device token',
 	// UserDeviceNotFound = 'User device not found',
 
+	// PARCEL BOX TYPE
+	parcelBoxTypeDidNotCreated: 'Тип посыльного ящика не создан.',
+
 	// INPUT DATA
 	wrongInputData: 'Неверные значения полей.',
 	minNumberOfCharacters(num: number) {

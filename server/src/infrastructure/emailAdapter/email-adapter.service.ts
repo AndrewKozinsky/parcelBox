@@ -14,7 +14,7 @@ export class EmailAdapterService {
 		const textMessage = 'Регистрация на ' + siteName
 		const htmlMessage = `
 <h1>Thanks for your registration</h1>
-<p>To finish registration please confirm your email by follow the link below:
+<p>To finish registration please confirm your email by follow the link:
 	<a href="${domainRootWithProtocol}/auth/email-confirmation?code=${confirmationCode}">confirm email</a>
 </p>
 <p>

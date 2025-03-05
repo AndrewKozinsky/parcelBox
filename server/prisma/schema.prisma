@@ -46,3 +46,19 @@ model Admin {
     user    User @relation(fields: [user_id], references: [id])
     user_id Int  @unique
 }
+
+model ParcelBoxType {
+    id       Int        @id @default(autoincrement())
+    name     String
+    CellType CellType[]
+}
+
+model CellType {
+    id                 Int           @id @default(autoincrement())
+    name               String
+    width              Int
+    height             Int
+    depth              Int
+    parcel_box_type    ParcelBoxType @relation(fields: [parcel_box_type_id], references: [id])
+    parcel_box_type_id Int
+}
