@@ -5,14 +5,14 @@ import { ErrorCode } from '../exceptions/errorCode'
 import { errorMessage } from '../exceptions/errorMessage'
 
 @Injectable()
-export class OnlyDevModeGuard implements CanActivate {
+export class OnlyDevOrTestingModeGuard implements CanActivate {
 	constructor(private mainConfig: MainConfigService) {}
 
 	canActivate(context: ExecutionContext): boolean {
-		if (this.mainConfig.get().mode !== 'development') {
-			throw new CustomRestError(errorMessage.onlyDevMode, ErrorCode.BadRequest_400)
+		if (['testing', 'development'].includes(this.mainConfig.get().mode)) {
+			return true
 		}
 
-		return true
+		throw new CustomRestError(errorMessage.onlyDevMode, ErrorCode.BadRequest_400)
 	}
 }

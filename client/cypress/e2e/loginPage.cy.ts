@@ -1,13 +1,13 @@
 import { LoginFormTest } from '../../src/myPages/auth/login/LoginForm/fn/form'
 import { routeNames } from '../../src/utils/routeNames'
 import { checkIsPage, login } from './utils/commands'
-import { database } from './utils/database'
+import { server } from './utils/server'
 import { users } from './utils/users'
 
 describe.skip('Login page', () => {
 	beforeEach(() => {
-		database.clear()
-		database.seedTestData()
+		server.clearDB()
+		server.seedTestData()
 	})
 
 	it('should show error if email and password fields filled with wrong data', () => {

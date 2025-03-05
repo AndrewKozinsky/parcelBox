@@ -31,7 +31,7 @@ export class SeedTestDataHandler implements ICommandHandler<SeedTestDataCommand>
 				: this.createUserWithUnconfirmedEmail(userConf)
 		})
 
-		await Promise.all(requests)
+		await Promise.all(requests).catch((err) => console.log(err))
 	}
 
 	async createUserWithConfirmedEmail(props: { role: UserRole; email: string; password: string }) {

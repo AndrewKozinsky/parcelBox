@@ -13,17 +13,16 @@ export function useConfirmEmail() {
 		skip: !confirmEmailCode,
 	})
 
-	useEffect(function () {
-		if (!confirmEmailCode) {
-			useEmailConfirmationStore.setState({
-				errorMessage:
-					'В адресе не найден код подтверждения почты. Скорее всего вы попали на эту страницу по ошибке.',
-			})
-		}
-	}, [])
-
 	useEffect(
 		function () {
+			if (!confirmEmailCode) {
+				useEmailConfirmationStore.setState({
+					errorMessage:
+						'В адресе не найден код подтверждения почты. Скорее всего вы попали на эту страницу по ошибке.',
+				})
+				return
+			}
+
 			if (loading) {
 				useEmailConfirmationStore.setState({
 					confirmEmailLoading: true,
@@ -41,7 +40,7 @@ export function useConfirmEmail() {
 			// If request was successful redirect to the login page
 			router.push(routeNames.auth.login.path)
 		},
-		[loading, error],
+		[confirmEmailCode, loading, error],
 	)
 }
 

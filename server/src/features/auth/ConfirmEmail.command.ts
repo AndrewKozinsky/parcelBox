@@ -6,7 +6,7 @@ import { ConfirmEmailInputModel } from '../../models/auth/auth.input.model'
 import { UserRepository } from '../../repo/user.repository'
 
 export class ConfirmEmailCommand implements ICommand {
-	constructor(public readonly createAdminInput: ConfirmEmailInputModel) {}
+	constructor(public createAdminInput: ConfirmEmailInputModel) {}
 }
 
 @CommandHandler(ConfirmEmailCommand)

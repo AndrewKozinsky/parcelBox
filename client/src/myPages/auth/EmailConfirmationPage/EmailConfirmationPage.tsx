@@ -1,9 +1,10 @@
 import { Spin, Typography } from 'antd'
+import Link from 'next/link'
 import { routeNames } from '../../../utils/routeNames'
 import { useEmailConfirmationStore } from './emailConfirmationStore'
 import { useConfirmEmail } from './fn/confirmEmail'
+import { EmailConfirmationTest } from './fn/form'
 import './EmailConfirmationPage.scss'
-import Link from 'next/link'
 
 const { Text } = Typography
 
@@ -30,12 +31,12 @@ function ErrorView() {
 function ErrorText() {
 	const errorMessage = useEmailConfirmationStore((s) => s.errorMessage)
 
-	return <Text>{errorMessage}</Text>
+	return <Text data-testid={EmailConfirmationTest.errorMessage.id}>{errorMessage}</Text>
 }
 
 function ResendConfirmationEmail() {
 	return (
-		<Text>
+		<Text data-testid={EmailConfirmationTest.resentLetter.id}>
 			Письмо для подтверждения почты своей учётной записи можно отправить ещё раз на{' '}
 			<Link href={routeNames.auth.resendConfirmationLetter.path}>этой странице</Link>.
 		</Text>

@@ -70,6 +70,9 @@ function tryToGetUserAndSetToStore(gqiClient: ApolloClient<object>, router: AppR
 				useUserStore.setState({ senderUser: userData.auth_getMe as SenderOutModel })
 			}
 		})
+		.catch((err) => {
+			console.error(err)
+		})
 		.finally(function () {
 			useUserStore.setState({ isLoading: false })
 		})

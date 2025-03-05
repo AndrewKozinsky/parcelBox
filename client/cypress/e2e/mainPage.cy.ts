@@ -1,12 +1,12 @@
 import { routeNames } from '../../src/utils/routeNames'
 import { checkIsPage, login } from './utils/commands'
-import { database } from './utils/database'
+import { server } from './utils/server'
 import { users } from './utils/users'
 
 describe.skip('Main page', () => {
 	beforeEach(() => {
-		database.clear()
-		database.seedTestData()
+		server.clearDB()
+		server.seedTestData()
 	})
 
 	it('should redirect from main to login page if there is not logged in user', () => {

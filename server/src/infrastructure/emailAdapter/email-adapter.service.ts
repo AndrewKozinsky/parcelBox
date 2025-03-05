@@ -42,6 +42,12 @@ export class EmailAdapterService {
 
 	async sendEmail(toEmail: string, subject: string, textMessage: string, htmlMessage: string) {
 		return new Promise((resolve, reject) => {
+			// Don't operate in testing mode
+			if (this.mainConfig.get().mode === 'testing') {
+				console.log('Letter is not sent in testing mode')
+				return
+			}
+
 			/* https://login.sendpulse.com/settings/#api */
 			const API_USER_ID = this.mainConfig.get().emailAdapter.userId
 			const API_SECRET = this.mainConfig.get().emailAdapter.secret

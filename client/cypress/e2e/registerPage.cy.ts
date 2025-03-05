@@ -1,13 +1,13 @@
 import { RegisterFormTest } from '../../src/myPages/auth/register/RegisterForm/fn/form'
 import { routeNames } from '../../src/utils/routeNames'
-import { checkIsPage, switchRadioTo, login, isFormInputsDisabled } from './utils/commands'
-import { database } from './utils/database'
+import { checkIsPage, login, isFormInputsDisabled, registerUserInRegisterPage } from './utils/commands'
+import { server } from './utils/server'
 import { users } from './utils/users'
 
 describe.skip('Register page', () => {
 	beforeEach(() => {
-		database.clear()
-		database.seedTestData()
+		server.clearDB()
+		server.seedTestData()
 
 		// Visit to the register page
 		cy.visit(routeNames.auth.register.path)
@@ -90,15 +90,7 @@ describe.skip('Register page', () => {
 })
 
 function successfullyRegisterUserWithRole(role: 'admin' | 'sender') {
-	switchRadioTo(RegisterFormTest.roleRadio.query, role)
-
-	cy.get(RegisterFormTest.emailField.query).type('my@google.com')
-	cy.get(RegisterFormTest.passwordField.query).type('12345000')
-	cy.get(RegisterFormTest.passwordAgainField.query).type('12345000')
-
-	// Submit form
-	cy.get(RegisterFormTest.submitButton.query).should('be.enabled')
-	cy.get(RegisterFormTest.form.query).submit()
+	registerUserInRegisterPage({ role, email: 'my@google.com', password: '12345000' })
 
 	// Success message have to appear
 	cy.get(RegisterFormTest.successMessage.query).contains(
@@ -115,8 +107,8 @@ function successfullyRegisterUserWithRole(role: 'admin' | 'sender') {
 
 describe('Register page if a user already logged in', () => {
 	beforeEach(() => {
-		database.clear()
-		database.seedTestData()
+		server.clearDB()
+		server.seedTestData()
 	})
 
 	it('should redirect from register page to admin main page if an admin logged in', () => {

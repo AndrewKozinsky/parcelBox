@@ -18,6 +18,10 @@ export const routeNames = {
 			name: 'Вспомнить пароль',
 			path: '/auth/forget-password',
 		},
+		emailConfirmation: {
+			name: 'Подтверждение эл. почты',
+			path: '/auth/email-confirmation',
+		},
 		resendConfirmationLetter: {
 			name: 'Повторная отправка письма подтверждения почты',
 			path: '/auth/resend-confirmation-letter',

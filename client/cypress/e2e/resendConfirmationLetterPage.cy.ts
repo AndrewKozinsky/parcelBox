@@ -1,13 +1,13 @@
 import { RCLFormTest } from '../../src/myPages/auth/resendConfirmationLetter/ResendConfirmationLetterForm/fn/form'
 import { routeNames } from '../../src/utils/routeNames'
 import { checkIsPage, isFormInputsDisabled, login } from './utils/commands'
-import { database } from './utils/database'
+import { server } from './utils/server'
 import { users } from './utils/users'
 
 describe.skip('Resend confirmation letter page', () => {
 	beforeEach(() => {
-		database.clear()
-		database.seedTestData()
+		server.clearDB()
+		server.seedTestData()
 
 		// Visit to the register page
 		cy.visit(routeNames.auth.resendConfirmationLetter.path)
@@ -79,8 +79,8 @@ describe.skip('Resend confirmation letter page', () => {
 
 describe('Resend confirmation letter page if a user already logged in', () => {
 	beforeEach(() => {
-		database.clear()
-		database.seedTestData()
+		server.clearDB()
+		server.seedTestData()
 	})
 
 	it('should redirect from register page to admin main page if an admin logged in', () => {

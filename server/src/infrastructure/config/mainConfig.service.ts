@@ -44,7 +44,7 @@ export class MainConfigService {
 
 	private getEnVariables() {
 		const enVariables = {
-			mode: this.configService.get<string>('MODE') as 'development' | 'production',
+			mode: this.configService.get<string>('MODE') as 'testing' | 'development' | 'production',
 			port: parseInt(this.configService.get<string>('PORT') as string),
 			dnName: this.configService.get<string>('DB_NAME') as string,
 			dnUserName: this.configService.get<string>('DB_USER_NAME') as string,
