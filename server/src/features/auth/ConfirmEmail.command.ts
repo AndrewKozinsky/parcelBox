@@ -17,6 +17,7 @@ export class ConfirmEmailHandler implements ICommandHandler<ConfirmEmailCommand>
 		const { createAdminInput } = command
 
 		const user = await this.userRepository.getUserByConfirmationCode(createAdminInput.code)
+		console.log({ user })
 
 		if (!user) {
 			throw new CustomGraphQLError(errorMessage.emailConfirmationCodeNotFound, ErrorCode.BadRequest_400)

@@ -45,6 +45,7 @@ export class EmailAdapterService {
 			// Don't operate in testing mode
 			if (this.mainConfig.get().mode === 'testing') {
 				console.log('Letter is not sent in testing mode')
+				resolve(null)
 				return
 			}
 

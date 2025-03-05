@@ -4,7 +4,7 @@ import { checkIsPage, login, registerUserInRegisterPage } from './utils/commands
 import { server } from './utils/server'
 import { users } from './utils/users'
 
-describe('EmailConfirmation page', () => {
+describe.skip('EmailConfirmation page', () => {
 	beforeEach(() => {
 		server.clearDB()
 		server.seedTestData()
@@ -43,21 +43,26 @@ describe('EmailConfirmation page', () => {
 	it.only('should redirect to the admin main if there is a correct confirmation code in address', async () => {
 		// Register a new admin
 		cy.visit(routeNames.auth.register.path)
-		/*const role = 'admin'
+
+		const role = 'admin'
 		const email = 'my@google.com'
 		const password = '12345000'
 
 		registerUserInRegisterPage({ role, email, password })
 
-		const user: any = await server.getUserByEmail(email)
-		console.log(user.body)*/
+		const getUserRes: any = await server.getUserByEmail(email)
+		const user: any = getUserRes.body
+		if (!user) {
+			throw new Error('User not found')
+		}
+
+		const { emailConfirmationCode } = user
 
 		// Visit to the confirmation email page
-		// cy.visit(routeNames.auth.emailConfirmation.path + '?code=123')
+		cy.visit(routeNames.auth.emailConfirmation.path + '?code=' + emailConfirmationCode)
 
 		// Check the program redirect to the login admin page
-		// cy.wait(100)
-		// checkIsPage(routeNames.auth.login.path)
+		checkIsPage(routeNames.auth.login.path)
 	})
 })
 

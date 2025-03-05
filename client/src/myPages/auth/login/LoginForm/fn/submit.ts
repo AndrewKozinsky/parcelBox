@@ -27,7 +27,6 @@ export function useGetOnLoginFormSubmit(form: FormInstance) {
 
 		loginRequest(requestParams)
 			.then((data) => {
-				console.log(data)
 				afterSuccessfulRequest(data, router)
 			})
 			.catch((error) => {

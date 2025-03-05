@@ -6,7 +6,7 @@ import { UserRepository } from '../../repo/user.repository'
 import { queries } from './queries'
 
 export class GetServiceUserCommand {
-	constructor(public userEmail: string) {}
+	constructor(public email: string) {}
 }
 
 @CommandHandler(GetServiceUserCommand)
@@ -14,8 +14,8 @@ export class GetServiceUserHandler implements ICommandHandler<GetServiceUserComm
 	constructor(private userRepository: UserRepository) {}
 
 	async execute(command: GetServiceUserCommand) {
-		const { userEmail } = command
+		const { email } = command
 
-		return await this.userRepository.getUserByEmail(userEmail)
+		return await this.userRepository.getUserByEmail(email)
 	}
 }

@@ -68,7 +68,6 @@ export class SeedTestDataHandler implements ICommandHandler<SeedTestDataCommand>
 
 	async makeGraphQLReq(query: string) {
 		const response = await axios.post('http://localhost:3000/graphql', { query })
-
 		return response.data
 	}
 }

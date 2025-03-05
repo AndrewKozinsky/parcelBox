@@ -11,6 +11,7 @@ export function useConfirmEmail() {
 	const { loading, error } = useAuthConfirmEmail({
 		variables: { input: { code: confirmEmailCode as string } },
 		skip: !confirmEmailCode,
+		fetchPolicy: 'no-cache',
 	})
 
 	useEffect(

@@ -12,7 +12,7 @@ export async function applyAppSettings(app: INestApplication) {
 
 	const mainConfig = await app.resolve(MainConfigService)
 
-	if (mainConfig.get().mode === 'development') {
+	if (['testing', 'development'].includes(mainConfig.get().mode)) {
 		app.enableCors({
 			origin: 'http://localhost:3001', // Your frontend URL
 			credentials: true, // Allow credentials (cookies, authorization headers)
