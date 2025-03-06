@@ -167,9 +167,6 @@ export const bdConfig = {
 				foreignTable: 'User',
 				foreignField: 'id',
 			},
-			/*PostPhoto: {
-				type: 'oneToMany',
-			},*/
 		},
 	},
 	Admin: {
@@ -247,6 +244,9 @@ export const bdConfig = {
 				foreignTable: 'ParcelBoxType',
 				foreignField: 'id',
 			},
+			Cell: {
+				type: 'oneToMany',
+			},
 		},
 	},
 	ParcelBox: {
@@ -308,23 +308,32 @@ export const bdConfig = {
 			},
 		},
 	},
-	/*PostPhoto: {
+	Cell: {
 		dtoProps: {},
 		dbFields: {
 			id: {
 				type: 'index',
 			},
-			files_ms_post_photo_id: {
-				type: 'string',
-				description: 'Post photo id in database of files microservice',
-				required: true,
-			},
-			post_id: {
+			cell_type_id: {
 				type: 'manyToOne',
-				thisField: 'post_id',
-				foreignTable: 'Post',
+				thisField: 'cell_type_id',
+				foreignTable: 'CellType',
 				foreignField: 'id',
 			},
+			parcel_box_id: {
+				type: 'manyToOne',
+				thisField: 'parcel_box_id',
+				foreignTable: 'ParcelBox',
+				foreignField: 'id',
+			},
+			cell_name: {
+				type: 'string',
+				minLength: 1,
+				maxLength: 100,
+				description: 'Cell name',
+				example: 'A1',
+				required: true,
+			},
 		},
-	},*/
+	},
 } satisfies BdConfig.Root
