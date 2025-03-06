@@ -25,6 +25,13 @@ export class CellTypeRepository {
 	}
 
 	@CatchDbError()
+	async getAllCellTypes() {
+		const cellTypes = await this.prisma.cellType.findMany()
+
+		return cellTypes.map(this.mapDbCellTypeToServiceCellType)
+	}
+
+	@CatchDbError()
 	async getCellTypeById(id: number) {
 		const cellType = await this.prisma.cellType.findUnique({
 			where: { id },
