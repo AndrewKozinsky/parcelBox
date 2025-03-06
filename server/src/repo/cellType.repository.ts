@@ -24,6 +24,17 @@ export class CellTypeRepository {
 		return this.mapDbCellTypeToServiceCellType(cellType)
 	}
 
+	@CatchDbError()
+	async getCellTypeById(id: number) {
+		const cellType = await this.prisma.cellType.findUnique({
+			where: { id },
+		})
+
+		if (!cellType) return null
+
+		return this.mapDbCellTypeToServiceCellType(cellType)
+	}
+
 	mapDbCellTypeToServiceCellType(cellType: CellType): CellTypeServiceModel {
 		return {
 			id: cellType.id,

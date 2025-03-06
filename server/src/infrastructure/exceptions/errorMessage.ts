@@ -14,9 +14,6 @@ export const errorMessage = {
 	// AUTH
 	refreshTokenIsNotValid: 'Токен обновления недействителен.',
 	accessTokenIsNotValid: 'Токен доступа недействителен.',
-	// RefreshTokenIsNotFound = 'Refresh token is not found',
-	// UserDoesNotOwnThisDeviceToken = 'User does not own this device token',
-	// UserDeviceNotFound = 'User device not found',
 
 	// PARCEL BOX TYPE
 	parcelBoxTypeDidNotCreated: 'Тип посыльного ящика не создан.',
@@ -27,11 +24,17 @@ export const errorMessage = {
 
 	// INPUT DATA
 	wrongInputData: 'Неверные значения полей.',
-	minNumberOfCharacters(num: number) {
+	minCharacters(num: number) {
 		return 'Минимальное количество символов: ' + num
 	},
-	maxNumberOfCharacters(num: number) {
+	maxCharacters(num: number) {
 		return 'Максимальное количество символов: ' + num
+	},
+	minNum(num: number) {
+		return 'Минимальное число: ' + num
+	},
+	maxNum(num: number) {
+		return 'Максимальное число: ' + num
 	},
 
 	// MICK

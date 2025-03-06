@@ -19,6 +19,17 @@ export class ParcelBoxTypeRepository {
 		return this.mapDbParcelBoxTypeToServiceParcelBoxType(parcelBoxType)
 	}
 
+	@CatchDbError()
+	async getParcelBoxTypeById(id: number) {
+		const parcelBoxType = await this.prisma.parcelBoxType.findUnique({
+			where: { id },
+		})
+
+		if (!parcelBoxType) return null
+
+		return this.mapDbParcelBoxTypeToServiceParcelBoxType(parcelBoxType)
+	}
+
 	mapDbParcelBoxTypeToServiceParcelBoxType(parcelBoxType: ParcelBoxType): ParcelBoxTypeServiceModel {
 		return {
 			id: parcelBoxType.id,

@@ -1,6 +1,8 @@
 import { BadRequestException, INestApplication, ValidationPipe } from '@nestjs/common'
+import { useContainer } from 'class-validator'
 import { Request, Response, NextFunction } from 'express'
 import * as cookieParser from 'cookie-parser'
+import { AppModule } from '../app.module'
 import { MainConfigService } from './config/mainConfig.service'
 import { UserRepository } from '../repo/user.repository'
 import { GraphQLValidationFilter } from './exceptions/graphqlException.filter'
@@ -9,6 +11,9 @@ import { SetUserIntoReqMiddleware } from './middlewares/setUserIntoReq.middlewar
 
 export async function applyAppSettings(app: INestApplication) {
 	app.use(cookieParser())
+
+	// Enable NestJS DI for class-validator
+	useContainer(app.select(AppModule), { fallbackOnErrors: true })
 
 	const mainConfig = await app.resolve(MainConfigService)
 

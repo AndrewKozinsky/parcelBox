@@ -1,5 +1,4 @@
 import { INestApplication } from '@nestjs/common'
-import { isLogLevelEnabled } from '@nestjs/common/services/utils'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
@@ -51,7 +50,7 @@ describe.skip('Register a sender (e2e)', () => {
 			message: errorMessage.wrongInputData,
 			fields: {
 				email: ['The email must match the format example@mail.com'],
-				password: [errorMessage.minNumberOfCharacters(6)],
+				password: [errorMessage.minCharacters(6)],
 			},
 		})
 	})

@@ -122,14 +122,7 @@ export const bdConfig = {
 		},
 	},
 	Sender: {
-		dtoProps: {
-			/*photosIds: {
-				type: 'array',
-				arrayItemType: 'mongoId',
-				required: true,
-				example: ['507f1f77bcf86cd799439011'],
-			},*/
-		},
+		dtoProps: {},
 		dbFields: {
 			first_name: {
 				type: 'string',
@@ -229,21 +222,21 @@ export const bdConfig = {
 			},
 			width: {
 				type: 'number',
-				min: 10,
+				min: 5,
 				max: 100,
 				description: 'A cell width',
 				required: true,
 			},
 			height: {
 				type: 'number',
-				min: 10,
+				min: 5,
 				max: 100,
 				description: 'A cell width',
 				required: true,
 			},
 			depth: {
 				type: 'number',
-				min: 10,
+				min: 5,
 				max: 100,
 				description: 'A cell depth',
 				required: true,

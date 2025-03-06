@@ -50,7 +50,7 @@ describe.skip('Register an administrator (e2e)', () => {
 			code: 400,
 			fields: {
 				email: ['The email must match the format example@mail.com'],
-				password: [errorMessage.minNumberOfCharacters(6)],
+				password: [errorMessage.minCharacters(6)],
 			},
 		})
 	})

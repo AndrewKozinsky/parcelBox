@@ -50,7 +50,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 			message: errorMessage.wrongInputData,
 			fields: {
 				email: ['The email must match the format example@mail.com'],
-				password: [errorMessage.minNumberOfCharacters(6)],
+				password: [errorMessage.minCharacters(6)],
 			},
 		})
 	})

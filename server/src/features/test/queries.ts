@@ -124,10 +124,10 @@ export const queries = {
 			return `mutation {
 			  ${RouteNames.CELL_TYPE.CREATE}(input: {
 				name: "${props.name}",
-				width: "${props.width}",
-				height: "${props.height}",
-				depth: "${props.depth}",
-				parcelBoxTypeId: "${props.parcelBoxTypeId}",
+				width: ${props.width},
+				height: ${props.height},
+				depth: ${props.depth},
+				parcelBoxTypeId: ${props.parcelBoxTypeId},
 			  }) {
 				id
 				name

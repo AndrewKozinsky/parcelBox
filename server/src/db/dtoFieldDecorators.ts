@@ -11,15 +11,10 @@ import {
 	MaxLength,
 	Min,
 	MinLength,
-	Validate,
-	ValidationArguments,
-	ValidatorConstraint,
-	ValidatorConstraintInterface,
 } from 'class-validator'
 import { errorMessage } from '../infrastructure/exceptions/errorMessage'
 import { Trim } from '../infrastructure/pipes/Trim.decorator'
 import { BdConfig } from './dbConfig/dbConfigType'
-// import { Trim } from '../infrastructure/pipes/Trim.decorator'
 import { Type } from 'class-transformer'
 
 // @IsIn(['desc', 'asc'])
@@ -51,7 +46,7 @@ export function DtoFieldDecorators(
 		if (updatedFieldConf.minLength) {
 			decorators.push(
 				MinLength(updatedFieldConf.minLength, {
-					message: errorMessage.minNumberOfCharacters(updatedFieldConf.minLength),
+					message: errorMessage.minCharacters(updatedFieldConf.minLength),
 				}),
 			)
 		}
@@ -59,7 +54,7 @@ export function DtoFieldDecorators(
 		if (updatedFieldConf.maxLength) {
 			decorators.push(
 				MaxLength(updatedFieldConf.maxLength, {
-					message: 'Maximum number of characters is ' + updatedFieldConf.maxLength,
+					message: errorMessage.maxCharacters(updatedFieldConf.maxLength),
 				}),
 			)
 		}
@@ -104,10 +99,10 @@ export function DtoFieldDecorators(
 		decorators.push(IsNumber)
 
 		if (updatedFieldConf.min) {
-			decorators.push(Min(updatedFieldConf.min, { message: 'Minimum number is ' + updatedFieldConf.min }))
+			decorators.push(Min(updatedFieldConf.min, { message: errorMessage.minNum(updatedFieldConf.min) }))
 		}
 		if (updatedFieldConf.max) {
-			decorators.push(Max(updatedFieldConf.max, { message: 'Maximum number is ' + updatedFieldConf.max }))
+			decorators.push(Max(updatedFieldConf.max, { message: errorMessage.maxNum(updatedFieldConf.max) }))
 		}
 		if (!updatedFieldConf.required) {
 			decorators.push(IsOptional())
