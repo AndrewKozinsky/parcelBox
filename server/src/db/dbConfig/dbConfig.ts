@@ -249,6 +249,65 @@ export const bdConfig = {
 			},
 		},
 	},
+	ParcelBox: {
+		dtoProps: {},
+		dbFields: {
+			id: {
+				type: 'index',
+			},
+			parcel_box_type_id: {
+				type: 'manyToOne',
+				thisField: 'parcel_box_type_id',
+				foreignTable: 'ParcelBoxType',
+				foreignField: 'id',
+			},
+			location_id: {
+				type: 'manyToOne',
+				thisField: 'location_id',
+				foreignTable: 'Location',
+				foreignField: 'id',
+			},
+			created_at: {
+				type: 'createdAt',
+			},
+		},
+	},
+	Location: {
+		dtoProps: {},
+		dbFields: {
+			id: {
+				type: 'index',
+			},
+			address: {
+				type: 'string',
+				minLength: 5,
+				maxLength: 200,
+				description: 'Parcel box address',
+				example: 'Orenburg, Karpova 8 st.',
+				required: true,
+			},
+			business_hours_from: {
+				type: 'number',
+				min: 0,
+				max: 24,
+				description: 'What time parcel box is opened',
+				required: true,
+			},
+			business_hours_to: {
+				type: 'number',
+				min: 0,
+				max: 24,
+				description: 'What time parcel box is opened',
+				required: true,
+			},
+			business_days: {
+				type: 'array',
+				arrayItemType: 'number',
+				description: 'Array of business days',
+				required: true,
+			},
+		},
+	},
 	/*PostPhoto: {
 		dtoProps: {},
 		dbFields: {

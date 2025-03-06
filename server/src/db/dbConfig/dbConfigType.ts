@@ -108,7 +108,7 @@ export namespace BdConfig {
 
 	export type ArrayField = {
 		type: 'array'
-		arrayItemType: 'string' | 'mongoId'
+		arrayItemType: 'string' | 'mongoId' | 'number'
 		// Is the field required? True by default
 		required: boolean
 		// Field description

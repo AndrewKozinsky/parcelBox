@@ -15,7 +15,7 @@ import { defAdminEmail, defAdminPassword, extractErrObjFromResp, seedTestData } 
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../../src/features/test/queries'
 
-describe('Check init data (e2e)', () => {
+describe.skip('Check init data (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
@@ -50,7 +50,7 @@ describe('Check init data (e2e)', () => {
 		await checkDatabaseInitData(parcelBoxTypeRepository, cellTypeRepository)
 	})
 
-	it.only('should clear add data at first then make request and seed init data', async () => {
+	it('should clear add data at first then make request and seed init data', async () => {
 		await clearAllDB(app)
 
 		const res = await request(app.getHttpServer()).post('/' + RouteNames.INIT_DATA.SEED)

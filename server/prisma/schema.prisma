@@ -48,9 +48,10 @@ model Admin {
 }
 
 model ParcelBoxType {
-    id       Int        @id @default(autoincrement())
-    name     String
-    CellType CellType[]
+    id        Int         @id @default(autoincrement())
+    name      String
+    CellType  CellType[]
+    ParcelBox ParcelBox[]
 }
 
 model CellType {
@@ -61,4 +62,22 @@ model CellType {
     depth              Int
     parcel_box_type    ParcelBoxType @relation(fields: [parcel_box_type_id], references: [id])
     parcel_box_type_id Int
+}
+
+model ParcelBox {
+    id                 Int           @id @default(autoincrement())
+    parcel_box_type    ParcelBoxType @relation(fields: [parcel_box_type_id], references: [id])
+    parcel_box_type_id Int
+    location           Location      @relation(fields: [location_id], references: [id])
+    location_id        Int
+    created_at         DateTime      @default(now())
+}
+
+model Location {
+    id                  Int         @id @default(autoincrement())
+    address             String
+    business_hours_from Int
+    business_hours_to   Int
+    business_days       Int[]
+    ParcelBox           ParcelBox[]
 }

@@ -78,6 +78,8 @@ model ${tableName} {
 			columnsArr.push(`\t${dbFieldName}	Boolean` + createColumnAttrs(field))
 		} else if (field.type === 'number') {
 			columnsArr.push(`\t${dbFieldName}	Int` + createColumnAttrs(field))
+		} else if (field.type === 'array') {
+			columnsArr.push(`\t${dbFieldName}	${createArrayOfItemsColumn(field)}`)
 		} else if (field.type === 'createdAt') {
 			columnsArr.push(`\t${dbFieldName}	DateTime	@default(now())`)
 		} else if (field.type === 'manyToOne') {
@@ -133,6 +135,18 @@ function createColumnAttrs(columnConfig: BdConfig.Field) {
 
 	// Add tabulation if a string starts with a '?'
 	return attrsString.startsWith('?') ? attrsString : '\t' + attrsString
+}
+
+function createArrayOfItemsColumn(columnConfig: BdConfig.ArrayField) {
+	if (columnConfig.arrayItemType === 'string') {
+		return 'String[]'
+	} else if (columnConfig.arrayItemType === 'number') {
+		return 'Int[]'
+	} else if (columnConfig.arrayItemType === 'mongoId') {
+		return 'MONGO[]'
+	}
+
+	return 'unknown'
 }
 
 /**
