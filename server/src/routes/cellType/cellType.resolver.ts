@@ -18,13 +18,5 @@ export class CellTypeResolver {
 	@UsePipes(new ValidationPipe({ transform: true }))
 	async create(@Args('input') input: CreateCellTypeInput): Promise<CellTypeOutModel> {
 		return await this.commandBus.execute(new CreateCellTypeCommand(input))
-		/*return {
-			id: 1,
-			name: '1',
-			width: 1,
-			height: 1,
-			depth: 1,
-			parcelBoxTypeId: 1,
-		}*/
 	}
 }

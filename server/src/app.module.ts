@@ -7,6 +7,7 @@ import { CookieModule } from './infrastructure/cookieService/cookie.module'
 import { EmailAdapterModule } from './infrastructure/emailAdapter/email-adapter.module'
 import { HashAdapterModule } from './infrastructure/hashAdapter/hash-adapter.module'
 import { JwtAdapterModule } from './infrastructure/jwtAdapter/jwtAdapter.module'
+import { SeedDefaultDataModule } from './infrastructure/seedDefaultData/seedDefaultData.module'
 import { AuthModule } from './routes/auth/auth.module'
 import { MainConfigModule } from './infrastructure/config/mainConfig.module'
 import { MainConfigService } from './infrastructure/config/mainConfig.service'
@@ -59,6 +60,7 @@ import { TestsModule } from './routes/test/tests.module'
 		BrowserModule,
 		CookieModule,
 		JwtAdapterModule,
+		SeedDefaultDataModule,
 	],
 	controllers: [],
 	providers: [MainConfigService],
