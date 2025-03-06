@@ -15,9 +15,12 @@ export const RouteNames = {
 	CELL_TYPE: {
 		CREATE: 'cellType_create',
 	},
+	INIT_DATA: {
+		SEED: 'initData/seed',
+	},
 	TESTING: {
 		ALL_DATA: 'testing/all-data',
-		SEED_TEST_DATA: 'testing/seed-test-data',
+		SEED: 'testing/seed',
 		USER: 'testing/user',
 	},
 }

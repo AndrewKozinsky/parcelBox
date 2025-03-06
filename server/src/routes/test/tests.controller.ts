@@ -42,7 +42,7 @@ export class TestsController {
 
 	@HttpCode(HttpStatus.NO_CONTENT)
 	@UseGuards(OnlyDevOrTestingModeGuard)
-	@Post(RouteNames.TESTING.SEED_TEST_DATA)
+	@Post(RouteNames.TESTING.SEED)
 	async seedTestData() {
 		await this.commandBus.execute(new SeedTestDataCommand())
 	}

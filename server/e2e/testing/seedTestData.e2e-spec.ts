@@ -38,6 +38,6 @@ describe.skip('Seed all data (e2e)', () => {
 	})
 
 	it('should return error if request was made not in development mode', async () => {
-		const res = await request(app.getHttpServer()).post('/' + RouteNames.TESTING.SEED_TEST_DATA)
+		const res = await request(app.getHttpServer()).post('/' + RouteNames.TESTING.SEED)
 	})
 })
