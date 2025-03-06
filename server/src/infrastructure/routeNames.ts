@@ -15,6 +15,9 @@ export const RouteNames = {
 	CELL_TYPE: {
 		CREATE: 'cellType_create',
 	},
+	PARCEL_BOX: {
+		CREATE: 'parcelBox_create',
+	},
 	INIT_DATA: {
 		SEED: 'initData/seed',
 	},

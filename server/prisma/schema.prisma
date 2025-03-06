@@ -62,26 +62,26 @@ model CellType {
     depth              Int
     parcel_box_type    ParcelBoxType @relation(fields: [parcel_box_type_id], references: [id])
     parcel_box_type_id Int
-    Cell               Cell[]
+    cell               Cell[]
 }
 
 model ParcelBox {
     id                 Int           @id @default(autoincrement())
     parcel_box_type    ParcelBoxType @relation(fields: [parcel_box_type_id], references: [id])
     parcel_box_type_id Int
-    location           Location      @relation(fields: [location_id], references: [id])
-    location_id        Int
     created_at         DateTime      @default(now())
-    Cell               Cell[]
+    Location           Location?
+    cell               Cell[]
 }
 
 model Location {
-    id                  Int         @id @default(autoincrement())
+    id                  Int       @id @default(autoincrement())
     address             String
     business_hours_from Int
     business_hours_to   Int
     business_days       Int[]
-    ParcelBox           ParcelBox[]
+    parcel_box          ParcelBox @relation(fields: [parcel_box_id], references: [id])
+    parcel_box_id       Int       @unique
 }
 
 model Cell {

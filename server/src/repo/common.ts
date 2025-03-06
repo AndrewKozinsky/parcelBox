@@ -11,3 +11,9 @@ export type SenderWithUser = Prisma.SenderGetPayload<{
 		user: true
 	}
 }>
+
+export type ParcelBoxWithCells = Prisma.ParcelBoxGetPayload<{
+	include: {
+		Cell: true
+	}
+}>

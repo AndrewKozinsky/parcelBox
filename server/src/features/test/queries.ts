@@ -139,4 +139,23 @@ export const queries = {
 			}`
 		},
 	},
+	parcelBox: {
+		create(props: { parcelBoxTypeId: number }) {
+			return `mutation {
+			  ${RouteNames.PARCEL_BOX.CREATE}(input: {
+				parcelBoxTypeId: ${props.parcelBoxTypeId},
+			  }) {
+				id
+				parcelBoxTypeId
+				createdAt
+				cells {
+					id
+					name
+					cellTypeId
+					parcelBoxId
+				}
+			  }
+			}`
+		},
+	},
 }

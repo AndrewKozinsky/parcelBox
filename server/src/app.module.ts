@@ -11,6 +11,7 @@ import { AuthModule } from './routes/auth/auth.module'
 import { MainConfigModule } from './infrastructure/config/mainConfig.module'
 import { MainConfigService } from './infrastructure/config/mainConfig.service'
 import { CellTypeModule } from './routes/cellType/cellType.module'
+import { ParcelBoxModule } from './routes/parcelBox/parcelBox.module'
 import { ParcelBoxTypeModule } from './routes/parcelBoxType/parcelBoxType.module'
 import { InitDataModule } from './routes/initData/initData.module'
 import { TestsModule } from './routes/test/tests.module'
@@ -55,6 +56,7 @@ import { TestsModule } from './routes/test/tests.module'
 		AuthModule,
 		ParcelBoxTypeModule,
 		CellTypeModule,
+		ParcelBoxModule,
 		TestsModule,
 		EmailAdapterModule,
 		BrowserModule,

@@ -1,26 +1,8 @@
-import { Injectable } from '@nestjs/common'
 import { Field, InputType, Int } from '@nestjs/graphql'
-import { Validate, ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator'
+import { Validate } from 'class-validator'
 import { bdConfig } from '../../../db/dbConfig/dbConfig'
 import { DtoFieldDecorators } from '../../../db/dtoFieldDecorators'
-import { errorMessage } from '../../../infrastructure/exceptions/errorMessage'
-import { ParcelBoxTypeQueryRepository } from '../../../repo/parcelBoxType.queryRepository'
-
-@ValidatorConstraint({ async: true })
-@Injectable()
-export class ParcelBoxTypeIdValidation implements ValidatorConstraintInterface {
-	constructor(private parcelBoxTypeQueryRepository: ParcelBoxTypeQueryRepository) {}
-
-	async validate(parcelBoxTypeId: number): Promise<boolean> {
-		const parcelBox = await this.parcelBoxTypeQueryRepository.getParcelBoxTypeById(parcelBoxTypeId)
-
-		return !!parcelBox
-	}
-
-	defaultMessage(args: ValidationArguments) {
-		return errorMessage.parcelBoxTypeDoesNotExist
-	}
-}
+import { ParcelBoxTypeIdValidation } from '../../common/inputs'
 
 @InputType()
 export class CreateCellTypeInput {

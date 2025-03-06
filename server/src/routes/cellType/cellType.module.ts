@@ -5,8 +5,8 @@ import { CreateCellTypeHandler } from '../../features/cellType/CreateCellType.co
 import { CellTypeQueryRepository } from '../../repo/cellType.queryRepository'
 import { CellTypeRepository } from '../../repo/cellType.repository'
 import { ParcelBoxTypeQueryRepository } from '../../repo/parcelBoxType.queryRepository'
+import { ParcelBoxTypeIdValidation } from '../common/inputs'
 import { CellTypeResolver } from './cellType.resolver'
-import { ParcelBoxTypeIdValidation } from './inputs/createCellType.input'
 
 const services = [PrismaService]
 

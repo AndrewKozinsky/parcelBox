@@ -42,6 +42,15 @@ export class CellTypeRepository {
 		return this.mapDbCellTypeToServiceCellType(cellType)
 	}
 
+	@CatchDbError()
+	async getCellTypesByParcelBoxTypeId(parcelBoxTypeId: number) {
+		const cellType = await this.prisma.cellType.findMany({
+			where: { parcel_box_type_id: parcelBoxTypeId },
+		})
+
+		return cellType.map(this.mapDbCellTypeToServiceCellType)
+	}
+
 	mapDbCellTypeToServiceCellType(cellType: CellType): CellTypeServiceModel {
 		return {
 			id: cellType.id,

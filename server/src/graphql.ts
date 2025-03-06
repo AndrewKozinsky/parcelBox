@@ -48,6 +48,10 @@ export interface CreateCellTypeInput {
     parcelBoxTypeId: number;
 }
 
+export interface CreateParcelBoxInput {
+    parcelBoxTypeId: number;
+}
+
 export interface AdminOutModel {
     id: number;
     email: string;
@@ -74,6 +78,20 @@ export interface CellTypeOutModel {
     parcelBoxTypeId: number;
 }
 
+export interface ParcelBoxOutModel {
+    id: number;
+    parcelBoxTypeId: number;
+    createdAt: DateTime;
+    cells: ParcelBoxCellOutModel[];
+}
+
+export interface ParcelBoxCellOutModel {
+    id: number;
+    name: string;
+    cellTypeId: number;
+    parcelBoxId: number;
+}
+
 export interface ParcelBoxTypeOutModel {
     id: number;
     name: string;
@@ -93,7 +111,9 @@ export interface IMutation {
     auth_logout(): boolean | Promise<boolean>;
     parcelBoxType_create(input: CreateParcelBoxTypeInput): ParcelBoxTypeOutModel | Promise<ParcelBoxTypeOutModel>;
     cellType_create(input: CreateCellTypeInput): CellTypeOutModel | Promise<CellTypeOutModel>;
+    parcelBox_create(input: CreateParcelBoxInput): ParcelBoxOutModel | Promise<ParcelBoxOutModel>;
 }
 
+export type DateTime = any;
 export type AdminOrSender = SenderOutModel | AdminOutModel;
 type Nullable<T> = T | null;

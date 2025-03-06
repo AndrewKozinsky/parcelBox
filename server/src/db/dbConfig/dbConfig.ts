@@ -82,6 +82,9 @@ export const bdConfig = {
 			DeviceToken: {
 				type: 'oneToMany',
 			},
+			Admin: {
+				type: 'parentOneToOne',
+			},
 			Sender: {
 				type: 'parentOneToOne',
 			},
@@ -261,14 +264,39 @@ export const bdConfig = {
 				foreignTable: 'ParcelBoxType',
 				foreignField: 'id',
 			},
-			location_id: {
-				type: 'manyToOne',
-				thisField: 'location_id',
-				foreignTable: 'Location',
-				foreignField: 'id',
-			},
 			created_at: {
 				type: 'createdAt',
+			},
+			Location: {
+				type: 'parentOneToOne',
+			},
+		},
+	},
+	Cell: {
+		dtoProps: {},
+		dbFields: {
+			id: {
+				type: 'index',
+			},
+			cell_type_id: {
+				type: 'manyToOne',
+				thisField: 'cell_type_id',
+				foreignTable: 'CellType',
+				foreignField: 'id',
+			},
+			parcel_box_id: {
+				type: 'manyToOne',
+				thisField: 'parcel_box_id',
+				foreignTable: 'ParcelBox',
+				foreignField: 'id',
+			},
+			cell_name: {
+				type: 'string',
+				minLength: 1,
+				maxLength: 100,
+				description: 'Cell name',
+				example: 'A1',
+				required: true,
 			},
 		},
 	},
@@ -306,33 +334,11 @@ export const bdConfig = {
 				description: 'Array of business days',
 				required: true,
 			},
-		},
-	},
-	Cell: {
-		dtoProps: {},
-		dbFields: {
-			id: {
-				type: 'index',
-			},
-			cell_type_id: {
-				type: 'manyToOne',
-				thisField: 'cell_type_id',
-				foreignTable: 'CellType',
-				foreignField: 'id',
-			},
 			parcel_box_id: {
-				type: 'manyToOne',
+				type: 'childOneToOne',
 				thisField: 'parcel_box_id',
 				foreignTable: 'ParcelBox',
 				foreignField: 'id',
-			},
-			cell_name: {
-				type: 'string',
-				minLength: 1,
-				maxLength: 100,
-				description: 'Cell name',
-				example: 'A1',
-				required: true,
 			},
 		},
 	},
