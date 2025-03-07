@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { ParcelBox, ParcelBoxType } from '@prisma/client'
 import { PrismaService } from '../db/prisma.service'
 import CatchDbError from '../infrastructure/exceptions/CatchDBErrors'
 import { ParcelBoxOutModel } from '../models/parcelBox/parcelBox.out.model'
-import { ParcelBoxTypeOutModel } from '../models/parcelBoxType/parcelBoxType.out.model'
-import { ParcelBoxWithCells } from './common'
+import { ParcelBoxFullDataPrisma } from './common'
 
 @Injectable()
 export class ParcelBoxQueryRepository {
@@ -15,7 +13,12 @@ export class ParcelBoxQueryRepository {
 		const parcelBox = await this.prisma.parcelBox.findUnique({
 			where: { id },
 			include: {
-				Cell: true,
+				Cell: {
+					include: {
+						cell_type: true,
+					},
+				},
+				Location: true,
 			},
 		})
 
@@ -26,7 +29,7 @@ export class ParcelBoxQueryRepository {
 		return this.mapDbParcelBoxToOutParcelBox(parcelBox)
 	}
 
-	mapDbParcelBoxToOutParcelBox(parcelBox: ParcelBoxWithCells): ParcelBoxOutModel {
+	mapDbParcelBoxToOutParcelBox(parcelBox: ParcelBoxFullDataPrisma): ParcelBoxOutModel {
 		return {
 			id: parcelBox.id,
 			parcelBoxTypeId: parcelBox.parcel_box_type_id,
@@ -37,8 +40,18 @@ export class ParcelBoxQueryRepository {
 					name: cell.cell_name,
 					cellTypeId: cell.cell_type_id,
 					parcelBoxId: cell.parcel_box_id,
+					width: cell.cell_type.width,
+					height: cell.cell_type.height,
+					depth: cell.cell_type.depth,
 				}
 			}),
+			location: {
+				id: parcelBox?.Location?.id ?? 0,
+				address: parcelBox?.Location?.address ?? '',
+				businessDays: parcelBox?.Location?.business_days ?? [],
+				businessHoursFrom: parcelBox?.Location?.business_hours_from ?? 0,
+				businessHoursTo: parcelBox?.Location?.business_hours_to ?? 0,
+			},
 		}
 	}
 }

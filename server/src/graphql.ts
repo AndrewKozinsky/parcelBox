@@ -78,18 +78,30 @@ export interface CellTypeOutModel {
     parcelBoxTypeId: number;
 }
 
-export interface ParcelBoxOutModel {
-    id: number;
-    parcelBoxTypeId: number;
-    createdAt: DateTime;
-    cells: ParcelBoxCellOutModel[];
-}
-
-export interface ParcelBoxCellOutModel {
+export interface CellOutModel {
     id: number;
     name: string;
     cellTypeId: number;
     parcelBoxId: number;
+    width: number;
+    height: number;
+    depth: number;
+}
+
+export interface LocationOutModel {
+    id: number;
+    address: string;
+    businessDays: number[];
+    businessHoursFrom: number;
+    businessHoursTo: number;
+}
+
+export interface ParcelBoxOutModel {
+    id: number;
+    parcelBoxTypeId: number;
+    createdAt: DateTime;
+    cells: CellOutModel[];
+    location: LocationOutModel;
 }
 
 export interface ParcelBoxTypeOutModel {

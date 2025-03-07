@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../db/prisma.service'
 import CatchDbError from '../infrastructure/exceptions/CatchDBErrors'
 import { AdminServiceModel } from '../models/admin/admin.service.model'
-import { AdminWithUser } from './common'
+import { AdminWithUserPrisma } from './common'
 
 @Injectable()
 export class AdminRepository {
@@ -24,7 +24,7 @@ export class AdminRepository {
 		return this.mapDbAdminToServiceSender(admin)
 	}
 
-	mapDbAdminToServiceSender(dbUser: AdminWithUser): AdminServiceModel {
+	mapDbAdminToServiceSender(dbUser: AdminWithUserPrisma): AdminServiceModel {
 		return {
 			id: dbUser.user_id,
 			email: dbUser.user.email,

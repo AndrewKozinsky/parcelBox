@@ -1,19 +1,24 @@
 import { Prisma } from '@prisma/client'
 
-export type AdminWithUser = Prisma.AdminGetPayload<{
+export type AdminWithUserPrisma = Prisma.AdminGetPayload<{
 	include: {
 		user: true
 	}
 }>
 
-export type SenderWithUser = Prisma.SenderGetPayload<{
+export type SenderWithUserPrisma = Prisma.SenderGetPayload<{
 	include: {
 		user: true
 	}
 }>
 
-export type ParcelBoxWithCells = Prisma.ParcelBoxGetPayload<{
+export type ParcelBoxFullDataPrisma = Prisma.ParcelBoxGetPayload<{
 	include: {
-		Cell: true
+		Cell: {
+			include: {
+				cell_type: true
+			}
+		}
+		Location: true
 	}
 }>

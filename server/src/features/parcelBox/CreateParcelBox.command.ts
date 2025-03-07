@@ -4,6 +4,7 @@ import { ErrorCode } from '../../infrastructure/exceptions/errorCode'
 import { errorMessage } from '../../infrastructure/exceptions/errorMessage'
 import { CellRepository } from '../../repo/cell.repository'
 import { CellTypeRepository } from '../../repo/cellType.repository'
+import { LocationRepository } from '../../repo/location.repository'
 import { ParcelBoxQueryRepository } from '../../repo/parcelBox.queryRepository'
 import { ParcelBoxRepository } from '../../repo/parcelBox.repository'
 import { CreateParcelBoxInput } from '../../routes/parcelBox/inputs/createParcelBox.input'
@@ -19,6 +20,7 @@ export class CreateParcelBoxHandler implements ICommandHandler<CreateParcelBoxCo
 		private parcelBoxRepository: ParcelBoxRepository,
 		private parcelBoxQueryRepository: ParcelBoxQueryRepository,
 		private cellRepository: CellRepository,
+		private locationRepository: LocationRepository,
 	) {}
 
 	async execute(command: CreateParcelBoxCommand) {
@@ -44,7 +46,16 @@ export class CreateParcelBoxHandler implements ICommandHandler<CreateParcelBoxCo
 				parcelBoxId: createdBox.id,
 			})
 		})
-		await Promise.all(createCellsPromise)
+
+		const createLocation = this.locationRepository.createLocation({
+			businessHoursFrom: 8,
+			businessHoursTo: 18,
+			address: '',
+			businessDays: [1, 2, 3, 4, 5],
+			parcelBoxId: createdBox.id,
+		})
+
+		await Promise.all([...createCellsPromise, createLocation])
 
 		return await this.parcelBoxQueryRepository.getParcelBoxById(createdBox.id)
 	}

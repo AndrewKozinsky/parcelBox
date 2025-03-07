@@ -34,24 +34,36 @@ type CellTypeOutModel {
   parcelBoxTypeId: Int!
 }
 
+type CellOutModel {
+  id: Int!
+  name: String!
+  cellTypeId: Int!
+  parcelBoxId: Int!
+  width: Int!
+  height: Int!
+  depth: Int!
+}
+
+type LocationOutModel {
+  id: Int!
+  address: String!
+  businessDays: [Int!]!
+  businessHoursFrom: Int!
+  businessHoursTo: Int!
+}
+
 type ParcelBoxOutModel {
   id: Int!
   parcelBoxTypeId: Int!
   createdAt: DateTime!
-  cells: [ParcelBoxCellOutModel!]!
+  cells: [CellOutModel!]!
+  location: LocationOutModel!
 }
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
-
-type ParcelBoxCellOutModel {
-  id: Int!
-  name: String!
-  cellTypeId: Int!
-  parcelBoxId: Int!
-}
 
 type ParcelBoxTypeOutModel {
   id: Int!

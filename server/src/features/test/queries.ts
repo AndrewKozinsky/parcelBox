@@ -153,6 +153,16 @@ export const queries = {
 					name
 					cellTypeId
 					parcelBoxId
+					width
+					height
+					depth
+				}
+				location {
+					id
+					address
+					businessDays
+					businessHoursFrom
+					businessHoursTo
 				}
 			  }
 			}`

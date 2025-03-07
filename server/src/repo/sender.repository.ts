@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../db/prisma.service'
 import CatchDbError from '../infrastructure/exceptions/CatchDBErrors'
 import { SenderServiceModel } from '../models/sender/sender.service.model'
-import { SenderWithUser } from './common'
+import { SenderWithUserPrisma } from './common'
 
 @Injectable()
 export class SenderRepository {
@@ -25,7 +25,7 @@ export class SenderRepository {
 		return this.mapDbSenderToServiceSender(sender)
 	}
 
-	mapDbSenderToServiceSender(dbUser: SenderWithUser): SenderServiceModel {
+	mapDbSenderToServiceSender(dbUser: SenderWithUserPrisma): SenderServiceModel {
 		return {
 			id: dbUser.user_id,
 		}

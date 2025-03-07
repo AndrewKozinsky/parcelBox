@@ -62,7 +62,7 @@ describe('Create parcel box (e2e)', () => {
 			message: errorMessage.wrongInputData,
 			code: 400,
 			fields: {
-				parcelBoxTypeId: ['Тип посыльного ящика не найден.'],
+				parcelBoxTypeId: [errorMessage.parcelBoxTypeDoesNotExist],
 			},
 		})
 	})
@@ -77,10 +77,6 @@ describe('Create parcel box (e2e)', () => {
 		if (!createBoxAndCellTypes) return
 		const { parcelBoxType, cellType_1, cellType_2 } = createBoxAndCellTypes
 
-		// console.log(parcelBoxType)
-		// console.log(cellType_1)
-		// console.log(cellType_2)
-
 		// Create physical Parcel box and cells
 		const createParcelBoxMutation = queries.parcelBox.create({ parcelBoxTypeId: parcelBoxType.id })
 		const [createParcelBoxResp] = await makeGraphQLReq(app, createParcelBoxMutation)
@@ -88,11 +84,8 @@ describe('Create parcel box (e2e)', () => {
 		expect(createParcelBoxResp.errors).toBe(undefined)
 
 		const respData = createParcelBoxResp.data[RouteNames.PARCEL_BOX.CREATE]
-		console.log(respData)
 
-		expect(typeof respData.id).toBe('number')
-		expect(respData.parcelBoxTypeId).toBe(parcelBoxType.id)
-		expect(typeof respData.createdAt).toBe('string')
+		parcelBoxTypeUtils.checkParcelBoxObject(respData)
 
 		// Check if there is a new parcel box in the database
 		const parcelBox = parcelBoxQueryRepository.getParcelBoxById(respData.id)
