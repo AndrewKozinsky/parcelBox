@@ -34,4 +34,11 @@ export const cellTypeUtils = {
 
 		return cellType
 	},
+	async getCellTypesOfParcelBoxTypeWithName(props: {
+		app: INestApplication
+		cellTypeRepository: CellTypeRepository
+		parcelBoxTypeName: string
+	}) {
+		return await props.cellTypeRepository.getCellTypesOfParcelBoxTypeWithName(props.parcelBoxTypeName)
+	},
 }

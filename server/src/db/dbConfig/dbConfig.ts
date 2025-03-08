@@ -88,6 +88,9 @@ export const bdConfig = {
 			Sender: {
 				type: 'parentOneToOne',
 			},
+			ParcelBox: {
+				type: 'oneToMany',
+			},
 		},
 	},
 	DeviceToken: {
@@ -269,6 +272,12 @@ export const bdConfig = {
 			},
 			Location: {
 				type: 'parentOneToOne',
+			},
+			user_id: {
+				type: 'manyToOne',
+				thisField: 'user_id',
+				foreignTable: 'User',
+				foreignField: 'id',
 			},
 		},
 	},

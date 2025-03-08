@@ -5,12 +5,19 @@ import { UserRole } from '../../src/db/dbConstants'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
 import { errorMessage } from '../../src/infrastructure/exceptions/errorMessage'
 import RouteNames from '../../src/infrastructure/routeNames'
+import { CellRepository } from '../../src/repo/cell.repository'
+import { CellTypeRepository } from '../../src/repo/cellType.repository'
+import { ParcelBoxQueryRepository } from '../../src/repo/parcelBox.queryRepository'
+import { ParcelBoxRepository } from '../../src/repo/parcelBox.repository'
+import { ParcelBoxTypeQueryRepository } from '../../src/repo/parcelBoxType.queryRepository'
+import { ParcelBoxTypeRepository } from '../../src/repo/parcelBoxType.repository'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq } from '../makeGQReq'
-import { defAdminEmail, defAdminPassword, extractErrObjFromResp, seedTestData } from '../utils/common'
+import { defAdminEmail, defAdminPassword, extractErrObjFromResp, seedInitDataInDatabase } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../../src/features/test/queries'
+import { seedTestData } from '../utils/seedData'
 import { userUtils } from '../utils/userUtils'
 
 describe.skip('Confirm an user email (e2e)', () => {
@@ -18,6 +25,12 @@ describe.skip('Confirm an user email (e2e)', () => {
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
 	let userQueryRepository: UserQueryRepository
+	let parcelBoxTypeRepository: ParcelBoxTypeRepository
+	let parcelBoxTypeQueryRepository: ParcelBoxTypeQueryRepository
+	let cellTypeRepository: CellTypeRepository
+	let parcelBoxQueryRepository: ParcelBoxQueryRepository
+	let parcelBoxRepository: ParcelBoxRepository
+	let cellRepository: CellRepository
 
 	beforeAll(async () => {
 		const createMainAppRes = await createApp({ emailAdapter })
@@ -26,11 +39,25 @@ describe.skip('Confirm an user email (e2e)', () => {
 		emailAdapter = createMainAppRes.emailAdapter
 		userRepository = await app.resolve(UserRepository)
 		userQueryRepository = await app.resolve(UserQueryRepository)
+		parcelBoxTypeRepository = await app.resolve(ParcelBoxTypeQueryRepository)
+		parcelBoxTypeQueryRepository = await app.resolve(ParcelBoxTypeQueryRepository)
+		cellTypeRepository = await app.resolve(CellTypeRepository)
+		parcelBoxQueryRepository = await app.resolve(ParcelBoxQueryRepository)
+		parcelBoxRepository = await app.resolve(ParcelBoxRepository)
+		cellRepository = await app.resolve(CellRepository)
 	})
 
 	beforeEach(async () => {
 		await clearAllDB(app)
-		await seedTestData({ app, userRepository })
+		await seedInitDataInDatabase(app)
+		await seedTestData({
+			app,
+			userRepository,
+			parcelBoxRepository,
+			cellRepository,
+			cellTypeRepository,
+			parcelBoxTypeRepository,
+		})
 		jest.clearAllMocks()
 	})
 

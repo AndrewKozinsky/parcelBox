@@ -140,10 +140,11 @@ export const queries = {
 		},
 	},
 	parcelBox: {
-		create(props: { parcelBoxTypeId: number }) {
+		create(props: { parcelBoxTypeId: number; userId: number }) {
 			return `mutation {
 			  ${RouteNames.PARCEL_BOX.CREATE}(input: {
 				parcelBoxTypeId: ${props.parcelBoxTypeId},
+				userId: ${props.userId}
 			  }) {
 				id
 				parcelBoxTypeId

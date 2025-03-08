@@ -1,10 +1,10 @@
 import { INestApplication } from '@nestjs/common'
 import { TestingModule } from '@nestjs/testing'
-import { UserRole } from '../../src/db/dbConstants'
+import { App } from 'supertest/types'
 import { MainConfigService } from '../../src/infrastructure/config/mainConfig.service'
+import RouteNames from '../../src/infrastructure/routeNames'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
-import { UserRepository } from '../../src/repo/user.repository'
-import { userUtils } from './userUtils'
+import { agent as request } from 'supertest'
 
 export const defAdminEmail = 'admin@email.com'
 export const defAdminPassword = 'adminPassword'
@@ -52,84 +52,6 @@ export function makeProductionMode(moduleFixture: TestingModule) {
 	})
 }
 
-/**
- * Seed database with some data for testing.
- * @param props
- */
-export async function seedTestData(props: { app: INestApplication; userRepository: UserRepository }) {
-	const { app, userRepository } = props
-
-	// Create the first admin
-	await userUtils.createUserWithUnconfirmedEmail({
-		app,
-		userRepository,
-		role: UserRole.Admin,
-		email: 'admin-1@email.com',
-		password: 'adminPassword-1',
-	})
-
-	// Create the second admin
-	await userUtils.createUserWithConfirmedEmail({
-		app,
-		userRepository,
-		role: UserRole.Admin,
-		email: 'admin-2@email.com',
-		password: 'adminPassword-2',
-	})
-
-	// Create the third admin
-	await userUtils.createUserAndLogin({
-		app,
-		userRepository,
-		role: UserRole.Admin,
-		email: 'admin-3@email.com',
-		password: 'adminPassword-3',
-	})
-
-	// -------
-
-	// Create the first sender
-	await userUtils.createUserWithUnconfirmedEmail({
-		app,
-		userRepository,
-		role: UserRole.Sender,
-		email: 'sender-1@email.com',
-		password: 'senderPassword-1',
-	})
-
-	// Create the second sender
-	await userUtils.createUserWithUnconfirmedEmail({
-		app,
-		userRepository,
-		role: UserRole.Sender,
-		email: 'sender-2@email.com',
-		password: 'senderPassword-2',
-	})
-
-	// Create the third sender
-	await userUtils.createUserWithConfirmedEmail({
-		app,
-		userRepository,
-		role: UserRole.Sender,
-		email: 'sender-3@email.com',
-		password: 'senderPassword-3',
-	})
-
-	// Create the forth sender
-	await userUtils.createUserAndLogin({
-		app,
-		userRepository,
-		role: UserRole.Sender,
-		email: 'sender-4@email.com',
-		password: 'senderPassword-4',
-	})
-
-	// Create the fifth sender
-	await userUtils.createUserAndLogin({
-		app,
-		userRepository,
-		role: UserRole.Sender,
-		email: 'sender-5@email.com',
-		password: 'senderPassword-5',
-	})
+export async function seedInitDataInDatabase(app: INestApplication<App>) {
+	await request(app.getHttpServer()).post('/' + RouteNames.INIT_DATA.SEED)
 }

@@ -209,4 +209,7 @@ input CreateCellTypeInput {
 input CreateParcelBoxInput {
   """Parcel box type id"""
   parcelBoxTypeId: Float!
+
+  """User id who belongs to this parcel box"""
+  userId: Float!
 }

@@ -3,17 +3,13 @@ import { agent as request } from 'supertest'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
-import { errorMessage } from '../../src/infrastructure/exceptions/errorMessage'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { CellTypeRepository } from '../../src/repo/cellType.repository'
 import { ParcelBoxTypeQueryRepository } from '../../src/repo/parcelBoxType.queryRepository'
 import { ParcelBoxTypeRepository } from '../../src/repo/parcelBoxType.repository'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
-import { makeGraphQLReq } from '../makeGQReq'
-import { defAdminEmail, defAdminPassword, extractErrObjFromResp, seedTestData } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
-import { queries } from '../../src/features/test/queries'
 
 describe.skip('Check init data (e2e)', () => {
 	let app: INestApplication<App>
@@ -38,7 +34,8 @@ describe.skip('Check init data (e2e)', () => {
 
 	beforeEach(async () => {
 		// await clearAllDB(app)
-		// await seedTestData({ app, userRepository })
+		// await seedInitDataInDatabase(app)
+		// await seedTestData({ app, userRepository, parcelBoxRepository, cellRepository, cellTypeRepository })
 		jest.clearAllMocks()
 	})
 

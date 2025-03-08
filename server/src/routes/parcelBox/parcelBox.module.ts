@@ -7,6 +7,7 @@ import { CellTypeRepository } from '../../repo/cellType.repository'
 import { LocationRepository } from '../../repo/location.repository'
 import { ParcelBoxQueryRepository } from '../../repo/parcelBox.queryRepository'
 import { ParcelBoxRepository } from '../../repo/parcelBox.repository'
+import { UserQueryRepository } from '../../repo/user.queryRepository'
 import { ParcelBoxResolver } from './parcelBox.resolver'
 
 const services = [PrismaService]
@@ -17,6 +18,7 @@ const repositories = [
 	ParcelBoxRepository,
 	ParcelBoxQueryRepository,
 	LocationRepository,
+	UserQueryRepository,
 ]
 
 const commandHandlers = [CreateParcelBoxHandler]

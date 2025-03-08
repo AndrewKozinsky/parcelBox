@@ -18,8 +18,9 @@ model User {
     created_at                              DateTime      @default(now())
     role                                    Int
     DeviceToken                             DeviceToken[]
-    Sender                                  Sender?
     Admin                                   Admin?
+    Sender                                  Sender?
+    ParcelBox                               ParcelBox[]
 }
 
 model DeviceToken {
@@ -62,7 +63,7 @@ model CellType {
     depth              Int
     parcel_box_type    ParcelBoxType @relation(fields: [parcel_box_type_id], references: [id])
     parcel_box_type_id Int
-    cell               Cell[]
+    Cell               Cell[]
 }
 
 model ParcelBox {
@@ -71,7 +72,18 @@ model ParcelBox {
     parcel_box_type_id Int
     created_at         DateTime      @default(now())
     Location           Location?
-    cell               Cell[]
+    user               User          @relation(fields: [user_id], references: [id])
+    user_id            Int
+    Cell               Cell[]
+}
+
+model Cell {
+    id            Int       @id @default(autoincrement())
+    cell_type     CellType  @relation(fields: [cell_type_id], references: [id])
+    cell_type_id  Int
+    parcel_box    ParcelBox @relation(fields: [parcel_box_id], references: [id])
+    parcel_box_id Int
+    cell_name     String
 }
 
 model Location {
@@ -82,13 +94,4 @@ model Location {
     business_days       Int[]
     parcel_box          ParcelBox @relation(fields: [parcel_box_id], references: [id])
     parcel_box_id       Int       @unique
-}
-
-model Cell {
-    id            Int       @id @default(autoincrement())
-    cell_type     CellType  @relation(fields: [cell_type_id], references: [id])
-    cell_type_id  Int
-    parcel_box    ParcelBox @relation(fields: [parcel_box_id], references: [id])
-    parcel_box_id Int
-    cell_name     String
 }

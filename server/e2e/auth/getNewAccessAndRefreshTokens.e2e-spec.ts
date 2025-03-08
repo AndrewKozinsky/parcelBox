@@ -6,14 +6,21 @@ import { UserRole } from '../../src/db/dbConstants'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
 import { JwtAdapterService } from '../../src/infrastructure/jwtAdapter/jwtAdapter.service'
 import RouteNames from '../../src/infrastructure/routeNames'
+import { CellRepository } from '../../src/repo/cell.repository'
+import { CellTypeRepository } from '../../src/repo/cellType.repository'
 import { DevicesRepository } from '../../src/repo/devices.repository'
+import { ParcelBoxQueryRepository } from '../../src/repo/parcelBox.queryRepository'
+import { ParcelBoxRepository } from '../../src/repo/parcelBox.repository'
+import { ParcelBoxTypeQueryRepository } from '../../src/repo/parcelBoxType.queryRepository'
+import { ParcelBoxTypeRepository } from '../../src/repo/parcelBoxType.repository'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReqWithTokens } from '../makeGQReq'
 import { authUtils } from '../utils/authUtils'
-import { defAdminEmail, defAdminPassword, extractErrObjFromResp, seedTestData } from '../utils/common'
+import { defAdminEmail, defAdminPassword, seedInitDataInDatabase } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../../src/features/test/queries'
+import { seedTestData } from '../utils/seedData'
 import { userUtils } from '../utils/userUtils'
 
 describe.skip('Get new refresh and access tokens (e2e)', () => {
@@ -24,6 +31,12 @@ describe.skip('Get new refresh and access tokens (e2e)', () => {
 	let devicesRepository: DevicesRepository
 	let jwtAdapter: JwtAdapterService
 	let mainConfig: MainConfigService
+	let parcelBoxTypeRepository: ParcelBoxTypeRepository
+	let parcelBoxTypeQueryRepository: ParcelBoxTypeQueryRepository
+	let cellTypeRepository: CellTypeRepository
+	let parcelBoxQueryRepository: ParcelBoxQueryRepository
+	let parcelBoxRepository: ParcelBoxRepository
+	let cellRepository: CellRepository
 
 	beforeAll(async () => {
 		const createMainAppRes = await createApp({ emailAdapter })
@@ -35,11 +48,25 @@ describe.skip('Get new refresh and access tokens (e2e)', () => {
 		devicesRepository = await app.resolve(DevicesRepository)
 		jwtAdapter = await app.resolve(JwtAdapterService)
 		mainConfig = await app.resolve(MainConfigService)
+		parcelBoxTypeRepository = await app.resolve(ParcelBoxTypeQueryRepository)
+		parcelBoxTypeQueryRepository = await app.resolve(ParcelBoxTypeQueryRepository)
+		cellTypeRepository = await app.resolve(CellTypeRepository)
+		parcelBoxQueryRepository = await app.resolve(ParcelBoxQueryRepository)
+		parcelBoxRepository = await app.resolve(ParcelBoxRepository)
+		cellRepository = await app.resolve(CellRepository)
 	})
 
 	beforeEach(async () => {
 		await clearAllDB(app)
-		await seedTestData({ app, userRepository })
+		await seedInitDataInDatabase(app)
+		await seedTestData({
+			app,
+			userRepository,
+			parcelBoxRepository,
+			cellRepository,
+			cellTypeRepository,
+			parcelBoxTypeRepository,
+		})
 		jest.clearAllMocks()
 	})
 
