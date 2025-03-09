@@ -27,7 +27,7 @@ export class ParcelBoxTypeRepository {
 	}
 
 	@CatchDbError()
-	async getParcelBoxTypeIdByName(parcelBoxTypeName: string) {
+	async getParcelBoxTypeByName(parcelBoxTypeName: string) {
 		const parcelBoxType = await this.prisma.parcelBoxType.findFirst({
 			where: { name: parcelBoxTypeName },
 		})

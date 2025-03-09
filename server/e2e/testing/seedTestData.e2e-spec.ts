@@ -1,10 +1,8 @@
 import { INestApplication } from '@nestjs/common'
 import { TestingModule } from '@nestjs/testing'
-import { agent as request } from 'supertest'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
-import RouteNames from '../../src/infrastructure/routeNames'
 import { CellRepository } from '../../src/repo/cell.repository'
 import { CellTypeRepository } from '../../src/repo/cellType.repository'
 import { DevicesRepository } from '../../src/repo/devices.repository'
@@ -65,10 +63,6 @@ describe.only('Seed all data (e2e)', () => {
 	afterEach(() => {
 		jest.clearAllMocks()
 	})
-
-	/*it('test data should contain 8 users', async () => {
-		expect(2).toBeTruthy()
-	})*/
 
 	it('test data should contain 8 users', async () => {
 		const usersConfig = seedTestDataConfig.getUsersConfig()

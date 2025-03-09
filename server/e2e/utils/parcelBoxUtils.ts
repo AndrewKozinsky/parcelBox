@@ -29,7 +29,7 @@ export const parcelBoxUtils = {
 		parcelBoxTypeRepository: ParcelBoxTypeRepository
 		parcelBoxTypeName: string
 	}) {
-		return await props.parcelBoxTypeRepository.getParcelBoxTypeIdByName(props.parcelBoxTypeName)
+		return await props.parcelBoxTypeRepository.getParcelBoxTypeByName(props.parcelBoxTypeName)
 	},
 
 	checkParcelBoxObject(parcelBoxObj: any) {

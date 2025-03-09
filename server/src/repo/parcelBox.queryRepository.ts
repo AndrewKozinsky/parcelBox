@@ -29,6 +29,23 @@ export class ParcelBoxQueryRepository {
 		return this.mapDbParcelBoxToOutParcelBox(parcelBox)
 	}
 
+	@CatchDbError()
+	async getParcelBoxesByUserId(userId: number) {
+		const parcelBoxes = await this.prisma.parcelBox.findMany({
+			where: { user_id: userId },
+			include: {
+				Cell: {
+					include: {
+						cell_type: true,
+					},
+				},
+				Location: true,
+			},
+		})
+
+		return parcelBoxes.map(this.mapDbParcelBoxToOutParcelBox)
+	}
+
 	mapDbParcelBoxToOutParcelBox(parcelBox: ParcelBoxFullDataPrisma): ParcelBoxOutModel {
 		return {
 			id: parcelBox.id,

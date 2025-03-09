@@ -6,24 +6,27 @@ import { queries } from '../../src/features/test/queries'
 import { MainConfigService } from '../../src/infrastructure/config/mainConfig.service'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
 import { errorMessage } from '../../src/infrastructure/exceptions/errorMessage'
+import { JwtAdapterService } from '../../src/infrastructure/jwtAdapter/jwtAdapter.service'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { CellRepository } from '../../src/repo/cell.repository'
 import { CellTypeRepository } from '../../src/repo/cellType.repository'
+import { DevicesRepository } from '../../src/repo/devices.repository'
 import { ParcelBoxQueryRepository } from '../../src/repo/parcelBox.queryRepository'
 import { ParcelBoxRepository } from '../../src/repo/parcelBox.repository'
 import { ParcelBoxTypeQueryRepository } from '../../src/repo/parcelBoxType.queryRepository'
 import { ParcelBoxTypeRepository } from '../../src/repo/parcelBoxType.repository'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
-import { makeGraphQLReq, makeGraphQLReqWithTokens } from '../makeGQReq'
-import { defAdminEmail, defAdminPassword, extractErrObjFromResp, seedInitDataInDatabase } from '../utils/common'
+import { makeGraphQLReqWithTokens } from '../makeGQReq'
+import { authUtils } from '../utils/authUtils'
+import { defAdminEmail, defAdminPassword, seedInitDataInDatabase } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { parcelBoxTypeUtils } from '../utils/parcelBoxTypeUtils'
 import { parcelBoxUtils } from '../utils/parcelBoxUtils'
 import { seedTestData } from '../utils/seedTestData'
 import { userUtils } from '../utils/userUtils'
 
-describe.skip('Create parcel box (e2e)', () => {
+describe.skip('Get my parcel box (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
@@ -34,6 +37,8 @@ describe.skip('Create parcel box (e2e)', () => {
 	let parcelBoxQueryRepository: ParcelBoxQueryRepository
 	let parcelBoxRepository: ParcelBoxRepository
 	let cellRepository: CellRepository
+	let devicesRepository: DevicesRepository
+	let jwtAdapter: JwtAdapterService
 	let mainConfig: MainConfigService
 
 	beforeAll(async () => {
@@ -49,6 +54,8 @@ describe.skip('Create parcel box (e2e)', () => {
 		parcelBoxQueryRepository = await app.resolve(ParcelBoxQueryRepository)
 		parcelBoxRepository = await app.resolve(ParcelBoxRepository)
 		cellRepository = await app.resolve(CellRepository)
+		devicesRepository = await app.resolve(DevicesRepository)
+		jwtAdapter = await app.resolve(JwtAdapterService)
 		mainConfig = await app.resolve(MainConfigService)
 	})
 
@@ -69,29 +76,23 @@ describe.skip('Create parcel box (e2e)', () => {
 		jest.clearAllMocks()
 	})
 
-	it('test', async () => {
-		expect(2).toBe(2)
+	it('should return 401 if there is not access device token cookie', async () => {
+		await authUtils.accessTokenChecks.tokenNotExist(app, queries.parcelBox.getMine())
 	})
 
-	it('should return error if wrong data was passed', async () => {
-		const createParcelBoxMutation = queries.parcelBox.create({ userId: 98, parcelBoxTypeId: 99 })
-		const [createParcelBoxResp] = await makeGraphQLReq(app, createParcelBoxMutation)
-
-		expect(createParcelBoxResp.data).toBe(null)
-
-		const firstErr = extractErrObjFromResp(createParcelBoxResp)
-
-		expect(firstErr).toStrictEqual({
-			message: errorMessage.wrongInputData,
-			code: 400,
-			fields: {
-				parcelBoxTypeId: [errorMessage.parcelBoxTypeDoesNotExist],
-				userId: [errorMessage.userNotFound],
-			},
+	it('should return 401 if the JWT accessToken inside cookie is expired', async () => {
+		await authUtils.accessTokenChecks.tokenExpired({
+			app,
+			queryOrMutationStr: queries.parcelBox.getMine(),
+			userRepository,
+			devicesRepository,
+			jwtAdapter,
+			mainConfig,
+			role: UserRole.Admin,
 		})
 	})
 
-	it('should create a new parcel box with cells', async () => {
+	it('should create two parcel boxes if passed data is valid', async () => {
 		// Create an admin who will create a new parcel box
 		const { loginData, accessToken, refreshToken } = await userUtils.createUserAndLogin({
 			app,
@@ -106,25 +107,30 @@ describe.skip('Create parcel box (e2e)', () => {
 		}
 
 		// Get existing parcel box types
-		const largeParcelBoxType = await parcelBoxTypeUtils.getByName({
-			parcelBoxTypeName: 'large',
+		const smallParcelBoxType = await parcelBoxTypeUtils.getByName({
+			parcelBoxTypeName: 'small',
+			parcelBoxTypeRepository,
+		})
+		const mediumParcelBoxType = await parcelBoxTypeUtils.getByName({
+			parcelBoxTypeName: 'medium',
 			parcelBoxTypeRepository,
 		})
 
-		// Create a new parcel box based on the existing parcel box type
-		const createdParcelBox = await parcelBoxUtils.createParcelBoxWithCells({
+		// Create two parcel boxes based on the existing parcel box types
+		await parcelBoxUtils.createParcelBoxWithCells({
 			app,
 			userId: loginData.id,
-			parcelBoxTypeId: largeParcelBoxType.id,
+			parcelBoxTypeId: smallParcelBoxType.id,
 			parcelBoxRepository,
 			cellRepository,
 		})
-
-		// Check parcel boxes data structure
-		parcelBoxUtils.checkParcelBoxObject(createdParcelBox)
-
-		// Check that created parcel boxes has the same parcelBoxTypeId from which they were created
-		expect(createdParcelBox.parcelBoxTypeId).toBe(largeParcelBoxType.id)
+		await parcelBoxUtils.createParcelBoxWithCells({
+			app,
+			userId: loginData.id,
+			parcelBoxTypeId: mediumParcelBoxType.id,
+			parcelBoxRepository,
+			cellRepository,
+		})
 
 		// Try to get created parcel boxes
 		const getMyParcelBoxesQuery = queries.parcelBox.getMine()
@@ -136,7 +142,14 @@ describe.skip('Create parcel box (e2e)', () => {
 		})
 		const getMyParcelData = getMyParcel.data[RouteNames.PARCEL_BOX.GET_MINE]
 
+		// Check parcel boxes data structure
+		getMyParcelData.forEach(parcelBoxUtils.checkParcelBoxObject)
+
 		// Check that there are only 2 elements in the array
-		expect(getMyParcelData.length).toBe(1)
+		expect(getMyParcelData.length).toBe(2)
+
+		// Check that created parcel boxes has the same parcelBoxTypeId from which they were created
+		expect(getMyParcelData[0].parcelBoxTypeId).toBe(smallParcelBoxType.id)
+		expect(getMyParcelData[1].parcelBoxTypeId).toBe(mediumParcelBoxType.id)
 	})
 })

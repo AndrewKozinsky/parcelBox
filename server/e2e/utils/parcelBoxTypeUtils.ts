@@ -69,30 +69,12 @@ export const parcelBoxTypeUtils = {
 			cellType_2,
 		}
 	},
-	// DELETE !!!
-	/*checkParcelBoxObject(parcelBoxObj: any) {
-		expect(parcelBoxObj).toEqual({
-			id: expect.any(Number),
-			parcelBoxTypeId: expect.any(Number),
-			createdAt: expect.any(String),
-			cells: expect.arrayContaining([
-				expect.objectContaining({
-					id: expect.any(Number),
-					name: expect.any(String),
-					cellTypeId: expect.any(Number),
-					parcelBoxId: expect.any(Number),
-					width: expect.any(Number),
-					height: expect.any(Number),
-					depth: expect.any(Number),
-				}),
-			]),
-			location: expect.objectContaining({
-				id: expect.any(Number),
-				address: expect.any(String),
-				businessDays: expect.arrayContaining([expect.any(Number)]),
-				businessHoursFrom: expect.any(Number),
-				businessHoursTo: expect.any(Number),
-			}),
-		})
-	},*/
+	async getByName(props: { parcelBoxTypeName: string; parcelBoxTypeRepository: ParcelBoxTypeRepository }) {
+		const parcelBoxType = await props.parcelBoxTypeRepository.getParcelBoxTypeByName(props.parcelBoxTypeName)
+		if (!parcelBoxType) {
+			throw new Error('ParcelBoxType not found')
+		}
+
+		return parcelBoxType
+	},
 }

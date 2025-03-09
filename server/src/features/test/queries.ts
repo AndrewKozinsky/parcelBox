@@ -168,5 +168,30 @@ export const queries = {
 			  }
 			}`
 		},
+		getMine() {
+			return `query {
+			  ${RouteNames.PARCEL_BOX.GET_MINE} {
+				id
+				parcelBoxTypeId
+				createdAt
+				cells {
+					id
+					name
+					cellTypeId
+					parcelBoxId
+					width
+					height
+					depth
+				}
+				location {
+					id
+					address
+					businessDays
+					businessHoursFrom
+					businessHoursTo
+				}
+			  }
+			}`
+		},
 	},
 }

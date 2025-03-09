@@ -81,6 +81,9 @@ type Query {
 
   """Get current user data"""
   auth_getMe: AdminOrSender!
+
+  """Get all parcel box of the current user."""
+  parcelBox_getMine: [ParcelBoxOutModel!]!
 }
 
 input ConfirmEmailInput {

@@ -113,6 +113,7 @@ export interface ParcelBoxTypeOutModel {
 export interface IQuery {
     auth_confirmEmail(input: ConfirmEmailInput): boolean | Promise<boolean>;
     auth_getMe(): AdminOrSender | Promise<AdminOrSender>;
+    parcelBox_getMine(): ParcelBoxOutModel[] | Promise<ParcelBoxOutModel[]>;
 }
 
 export interface IMutation {
