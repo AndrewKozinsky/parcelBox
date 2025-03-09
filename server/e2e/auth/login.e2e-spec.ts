@@ -17,7 +17,7 @@ import { makeGraphQLReq } from '../makeGQReq'
 import { defAdminEmail, defAdminPassword, extractErrObjFromResp, seedInitDataInDatabase } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../../src/features/test/queries'
-import { seedTestData } from '../utils/seedData'
+import { seedTestData } from '../utils/seedTestData'
 import { userUtils } from '../utils/userUtils'
 
 describe.skip('Confirm an user email (e2e)', () => {
@@ -39,7 +39,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 		emailAdapter = createMainAppRes.emailAdapter
 		userRepository = await app.resolve(UserRepository)
 		userQueryRepository = await app.resolve(UserQueryRepository)
-		parcelBoxTypeRepository = await app.resolve(ParcelBoxTypeQueryRepository)
+		parcelBoxTypeRepository = await app.resolve(ParcelBoxTypeRepository)
 		parcelBoxTypeQueryRepository = await app.resolve(ParcelBoxTypeQueryRepository)
 		cellTypeRepository = await app.resolve(CellTypeRepository)
 		parcelBoxQueryRepository = await app.resolve(ParcelBoxQueryRepository)
@@ -55,7 +55,6 @@ describe.skip('Confirm an user email (e2e)', () => {
 			userRepository,
 			parcelBoxRepository,
 			cellRepository,
-			cellTypeRepository,
 			parcelBoxTypeRepository,
 		})
 		jest.clearAllMocks()

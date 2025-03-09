@@ -1,18 +1,17 @@
 import { INestApplication } from '@nestjs/common'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { CellRepository } from '../../src/repo/cell.repository'
-import { CellTypeRepository } from '../../src/repo/cellType.repository'
 import { ParcelBoxRepository } from '../../src/repo/parcelBox.repository'
 import { ParcelBoxTypeRepository } from '../../src/repo/parcelBoxType.repository'
 import { makeGraphQLReq } from '../makeGQReq'
 import { queries } from '../../src/features/test/queries'
-import { cellTypeUtils } from './cellTypeUtils'
 
 export const parcelBoxUtils = {
-	// Create parcel box type
-	async createParcelBox(props: {
+	// Create parcel box with cells
+	async createParcelBoxWithCells(props: {
 		app: INestApplication
 		parcelBoxRepository: ParcelBoxRepository
+		cellRepository: CellRepository
 		userId: number
 		parcelBoxTypeId: number
 	}) {
@@ -22,44 +21,8 @@ export const parcelBoxUtils = {
 		})
 
 		const [createParcelBoxResp] = await makeGraphQLReq(props.app, createParcelBoxMutation)
-		// console.log(createParcelBoxResp)
 
-		/*const parcelBoxId = createParcelBoxResp.data[RouteNames.PARCEL_BOX.CREATE].id
-
-		return parcelBoxId as number*/
-	},
-	// Create parcel box type with cell types
-	async createParcelBoxWithCells(props: {
-		app: INestApplication
-		parcelBoxRepository: ParcelBoxRepository
-		cellRepository: CellRepository
-		userId: number
-		parcelBoxTypeId: number
-	}) {
-		// Create parcel box type
-		const parcelBoxId = await parcelBoxUtils.createParcelBox({
-			app: props.app,
-			parcelBoxRepository: props.parcelBoxRepository,
-			userId: props.userId,
-			parcelBoxTypeId: props.parcelBoxTypeId,
-		})
-
-		// Create cells belong to created parcel box
-		/*const cellType_1 = await cellTypeUtils.createCellType({
-			app: props.app,
-			cellTypeRepository: props.cellTypeRepository,
-			name: 'A1',
-			width: 21,
-			height: 31,
-			depth: 41,
-			parcelBoxTypeId: parcelBoxType.id,
-		})*/
-
-		/*return {
-			parcelBoxType,
-			cellType_1,
-			cellType_2,
-		}*/
+		return createParcelBoxResp.data[RouteNames.PARCEL_BOX.CREATE]
 	},
 	async getParcelBoxTypeIdByName(props: {
 		app: INestApplication
@@ -69,7 +32,7 @@ export const parcelBoxUtils = {
 		return await props.parcelBoxTypeRepository.getParcelBoxTypeIdByName(props.parcelBoxTypeName)
 	},
 
-	/*checkParcelBoxObject(parcelBoxObj: any) {
+	checkParcelBoxObject(parcelBoxObj: any) {
 		expect(parcelBoxObj).toEqual({
 			id: expect.any(Number),
 			parcelBoxTypeId: expect.any(Number),
@@ -93,5 +56,5 @@ export const parcelBoxUtils = {
 				businessHoursTo: expect.any(Number),
 			}),
 		})
-	},*/
+	},
 }

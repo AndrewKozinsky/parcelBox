@@ -16,7 +16,7 @@ import { makeGraphQLReq } from '../makeGQReq'
 import { defAdminEmail, defAdminPassword, extractErrObjFromResp, seedInitDataInDatabase } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../../src/features/test/queries'
-import { seedTestData } from '../utils/seedData'
+import { seedTestData } from '../utils/seedTestData'
 
 describe.skip('Create parcel box type (e2e)', () => {
 	let app: INestApplication<App>
@@ -39,8 +39,7 @@ describe.skip('Create parcel box type (e2e)', () => {
 		userRepository = await app.resolve(UserRepository)
 		userQueryRepository = await app.resolve(UserQueryRepository)
 		parcelBoxTypeQueryRepository = await app.resolve(ParcelBoxTypeQueryRepository)
-
-		parcelBoxTypeRepository = await app.resolve(ParcelBoxTypeQueryRepository)
+		parcelBoxTypeRepository = await app.resolve(ParcelBoxTypeRepository)
 		cellTypeRepository = await app.resolve(CellTypeRepository)
 		parcelBoxQueryRepository = await app.resolve(ParcelBoxQueryRepository)
 		parcelBoxRepository = await app.resolve(ParcelBoxRepository)
@@ -55,7 +54,6 @@ describe.skip('Create parcel box type (e2e)', () => {
 			userRepository,
 			parcelBoxRepository,
 			cellRepository,
-			cellTypeRepository,
 			parcelBoxTypeRepository,
 		})
 		jest.clearAllMocks()

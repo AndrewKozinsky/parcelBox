@@ -10,7 +10,7 @@ type UserConfig = {
 	login: boolean
 }
 
-type UsersConfig = Record<string, UserConfig>
+export type UsersConfig = Record<string, UserConfig>
 
 const usersConfig = {
 	'admin-1@email.com': {
@@ -33,6 +33,13 @@ const usersConfig = {
 		password: 'adminPassword-3',
 		confirmed: true,
 		login: true,
+	},
+	'admin-4Conf@email.com': {
+		id: null,
+		role: UserRole.Admin,
+		password: 'adminPassword-3',
+		confirmed: true,
+		login: false,
 	},
 	'sender-1@email.com': {
 		id: null,
@@ -75,7 +82,7 @@ type UserParcelBoxConfig = Record<string, number>
 
 type ParcelBoxesConfig = Record<string, UserParcelBoxConfig>
 
-export const seedDataConfig = {
+export const seedTestDataConfig = {
 	getUsersConfig(): UsersConfig {
 		return usersConfig
 	},
@@ -85,6 +92,10 @@ export const seedDataConfig = {
 				small: 1,
 				medium: 2,
 				large: 1,
+			},
+			'admin-4Conf@email.com': {
+				small: 1,
+				large: 2,
 			},
 		}
 	},

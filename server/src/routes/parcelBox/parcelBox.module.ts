@@ -8,6 +8,7 @@ import { LocationRepository } from '../../repo/location.repository'
 import { ParcelBoxQueryRepository } from '../../repo/parcelBox.queryRepository'
 import { ParcelBoxRepository } from '../../repo/parcelBox.repository'
 import { UserQueryRepository } from '../../repo/user.queryRepository'
+import { ParcelBoxTypeIdValidation, UserIdValidation } from '../common/inputs'
 import { ParcelBoxResolver } from './parcelBox.resolver'
 
 const services = [PrismaService]
@@ -28,6 +29,6 @@ const resolvers = [ParcelBoxResolver]
 @Module({
 	imports: [CqrsModule],
 	controllers: [],
-	providers: [...services, ...repositories, ...commandHandlers, ...resolvers],
+	providers: [...services, ...repositories, ...commandHandlers, ...resolvers, UserIdValidation],
 })
 export class ParcelBoxModule {}

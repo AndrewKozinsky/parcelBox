@@ -1,7 +1,9 @@
-import { UsePipes, ValidationPipe } from '@nestjs/common'
+import { Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common'
 import { CommandBus } from '@nestjs/cqrs'
-import { Args, Mutation, Resolver } from '@nestjs/graphql'
+import {Args, Context, Mutation, Resolver} from '@nestjs/graphql'
+import {Request} from 'express'
 import { CreateParcelBoxCommand } from '../../features/parcelBox/CreateParcelBox.command'
+import { CheckAccessTokenGuard } from '../../infrastructure/guards/checkAccessToken.guard'
 import RouteNames from '../../infrastructure/routeNames'
 import { ParcelBoxOutModel } from '../../models/parcelBox/parcelBox.out.model'
 import { CreateParcelBoxInput } from './inputs/createParcelBox.input'
@@ -18,5 +20,18 @@ export class ParcelBoxResolver {
 	@UsePipes(new ValidationPipe({ transform: true }))
 	async create(@Args('input') input: CreateParcelBoxInput): Promise<ParcelBoxOutModel> {
 		return await this.commandBus.execute(new CreateParcelBoxCommand(input))
+	}
+
+	@UseGuards(CheckAccessTokenGuard)
+	@Query(() => ParcelBoxOutModel[], {
+		name: RouteNames.PARCEL_BOX.GET_MINE,
+		description: parcelBoxResolversDesc.getMyParcelBoxes,
+	})
+	@UsePipes(new ValidationPipe({ transform: true }))
+	async getMyParcelBoxes(@Context('req') request: Request) {
+		console.log((request.user))
+
+		// return await this.commandBus.execute(new CreateParcelBoxCommand(input))
+		return []
 	}
 }

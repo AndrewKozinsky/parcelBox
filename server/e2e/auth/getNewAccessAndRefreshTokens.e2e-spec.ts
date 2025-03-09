@@ -20,7 +20,7 @@ import { authUtils } from '../utils/authUtils'
 import { defAdminEmail, defAdminPassword, seedInitDataInDatabase } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../../src/features/test/queries'
-import { seedTestData } from '../utils/seedData'
+import { seedTestData } from '../utils/seedTestData'
 import { userUtils } from '../utils/userUtils'
 
 describe.skip('Get new refresh and access tokens (e2e)', () => {
@@ -48,7 +48,7 @@ describe.skip('Get new refresh and access tokens (e2e)', () => {
 		devicesRepository = await app.resolve(DevicesRepository)
 		jwtAdapter = await app.resolve(JwtAdapterService)
 		mainConfig = await app.resolve(MainConfigService)
-		parcelBoxTypeRepository = await app.resolve(ParcelBoxTypeQueryRepository)
+		parcelBoxTypeRepository = await app.resolve(ParcelBoxTypeRepository)
 		parcelBoxTypeQueryRepository = await app.resolve(ParcelBoxTypeQueryRepository)
 		cellTypeRepository = await app.resolve(CellTypeRepository)
 		parcelBoxQueryRepository = await app.resolve(ParcelBoxQueryRepository)
@@ -64,7 +64,6 @@ describe.skip('Get new refresh and access tokens (e2e)', () => {
 			userRepository,
 			parcelBoxRepository,
 			cellRepository,
-			cellTypeRepository,
 			parcelBoxTypeRepository,
 		})
 		jest.clearAllMocks()

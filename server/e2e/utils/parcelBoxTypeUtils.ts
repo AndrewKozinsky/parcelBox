@@ -69,7 +69,8 @@ export const parcelBoxTypeUtils = {
 			cellType_2,
 		}
 	},
-	checkParcelBoxObject(parcelBoxObj: any) {
+	// DELETE !!!
+	/*checkParcelBoxObject(parcelBoxObj: any) {
 		expect(parcelBoxObj).toEqual({
 			id: expect.any(Number),
 			parcelBoxTypeId: expect.any(Number),
@@ -93,5 +94,5 @@ export const parcelBoxTypeUtils = {
 				businessHoursTo: expect.any(Number),
 			}),
 		})
-	},
+	},*/
 }

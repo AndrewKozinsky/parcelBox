@@ -14,7 +14,7 @@ import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { seedInitDataInDatabase } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
-import { seedTestData } from '../utils/seedData'
+import { seedTestData } from '../utils/seedTestData'
 
 describe.skip('Create parcel box (e2e)', () => {
 	let app: INestApplication<App>
@@ -35,7 +35,7 @@ describe.skip('Create parcel box (e2e)', () => {
 		emailAdapter = createMainAppRes.emailAdapter
 		userRepository = await app.resolve(UserRepository)
 		userQueryRepository = await app.resolve(UserQueryRepository)
-		parcelBoxTypeRepository = await app.resolve(ParcelBoxTypeQueryRepository)
+		parcelBoxTypeRepository = await app.resolve(ParcelBoxTypeRepository)
 		parcelBoxTypeQueryRepository = await app.resolve(ParcelBoxTypeQueryRepository)
 		cellTypeRepository = await app.resolve(CellTypeRepository)
 		parcelBoxQueryRepository = await app.resolve(ParcelBoxQueryRepository)
@@ -51,7 +51,6 @@ describe.skip('Create parcel box (e2e)', () => {
 			userRepository,
 			parcelBoxRepository,
 			cellRepository,
-			cellTypeRepository,
 			parcelBoxTypeRepository,
 		})
 		jest.clearAllMocks()

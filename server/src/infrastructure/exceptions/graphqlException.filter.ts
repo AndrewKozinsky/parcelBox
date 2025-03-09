@@ -8,7 +8,6 @@ import { errorMessage } from './errorMessage'
 @Catch()
 export class GraphQLValidationFilter implements ExceptionFilter {
 	catch(exception: unknown, host: ArgumentsHost) {
-		console.log(exception)
 		if (exception instanceof GraphQLError) {
 			return new GraphQLError(exception.message, {
 				extensions: {

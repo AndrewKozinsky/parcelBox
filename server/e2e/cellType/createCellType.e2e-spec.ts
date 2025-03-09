@@ -17,7 +17,7 @@ import { extractErrObjFromResp, seedInitDataInDatabase } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../../src/features/test/queries'
 import { parcelBoxTypeUtils } from '../utils/parcelBoxTypeUtils'
-import { seedTestData } from '../utils/seedData'
+import { seedTestData } from '../utils/seedTestData'
 
 describe.skip('Create parcel box type (e2e)', () => {
 	let app: INestApplication<App>
@@ -54,7 +54,6 @@ describe.skip('Create parcel box type (e2e)', () => {
 			userRepository,
 			parcelBoxRepository,
 			cellRepository,
-			cellTypeRepository,
 			parcelBoxTypeRepository,
 		})
 		jest.clearAllMocks()
