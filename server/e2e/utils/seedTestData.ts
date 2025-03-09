@@ -117,14 +117,17 @@ async function seedParcelBoxes(
 				throw new Error('ParcelBoxTypeId not found')
 			}
 
-			// Create a parcel box with specified type id
-			await parcelBoxUtils.createParcelBoxWithCells({
-				app,
-				userId,
-				parcelBoxTypeId: parcelBoxType.id,
-				parcelBoxRepository,
-				cellRepository,
-			})
+			const parcelBoxesCount = userParcelBoxesConfig[parcelBoxTypeName]
+			for (let i = 1; i <= parcelBoxesCount; i++) {
+				// Create a parcel box with specified type id
+				await parcelBoxUtils.createParcelBoxWithCells({
+					app,
+					userId,
+					parcelBoxTypeId: parcelBoxType.id,
+					parcelBoxRepository,
+					cellRepository,
+				})
+			}
 		}
 	}
 }

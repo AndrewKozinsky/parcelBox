@@ -17,7 +17,7 @@ import { createApp } from '../utils/createMainApp'
 import { seedTestData } from '../utils/seedTestData'
 import { seedTestDataConfig } from '../utils/seedTestDataConfig'
 
-describe.only('Seed all data (e2e)', () => {
+describe.skip('Seed all data (e2e)', () => {
 	let app: INestApplication<App>
 	let moduleFixture: TestingModule
 	let emailAdapter: EmailAdapterService
@@ -72,5 +72,22 @@ describe.only('Seed all data (e2e)', () => {
 		}
 	})
 
-	it.only('test data should contain 8 users', async () => {})
+	it('two admins must have parcel boxes', async () => {
+		const usersParcelBoxesConfig = seedTestDataConfig.getUsersParcelBoxesConfig()
+
+		for (let userEmail in usersParcelBoxesConfig) {
+			const parcelBoxesConfigOfUser = usersParcelBoxesConfig[userEmail]
+
+			// Get all user parcel boxes
+			const userParcelBoxes = await parcelBoxRepository.getParcelBoxesByUserEmail(userEmail)
+
+			// Calculate all user's boxes count
+			let parcelBoxesTotalCount = 0
+			for (let parcelBoxName in parcelBoxesConfigOfUser) {
+				parcelBoxesTotalCount += parcelBoxesConfigOfUser[parcelBoxName]
+			}
+
+			expect(userParcelBoxes.length).toBe(parcelBoxesTotalCount)
+		}
+	})
 })

@@ -23,7 +23,7 @@ import { parcelBoxUtils } from '../utils/parcelBoxUtils'
 import { seedTestData } from '../utils/seedTestData'
 import { userUtils } from '../utils/userUtils'
 
-describe.skip('Create parcel box (e2e)', () => {
+describe('Create parcel box (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
@@ -91,7 +91,7 @@ describe.skip('Create parcel box (e2e)', () => {
 		})
 	})
 
-	it('should create a new parcel box with cells', async () => {
+	it.only('should create a new parcel box with cells', async () => {
 		// Create an admin who will create a new parcel box
 		const { loginData, accessToken, refreshToken } = await userUtils.createUserAndLogin({
 			app,
@@ -136,7 +136,7 @@ describe.skip('Create parcel box (e2e)', () => {
 		})
 		const getMyParcelData = getMyParcel.data[RouteNames.PARCEL_BOX.GET_MINE]
 
-		// Check that there are only 2 elements in the array
+		// Check that there are only 1 element in the array
 		expect(getMyParcelData.length).toBe(1)
 	})
 })
