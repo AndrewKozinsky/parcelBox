@@ -68,6 +68,7 @@ scalar DateTime
 type ParcelBoxTypeOutModel {
   id: Int!
   name: String!
+  cellTypes: [CellTypeOutModel!]!
 }
 
 type Query {

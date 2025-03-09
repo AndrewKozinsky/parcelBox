@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { ParcelBoxType } from '@prisma/client'
 import { PrismaService } from '../db/prisma.service'
 import CatchDbError from '../infrastructure/exceptions/CatchDBErrors'
 import { ParcelBoxTypeServiceModel } from '../models/parcelBoxType/parcelBoxType.service.model'
+import { ParcelBoxTypeFullDataPrisma } from './common'
 
 @Injectable()
 export class ParcelBoxTypeRepository {
@@ -13,6 +13,9 @@ export class ParcelBoxTypeRepository {
 		const parcelBoxType = await this.prisma.parcelBoxType.create({
 			data: {
 				name: dto.name,
+			},
+			include: {
+				CellType: true,
 			},
 		})
 
@@ -30,6 +33,9 @@ export class ParcelBoxTypeRepository {
 	async getParcelBoxTypeByName(parcelBoxTypeName: string) {
 		const parcelBoxType = await this.prisma.parcelBoxType.findFirst({
 			where: { name: parcelBoxTypeName },
+			include: {
+				CellType: true,
+			},
 		})
 
 		if (!parcelBoxType) return null
@@ -41,6 +47,9 @@ export class ParcelBoxTypeRepository {
 	async getParcelBoxTypeById(id: number) {
 		const parcelBoxType = await this.prisma.parcelBoxType.findUnique({
 			where: { id },
+			include: {
+				CellType: true,
+			},
 		})
 
 		if (!parcelBoxType) return null
@@ -48,10 +57,20 @@ export class ParcelBoxTypeRepository {
 		return this.mapDbParcelBoxTypeToServiceParcelBoxType(parcelBoxType)
 	}
 
-	mapDbParcelBoxTypeToServiceParcelBoxType(parcelBoxType: ParcelBoxType): ParcelBoxTypeServiceModel {
+	mapDbParcelBoxTypeToServiceParcelBoxType(parcelBoxType: ParcelBoxTypeFullDataPrisma): ParcelBoxTypeServiceModel {
 		return {
 			id: parcelBoxType.id,
 			name: parcelBoxType.name,
+			cellTypes: parcelBoxType.CellType.map((cell) => {
+				return {
+					id: cell.id,
+					name: cell.name,
+					width: cell.width,
+					height: cell.height,
+					depth: cell.depth,
+					parcelBoxTypeId: parcelBoxType.id,
+				}
+			}),
 		}
 	}
 }

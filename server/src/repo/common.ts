@@ -22,3 +22,9 @@ export type ParcelBoxFullDataPrisma = Prisma.ParcelBoxGetPayload<{
 		Location: true
 	}
 }>
+
+export type ParcelBoxTypeFullDataPrisma = Prisma.ParcelBoxTypeGetPayload<{
+	include: {
+		CellType: true
+	}
+}>

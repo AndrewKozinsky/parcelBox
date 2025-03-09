@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { ParcelBoxType } from '@prisma/client'
 import { PrismaService } from '../db/prisma.service'
 import CatchDbError from '../infrastructure/exceptions/CatchDBErrors'
 import { ParcelBoxTypeOutModel } from '../models/parcelBoxType/parcelBoxType.out.model'
+import { ParcelBoxTypeFullDataPrisma } from './common'
 
 @Injectable()
 export class ParcelBoxTypeQueryRepository {
@@ -12,6 +12,9 @@ export class ParcelBoxTypeQueryRepository {
 	async getParcelBoxTypeById(id: number) {
 		const parcelBoxType = await this.prisma.parcelBoxType.findUnique({
 			where: { id },
+			include: {
+				CellType: true,
+			},
 		})
 
 		if (!parcelBoxType) {
@@ -21,10 +24,20 @@ export class ParcelBoxTypeQueryRepository {
 		return this.mapDbParcelBoxTypeToOutParcelBoxType(parcelBoxType)
 	}
 
-	mapDbParcelBoxTypeToOutParcelBoxType(parcelBoxType: ParcelBoxType): ParcelBoxTypeOutModel {
+	mapDbParcelBoxTypeToOutParcelBoxType(parcelBoxType: ParcelBoxTypeFullDataPrisma): ParcelBoxTypeOutModel {
 		return {
 			id: parcelBoxType.id,
 			name: parcelBoxType.name,
+			cellTypes: parcelBoxType.CellType.map((cell) => {
+				return {
+					id: cell.id,
+					name: cell.name,
+					width: cell.width,
+					height: cell.height,
+					depth: cell.depth,
+					parcelBoxTypeId: parcelBoxType.id,
+				}
+			}),
 		}
 	}
 }

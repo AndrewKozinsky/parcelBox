@@ -115,6 +115,14 @@ export const queries = {
 			  }) {
 				id
 				name
+				cells {
+					id
+					name
+					width
+					height
+					depth
+					parcelBoxId
+				}
 			  }
 			}`
 		},

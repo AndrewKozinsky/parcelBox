@@ -108,6 +108,7 @@ export interface ParcelBoxOutModel {
 export interface ParcelBoxTypeOutModel {
     id: number;
     name: string;
+    cellTypes: CellTypeOutModel[];
 }
 
 export interface IQuery {

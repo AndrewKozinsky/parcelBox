@@ -1,4 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { CellTypeOutModel } from '../cellType/cellType.out.model'
 
 @ObjectType()
 export class ParcelBoxTypeOutModel {
@@ -7,4 +8,7 @@ export class ParcelBoxTypeOutModel {
 
 	@Field(() => String)
 	name: string
+
+	@Field(() => [CellTypeOutModel])
+	cellTypes: CellTypeOutModel[]
 }
