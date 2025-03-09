@@ -23,7 +23,7 @@ import { parcelBoxUtils } from '../utils/parcelBoxUtils'
 import { seedTestData } from '../utils/seedTestData'
 import { userUtils } from '../utils/userUtils'
 
-describe('Create parcel box (e2e)', () => {
+describe.skip('Create parcel box (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
@@ -91,7 +91,7 @@ describe('Create parcel box (e2e)', () => {
 		})
 	})
 
-	it.only('should create a new parcel box with cells', async () => {
+	it('should create a new parcel box with cells', async () => {
 		expect(2).toBe(2)
 	})
 
@@ -114,10 +114,9 @@ describe('Create parcel box (e2e)', () => {
 			parcelBoxTypeName: 'large',
 			parcelBoxTypeRepository,
 		})
-		console.log(largeParcelBoxType)
 
 		// Create a new parcel box based on the existing parcel box type
-		/*const createdParcelBox = await parcelBoxUtils.createParcelBoxWithCells({
+		const createdParcelBox = await parcelBoxUtils.createParcelBoxWithCells({
 			app,
 			userId: loginData.id,
 			parcelBoxTypeId: largeParcelBoxType.id,
@@ -131,6 +130,9 @@ describe('Create parcel box (e2e)', () => {
 		// Check that created parcel boxes has the same parcelBoxTypeId from which they were created
 		expect(createdParcelBox.parcelBoxTypeId).toBe(largeParcelBoxType.id)
 
+		// Check that count of cell types in parcel box type is equel of cell count in created parcel box
+		expect(largeParcelBoxType.cellTypes.length).toBe(createdParcelBox.cells.length)
+
 		// Try to get created parcel boxes
 		const getMyParcelBoxesQuery = queries.parcelBox.getMine()
 		const [getMyParcel] = await makeGraphQLReqWithTokens({
@@ -142,6 +144,6 @@ describe('Create parcel box (e2e)', () => {
 		const getMyParcelData = getMyParcel.data[RouteNames.PARCEL_BOX.GET_MINE]
 
 		// Check that there are only 1 element in the array
-		expect(getMyParcelData.length).toBe(1)*/
+		expect(getMyParcelData.length).toBe(1)
 	})
 })

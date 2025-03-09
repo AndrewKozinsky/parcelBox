@@ -50,7 +50,7 @@ describe.skip('Delete all data (e2e)', () => {
 		expect(res.body).toStrictEqual({ message: errorMessage.onlyDevMode })
 	})
 
-	it.only('should erase all data from the database', async () => {
+	it('should erase all data from the database', async () => {
 		await userUtils.createUserAndLogin({ app, userRepository, role: UserRole.Admin })
 
 		const res = await request(app.getHttpServer()).delete('/' + RouteNames.TESTING.ALL_DATA)

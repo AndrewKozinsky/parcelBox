@@ -89,7 +89,7 @@ describe.skip('Get new refresh and access tokens (e2e)', () => {
 		})
 	})
 
-	it.only('should gives success answer if the JWT refreshToken is valid', async () => {
+	it('should gives success answer if the JWT refreshToken is valid', async () => {
 		const loginRes = await userUtils.createUserAndLogin({
 			app,
 			userRepository,

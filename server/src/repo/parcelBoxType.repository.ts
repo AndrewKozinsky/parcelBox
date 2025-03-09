@@ -24,7 +24,11 @@ export class ParcelBoxTypeRepository {
 
 	@CatchDbError()
 	async getAllParcelBoxTypes() {
-		const parcelBoxTypes = await this.prisma.parcelBoxType.findMany()
+		const parcelBoxTypes = await this.prisma.parcelBoxType.findMany({
+			include: {
+				CellType: true,
+			},
+		})
 
 		return parcelBoxTypes.map(this.mapDbParcelBoxTypeToServiceParcelBoxType)
 	}

@@ -92,7 +92,7 @@ describe.skip('Get my parcel box (e2e)', () => {
 		})
 	})
 
-	/*it('should create two parcel boxes if passed data is valid', async () => {
+	it('should create two parcel boxes if passed data is valid', async () => {
 		// Create an admin who will create a new parcel box
 		const { loginData, accessToken, refreshToken } = await userUtils.createUserAndLogin({
 			app,
@@ -151,5 +151,5 @@ describe.skip('Get my parcel box (e2e)', () => {
 		// Check that created parcel boxes has the same parcelBoxTypeId from which they were created
 		expect(getMyParcelData[0].parcelBoxTypeId).toBe(smallParcelBoxType.id)
 		expect(getMyParcelData[1].parcelBoxTypeId).toBe(mediumParcelBoxType.id)
-	})*/
+	})
 })

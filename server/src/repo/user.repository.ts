@@ -75,17 +75,6 @@ export class UserRepository {
 	}
 
 	// @CatchDbError()
-	/*async getConfirmedUserByEmailAndPassword(email: string, password: string): Promise<null | UserServiceModel> {
-		const user = await this.getUserByEmailAndPassword(email, password)
-
-		if (!user || !user.isEmailConfirmed) {
-			return null
-		}
-
-		return user
-	}*/
-
-	// @CatchDbError()
 	/*async getUserByPasswordRecoveryCode(password_recovery_code: string) {
 		const user = await this.prisma.user.findFirst({
 			where: { password_recovery_code },
