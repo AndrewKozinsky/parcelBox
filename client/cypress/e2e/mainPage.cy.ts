@@ -1,11 +1,12 @@
 import { routeNames } from '../../src/utils/routeNames'
 import { checkIsPage, login } from './utils/commands'
 import { server } from './utils/server'
-import { users } from './utils/users'
+import { usersConfig } from './utils/users'
 
 describe.skip('Main page', () => {
 	beforeEach(() => {
 		server.clearDB()
+		server.seedInitData()
 		server.seedTestData()
 	})
 
@@ -16,7 +17,7 @@ describe.skip('Main page', () => {
 	})
 
 	it('should redirect from main to admin main page if an admin logged in', () => {
-		login(users.confirmedAdmin)
+		login(usersConfig.admin_1)
 
 		// Visit to the main page
 		cy.visit(routeNames.main.path)
@@ -24,7 +25,7 @@ describe.skip('Main page', () => {
 	})
 
 	it('should redirect from main to sender main page if a sender logged in', () => {
-		login(users.confirmedSender)
+		login(usersConfig.sender_3_conf)
 
 		// Visit to the main page
 		cy.visit(routeNames.main.path)

@@ -2,11 +2,12 @@ import { RegisterFormTest } from '../../src/myPages/auth/register/RegisterForm/f
 import { routeNames } from '../../src/utils/routeNames'
 import { checkIsPage, login, isFormInputsDisabled, registerUserInRegisterPage } from './utils/commands'
 import { server } from './utils/server'
-import { users } from './utils/users'
+import { usersConfig } from './utils/users'
 
 describe.skip('Register page', () => {
 	beforeEach(() => {
 		server.clearDB()
+		server.seedInitData()
 		server.seedTestData()
 
 		// Visit to the register page
@@ -16,9 +17,9 @@ describe.skip('Register page', () => {
 
 	it('should disable and enable submit button if there are errors', () => {
 		// Fill form in with correct data.
-		cy.get(RegisterFormTest.emailField.query).type(users.sender.email)
-		cy.get(RegisterFormTest.passwordField.query).type(users.sender.password)
-		cy.get(RegisterFormTest.passwordAgainField.query).type(users.sender.password)
+		cy.get(RegisterFormTest.emailField.query).type(usersConfig.sender_1.email)
+		cy.get(RegisterFormTest.passwordField.query).type(usersConfig.sender_1.password)
+		cy.get(RegisterFormTest.passwordAgainField.query).type(usersConfig.sender_1.password)
 
 		// Submit button should become enabled.
 		cy.get(RegisterFormTest.submitButton.query).should('be.enabled')
@@ -32,7 +33,7 @@ describe.skip('Register page', () => {
 
 		// Correct email.
 		cy.get(RegisterFormTest.emailField.query).clear()
-		cy.get(RegisterFormTest.emailField.query).type(users.sender.email)
+		cy.get(RegisterFormTest.emailField.query).type(usersConfig.sender_1.email)
 
 		// Submit button should become enabled.
 		cy.get(RegisterFormTest.submitButton.query).should('be.enabled')
@@ -51,9 +52,9 @@ describe.skip('Register page', () => {
 	})
 
 	it('should show error if a user typed corrected data of a user with unconfirmed email', () => {
-		cy.get(RegisterFormTest.emailField.query).type(users.unconfirmedSender.email)
-		cy.get(RegisterFormTest.passwordField.query).type(users.unconfirmedSender.password)
-		cy.get(RegisterFormTest.passwordAgainField.query).type(users.unconfirmedSender.password)
+		cy.get(RegisterFormTest.emailField.query).type(usersConfig.sender_1.email)
+		cy.get(RegisterFormTest.passwordField.query).type(usersConfig.sender_1.password)
+		cy.get(RegisterFormTest.passwordAgainField.query).type(usersConfig.sender_1.password)
 
 		cy.get(RegisterFormTest.form.query).submit()
 
@@ -66,9 +67,9 @@ describe.skip('Register page', () => {
 	})
 
 	it('should show error if registered user data was typed', () => {
-		cy.get(RegisterFormTest.emailField.query).type(users.confirmedAdmin.email)
-		cy.get(RegisterFormTest.passwordField.query).type(users.confirmedAdmin.password)
-		cy.get(RegisterFormTest.passwordAgainField.query).type(users.confirmedAdmin.password)
+		cy.get(RegisterFormTest.emailField.query).type(usersConfig.admin_2_conf.email)
+		cy.get(RegisterFormTest.passwordField.query).type(usersConfig.admin_2_conf.password)
+		cy.get(RegisterFormTest.passwordAgainField.query).type(usersConfig.admin_2_conf.password)
 
 		cy.get(RegisterFormTest.form.query).submit()
 
@@ -108,11 +109,12 @@ function successfullyRegisterUserWithRole(role: 'admin' | 'sender') {
 describe.skip('Register page if a user already logged in', () => {
 	beforeEach(() => {
 		server.clearDB()
+		server.seedInitData()
 		server.seedTestData()
 	})
 
 	it('should redirect from register page to admin main page if an admin logged in', () => {
-		login(users.confirmedAdmin)
+		login(usersConfig.admin_2_conf)
 
 		// Visit to the register page
 		cy.visit(routeNames.auth.register.path)
@@ -122,7 +124,7 @@ describe.skip('Register page if a user already logged in', () => {
 	})
 
 	it('should redirect from register page to sender main page if a sender logged in', () => {
-		login(users.confirmedSender)
+		login(usersConfig.sender_3_conf)
 
 		// Visit to the register page
 		cy.visit(routeNames.auth.register.path)

@@ -4,6 +4,7 @@ type UserConfig = {
 	// Initially user id is null.
 	// When he was created number was set here.
 	id: null | number
+	email: string
 	role: UserRole
 	password: string
 	confirmed: boolean
@@ -13,64 +14,73 @@ type UserConfig = {
 export type UsersConfig = Record<string, UserConfig>
 
 const usersConfig = {
-	'admin-1@email.com': {
+	admin_1: {
 		id: null,
+		email: 'admin-1@email.com',
 		role: UserRole.Admin,
 		password: 'adminPassword-1',
 		confirmed: false,
 		login: false,
 	},
-	'admin-2Conf@email.com': {
+	admin_2_conf: {
 		id: null,
+		email: 'admin-2Conf@email.com',
 		role: UserRole.Admin,
 		password: 'adminPassword-2',
 		confirmed: true,
 		login: false,
 	},
-	'admin-3ConfLog@email.com': {
+	admin_3_confLog: {
 		id: null,
+		email: 'admin-3ConfLog@email.com',
 		role: UserRole.Admin,
 		password: 'adminPassword-3',
 		confirmed: true,
 		login: true,
 	},
-	'admin-4Conf@email.com': {
+	admin_4_conf: {
 		id: null,
+		email: 'admin-4Conf@email.com',
 		role: UserRole.Admin,
 		password: 'adminPassword-3',
 		confirmed: true,
 		login: false,
 	},
-	'sender-1@email.com': {
+	sender_1: {
 		id: null,
+		email: 'sender-1@email.com',
 		role: UserRole.Sender,
 		password: 'senderPassword-1',
 		confirmed: false,
 		login: false,
 	},
-	'sender-2@email.com': {
+	sender_2: {
 		id: null,
+		email: 'sender-2@email.com',
 		role: UserRole.Sender,
 		password: 'senderPassword-2',
 		confirmed: false,
 		login: false,
 	},
-	'sender-3-Conf@email.com': {
+	sender_3_conf: {
 		id: null,
+		email: 'sender-3-Conf@email.com',
 		role: UserRole.Sender,
 		password: 'senderPassword-3',
 		confirmed: true,
 		login: false,
 	},
-	'sender-4-ConfLog@email.com': {
+	sender_4_confLog: {
 		id: null,
+		email: 'sender-4-ConfLog@email.com',
 		role: UserRole.Sender,
 		password: 'senderPassword-4',
 		confirmed: true,
 		login: true,
 	},
-	'sender-5-ConfLog@email.com': {
+	sender_5_confLog: {
 		id: null,
+		email: 'sender-5-ConfLog@email.com',
 		role: UserRole.Sender,
 		password: 'senderPassword-5',
 		confirmed: true,

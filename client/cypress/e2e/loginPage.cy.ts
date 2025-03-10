@@ -2,11 +2,12 @@ import { LoginFormTest } from '../../src/myPages/auth/login/LoginForm/fn/form'
 import { routeNames } from '../../src/utils/routeNames'
 import { checkIsPage, login } from './utils/commands'
 import { server } from './utils/server'
-import { users } from './utils/users'
+import { usersConfig } from './utils/users'
 
 describe.skip('Login page', () => {
 	beforeEach(() => {
 		server.clearDB()
+		server.seedInitData()
 		server.seedTestData()
 	})
 
@@ -31,8 +32,8 @@ describe.skip('Login page', () => {
 		cy.wait(200)
 
 		// Write data of the user with unconfirmed email
-		cy.get(LoginFormTest.emailField.query).type(users.unconfirmedAdmin.email)
-		cy.get(LoginFormTest.passwordField.query).type(users.unconfirmedAdmin.password)
+		cy.get(LoginFormTest.emailField.query).type(usersConfig.admin_1.email)
+		cy.get(LoginFormTest.passwordField.query).type(usersConfig.admin_1.password)
 
 		// Try to submit form
 		cy.get(LoginFormTest.form.query).submit()
@@ -46,7 +47,7 @@ describe.skip('Login page', () => {
 	})
 
 	it('should redirect to admin page if the form was filled data of admin with confirmed email', () => {
-		login(users.confirmedAdmin)
+		login(usersConfig.admin_4_conf)
 
 		cy.getCookie('accessToken').should('exist')
 		cy.getCookie('refreshToken').should('exist')
@@ -56,7 +57,7 @@ describe.skip('Login page', () => {
 	})
 
 	it('should redirect to sender page if the form was filled data of sender with confirmed email', () => {
-		login(users.confirmedSender)
+		login(usersConfig.sender_3_conf)
 
 		cy.getCookie('accessToken').should('exist')
 		cy.getCookie('refreshToken').should('exist')
@@ -68,7 +69,7 @@ describe.skip('Login page', () => {
 
 describe.skip('A try to move to the login page if a user already logged in', () => {
 	it('should redirect from login page to admin main page if an admin logged in', () => {
-		login(users.confirmedAdmin)
+		login(usersConfig.admin_4_conf)
 
 		// Visit to the login page
 		cy.visit(routeNames.auth.login.path)
@@ -78,7 +79,7 @@ describe.skip('A try to move to the login page if a user already logged in', () 
 	})
 
 	it('should redirect from login page to sender main page if a sender logged in', () => {
-		login(users.confirmedSender)
+		login(usersConfig.sender_4_confLog)
 
 		// Visit to the login page
 		cy.visit(routeNames.auth.login.path)

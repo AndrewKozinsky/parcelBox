@@ -5,9 +5,13 @@ export const server = {
 	clearDB() {
 		cy.request('DELETE', consts.serverUrl + '/testing/all-data')
 	},
+	// Seed initialization data
+	seedInitData() {
+		cy.request('POST', consts.serverUrl + '/initData/seed')
+	},
 	// Seed test data
 	seedTestData() {
-		cy.request('POST', consts.serverUrl + '/testing/seed-test-data')
+		cy.request('POST', consts.serverUrl + '/testing/seed')
 	},
 	async getUserByEmail(userEmail: string) {
 		return new Promise((resolve) => {

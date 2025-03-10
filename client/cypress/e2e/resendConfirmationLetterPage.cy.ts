@@ -2,11 +2,12 @@ import { RCLFormTest } from '../../src/myPages/auth/resendConfirmationLetter/Res
 import { routeNames } from '../../src/utils/routeNames'
 import { checkIsPage, isFormInputsDisabled, login } from './utils/commands'
 import { server } from './utils/server'
-import { users } from './utils/users'
+import { usersConfig } from './utils/users'
 
 describe.skip('Resend confirmation letter page', () => {
 	beforeEach(() => {
 		server.clearDB()
+		server.seedInitData()
 		server.seedTestData()
 
 		// Visit to the register page
@@ -16,7 +17,7 @@ describe.skip('Resend confirmation letter page', () => {
 
 	it('should disable and enable the submit button if there are errors', () => {
 		// Fill form in with correct data.
-		cy.get(RCLFormTest.emailField.query).type(users.sender.email)
+		cy.get(RCLFormTest.emailField.query).type(usersConfig.sender_1.email)
 
 		// Submit button should become enabled.
 		cy.get(RCLFormTest.submitButton.query).should('be.enabled')
@@ -30,7 +31,7 @@ describe.skip('Resend confirmation letter page', () => {
 
 		// Correct email.
 		cy.get(RCLFormTest.emailField.query).clear()
-		cy.get(RCLFormTest.emailField.query).type(users.sender.email)
+		cy.get(RCLFormTest.emailField.query).type(usersConfig.sender_1.email)
 
 		// Submit button should become enabled.
 		cy.get(RCLFormTest.submitButton.query).should('be.enabled')
@@ -55,7 +56,7 @@ describe.skip('Resend confirmation letter page', () => {
 	})
 
 	it('should show an error if a user with provided email is not exists', () => {
-		cy.get(RCLFormTest.emailField.query).type(users.unconfirmedAdmin.email)
+		cy.get(RCLFormTest.emailField.query).type(usersConfig.admin_1.email)
 
 		cy.get(RCLFormTest.form.query).submit()
 
@@ -65,7 +66,7 @@ describe.skip('Resend confirmation letter page', () => {
 	})
 
 	it('should show an error if a user is already registered', () => {
-		cy.get(RCLFormTest.emailField.query).type(users.confirmedAdmin.email)
+		cy.get(RCLFormTest.emailField.query).type(usersConfig.admin_2_conf.email)
 
 		cy.get(RCLFormTest.form.query).submit()
 
@@ -80,11 +81,12 @@ describe.skip('Resend confirmation letter page', () => {
 describe.skip('Resend confirmation letter page if a user already logged in', () => {
 	beforeEach(() => {
 		server.clearDB()
+		server.seedInitData()
 		server.seedTestData()
 	})
 
 	it('should redirect from register page to admin main page if an admin logged in', () => {
-		login(users.confirmedAdmin)
+		login(usersConfig.admin_2_conf)
 
 		// Visit to the confirmation letter page
 		cy.visit(routeNames.auth.resendConfirmationLetter.path)
@@ -94,7 +96,7 @@ describe.skip('Resend confirmation letter page if a user already logged in', () 
 	})
 
 	it('should redirect from register page to sender main page if a sender logged in', () => {
-		login(users.confirmedSender)
+		login(usersConfig.sender_3_conf)
 
 		// Visit to the confirmation letter page
 		cy.visit(routeNames.auth.resendConfirmationLetter.path)

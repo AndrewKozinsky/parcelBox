@@ -18,8 +18,6 @@ export async function seedTestData(props: {
 	cellRepository: CellRepository
 	parcelBoxTypeRepository: ParcelBoxTypeRepository
 }) {
-	const { app, userRepository, parcelBoxRepository, cellRepository, parcelBoxTypeRepository } = props
-
 	// Create test admins and users and set id into each user in usersConfig
 	const usersConfig = await seedUsers(props)
 
@@ -40,8 +38,8 @@ async function seedUsers(props: {
 	// Create test users
 	const usersConfig = seedTestDataConfig.getUsersConfig()
 
-	for (let userEmail in usersConfig) {
-		const userConfig = usersConfig[userEmail]
+	for (let userKey in usersConfig) {
+		const userConfig = usersConfig[userKey]
 
 		let createdUser: { id: number } | null | undefined = null
 
@@ -50,7 +48,7 @@ async function seedUsers(props: {
 				app,
 				userRepository,
 				role: userConfig.role,
-				email: userEmail,
+				email: userConfig.email,
 				password: userConfig.password,
 			})
 		} else if (userConfig.confirmed && !userConfig.login) {
@@ -58,7 +56,7 @@ async function seedUsers(props: {
 				app,
 				userRepository,
 				role: userConfig.role,
-				email: userEmail,
+				email: userConfig.email,
 				password: userConfig.password,
 			})
 		} else if (userConfig.confirmed && userConfig.login) {
@@ -66,7 +64,7 @@ async function seedUsers(props: {
 				app,
 				userRepository,
 				role: userConfig.role,
-				email: userEmail,
+				email: userConfig.email,
 				password: userConfig.password,
 			})
 			createdUser = loginData

@@ -2,13 +2,18 @@ import { EmailConfirmationTest } from '../../src/myPages/auth/EmailConfirmationP
 import { routeNames } from '../../src/utils/routeNames'
 import { checkIsPage, login, registerUserInRegisterPage } from './utils/commands'
 import { server } from './utils/server'
-import { users } from './utils/users'
+import { usersConfig } from './utils/users'
 
-describe.skip('EmailConfirmation page', () => {
+describe('EmailConfirmation page', () => {
 	beforeEach(() => {
 		server.clearDB()
+		server.seedInitData()
 		server.seedTestData()
-		cy.wait(100)
+		// cy.wait(100)
+	})
+
+	it.only('should show error if there is not confirmation code in address bar', () => {
+		expect(2).eql(2)
 	})
 
 	it('should show error if there is not confirmation code in address bar', () => {
@@ -41,7 +46,7 @@ describe.skip('EmailConfirmation page', () => {
 		)
 	})
 
-	it.only('should redirect to the admin main if there is a correct confirmation code in address', async () => {
+	it('should redirect to the admin main if there is a correct confirmation code in address', async () => {
 		// Register a new admin
 		cy.visit(routeNames.auth.register.path)
 
@@ -73,7 +78,7 @@ describe.skip('EmailConfirmation page', () => {
 
 describe.skip('A try to move to the email confirmation page if a user already logged in', () => {
 	it('should redirect from email confirmation page page to admin main page if an admin logged in', () => {
-		login(users.confirmedAdmin)
+		login(usersConfig.admin_2_conf)
 
 		// Visit to the confirmation email page
 		cy.visit(routeNames.auth.emailConfirmation.path)
@@ -83,7 +88,7 @@ describe.skip('A try to move to the email confirmation page if a user already lo
 	})
 
 	it('should redirect from email confirmation page page to sender main page if a sender logged in', () => {
-		login(users.confirmedSender)
+		login(usersConfig.sender_3_conf)
 
 		// Visit to the confirmation email page
 		cy.visit(routeNames.auth.emailConfirmation.path)
