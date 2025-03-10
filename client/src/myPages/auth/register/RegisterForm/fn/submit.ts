@@ -9,7 +9,7 @@ import {
 	User_Role,
 } from '../../../../../graphql'
 import { getEmailDomain } from '../../../../../utils/stringUtils'
-import { AuthFormStatus } from '../../../common/fieldRules'
+import { FormStatus } from '../../../common/fieldRules'
 import { useRegisterPageStore } from '../../registerPageStore'
 import { FieldType } from './form'
 
@@ -36,7 +36,7 @@ function afterSuccessfulRequest(
 	data: FetchResult<AuthRegisterAdmin> | FetchResult<AuthRegisterSender>,
 	values: FieldType,
 ) {
-	useRegisterPageStore.setState({ formStatus: AuthFormStatus.success })
+	useRegisterPageStore.setState({ formStatus: FormStatus.success })
 
 	const requestName = values.role === User_Role.Admin ? 'auth_registerAdmin' : 'auth_registerSender'
 
@@ -52,7 +52,7 @@ function afterSuccessfulRequest(
 }
 
 function afterFailedRequest(form: FormInstance, error: any) {
-	useRegisterPageStore.setState({ formStatus: AuthFormStatus.failure, formError: error.message })
+	useRegisterPageStore.setState({ formStatus: FormStatus.failure, formError: error.message })
 
 	try {
 		// Get fields errors from server

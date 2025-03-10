@@ -6,7 +6,7 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.share
 import { useRouter } from 'next/navigation'
 import { useUserStore } from '../../../../../stores/userStore'
 import { routeNames } from '../../../../../utils/routeNames'
-import { AuthFormStatus } from '../../../common/fieldRules'
+import { FormStatus } from '../../../common/fieldRules'
 import { useLoginPageStore } from '../../loginPageStore'
 import { FieldType } from './form'
 
@@ -29,7 +29,7 @@ export function useGetOnLoginFormSubmit(form: FormInstance) {
 }
 
 function afterSuccessfulRequest(data: FetchResult<AuthLogin>, router: AppRouterInstance) {
-	useLoginPageStore.setState({ formStatus: AuthFormStatus.success })
+	useLoginPageStore.setState({ formStatus: FormStatus.success })
 
 	useUserStore.setState({
 		isLoading: false,
@@ -47,7 +47,7 @@ function afterSuccessfulRequest(data: FetchResult<AuthLogin>, router: AppRouterI
 		}
 
 		// Clear form blocking
-		useLoginPageStore.setState({ formStatus: AuthFormStatus.default })
+		useLoginPageStore.setState({ formStatus: FormStatus.default })
 
 		// Redirect to the main page
 		setTimeout(() => router.push(routeNames.main.path), 0)
@@ -55,7 +55,7 @@ function afterSuccessfulRequest(data: FetchResult<AuthLogin>, router: AppRouterI
 }
 
 function afterFailedRequest(form: FormInstance, error: any) {
-	useLoginPageStore.setState({ formStatus: AuthFormStatus.failure, formError: error.message })
+	useLoginPageStore.setState({ formStatus: FormStatus.failure, formError: error.message })
 
 	try {
 		// Get fields errors from server

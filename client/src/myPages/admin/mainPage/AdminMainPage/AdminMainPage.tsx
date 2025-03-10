@@ -1,5 +1,5 @@
 import React from 'react'
-import CreateParcelBoxButton from '../CreateNewParcelBoxButton/CreateParcelBoxButton'
+import CreateParcelBoxButton from '../createNewParcelBox/CreateNewParcelBoxButton/CreateParcelBoxButton'
 import ParcelBoxesList from '../ParcelBoxesList/ParcelBoxesList'
 
 function AdminMainPage() {

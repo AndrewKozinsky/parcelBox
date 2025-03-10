@@ -264,6 +264,39 @@ export enum User_Role {
 	Sender = 'sender',
 }
 
+export type ParcelBoxCreateVariables = Exact<{
+	input: CreateParcelBoxInput
+}>
+
+export type ParcelBoxCreate = {
+	__typename?: 'Mutation'
+	parcelBox_create: {
+		__typename?: 'ParcelBoxOutModel'
+		id: number
+		parcelBoxTypeId: number
+		parcelBoxTypeName: string
+		createdAt: any
+		cells: Array<{
+			__typename?: 'CellOutModel'
+			id: number
+			name: string
+			cellTypeId: number
+			parcelBoxId: number
+			width: number
+			height: number
+			depth: number
+		}>
+		location: {
+			__typename?: 'LocationOutModel'
+			id: number
+			address: string
+			businessDays: Array<number>
+			businessHoursFrom: number
+			businessHoursTo: number
+		}
+	}
+}
+
 export type ParcelBoxDeleteVariables = Exact<{
 	input: DeleteParcelBoxInput
 }>
@@ -388,6 +421,60 @@ export type AuthResendConfirmationEmailVariables = Exact<{
 
 export type AuthResendConfirmationEmail = { __typename?: 'Mutation'; auth_resendConfirmationEmail: boolean }
 
+export const ParcelBoxCreateDocument = gql`
+	mutation ParcelBoxCreate($input: CreateParcelBoxInput!) {
+		parcelBox_create(input: $input) {
+			id
+			parcelBoxTypeId
+			parcelBoxTypeName
+			createdAt
+			cells {
+				id
+				name
+				cellTypeId
+				parcelBoxId
+				width
+				height
+				depth
+			}
+			location {
+				id
+				address
+				businessDays
+				businessHoursFrom
+				businessHoursTo
+			}
+		}
+	}
+`
+export type ParcelBoxCreateMutationFn = Apollo.MutationFunction<ParcelBoxCreate, ParcelBoxCreateVariables>
+
+/**
+ * __useParcelBoxCreate__
+ *
+ * To run a mutation, you first call `useParcelBoxCreate` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useParcelBoxCreate` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [parcelBoxCreate, { data, loading, error }] = useParcelBoxCreate({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useParcelBoxCreate(
+	baseOptions?: Apollo.MutationHookOptions<ParcelBoxCreate, ParcelBoxCreateVariables>,
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useMutation<ParcelBoxCreate, ParcelBoxCreateVariables>(ParcelBoxCreateDocument, options)
+}
+export type ParcelBoxCreateHookResult = ReturnType<typeof useParcelBoxCreate>
+export type ParcelBoxCreateMutationResult = Apollo.MutationResult<ParcelBoxCreate>
+export type ParcelBoxCreateMutationOptions = Apollo.BaseMutationOptions<ParcelBoxCreate, ParcelBoxCreateVariables>
 export const ParcelBoxDeleteDocument = gql`
 	mutation ParcelBoxDelete($input: DeleteParcelBoxInput!) {
 		parcelBox_delete(input: $input)

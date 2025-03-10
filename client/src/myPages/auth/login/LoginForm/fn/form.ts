@@ -1,5 +1,5 @@
 import { FormInstance } from 'antd'
-import { AuthFormStatus } from '../../../common/fieldRules'
+import { FormStatus } from '../../../common/fieldRules'
 import { useLoginPageStore } from '../../loginPageStore'
 
 export const LoginFormTest = {
@@ -21,7 +21,7 @@ export enum FormNames {
 
 export function useGetOnChangeLoginForm(form: FormInstance) {
 	return async function () {
-		useLoginPageStore.setState({ formStatus: AuthFormStatus.default })
+		useLoginPageStore.setState({ formStatus: FormStatus.default })
 
 		form.validateFields({ validateOnly: true })
 			.then(() => {

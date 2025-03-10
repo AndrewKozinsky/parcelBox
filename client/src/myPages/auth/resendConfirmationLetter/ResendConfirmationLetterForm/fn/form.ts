@@ -1,5 +1,5 @@
 import { FormInstance } from 'antd'
-import { AuthFormStatus } from '../../../common/fieldRules'
+import { FormStatus } from '../../../common/fieldRules'
 import { useResendConfirmationEmailStore } from '../../resendConfirmationLetterPageStore'
 
 export const RCLFormTest = {
@@ -19,7 +19,7 @@ export enum FormNames {
 
 export function useGetOnChangeResendConfirmationEmailForm(form: FormInstance) {
 	return async function () {
-		useResendConfirmationEmailStore.setState({ formStatus: AuthFormStatus.default })
+		useResendConfirmationEmailStore.setState({ formStatus: FormStatus.default })
 
 		form.validateFields({ validateOnly: true })
 			.then(() => {

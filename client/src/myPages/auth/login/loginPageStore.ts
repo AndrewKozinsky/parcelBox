@@ -1,15 +1,15 @@
 import { create } from 'zustand'
-import { AuthFormStatus } from '../common/fieldRules'
+import { FormStatus } from '../common/fieldRules'
 
 export type LoginPageStore = {
 	isFormValid: boolean
-	formStatus: AuthFormStatus
+	formStatus: FormStatus
 	formError: null | string
 }
 
 export const loginPageStoreInitial: LoginPageStore = {
 	isFormValid: false,
-	formStatus: AuthFormStatus.default,
+	formStatus: FormStatus.default,
 	formError: null,
 }
 

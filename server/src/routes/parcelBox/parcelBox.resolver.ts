@@ -16,6 +16,8 @@ import { parcelBoxResolversDesc } from './resolverDescriptions'
 export class ParcelBoxResolver {
 	constructor(private commandBus: CommandBus) {}
 
+	// TODO ADD IT LATER!!!!
+	// @UseGuards(CheckAccessTokenGuard)
 	@Mutation(() => ParcelBoxOutModel, {
 		name: RouteNames.PARCEL_BOX.CREATE,
 		description: parcelBoxResolversDesc.create,

@@ -1,16 +1,16 @@
 import { create } from 'zustand'
-import { AuthFormStatus } from '../common/fieldRules'
+import { FormStatus } from '../common/fieldRules'
 
 export type ResendConfirmationLetterPageStore = {
 	isFormValid: boolean
-	formStatus: AuthFormStatus
+	formStatus: FormStatus
 	emailDomain: null | string
 	formError: null | string
 }
 
 export const loginPageStoreInitial: ResendConfirmationLetterPageStore = {
 	isFormValid: false,
-	formStatus: AuthFormStatus.default,
+	formStatus: FormStatus.default,
 	emailDomain: null,
 	formError: null,
 }

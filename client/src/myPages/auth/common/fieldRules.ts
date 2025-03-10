@@ -4,7 +4,7 @@ export const formEmailFieldRules: Rule[] = [{ required: true, message: 'Введ
 
 export const formPasswordFieldRules: Rule[] = [{ required: true, message: 'Введите пароль', min: 6, max: 30 }]
 
-export enum AuthFormStatus {
+export enum FormStatus {
 	default,
 	submitPending,
 	success,

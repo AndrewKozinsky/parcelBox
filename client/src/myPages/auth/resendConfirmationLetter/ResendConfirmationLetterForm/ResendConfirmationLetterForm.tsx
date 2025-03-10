@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Alert, Button, Form, Input } from 'antd'
-import { AuthFormStatus, formEmailFieldRules } from '../../common/fieldRules'
+import { FormStatus, formEmailFieldRules } from '../../common/fieldRules'
 import { useResendConfirmationEmailStore } from '../resendConfirmationLetterPageStore'
 import { FieldType, FormNames, RCLFormTest, useGetOnChangeResendConfirmationEmailForm } from './fn/form'
 import { useGetOnSubmit } from './fn/submit'
@@ -22,7 +22,7 @@ function ResendConfirmationLetterForm() {
 				onFinish={onSubmit}
 				autoComplete='on'
 				layout='vertical'
-				disabled={[AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)}
+				disabled={[FormStatus.success, FormStatus.submitPending].includes(formStatus)}
 				data-testid={RCLFormTest.form.id}
 			>
 				<EmailField />
@@ -48,7 +48,7 @@ function SubmitFormButton() {
 	const isFormValid = useResendConfirmationEmailStore((s) => s.isFormValid)
 	const formStatus = useResendConfirmationEmailStore((s) => s.formStatus)
 
-	const isDisabled = !isFormValid || [AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)
+	const isDisabled = !isFormValid || [FormStatus.success, FormStatus.submitPending].includes(formStatus)
 
 	return (
 		<Form.Item>
@@ -63,7 +63,7 @@ function FormWasSentMessage() {
 	const formStatus = useResendConfirmationEmailStore((s) => s.formStatus)
 	const emailDomain = useResendConfirmationEmailStore((s) => s.emailDomain)
 
-	if (formStatus !== AuthFormStatus.success) {
+	if (formStatus !== FormStatus.success) {
 		return null
 	}
 
@@ -91,7 +91,7 @@ function FormWasNotSentMessage() {
 	const formStatus = useResendConfirmationEmailStore((s) => s.formStatus)
 	const formError = useResendConfirmationEmailStore((s) => s.formError)
 
-	if (formStatus !== AuthFormStatus.failure) {
+	if (formStatus !== FormStatus.failure) {
 		return null
 	}
 

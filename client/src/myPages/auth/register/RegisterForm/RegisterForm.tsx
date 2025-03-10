@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Alert, Button, Form, Input, Radio, RadioChangeEvent } from 'antd'
 import Link from 'next/link'
 import { User_Role } from '../../../../graphql'
-import { AuthFormStatus, formEmailFieldRules, formPasswordFieldRules } from '../../common/fieldRules'
+import { FormStatus, formEmailFieldRules, formPasswordFieldRules } from '../../common/fieldRules'
 import { LoginFormTest } from '../../login/LoginForm/fn/form'
 import { useRegisterPageStore } from '../registerPageStore'
 import {
@@ -31,7 +31,7 @@ function RegisterForm() {
 				onFinish={onSubmit}
 				autoComplete='on'
 				layout='vertical'
-				disabled={[AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)}
+				disabled={[FormStatus.success, FormStatus.submitPending].includes(formStatus)}
 				data-testid={RegisterFormTest.form.id}
 			>
 				<RoleRadios />
@@ -111,8 +111,7 @@ function SubmitFormButton() {
 	const formStatus = useRegisterPageStore((s) => s.formStatus)
 
 	const isDisabled =
-		!isFormValid ||
-		[AuthFormStatus.success, AuthFormStatus.submitPending, AuthFormStatus.failure].includes(formStatus)
+		!isFormValid || [FormStatus.success, FormStatus.submitPending, FormStatus.failure].includes(formStatus)
 
 	return (
 		<Form.Item>
@@ -132,7 +131,7 @@ function FormWasSentMessage() {
 	const formStatus = useRegisterPageStore((s) => s.formStatus)
 	const emailDomain = useRegisterPageStore((s) => s.registeredEmailDomain)
 
-	if (formStatus !== AuthFormStatus.success) {
+	if (formStatus !== FormStatus.success) {
 		return null
 	}
 
@@ -160,7 +159,7 @@ function FormWasNotSentMessage() {
 	const formStatus = useRegisterPageStore((s) => s.formStatus)
 	const formError = useRegisterPageStore((s) => s.formError)
 
-	if (formStatus !== AuthFormStatus.failure) {
+	if (formStatus !== FormStatus.failure) {
 		return null
 	}
 

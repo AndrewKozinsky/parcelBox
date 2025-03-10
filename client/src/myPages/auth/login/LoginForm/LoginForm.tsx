@@ -1,6 +1,6 @@
 import React from 'react'
 import { Alert, Button, Form, Input } from 'antd'
-import { AuthFormStatus, formEmailFieldRules, formPasswordFieldRules } from '../../common/fieldRules'
+import { FormStatus, formEmailFieldRules, formPasswordFieldRules } from '../../common/fieldRules'
 import { RegisterFormTest } from '../../register/RegisterForm/fn/form'
 import { useLoginPageStore } from '../loginPageStore'
 import { FieldType, FormNames, LoginFormTest, useGetOnChangeLoginForm } from './fn/form'
@@ -21,7 +21,7 @@ function LoginForm() {
 			onFinish={onLoginFormSubmit}
 			autoComplete='on'
 			layout='vertical'
-			disabled={[AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)}
+			disabled={[FormStatus.success, FormStatus.submitPending].includes(formStatus)}
 			data-testid={LoginFormTest.form.id}
 		>
 			<EmailField />
@@ -56,7 +56,7 @@ function SubmitFormButton() {
 	const isFormValid = useLoginPageStore((s) => s.isFormValid)
 	const formStatus = useLoginPageStore((s) => s.formStatus)
 
-	const isDisabled = !isFormValid || [AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)
+	const isDisabled = !isFormValid || [FormStatus.success, FormStatus.submitPending].includes(formStatus)
 
 	return (
 		<Form.Item>
@@ -71,7 +71,7 @@ function FormWasNotSentMessage() {
 	const formStatus = useLoginPageStore((s) => s.formStatus)
 	const formError = useLoginPageStore((s) => s.formError)
 
-	if (formStatus !== AuthFormStatus.failure) {
+	if (formStatus !== FormStatus.failure) {
 		return null
 	}
 

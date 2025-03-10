@@ -1,0 +1,24 @@
+mutation ParcelBoxCreate($input: CreateParcelBoxInput!) {
+	parcelBox_create(input: $input) {
+		id
+		parcelBoxTypeId
+		parcelBoxTypeName
+		createdAt
+		cells {
+			id
+			name
+			cellTypeId
+			parcelBoxId
+			width
+			height
+			depth
+		}
+		location {
+			id
+			address
+			businessDays
+			businessHoursFrom
+			businessHoursTo
+		}
+	}
+}

@@ -1,7 +1,7 @@
 import { FormInstance } from 'antd'
 import { Rule } from 'antd/es/form'
 import { User_Role } from '../../../../../graphql'
-import { AuthFormStatus } from '../../../common/fieldRules'
+import { FormStatus } from '../../../common/fieldRules'
 import { useRegisterPageStore } from '../../registerPageStore'
 
 export const RegisterFormTest = {
@@ -30,7 +30,7 @@ export enum FormNames {
 
 export function useGetOnChangeRegisterForm(form: FormInstance) {
 	return async function () {
-		useRegisterPageStore.setState({ formStatus: AuthFormStatus.default })
+		useRegisterPageStore.setState({ formStatus: FormStatus.default })
 
 		form.validateFields({ validateOnly: true })
 			.then(() => {

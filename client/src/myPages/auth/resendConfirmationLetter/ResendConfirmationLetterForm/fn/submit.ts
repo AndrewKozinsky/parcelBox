@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { FormInstance } from 'antd'
 import { getEmailDomain } from '../../../../../utils/stringUtils'
-import { AuthFormStatus } from '../../../common/fieldRules'
+import { FormStatus } from '../../../common/fieldRules'
 import { useResendConfirmationEmailStore } from '../../resendConfirmationLetterPageStore'
 import { FieldType, FormNames } from './form'
 import { useAuthResendConfirmationEmail } from '@/graphql'
@@ -25,7 +25,7 @@ export function useGetOnSubmit(form: FormInstance) {
 }
 
 function afterSuccessfulRequest(values: FieldType) {
-	useResendConfirmationEmailStore.setState({ formStatus: AuthFormStatus.success })
+	useResendConfirmationEmailStore.setState({ formStatus: FormStatus.success })
 
 	try {
 		const emailDomain = getEmailDomain(values[FormNames.email])
@@ -39,7 +39,7 @@ function afterSuccessfulRequest(values: FieldType) {
 }
 
 function afterFailedRequest(form: FormInstance, error: any) {
-	useResendConfirmationEmailStore.setState({ formStatus: AuthFormStatus.failure, formError: error.message })
+	useResendConfirmationEmailStore.setState({ formStatus: FormStatus.failure, formError: error.message })
 
 	try {
 		// Get fields errors from server

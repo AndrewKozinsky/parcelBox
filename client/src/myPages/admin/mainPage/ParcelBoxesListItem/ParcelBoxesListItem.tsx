@@ -38,7 +38,7 @@ function ParcelBoxListItem(props: ParcelBoxListItemProps) {
 				<Text>{data.parcelBoxTypeName}</Text>
 			</div>
 			<div className='parcel-box__buttons'>
-				<EditParcelBoxButton />
+				{/*<EditParcelBoxButton />*/}
 				<DeleteParcelBoxButton parcelBoxId={data.id} />
 			</div>
 		</div>
