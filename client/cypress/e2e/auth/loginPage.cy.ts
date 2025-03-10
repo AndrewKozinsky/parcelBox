@@ -1,8 +1,8 @@
-import { LoginFormTest } from '../../src/myPages/auth/login/LoginForm/fn/form'
-import { routeNames } from '../../src/utils/routeNames'
-import { checkIsPage, login } from './utils/commands'
-import { server } from './utils/server'
-import { usersConfig } from './utils/users'
+import { LoginFormTest } from '../../../src/myPages/auth/login/LoginForm/fn/form'
+import { routeNames } from '../../../src/utils/routeNames'
+import { checkIsPage, login } from '../utils/commands'
+import { server } from '../utils/server'
+import { usersConfig } from '../utils/users'
 
 describe.skip('Login page', () => {
 	beforeEach(() => {

@@ -11,7 +11,6 @@ export class GetParcelBoxesOfUserHandler implements ICommandHandler<GetParcelBox
 
 	async execute(command: GetParcelBoxesOfUserCommand) {
 		const { userId } = command
-
 		return await this.parcelBoxQueryRepository.getParcelBoxesByUserId(userId)
 	}
 }

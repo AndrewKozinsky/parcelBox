@@ -14,6 +14,7 @@ export type SenderWithUserPrisma = Prisma.SenderGetPayload<{
 
 export type ParcelBoxFullDataPrisma = Prisma.ParcelBoxGetPayload<{
 	include: {
+		parcel_box_type: true
 		Cell: {
 			include: {
 				cell_type: true

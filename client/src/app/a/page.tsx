@@ -1,13 +1,7 @@
 'use client'
 
-import { Typography } from 'antd'
-
-const { Text } = Typography
+import AdminMainPage from '../../myPages/admin/mainPage/AdminMainPage/AdminMainPage'
 
 export default function Page() {
-	return (
-		<div>
-			<Text>Administrator</Text>
-		</div>
-	)
+	return <AdminMainPage />
 }

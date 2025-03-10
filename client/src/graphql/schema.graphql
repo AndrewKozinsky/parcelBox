@@ -6,9 +6,71 @@ type AdminOutModel {
   role: USER_ROLE!
 }
 
+type CellOutModel {
+  cellTypeId: Int!
+  depth: Int!
+  height: Int!
+  id: Int!
+  name: String!
+  parcelBoxId: Int!
+  width: Int!
+}
+
+type CellTypeOutModel {
+  depth: Int!
+  height: Int!
+  id: Int!
+  name: String!
+  parcelBoxTypeId: Int!
+  width: Int!
+}
+
 input ConfirmEmailInput {
   """User email"""
   code: String!
+}
+
+input CreateCellTypeInput {
+  """Cell depth"""
+  depth: Int!
+
+  """Cell height"""
+  height: Int!
+
+  """Cell type name"""
+  name: String!
+
+  """Cell depth"""
+  parcelBoxTypeId: Int!
+
+  """Cell width"""
+  width: Int!
+}
+
+input CreateParcelBoxInput {
+  """Parcel box type id"""
+  parcelBoxTypeId: Float!
+
+  """User id who belongs to this parcel box"""
+  userId: Float!
+}
+
+input CreateParcelBoxTypeInput {
+  """Parcel box type name"""
+  name: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type LocationOutModel {
+  address: String!
+  businessDays: [Int!]!
+  businessHoursFrom: Int!
+  businessHoursTo: Int!
+  id: Int!
 }
 
 input LoginInput {
@@ -61,6 +123,42 @@ type Mutation {
   	**Почта уже подтверждена.** — email is already confirmed.
   """
   auth_resendConfirmationEmail(input: ResendConfirmationEmailInput!): Boolean!
+
+  """
+  Create cell type.
+  	Possible errors:
+  	**Тип ячейки не создан.** — parcel cell couldn't create for some reason.
+  """
+  cellType_create(input: CreateCellTypeInput!): CellTypeOutModel!
+
+  """
+  Create parcel box type.
+  	Possible errors:
+  	**Тип посыльного ящика не создан.** — parcel box type couldn't create for some reason.
+  """
+  parcelBoxType_create(input: CreateParcelBoxTypeInput!): ParcelBoxTypeOutModel!
+
+  """
+  Create parcel box.
+  	Possible errors:
+  	**Тип посыльного ящика не создан.** — parcel box couldn't create for some reason.
+  """
+  parcelBox_create(input: CreateParcelBoxInput!): ParcelBoxOutModel!
+}
+
+type ParcelBoxOutModel {
+  cells: [CellOutModel!]!
+  createdAt: DateTime!
+  id: Int!
+  location: LocationOutModel!
+  parcelBoxTypeId: Int!
+  parcelBoxTypeName: String!
+}
+
+type ParcelBoxTypeOutModel {
+  cellTypes: [CellTypeOutModel!]!
+  id: Int!
+  name: String!
 }
 
 type Query {
@@ -74,6 +172,9 @@ type Query {
 
   """Get current user data"""
   auth_getMe: AdminOrSender!
+
+  """Get all parcel box of the current user."""
+  parcelBox_getMine: [ParcelBoxOutModel!]!
 }
 
 input RegisterAdminInput {

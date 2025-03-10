@@ -1,6 +1,6 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import AdminMainLayout from '../../myPages/admin/AdminMainLayout/AdminMainLayout'
+import AdminMainLayout from '../../myPages/admin/mainPage/AdminMainLayout/AdminMainLayout'
 
 export const metadata: Metadata = {
 	title: 'Create Next App',

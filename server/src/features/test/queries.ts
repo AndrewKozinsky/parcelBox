@@ -156,6 +156,7 @@ export const queries = {
 			  }) {
 				id
 				parcelBoxTypeId
+				parcelBoxTypeName
 				createdAt
 				cells {
 					id
@@ -181,6 +182,7 @@ export const queries = {
 			  ${RouteNames.PARCEL_BOX.GET_MINE} {
 				id
 				parcelBoxTypeId
+				parcelBoxTypeName
 				createdAt
 				cells {
 					id

@@ -1,8 +1,8 @@
-import { RegisterFormTest } from '../../src/myPages/auth/register/RegisterForm/fn/form'
-import { routeNames } from '../../src/utils/routeNames'
-import { checkIsPage, login, isFormInputsDisabled, registerUserInRegisterPage } from './utils/commands'
-import { server } from './utils/server'
-import { usersConfig } from './utils/users'
+import { RegisterFormTest } from '../../../src/myPages/auth/register/RegisterForm/fn/form'
+import { routeNames } from '../../../src/utils/routeNames'
+import { checkIsPage, login, isFormInputsDisabled, registerUserInRegisterPage } from '../utils/commands'
+import { server } from '../utils/server'
+import { usersConfig } from '../utils/users'
 
 describe.skip('Register page', () => {
 	beforeEach(() => {

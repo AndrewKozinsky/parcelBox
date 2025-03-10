@@ -1,5 +1,5 @@
 import React from 'react'
-import ContentLayout from '../../common/ContentLayout/ContentLayout'
+import ContentLayout from '../../../common/ContentLayout/ContentLayout'
 
 type AdminMainLayoutProps = {
 	children: React.ReactNode

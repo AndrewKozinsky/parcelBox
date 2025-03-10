@@ -15,6 +15,7 @@ export type Scalars = {
 	Boolean: { input: boolean; output: boolean }
 	Int: { input: number; output: number }
 	Float: { input: number; output: number }
+	DateTime: { input: any; output: any }
 }
 
 export type AdminOrSender = AdminOutModel | SenderOutModel
@@ -26,9 +27,64 @@ export type AdminOutModel = {
 	role: User_Role
 }
 
+export type CellOutModel = {
+	__typename?: 'CellOutModel'
+	cellTypeId: Scalars['Int']['output']
+	depth: Scalars['Int']['output']
+	height: Scalars['Int']['output']
+	id: Scalars['Int']['output']
+	name: Scalars['String']['output']
+	parcelBoxId: Scalars['Int']['output']
+	width: Scalars['Int']['output']
+}
+
+export type CellTypeOutModel = {
+	__typename?: 'CellTypeOutModel'
+	depth: Scalars['Int']['output']
+	height: Scalars['Int']['output']
+	id: Scalars['Int']['output']
+	name: Scalars['String']['output']
+	parcelBoxTypeId: Scalars['Int']['output']
+	width: Scalars['Int']['output']
+}
+
 export type ConfirmEmailInput = {
 	/** User email */
 	code: Scalars['String']['input']
+}
+
+export type CreateCellTypeInput = {
+	/** Cell depth */
+	depth: Scalars['Int']['input']
+	/** Cell height */
+	height: Scalars['Int']['input']
+	/** Cell type name */
+	name: Scalars['String']['input']
+	/** Cell depth */
+	parcelBoxTypeId: Scalars['Int']['input']
+	/** Cell width */
+	width: Scalars['Int']['input']
+}
+
+export type CreateParcelBoxInput = {
+	/** Parcel box type id */
+	parcelBoxTypeId: Scalars['Float']['input']
+	/** User id who belongs to this parcel box */
+	userId: Scalars['Float']['input']
+}
+
+export type CreateParcelBoxTypeInput = {
+	/** Parcel box type name */
+	name: Scalars['String']['input']
+}
+
+export type LocationOutModel = {
+	__typename?: 'LocationOutModel'
+	address: Scalars['String']['output']
+	businessDays: Array<Scalars['Int']['output']>
+	businessHoursFrom: Scalars['Int']['output']
+	businessHoursTo: Scalars['Int']['output']
+	id: Scalars['Int']['output']
 }
 
 export type LoginInput = {
@@ -76,6 +132,24 @@ export type Mutation = {
 	 * 	**Почта уже подтверждена.** — email is already confirmed.
 	 */
 	auth_resendConfirmationEmail: Scalars['Boolean']['output']
+	/**
+	 * Create cell type.
+	 * 	Possible errors:
+	 * 	**Тип ячейки не создан.** — parcel cell couldn't create for some reason.
+	 */
+	cellType_create: CellTypeOutModel
+	/**
+	 * Create parcel box type.
+	 * 	Possible errors:
+	 * 	**Тип посыльного ящика не создан.** — parcel box type couldn't create for some reason.
+	 */
+	parcelBoxType_create: ParcelBoxTypeOutModel
+	/**
+	 * Create parcel box.
+	 * 	Possible errors:
+	 * 	**Тип посыльного ящика не создан.** — parcel box couldn't create for some reason.
+	 */
+	parcelBox_create: ParcelBoxOutModel
 }
 
 export type MutationAuth_LoginArgs = {
@@ -94,6 +168,35 @@ export type MutationAuth_ResendConfirmationEmailArgs = {
 	input: ResendConfirmationEmailInput
 }
 
+export type MutationCellType_CreateArgs = {
+	input: CreateCellTypeInput
+}
+
+export type MutationParcelBoxType_CreateArgs = {
+	input: CreateParcelBoxTypeInput
+}
+
+export type MutationParcelBox_CreateArgs = {
+	input: CreateParcelBoxInput
+}
+
+export type ParcelBoxOutModel = {
+	__typename?: 'ParcelBoxOutModel'
+	cells: Array<CellOutModel>
+	createdAt: Scalars['DateTime']['output']
+	id: Scalars['Int']['output']
+	location: LocationOutModel
+	parcelBoxTypeId: Scalars['Int']['output']
+	parcelBoxTypeName: Scalars['String']['output']
+}
+
+export type ParcelBoxTypeOutModel = {
+	__typename?: 'ParcelBoxTypeOutModel'
+	cellTypes: Array<CellTypeOutModel>
+	id: Scalars['Int']['output']
+	name: Scalars['String']['output']
+}
+
 export type Query = {
 	__typename?: 'Query'
 	/**
@@ -105,6 +208,8 @@ export type Query = {
 	auth_confirmEmail: Scalars['Boolean']['output']
 	/** Get current user data */
 	auth_getMe: AdminOrSender
+	/** Get all parcel box of the current user. */
+	parcelBox_getMine: Array<ParcelBoxOutModel>
 }
 
 export type QueryAuth_ConfirmEmailArgs = {
@@ -146,6 +251,37 @@ export type SenderOutModel = {
 export enum User_Role {
 	Admin = 'admin',
 	Sender = 'sender',
+}
+
+export type ParcelBoxGetMineVariables = Exact<{ [key: string]: never }>
+
+export type ParcelBoxGetMine = {
+	__typename?: 'Query'
+	parcelBox_getMine: Array<{
+		__typename?: 'ParcelBoxOutModel'
+		id: number
+		parcelBoxTypeId: number
+		parcelBoxTypeName: string
+		createdAt: any
+		cells: Array<{
+			__typename?: 'CellOutModel'
+			id: number
+			name: string
+			cellTypeId: number
+			parcelBoxId: number
+			width: number
+			height: number
+			depth: number
+		}>
+		location: {
+			__typename?: 'LocationOutModel'
+			id: number
+			address: string
+			businessDays: Array<number>
+			businessHoursFrom: number
+			businessHoursTo: number
+		}
+	}>
 }
 
 export type AuthConfirmEmailVariables = Exact<{
@@ -235,6 +371,70 @@ export type AuthResendConfirmationEmailVariables = Exact<{
 
 export type AuthResendConfirmationEmail = { __typename?: 'Mutation'; auth_resendConfirmationEmail: boolean }
 
+export const ParcelBoxGetMineDocument = gql`
+	query ParcelBoxGetMine {
+		parcelBox_getMine {
+			id
+			parcelBoxTypeId
+			parcelBoxTypeName
+			createdAt
+			cells {
+				id
+				name
+				cellTypeId
+				parcelBoxId
+				width
+				height
+				depth
+			}
+			location {
+				id
+				address
+				businessDays
+				businessHoursFrom
+				businessHoursTo
+			}
+		}
+	}
+`
+
+/**
+ * __useParcelBoxGetMine__
+ *
+ * To run a query within a React component, call `useParcelBoxGetMine` and pass it any options that fit your needs.
+ * When your component renders, `useParcelBoxGetMine` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useParcelBoxGetMine({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useParcelBoxGetMine(
+	baseOptions?: Apollo.QueryHookOptions<ParcelBoxGetMine, ParcelBoxGetMineVariables>,
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<ParcelBoxGetMine, ParcelBoxGetMineVariables>(ParcelBoxGetMineDocument, options)
+}
+export function useParcelBoxGetMineLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<ParcelBoxGetMine, ParcelBoxGetMineVariables>,
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<ParcelBoxGetMine, ParcelBoxGetMineVariables>(ParcelBoxGetMineDocument, options)
+}
+export function useParcelBoxGetMineSuspenseQuery(
+	baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ParcelBoxGetMine, ParcelBoxGetMineVariables>,
+) {
+	const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+	return Apollo.useSuspenseQuery<ParcelBoxGetMine, ParcelBoxGetMineVariables>(ParcelBoxGetMineDocument, options)
+}
+export type ParcelBoxGetMineHookResult = ReturnType<typeof useParcelBoxGetMine>
+export type ParcelBoxGetMineLazyQueryHookResult = ReturnType<typeof useParcelBoxGetMineLazyQuery>
+export type ParcelBoxGetMineSuspenseQueryHookResult = ReturnType<typeof useParcelBoxGetMineSuspenseQuery>
+export type ParcelBoxGetMineQueryResult = Apollo.QueryResult<ParcelBoxGetMine, ParcelBoxGetMineVariables>
 export const AuthConfirmEmailDocument = gql`
 	query AuthConfirmEmail($input: ConfirmEmailInput!) {
 		auth_confirmEmail(input: $input)

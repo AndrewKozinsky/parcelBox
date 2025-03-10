@@ -1,7 +1,7 @@
-import { routeNames } from '../../src/utils/routeNames'
-import { checkIsPage, login } from './utils/commands'
-import { server } from './utils/server'
-import { usersConfig } from './utils/users'
+import { routeNames } from '../../../src/utils/routeNames'
+import { checkIsPage, login } from '../utils/commands'
+import { server } from '../utils/server'
+import { usersConfig } from '../utils/users'
 
 describe.skip('Main page', () => {
 	beforeEach(() => {

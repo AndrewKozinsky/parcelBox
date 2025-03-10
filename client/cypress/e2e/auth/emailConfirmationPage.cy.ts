@@ -1,8 +1,8 @@
-import { EmailConfirmationTest } from '../../src/myPages/auth/EmailConfirmationPage/fn/form'
-import { routeNames } from '../../src/utils/routeNames'
-import { checkIsPage, login, registerUserInRegisterPage } from './utils/commands'
-import { server } from './utils/server'
-import { usersConfig } from './utils/users'
+import { EmailConfirmationTest } from '../../../src/myPages/auth/EmailConfirmationPage/fn/form'
+import { routeNames } from '../../../src/utils/routeNames'
+import { checkIsPage, login, registerUserInRegisterPage } from '../utils/commands'
+import { server } from '../utils/server'
+import { usersConfig } from '../utils/users'
 
 describe.skip('EmailConfirmation page', () => {
 	beforeEach(() => {

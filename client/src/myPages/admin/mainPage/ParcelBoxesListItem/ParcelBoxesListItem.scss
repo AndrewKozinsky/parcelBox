@@ -1,0 +1,15 @@
+@use '../../../../style/variables' as *;
+@use "sass:color";
+
+.parcel-box {
+	display: flex;
+	gap: 3rem;
+	padding: 1rem 0;
+	border-bottom: 1px solid $grayColor-1;
+}
+
+.parcel-box__buttons {
+	display: flex;
+	gap: 2rem;
+	margin: 0 0 0 auto;
+}

@@ -100,6 +100,7 @@ export interface LocationOutModel {
 export interface ParcelBoxOutModel {
     id: number;
     parcelBoxTypeId: number;
+    parcelBoxTypeName: string;
     createdAt: DateTime;
     cells: CellOutModel[];
     location: LocationOutModel;

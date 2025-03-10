@@ -3,7 +3,7 @@ import { useAuthLogout } from '../../../../graphql'
 import { useUserStore } from '../../../../stores/userStore'
 
 export function useGetOnLogoutBtnClick() {
-	const [logoutRequest] = useAuthLogout()
+	const [logoutRequest] = useAuthLogout({ fetchPolicy: 'no-cache' })
 
 	return useCallback(function () {
 		logoutRequest()

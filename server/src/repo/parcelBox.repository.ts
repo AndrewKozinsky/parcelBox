@@ -17,6 +17,7 @@ export class ParcelBoxRepository {
 				parcel_box_type_id: dto.parcelBoxTypeId,
 			},
 			include: {
+				parcel_box_type: true,
 				Cell: {
 					include: {
 						cell_type: true,
@@ -38,6 +39,7 @@ export class ParcelBoxRepository {
 				},
 			},
 			include: {
+				parcel_box_type: true,
 				Cell: {
 					include: {
 						cell_type: true,
@@ -54,6 +56,7 @@ export class ParcelBoxRepository {
 		return {
 			id: parcelBox.id,
 			parcelBoxTypeId: parcelBox.parcel_box_type_id,
+			parcelBoxTypeName: parcelBox.parcel_box_type.name,
 			createdAt: parcelBox.created_at,
 			cells: parcelBox.Cell.map((cell) => {
 				return {

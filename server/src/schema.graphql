@@ -55,6 +55,7 @@ type LocationOutModel {
 type ParcelBoxOutModel {
   id: Int!
   parcelBoxTypeId: Int!
+  parcelBoxTypeName: String!
   createdAt: DateTime!
   cells: [CellOutModel!]!
   location: LocationOutModel!

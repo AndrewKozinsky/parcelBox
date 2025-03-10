@@ -1,8 +1,8 @@
-import { RCLFormTest } from '../../src/myPages/auth/resendConfirmationLetter/ResendConfirmationLetterForm/fn/form'
-import { routeNames } from '../../src/utils/routeNames'
-import { checkIsPage, isFormInputsDisabled, login } from './utils/commands'
-import { server } from './utils/server'
-import { usersConfig } from './utils/users'
+import { RCLFormTest } from '../../../src/myPages/auth/resendConfirmationLetter/ResendConfirmationLetterForm/fn/form'
+import { routeNames } from '../../../src/utils/routeNames'
+import { checkIsPage, isFormInputsDisabled, login } from '../utils/commands'
+import { server } from '../utils/server'
+import { usersConfig } from '../utils/users'
 
 describe.skip('Resend confirmation letter page', () => {
 	beforeEach(() => {

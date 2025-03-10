@@ -17,7 +17,7 @@ import { ParcelBoxTypeRepository } from '../../src/repo/parcelBoxType.repository
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReqWithTokens } from '../makeGQReq'
-import { defAdminEmail, defAdminPassword, extractErrObjFromResp, seedInitDataInDatabase } from '../utils/common'
+import { defAdminEmail, defAdminPassword, seedInitDataInDatabase } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../../src/features/test/queries'
 import { seedTestData } from '../utils/seedTestData'

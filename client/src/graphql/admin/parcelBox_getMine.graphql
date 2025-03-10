@@ -1,0 +1,24 @@
+query ParcelBoxGetMine {
+	parcelBox_getMine {
+		id
+		parcelBoxTypeId
+		parcelBoxTypeName
+		createdAt
+		cells {
+			id
+			name
+			cellTypeId
+			parcelBoxId
+			width
+			height
+			depth
+		}
+		location {
+			id
+			address
+			businessDays
+			businessHoursFrom
+			businessHoursTo
+		}
+	}
+}

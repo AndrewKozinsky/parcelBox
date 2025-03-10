@@ -13,6 +13,7 @@ export class ParcelBoxQueryRepository {
 		const parcelBox = await this.prisma.parcelBox.findUnique({
 			where: { id },
 			include: {
+				parcel_box_type: true,
 				Cell: {
 					include: {
 						cell_type: true,
@@ -34,6 +35,7 @@ export class ParcelBoxQueryRepository {
 		const parcelBoxes = await this.prisma.parcelBox.findMany({
 			where: { user_id: userId },
 			include: {
+				parcel_box_type: true,
 				Cell: {
 					include: {
 						cell_type: true,
@@ -50,6 +52,7 @@ export class ParcelBoxQueryRepository {
 		return {
 			id: parcelBox.id,
 			parcelBoxTypeId: parcelBox.parcel_box_type_id,
+			parcelBoxTypeName: parcelBox.parcel_box_type.name,
 			createdAt: parcelBox.created_at,
 			cells: parcelBox.Cell.map((cell) => {
 				return {

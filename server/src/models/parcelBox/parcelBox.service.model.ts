@@ -10,6 +10,9 @@ export class ParcelBoxServiceModel {
 	@Field(() => Int)
 	parcelBoxTypeId: number
 
+	@Field(() => String)
+	parcelBoxTypeName: string
+
 	@Field(() => Date)
 	createdAt: Date
 

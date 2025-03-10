@@ -25,7 +25,7 @@ export class SeedTestDataHandler implements ICommandHandler<SeedTestDataCommand>
 		const usersConfig = await this.seedUsers()
 		// Parcel box types and cell types were created earlier.
 		// I'll use them to create parcel boxes...
-		// await this.seedParcelBoxes(usersConfig)
+		await this.seedParcelBoxes(usersConfig)
 	}
 
 	async seedUsers() {
@@ -36,16 +36,8 @@ export class SeedTestDataHandler implements ICommandHandler<SeedTestDataCommand>
 			const userConfig = usersConfig[userKey]
 
 			let createdUser = userConfig.confirmed
-				? await this.createUserWithConfirmedEmail({
-					role: userConfig.role,
-					email: userConfig.email,
-					password: userConfig.password,
-				})
-				: await this.createUserWithUnconfirmedEmail({
-					role: userConfig.role,
-					email: userConfig.email,
-					password: userConfig.password,
-				})
+				? await this.createUserWithConfirmedEmail(userConfig)
+				: await this.createUserWithUnconfirmedEmail(userConfig)
 
 			if (!createdUser) {
 				throw new Error('User was not created')
@@ -96,12 +88,8 @@ export class SeedTestDataHandler implements ICommandHandler<SeedTestDataCommand>
 	async createUserWithUnconfirmedEmail(props: { role: UserRole; email: string; password: string }) {
 		const createdUser =
 			props.role === UserRole.Admin
-				? await this.commandBus.execute(
-					new CreateAdminCommand({ email: props.email, password: props.password }),
-				)
-				: await this.commandBus.execute(
-					new CreateSenderCommand({ email: props.email, password: props.password }),
-				)
+				? await this.commandBus.execute(new CreateAdminCommand(props))
+				: await this.commandBus.execute(new CreateSenderCommand(props))
 
 		return await this.userRepository.getUserById(createdUser.id)
 	}
