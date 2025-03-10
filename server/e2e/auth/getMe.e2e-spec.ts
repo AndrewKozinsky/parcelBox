@@ -1,4 +1,5 @@
 import { INestApplication } from '@nestjs/common'
+import { CommandBus } from '@nestjs/cqrs'
 import { App } from 'supertest/types'
 import { MainConfigService } from '../../src/infrastructure/config/mainConfig.service'
 import { clearAllDB } from '../../src/db/clearDB'
@@ -31,6 +32,7 @@ import { userUtils } from '../utils/userUtils'
 
 describe.skip('Get me (e2e)', () => {
 	let app: INestApplication<App>
+	let commandBus: CommandBus
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
 	let userQueryRepository: UserQueryRepository
@@ -49,6 +51,7 @@ describe.skip('Get me (e2e)', () => {
 		const createMainAppRes = await createApp({ emailAdapter })
 
 		app = createMainAppRes.app
+		commandBus = app.get(CommandBus)
 		emailAdapter = createMainAppRes.emailAdapter
 		userRepository = await app.resolve(UserRepository)
 		userQueryRepository = await app.resolve(UserQueryRepository)
@@ -66,13 +69,7 @@ describe.skip('Get me (e2e)', () => {
 	beforeEach(async () => {
 		await clearAllDB(app)
 		await seedInitDataInDatabase(app)
-		await seedTestData({
-			app,
-			userRepository,
-			parcelBoxRepository,
-			cellRepository,
-			parcelBoxTypeRepository,
-		})
+		await seedTestData(commandBus)
 		jest.clearAllMocks()
 	})
 
@@ -117,7 +114,11 @@ describe.skip('Get me (e2e)', () => {
 			mainConfig,
 		})
 
-		expect(getMeResp.data[RouteNames.AUTH.GET_ME]).toStrictEqual({ id: 9, email: defAdminEmail, role: 'admin' })
+		expect(getMeResp.data[RouteNames.AUTH.GET_ME]).toEqual({
+			id: expect.any(Number),
+			email: defAdminEmail,
+			role: 'admin',
+		})
 	})
 
 	it('should return a sender if passed access token is valid', async () => {
@@ -141,8 +142,8 @@ describe.skip('Get me (e2e)', () => {
 			mainConfig,
 		})
 
-		expect(getMeResp.data[RouteNames.AUTH.GET_ME]).toStrictEqual({
-			id: 9,
+		expect(getMeResp.data[RouteNames.AUTH.GET_ME]).toEqual({
+			id: expect.any(Number),
 			email: defSenderEmail,
 			firstName: null,
 			lastName: null,

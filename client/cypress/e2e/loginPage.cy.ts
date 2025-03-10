@@ -68,6 +68,12 @@ describe.skip('Login page', () => {
 })
 
 describe.skip('A try to move to the login page if a user already logged in', () => {
+	beforeEach(() => {
+		server.clearDB()
+		server.seedInitData()
+		server.seedTestData()
+	})
+
 	it('should redirect from login page to admin main page if an admin logged in', () => {
 		login(usersConfig.admin_4_conf)
 
@@ -79,7 +85,7 @@ describe.skip('A try to move to the login page if a user already logged in', () 
 	})
 
 	it('should redirect from login page to sender main page if a sender logged in', () => {
-		login(usersConfig.sender_4_confLog)
+		login(usersConfig.sender_4_conf)
 
 		// Visit to the login page
 		cy.visit(routeNames.auth.login.path)

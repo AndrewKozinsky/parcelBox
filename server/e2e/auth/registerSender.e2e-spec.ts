@@ -1,4 +1,5 @@
 import { INestApplication } from '@nestjs/common'
+import { CommandBus } from '@nestjs/cqrs'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
@@ -20,6 +21,7 @@ import { seedTestData } from '../utils/seedTestData'
 
 describe.skip('Register a sender (e2e)', () => {
 	let app: INestApplication<App>
+	let commandBus: CommandBus
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
 	let userQueryRepository: UserQueryRepository
@@ -34,6 +36,7 @@ describe.skip('Register a sender (e2e)', () => {
 		const createMainAppRes = await createApp({ emailAdapter })
 
 		app = createMainAppRes.app
+		commandBus = app.get(CommandBus)
 		emailAdapter = createMainAppRes.emailAdapter
 		userRepository = await app.resolve(UserRepository)
 		userQueryRepository = await app.resolve(UserQueryRepository)
@@ -48,13 +51,7 @@ describe.skip('Register a sender (e2e)', () => {
 	beforeEach(async () => {
 		await clearAllDB(app)
 		await seedInitDataInDatabase(app)
-		await seedTestData({
-			app,
-			userRepository,
-			parcelBoxRepository,
-			cellRepository,
-			parcelBoxTypeRepository,
-		})
+		await seedTestData(commandBus)
 		jest.clearAllMocks()
 	})
 
@@ -91,22 +88,25 @@ describe.skip('Register a sender (e2e)', () => {
 
 		expect(emailAdapter.sendEmailConfirmationMessage).toHaveBeenCalledTimes(1)
 
-		expect(createSenderResp.data).toStrictEqual({
-			[RouteNames.AUTH.REGISTER_SENDER]: {
-				id: 9,
-				email: defSenderEmail,
-				firstName: null,
-				lastName: null,
-				passportNum: null,
-				balance: 0,
-				active: false,
-				role: 'sender',
-			},
+		expect(createSenderResp.data[RouteNames.AUTH.REGISTER_SENDER]).toEqual({
+			id: expect.any(Number),
+			email: defSenderEmail,
+			firstName: null,
+			lastName: null,
+			passportNum: null,
+			balance: 0,
+			active: false,
+			role: 'sender',
 		})
 
 		const senderId = createSenderResp.data[RouteNames.AUTH.REGISTER_SENDER].id
 		const createdUser = await userQueryRepository.getUserById(senderId)
-		expect(createdUser).toEqual({ id: 9, email: defSenderEmail, role: 'sender' })
+
+		expect(createdUser).toEqual({
+			id: expect.any(Number),
+			email: defSenderEmail,
+			role: 'sender',
+		})
 	})
 
 	it('should return error if a sender is already created, but his email is not confirmed', async () => {

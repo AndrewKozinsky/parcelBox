@@ -1,4 +1,5 @@
 import { INestApplication } from '@nestjs/common'
+import { CommandBus } from '@nestjs/cqrs'
 import { TestingModule } from '@nestjs/testing'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
@@ -14,11 +15,12 @@ import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { seedInitDataInDatabase } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
+import { seedTestDataConfig } from '../../src/features/test/seedTestDataConfig'
 import { seedTestData } from '../utils/seedTestData'
-import { seedTestDataConfig } from '../utils/seedTestDataConfig'
 
 describe.skip('Seed all data (e2e)', () => {
 	let app: INestApplication<App>
+	let commandBus: CommandBus
 	let moduleFixture: TestingModule
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
@@ -35,6 +37,7 @@ describe.skip('Seed all data (e2e)', () => {
 		const createMainAppRes = await createApp({ emailAdapter })
 
 		app = createMainAppRes.app
+		commandBus = app.get(CommandBus)
 		moduleFixture = createMainAppRes.moduleFixture
 		emailAdapter = createMainAppRes.emailAdapter
 		userRepository = await app.resolve(UserRepository)
@@ -51,13 +54,7 @@ describe.skip('Seed all data (e2e)', () => {
 	beforeEach(async () => {
 		await clearAllDB(app)
 		await seedInitDataInDatabase(app)
-		await seedTestData({
-			app,
-			userRepository,
-			parcelBoxRepository,
-			cellRepository,
-			parcelBoxTypeRepository,
-		})
+		await seedTestData(commandBus)
 	})
 
 	afterEach(() => {

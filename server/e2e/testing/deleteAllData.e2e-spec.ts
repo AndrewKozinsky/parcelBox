@@ -1,4 +1,5 @@
 import { HttpStatus, INestApplication } from '@nestjs/common'
+import { CommandBus } from '@nestjs/cqrs'
 import { TestingModule } from '@nestjs/testing'
 import { agent as request } from 'supertest'
 import { App } from 'supertest/types'
@@ -10,12 +11,13 @@ import RouteNames from '../../src/infrastructure/routeNames'
 import { DevicesRepository } from '../../src/repo/devices.repository'
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
-import { makeProductionMode } from '../utils/common'
+import { setProductionMode } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { userUtils } from '../utils/userUtils'
 
-describe.skip('Delete all data (e2e)', () => {
+describe('Delete all data (e2e)', () => {
 	let app: INestApplication<App>
+	let commandBus: CommandBus
 	let moduleFixture: TestingModule
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
@@ -26,6 +28,7 @@ describe.skip('Delete all data (e2e)', () => {
 		const createMainAppRes = await createApp({ emailAdapter })
 
 		app = createMainAppRes.app
+		commandBus = app.get(CommandBus)
 		moduleFixture = createMainAppRes.moduleFixture
 		emailAdapter = createMainAppRes.emailAdapter
 		userRepository = await app.resolve(UserRepository)
@@ -39,15 +42,6 @@ describe.skip('Delete all data (e2e)', () => {
 
 	afterEach(() => {
 		jest.clearAllMocks()
-	})
-
-	it('should return error if request was made not in development mode', async () => {
-		makeProductionMode(moduleFixture)
-
-		const res = await request(app.getHttpServer()).delete('/' + RouteNames.TESTING.ALL_DATA)
-
-		expect(res.status).toBe(HttpStatus.BAD_REQUEST)
-		expect(res.body).toStrictEqual({ message: errorMessage.onlyDevMode })
 	})
 
 	it('should erase all data from the database', async () => {
@@ -66,5 +60,14 @@ describe.skip('Delete all data (e2e)', () => {
 		// Check if there isn't any device tokens in the database
 		const allDevices = await devicesRepository.getAllDevices()
 		expect(allDevices.length).toBe(0)
+	})
+
+	it('should return error if request was made not in development mode', async () => {
+		setProductionMode(moduleFixture)
+
+		const res = await request(app.getHttpServer()).delete('/' + RouteNames.TESTING.ALL_DATA)
+
+		expect(res.status).toBe(HttpStatus.BAD_REQUEST)
+		expect(res.body).toStrictEqual({ message: errorMessage.onlyDevMode })
 	})
 })

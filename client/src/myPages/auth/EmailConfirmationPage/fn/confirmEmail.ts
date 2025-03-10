@@ -39,7 +39,9 @@ export function useConfirmEmail() {
 			}
 
 			// If request was successful redirect to the login page
-			router.push(routeNames.auth.login.path)
+			setTimeout(() => {
+				router.push(routeNames.auth.login.path)
+			}, 0)
 		},
 		[confirmEmailCode, loading, error],
 	)

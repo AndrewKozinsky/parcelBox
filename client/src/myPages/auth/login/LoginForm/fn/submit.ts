@@ -1,13 +1,5 @@
 import { useCallback } from 'react'
-import {
-	AdminOutModel,
-	AuthGetMeDocument,
-	AuthLogin,
-	AuthLoginDocument,
-	SenderOutModel,
-	useAuthLogin,
-	User_Role,
-} from '@/graphql'
+import { AdminOutModel, AuthLogin, SenderOutModel, useAuthLogin, User_Role } from '@/graphql'
 import { FetchResult } from '@apollo/client'
 import { FormInstance } from 'antd'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
@@ -58,7 +50,7 @@ function afterSuccessfulRequest(data: FetchResult<AuthLogin>, router: AppRouterI
 		useLoginPageStore.setState({ formStatus: AuthFormStatus.default })
 
 		// Redirect to the main page
-		router.push(routeNames.main.path)
+		setTimeout(() => router.push(routeNames.main.path), 0)
 	} catch (err: unknown) {}
 }
 

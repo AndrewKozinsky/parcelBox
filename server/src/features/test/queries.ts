@@ -115,13 +115,13 @@ export const queries = {
 			  }) {
 				id
 				name
-				cells {
+				cellTypes {
 					id
 					name
 					width
 					height
 					depth
-					parcelBoxId
+					parcelBoxTypeId
 				}
 			  }
 			}`

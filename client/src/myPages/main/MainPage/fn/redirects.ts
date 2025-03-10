@@ -14,10 +14,10 @@ export function useRedirectToRoleMainPageIfUserAuthorized() {
 			if (!adminUser && !senderUser) return
 
 			if (adminUser) {
-				router.push(routeNames.admin.path)
+				setTimeout(() => router.push(routeNames.admin.path), 0)
 			}
 			if (senderUser) {
-				router.push(routeNames.sender.path)
+				setTimeout(() => router.push(routeNames.sender.path), 0)
 			}
 		},
 		[adminUser, senderUser],

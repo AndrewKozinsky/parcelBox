@@ -1,4 +1,5 @@
 import { INestApplication } from '@nestjs/common'
+import { CommandBus } from '@nestjs/cqrs'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
@@ -21,6 +22,7 @@ import { seedTestData } from '../utils/seedTestData'
 
 describe.skip('Create parcel box type (e2e)', () => {
 	let app: INestApplication<App>
+	let commandBus: CommandBus
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
 	let userQueryRepository: UserQueryRepository
@@ -35,6 +37,7 @@ describe.skip('Create parcel box type (e2e)', () => {
 		const createMainAppRes = await createApp({ emailAdapter })
 
 		app = createMainAppRes.app
+		commandBus = app.get(CommandBus)
 		emailAdapter = createMainAppRes.emailAdapter
 		userRepository = await app.resolve(UserRepository)
 		userQueryRepository = await app.resolve(UserQueryRepository)
@@ -49,13 +52,7 @@ describe.skip('Create parcel box type (e2e)', () => {
 	beforeEach(async () => {
 		await clearAllDB(app)
 		await seedInitDataInDatabase(app)
-		await seedTestData({
-			app,
-			userRepository,
-			parcelBoxRepository,
-			cellRepository,
-			parcelBoxTypeRepository,
-		})
+		await seedTestData(commandBus)
 		jest.clearAllMocks()
 	})
 
@@ -139,12 +136,12 @@ describe.skip('Create parcel box type (e2e)', () => {
 		})
 
 		expect(cellType).toStrictEqual({
-			id: 1,
+			id: expect.any(Number),
 			name: 'Cell A1',
 			width: 20,
 			height: 30,
 			depth: 40,
-			parcelBoxTypeId: 1,
+			parcelBoxTypeId: parcelBoxType.id,
 		})
 
 		// Check if there is a new cell type in the database

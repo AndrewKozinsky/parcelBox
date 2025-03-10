@@ -1,4 +1,5 @@
 import { INestApplication } from '@nestjs/common'
+import { CommandBus } from '@nestjs/cqrs'
 import { add, subDays } from 'date-fns'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
@@ -22,6 +23,7 @@ import { userUtils } from '../utils/userUtils'
 
 describe.skip('Confirm an user email (e2e)', () => {
 	let app: INestApplication<App>
+	let commandBus: CommandBus
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
 	let userQueryRepository: UserQueryRepository
@@ -36,6 +38,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 		const createMainAppRes = await createApp({ emailAdapter })
 
 		app = createMainAppRes.app
+		commandBus = app.get(CommandBus)
 		emailAdapter = createMainAppRes.emailAdapter
 		userRepository = await app.resolve(UserRepository)
 		userQueryRepository = await app.resolve(UserQueryRepository)
@@ -50,13 +53,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 	beforeEach(async () => {
 		await clearAllDB(app)
 		await seedInitDataInDatabase(app)
-		await seedTestData({
-			app,
-			userRepository,
-			parcelBoxRepository,
-			cellRepository,
-			parcelBoxTypeRepository,
-		})
+		await seedTestData(commandBus)
 		jest.clearAllMocks()
 	})
 

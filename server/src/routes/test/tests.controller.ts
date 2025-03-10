@@ -26,7 +26,7 @@ export class TestsController {
 		private dbService: DbService,
 	) {}
 
-	@HttpCode(HttpStatus.OK)
+	@HttpCode(HttpStatus.NO_CONTENT)
 	@UseGuards(OnlyDevOrTestingModeGuard)
 	@Delete(RouteNames.TESTING.ALL_DATA)
 	async deleteAllData(@Res() res: Response) {

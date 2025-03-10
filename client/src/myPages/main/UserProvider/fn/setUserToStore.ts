@@ -28,7 +28,7 @@ export function useManageUserInStore() {
 				// If a user is in the auth pages
 				if (pathname.startsWith(routeNames.auth.path + '/')) {
 					// Redirect to admin main page
-					router.push(routeNames.main.path)
+					setTimeout(() => router.push(routeNames.main.path), 0)
 					return
 				}
 			} else if (isLoggedOut) {
@@ -37,7 +37,7 @@ export function useManageUserInStore() {
 				}
 
 				// Redirect to login page
-				router.push(routeNames.auth.login.path)
+				setTimeout(() => router.push(routeNames.auth.login.path), 0)
 				return
 			}
 
@@ -60,7 +60,7 @@ function tryToGetUserAndSetToStore(gqiClient: ApolloClient<object>, router: AppR
 				}
 
 				// Redirect to login page
-				router.push(routeNames.auth.login.path)
+				setTimeout(() => router.push(routeNames.auth.login.path), 0)
 				return
 			}
 

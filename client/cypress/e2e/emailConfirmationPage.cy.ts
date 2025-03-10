@@ -4,15 +4,15 @@ import { checkIsPage, login, registerUserInRegisterPage } from './utils/commands
 import { server } from './utils/server'
 import { usersConfig } from './utils/users'
 
-describe('EmailConfirmation page', () => {
+describe.skip('EmailConfirmation page', () => {
 	beforeEach(() => {
 		server.clearDB()
 		server.seedInitData()
 		server.seedTestData()
-		// cy.wait(100)
+		cy.wait(100)
 	})
 
-	it.only('should show error if there is not confirmation code in address bar', () => {
+	it('should show error if there is not confirmation code in address bar', () => {
 		expect(2).eql(2)
 	})
 

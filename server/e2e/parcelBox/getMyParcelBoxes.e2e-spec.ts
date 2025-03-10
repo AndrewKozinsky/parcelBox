@@ -1,11 +1,11 @@
 import { INestApplication } from '@nestjs/common'
+import { CommandBus } from '@nestjs/cqrs'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
 import { UserRole } from '../../src/db/dbConstants'
 import { queries } from '../../src/features/test/queries'
 import { MainConfigService } from '../../src/infrastructure/config/mainConfig.service'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
-import { errorMessage } from '../../src/infrastructure/exceptions/errorMessage'
 import { JwtAdapterService } from '../../src/infrastructure/jwtAdapter/jwtAdapter.service'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { CellRepository } from '../../src/repo/cell.repository'
@@ -28,6 +28,7 @@ import { userUtils } from '../utils/userUtils'
 
 describe.skip('Get my parcel box (e2e)', () => {
 	let app: INestApplication<App>
+	let commandBus: CommandBus
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
 	let userQueryRepository: UserQueryRepository
@@ -45,6 +46,7 @@ describe.skip('Get my parcel box (e2e)', () => {
 		const createMainAppRes = await createApp({ emailAdapter })
 
 		app = createMainAppRes.app
+		commandBus = app.get(CommandBus)
 		emailAdapter = createMainAppRes.emailAdapter
 		userRepository = await app.resolve(UserRepository)
 		userQueryRepository = await app.resolve(UserQueryRepository)
@@ -62,13 +64,7 @@ describe.skip('Get my parcel box (e2e)', () => {
 	beforeEach(async () => {
 		await clearAllDB(app)
 		await seedInitDataInDatabase(app)
-		await seedTestData({
-			app,
-			userRepository,
-			parcelBoxRepository,
-			cellRepository,
-			parcelBoxTypeRepository,
-		})
+		await seedTestData(commandBus)
 		jest.clearAllMocks()
 	})
 

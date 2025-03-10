@@ -38,7 +38,7 @@ export async function isUserExists(userQueryRepository: UserQueryRepository, use
  * Set server working mode to "production"
  * @param moduleFixture
  */
-export function makeProductionMode(moduleFixture: TestingModule) {
+export function setProductionMode(moduleFixture: TestingModule) {
 	const configService = moduleFixture.get(MainConfigService)
 
 	// Store the original get() method

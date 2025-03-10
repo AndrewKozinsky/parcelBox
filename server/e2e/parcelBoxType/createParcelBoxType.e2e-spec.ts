@@ -1,4 +1,5 @@
 import { INestApplication } from '@nestjs/common'
+import { CommandBus } from '@nestjs/cqrs'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
@@ -13,13 +14,14 @@ import { ParcelBoxTypeRepository } from '../../src/repo/parcelBoxType.repository
 import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReq } from '../makeGQReq'
-import { defAdminEmail, defAdminPassword, extractErrObjFromResp, seedInitDataInDatabase } from '../utils/common'
+import { extractErrObjFromResp, seedInitDataInDatabase } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../../src/features/test/queries'
 import { seedTestData } from '../utils/seedTestData'
 
 describe.skip('Create parcel box type (e2e)', () => {
 	let app: INestApplication<App>
+	let commandBus: CommandBus
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
 	let userQueryRepository: UserQueryRepository
@@ -35,6 +37,7 @@ describe.skip('Create parcel box type (e2e)', () => {
 		const createMainAppRes = await createApp({ emailAdapter })
 
 		app = createMainAppRes.app
+		commandBus = app.get(CommandBus)
 		emailAdapter = createMainAppRes.emailAdapter
 		userRepository = await app.resolve(UserRepository)
 		userQueryRepository = await app.resolve(UserQueryRepository)
@@ -49,13 +52,7 @@ describe.skip('Create parcel box type (e2e)', () => {
 	beforeEach(async () => {
 		await clearAllDB(app)
 		await seedInitDataInDatabase(app)
-		await seedTestData({
-			app,
-			userRepository,
-			parcelBoxRepository,
-			cellRepository,
-			parcelBoxTypeRepository,
-		})
+		await seedTestData(commandBus)
 		jest.clearAllMocks()
 	})
 
@@ -90,8 +87,9 @@ describe.skip('Create parcel box type (e2e)', () => {
 
 		const respData = createParcelBoxTypeResp.data[RouteNames.PARCEL_BOX_TYPE.CREATE]
 		expect(respData).toStrictEqual({
-			id: 1,
+			id: expect.any(Number),
 			name: 'universal box',
+			cellTypes: [],
 		})
 
 		// Check if there is a new parcel box in the database
