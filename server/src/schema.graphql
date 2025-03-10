@@ -158,6 +158,9 @@ type Mutation {
   	**Тип посыльного ящика не создан.** — parcel box couldn't create for some reason.
   """
   parcelBox_create(input: CreateParcelBoxInput!): ParcelBoxOutModel!
+
+  """Delete parcel box."""
+  parcelBox_delete(input: DeleteParcelBoxInput!): Boolean!
 }
 
 input RegisterAdminInput {
@@ -213,8 +216,13 @@ input CreateCellTypeInput {
 
 input CreateParcelBoxInput {
   """Parcel box type id"""
-  parcelBoxTypeId: Float!
+  parcelBoxTypeId: Int!
 
   """User id who belongs to this parcel box"""
-  userId: Float!
+  userId: Int!
+}
+
+input DeleteParcelBoxInput {
+  """Parcel box id"""
+  parcelBoxId: Int!
 }

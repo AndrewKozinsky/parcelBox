@@ -18,6 +18,7 @@ export const RouteNames = {
 	PARCEL_BOX: {
 		CREATE: 'parcelBox_create',
 		GET_MINE: 'parcelBox_getMine',
+		DELETE: 'parcelBox_delete',
 	},
 	INIT_DATA: {
 		SEED: 'initData/seed',

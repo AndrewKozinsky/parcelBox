@@ -49,10 +49,10 @@ input CreateCellTypeInput {
 
 input CreateParcelBoxInput {
   """Parcel box type id"""
-  parcelBoxTypeId: Float!
+  parcelBoxTypeId: Int!
 
   """User id who belongs to this parcel box"""
-  userId: Float!
+  userId: Int!
 }
 
 input CreateParcelBoxTypeInput {
@@ -64,6 +64,11 @@ input CreateParcelBoxTypeInput {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+input DeleteParcelBoxInput {
+  """Parcel box id"""
+  parcelBoxId: Int!
+}
 
 type LocationOutModel {
   address: String!
@@ -144,6 +149,9 @@ type Mutation {
   	**Тип посыльного ящика не создан.** — parcel box couldn't create for some reason.
   """
   parcelBox_create(input: CreateParcelBoxInput!): ParcelBoxOutModel!
+
+  """Delete parcel box."""
+  parcelBox_delete(input: DeleteParcelBoxInput!): Boolean!
 }
 
 type ParcelBoxOutModel {

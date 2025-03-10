@@ -52,6 +52,29 @@ export class ParcelBoxRepository {
 		return parcelBoxes.map(this.mapDbParcelBoxTypeToServiceParcelBoxType)
 	}
 
+	@CatchDbError()
+	async deleteParcelBox(parcelBoxId: number) {
+		await this.prisma.cell.deleteMany({
+			where: {
+				parcel_box_id: parcelBoxId,
+			},
+		})
+
+		await this.prisma.location.deleteMany({
+			where: {
+				parcel_box_id: parcelBoxId,
+			},
+		})
+
+		await this.prisma.parcelBox.delete({
+			where: {
+				id: parcelBoxId,
+			},
+		})
+
+		return true
+	}
+
 	mapDbParcelBoxTypeToServiceParcelBoxType(parcelBox: ParcelBoxFullDataPrisma): ParcelBoxServiceModel {
 		return {
 			id: parcelBox.id,

@@ -53,6 +53,10 @@ export interface CreateParcelBoxInput {
     userId: number;
 }
 
+export interface DeleteParcelBoxInput {
+    parcelBoxId: number;
+}
+
 export interface AdminOutModel {
     id: number;
     email: string;
@@ -128,6 +132,7 @@ export interface IMutation {
     parcelBoxType_create(input: CreateParcelBoxTypeInput): ParcelBoxTypeOutModel | Promise<ParcelBoxTypeOutModel>;
     cellType_create(input: CreateCellTypeInput): CellTypeOutModel | Promise<CellTypeOutModel>;
     parcelBox_create(input: CreateParcelBoxInput): ParcelBoxOutModel | Promise<ParcelBoxOutModel>;
+    parcelBox_delete(input: DeleteParcelBoxInput): boolean | Promise<boolean>;
 }
 
 export type DateTime = any;

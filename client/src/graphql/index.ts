@@ -68,14 +68,19 @@ export type CreateCellTypeInput = {
 
 export type CreateParcelBoxInput = {
 	/** Parcel box type id */
-	parcelBoxTypeId: Scalars['Float']['input']
+	parcelBoxTypeId: Scalars['Int']['input']
 	/** User id who belongs to this parcel box */
-	userId: Scalars['Float']['input']
+	userId: Scalars['Int']['input']
 }
 
 export type CreateParcelBoxTypeInput = {
 	/** Parcel box type name */
 	name: Scalars['String']['input']
+}
+
+export type DeleteParcelBoxInput = {
+	/** Parcel box id */
+	parcelBoxId: Scalars['Int']['input']
 }
 
 export type LocationOutModel = {
@@ -150,6 +155,8 @@ export type Mutation = {
 	 * 	**Тип посыльного ящика не создан.** — parcel box couldn't create for some reason.
 	 */
 	parcelBox_create: ParcelBoxOutModel
+	/** Delete parcel box. */
+	parcelBox_delete: Scalars['Boolean']['output']
 }
 
 export type MutationAuth_LoginArgs = {
@@ -178,6 +185,10 @@ export type MutationParcelBoxType_CreateArgs = {
 
 export type MutationParcelBox_CreateArgs = {
 	input: CreateParcelBoxInput
+}
+
+export type MutationParcelBox_DeleteArgs = {
+	input: DeleteParcelBoxInput
 }
 
 export type ParcelBoxOutModel = {
@@ -252,6 +263,12 @@ export enum User_Role {
 	Admin = 'admin',
 	Sender = 'sender',
 }
+
+export type ParcelBoxDeleteVariables = Exact<{
+	input: DeleteParcelBoxInput
+}>
+
+export type ParcelBoxDelete = { __typename?: 'Mutation'; parcelBox_delete: boolean }
 
 export type ParcelBoxGetMineVariables = Exact<{ [key: string]: never }>
 
@@ -371,6 +388,39 @@ export type AuthResendConfirmationEmailVariables = Exact<{
 
 export type AuthResendConfirmationEmail = { __typename?: 'Mutation'; auth_resendConfirmationEmail: boolean }
 
+export const ParcelBoxDeleteDocument = gql`
+	mutation ParcelBoxDelete($input: DeleteParcelBoxInput!) {
+		parcelBox_delete(input: $input)
+	}
+`
+export type ParcelBoxDeleteMutationFn = Apollo.MutationFunction<ParcelBoxDelete, ParcelBoxDeleteVariables>
+
+/**
+ * __useParcelBoxDelete__
+ *
+ * To run a mutation, you first call `useParcelBoxDelete` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useParcelBoxDelete` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [parcelBoxDelete, { data, loading, error }] = useParcelBoxDelete({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useParcelBoxDelete(
+	baseOptions?: Apollo.MutationHookOptions<ParcelBoxDelete, ParcelBoxDeleteVariables>,
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useMutation<ParcelBoxDelete, ParcelBoxDeleteVariables>(ParcelBoxDeleteDocument, options)
+}
+export type ParcelBoxDeleteHookResult = ReturnType<typeof useParcelBoxDelete>
+export type ParcelBoxDeleteMutationResult = Apollo.MutationResult<ParcelBoxDelete>
+export type ParcelBoxDeleteMutationOptions = Apollo.BaseMutationOptions<ParcelBoxDelete, ParcelBoxDeleteVariables>
 export const ParcelBoxGetMineDocument = gql`
 	query ParcelBoxGetMine {
 		parcelBox_getMine {

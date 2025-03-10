@@ -1,0 +1,3 @@
+mutation ParcelBoxDelete($input: DeleteParcelBoxInput!) {
+	parcelBox_delete(input: $input)
+}
