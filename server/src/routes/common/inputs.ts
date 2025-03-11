@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator'
 import { errorMessage } from '../../infrastructure/exceptions/errorMessage'
+import { ParcelBoxQueryRepository } from '../../repo/parcelBox.queryRepository'
 import { ParcelBoxTypeQueryRepository } from '../../repo/parcelBoxType.queryRepository'
 import { UserQueryRepository } from '../../repo/user.queryRepository'
 
@@ -29,6 +30,23 @@ export class ParcelBoxTypeIdValidation implements ValidatorConstraintInterface {
 
 	async validate(parcelBoxTypeId: number): Promise<boolean> {
 		const parcelBox = await this.parcelBoxTypeQueryRepository.getParcelBoxTypeById(parcelBoxTypeId)
+
+		return !!parcelBox
+	}
+
+	defaultMessage(args: ValidationArguments) {
+		return errorMessage.parcelBoxTypeDoesNotExist
+	}
+}
+
+// Check if the user with passed id exists in the database
+@ValidatorConstraint({ async: true })
+@Injectable()
+export class ParcelBoxIdValidation implements ValidatorConstraintInterface {
+	constructor(private parcelBoxQueryRepository: ParcelBoxQueryRepository) {}
+
+	async validate(parcelBoxTypeId: number): Promise<boolean> {
+		const parcelBox = await this.parcelBoxQueryRepository.getParcelBoxById(parcelBoxTypeId)
 
 		return !!parcelBox
 	}

@@ -14,13 +14,11 @@ import { useAddParcelBoxStore } from '../../addParcelBoxStore'
 import { FieldType } from './form'
 
 export function useGetOnCreateBoxFormSubmit(form: FormInstance) {
-	const adminUser = useUserStore((s) => s.adminUser)
-
 	const [createBoxRequest] = useParcelBoxCreate({ fetchPolicy: 'no-cache' })
 	const { refetch: refetchMyBoxes } = useParcelBoxGetMine()
 
 	return useCallback(async function (values: FieldType) {
-		const requestParams = { variables: { input: { userId: adminUser!.id, parcelBoxTypeId: 1 } } }
+		const requestParams = { variables: { input: { parcelBoxTypeId: 1 } } }
 
 		createBoxRequest(requestParams)
 			.then((data) => {

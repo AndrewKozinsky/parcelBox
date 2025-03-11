@@ -7,10 +7,9 @@ import { CellTypeRepository } from '../../repo/cellType.repository'
 import { LocationRepository } from '../../repo/location.repository'
 import { ParcelBoxQueryRepository } from '../../repo/parcelBox.queryRepository'
 import { ParcelBoxRepository } from '../../repo/parcelBox.repository'
-import { CreateParcelBoxInput } from '../../routes/parcelBox/inputs/createParcelBox.input'
 
 export class CreateParcelBoxCommand implements ICommand {
-	constructor(public createParcelBoxInput: CreateParcelBoxInput) {}
+	constructor(public createParcelBoxInput: { userId: number; parcelBoxTypeId: number }) {}
 }
 
 @CommandHandler(CreateParcelBoxCommand)

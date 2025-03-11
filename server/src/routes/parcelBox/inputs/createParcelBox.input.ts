@@ -10,9 +10,4 @@ export class CreateParcelBoxInput {
 	@DtoFieldDecorators('parcelBoxTypeId', bdConfig.ParcelBox.dbFields.parcel_box_type_id)
 	@Validate(ParcelBoxTypeIdValidation)
 	parcelBoxTypeId: number
-
-	@DtoFieldDecorators('parcelBoxTypeId', bdConfig.ParcelBox.dbFields.user_id)
-	@Field(() => Int, { description: 'User id who belongs to this parcel box' })
-	@Validate(UserIdValidation)
-	userId: number
 }

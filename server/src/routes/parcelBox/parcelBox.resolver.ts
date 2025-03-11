@@ -16,15 +16,19 @@ import { parcelBoxResolversDesc } from './resolverDescriptions'
 export class ParcelBoxResolver {
 	constructor(private commandBus: CommandBus) {}
 
-	// TODO ADD IT LATER!!!!
-	// @UseGuards(CheckAccessTokenGuard)
+	@UseGuards(CheckAccessTokenGuard)
 	@Mutation(() => ParcelBoxOutModel, {
 		name: RouteNames.PARCEL_BOX.CREATE,
 		description: parcelBoxResolversDesc.create,
 	})
 	@UsePipes(new ValidationPipe({ transform: true }))
-	async create(@Args('input') input: CreateParcelBoxInput): Promise<ParcelBoxOutModel> {
-		return await this.commandBus.execute(new CreateParcelBoxCommand(input))
+	async create(
+		@Context('req') request: Request,
+		@Args('input') input: CreateParcelBoxInput,
+	): Promise<ParcelBoxOutModel> {
+		return await this.commandBus.execute(
+			new CreateParcelBoxCommand({ userId: request.user!.id, parcelBoxTypeId: input.parcelBoxTypeId }),
+		)
 	}
 
 	@UseGuards(CheckAccessTokenGuard)

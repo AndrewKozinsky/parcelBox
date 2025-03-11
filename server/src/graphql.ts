@@ -50,7 +50,6 @@ export interface CreateCellTypeInput {
 
 export interface CreateParcelBoxInput {
     parcelBoxTypeId: number;
-    userId: number;
 }
 
 export interface DeleteParcelBoxInput {

@@ -50,9 +50,6 @@ input CreateCellTypeInput {
 input CreateParcelBoxInput {
   """Parcel box type id"""
   parcelBoxTypeId: Int!
-
-  """User id who belongs to this parcel box"""
-  userId: Int!
 }
 
 input CreateParcelBoxTypeInput {

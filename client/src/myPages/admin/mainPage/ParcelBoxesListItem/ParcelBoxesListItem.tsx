@@ -2,7 +2,6 @@ import React from 'react'
 import { Typography } from 'antd'
 import { ParcelBoxOutModel } from '../../../../graphql'
 import DeleteParcelBoxButton from '../DeleteParcelBoxButton/DeleteParcelBoxButton'
-import EditParcelBoxButton from '../EditParcelBoxButton/EditParcelBoxButton'
 import { convertNumArrToWeekDaysStr } from './fn/common'
 import './ParcelBoxesListItem.scss'
 
