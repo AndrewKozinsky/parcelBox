@@ -9,7 +9,7 @@ import { ParcelBoxQueryRepository } from '../../repo/parcelBox.queryRepository'
 import { ParcelBoxRepository } from '../../repo/parcelBox.repository'
 
 export class CreateParcelBoxCommand implements ICommand {
-	constructor(public createParcelBoxInput: { userId: number; parcelBoxTypeId: number }) {}
+	constructor(public createParcelBoxInput: { userId: number; parcelBoxTypeId: number; address?: string }) {}
 }
 
 @CommandHandler(CreateParcelBoxCommand)
@@ -49,7 +49,7 @@ export class CreateParcelBoxHandler implements ICommandHandler<CreateParcelBoxCo
 		const createLocation = this.locationRepository.createLocation({
 			businessHoursFrom: 8,
 			businessHoursTo: 18,
-			address: '',
+			address: createParcelBoxInput.address ?? '',
 			businessDays: [1, 2, 3, 4, 5],
 			parcelBoxId: createdBox.id,
 		})

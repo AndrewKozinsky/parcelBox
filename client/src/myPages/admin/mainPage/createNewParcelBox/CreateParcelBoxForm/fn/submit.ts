@@ -18,7 +18,7 @@ export function useGetOnCreateBoxFormSubmit(form: FormInstance) {
 	const { refetch: refetchMyBoxes } = useParcelBoxGetMine()
 
 	return useCallback(async function (values: FieldType) {
-		const requestParams = { variables: { input: { parcelBoxTypeId: 1 } } }
+		const requestParams = { variables: { input: { parcelBoxTypeId: 1, address: values.address } } }
 
 		createBoxRequest(requestParams)
 			.then((data) => {

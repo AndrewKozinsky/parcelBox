@@ -27,7 +27,11 @@ export class ParcelBoxResolver {
 		@Args('input') input: CreateParcelBoxInput,
 	): Promise<ParcelBoxOutModel> {
 		return await this.commandBus.execute(
-			new CreateParcelBoxCommand({ userId: request.user!.id, parcelBoxTypeId: input.parcelBoxTypeId }),
+			new CreateParcelBoxCommand({
+				userId: request.user!.id,
+				parcelBoxTypeId: input.parcelBoxTypeId,
+				address: input.address,
+			}),
 		)
 	}
 

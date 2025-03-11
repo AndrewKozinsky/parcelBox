@@ -50,6 +50,7 @@ export interface CreateCellTypeInput {
 
 export interface CreateParcelBoxInput {
     parcelBoxTypeId: number;
+    address?: Nullable<string>;
 }
 
 export interface DeleteParcelBoxInput {

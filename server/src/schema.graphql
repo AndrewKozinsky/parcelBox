@@ -217,6 +217,9 @@ input CreateCellTypeInput {
 input CreateParcelBoxInput {
   """Parcel box type id"""
   parcelBoxTypeId: Int!
+
+  """Parcel box address"""
+  address: String
 }
 
 input DeleteParcelBoxInput {
