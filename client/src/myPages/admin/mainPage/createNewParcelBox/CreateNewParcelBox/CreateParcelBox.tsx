@@ -1,14 +1,12 @@
-import { Button, Modal } from 'antd'
 import React from 'react'
-import { FormStatus } from '../../../../common/form'
+import { Button, Modal } from 'antd'
 import { useAddParcelBoxStore } from '../addParcelBoxStore'
 import CreateParcelBoxForm from '../CreateParcelBoxForm/CreateParcelBoxForm'
 import { useGetChangeModalVisibility } from './fn/modal'
 import './CreateParcelBoxButton.scss'
 
-function CreateParcelBoxButton() {
+function CreateParcelBox() {
 	const isModalOpen = useAddParcelBoxStore((s) => s.isModalOpen)
-	const formStatus = useAddParcelBoxStore((s) => s.formStatus)
 
 	const showModal = useGetChangeModalVisibility(true)
 	const closeModal = useGetChangeModalVisibility(false)
@@ -23,4 +21,4 @@ function CreateParcelBoxButton() {
 	)
 }
 
-export default CreateParcelBoxButton
+export default CreateParcelBox

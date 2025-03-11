@@ -1,14 +1,14 @@
 import React from 'react'
-import { Button, Checkbox, Form, Input, Space, InputNumber } from 'antd'
+import { Button, Checkbox, Form, Input, Space, InputNumber, Alert } from 'antd'
 import { formFieldRulers, FormStatus } from '../../../../common/form'
-import { addParcelBoxStoreInitial, useAddParcelBoxStore } from '../addParcelBoxStore'
+import { useAddParcelBoxStore } from '../addParcelBoxStore'
 import { AddParcelBoxFormTest, FieldType, FormNames, useGetOnChangeCreateBoxForm } from './fn/form'
 import { useGetOnCreateBoxFormSubmit } from './fn/submit'
 
 function CreateParcelBoxForm() {
 	const [form] = Form.useForm()
 
-	// const formStatus = useLoginPageStore((s) => s.formStatus)
+	const formStatus = useAddParcelBoxStore((s) => s.formStatus)
 
 	const onChangeLoginForm = useGetOnChangeCreateBoxForm(form)
 	const onFormSubmit = useGetOnCreateBoxFormSubmit(form)
@@ -20,14 +20,14 @@ function CreateParcelBoxForm() {
 			onFinish={onFormSubmit}
 			autoComplete='on'
 			layout='vertical'
-			// disabled={[AuthFormStatus.success, AuthFormStatus.submitPending].includes(formStatus)}
+			disabled={[FormStatus.success, FormStatus.submitPending].includes(formStatus)}
 			data-testid={AddParcelBoxFormTest.form.id}
 		>
 			<AddressField />
 			<BusinessDaysCheckboxes />
 			<WorkHoursFields />
 			<SubmitFormButton />
-			{/*<FormWasNotSentMessage />*/}
+			<FormWasNotSentMessage />
 		</Form>
 	)
 }
@@ -64,11 +64,11 @@ function WorkHoursFields() {
 	return (
 		<Form.Item label='Часы работы:'>
 			<Space>
-				<Form.Item<FieldType> name={FormNames.fromHour} style={{ margin: 0 }}>
-					<InputNumber data-testid={AddParcelBoxFormTest.fromHour.id} min={1} max={24} />
+				<Form.Item<FieldType> name={FormNames.businessHoursFrom} style={{ margin: 0 }}>
+					<InputNumber data-testid={AddParcelBoxFormTest.businessHoursFrom.id} min={1} max={24} />
 				</Form.Item>
-				<Form.Item<FieldType> name={FormNames.toHour} style={{ margin: 0 }}>
-					<InputNumber data-testid={AddParcelBoxFormTest.toHour.id} min={1} max={24} />
+				<Form.Item<FieldType> name={FormNames.businessHoursTo} style={{ margin: 0 }}>
+					<InputNumber data-testid={AddParcelBoxFormTest.businessHoursTo.id} min={1} max={24} />
 				</Form.Item>
 			</Space>
 		</Form.Item>
@@ -93,17 +93,20 @@ function SubmitFormButton() {
 	)
 }
 
-/*function FormWasNotSentMessage() {
-	const formStatus = addParcelBoxStoreInitial((s) => s.formStatus)
-	const formError = addParcelBoxStoreInitial((s) => s.formError)
+function FormWasNotSentMessage() {
+	const formStatus = useAddParcelBoxStore((s) => s.formStatus)
+	const formError = useAddParcelBoxStore((s) => s.formError)
 
-	if (formStatus !== AuthFormStatus.failure) {
+	if (formStatus !== FormStatus.failure) {
 		return null
 	}
 
 	return (
-		<Form.Item>
-			<Alert message={formError} type='error' data-testid={AddParcelBoxFormTest.failMessage.id} />
-		</Form.Item>
+		<Alert
+			message={formError}
+			type='error'
+			data-testid={AddParcelBoxFormTest.failMessage.id}
+			style={{ marginTop: '2rem' }}
+		/>
 	)
-}*/
+}

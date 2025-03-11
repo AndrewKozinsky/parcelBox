@@ -1,12 +1,12 @@
 import React from 'react'
-import CreateParcelBoxButton from '../createNewParcelBox/CreateNewParcelBoxButton/CreateParcelBoxButton'
+import CreateParcelBox from '../createNewParcelBox/CreateNewParcelBox/CreateParcelBox'
 import ParcelBoxesList from '../ParcelBoxesList/ParcelBoxesList'
 
 function AdminMainPage() {
 	return (
 		<div>
 			<ParcelBoxesList />
-			<CreateParcelBoxButton />
+			<CreateParcelBox />
 		</div>
 	)
 }

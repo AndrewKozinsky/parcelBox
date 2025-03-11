@@ -5,14 +5,14 @@ export type AddParcelBoxStore = {
 	isModalOpen: boolean
 	isFormValid: boolean
 	formStatus: FormStatus
-	// formError: null | string
+	formError: null | string
 }
 
 export const addParcelBoxStoreInitial: AddParcelBoxStore = {
 	isModalOpen: false,
 	isFormValid: true,
 	formStatus: FormStatus.default,
-	// formError: null,
+	formError: null,
 }
 
 export const useAddParcelBoxStore = create<AddParcelBoxStore>()((set) => {
