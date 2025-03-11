@@ -9,7 +9,14 @@ import { ParcelBoxQueryRepository } from '../../repo/parcelBox.queryRepository'
 import { ParcelBoxRepository } from '../../repo/parcelBox.repository'
 
 export class CreateParcelBoxCommand implements ICommand {
-	constructor(public createParcelBoxInput: { userId: number; parcelBoxTypeId: number; address?: string }) {}
+	constructor(
+		public createParcelBoxInput: {
+			userId: number
+			parcelBoxTypeId: number
+			address?: string
+			businessDays?: number[]
+		},
+	) {}
 }
 
 @CommandHandler(CreateParcelBoxCommand)
@@ -50,7 +57,7 @@ export class CreateParcelBoxHandler implements ICommandHandler<CreateParcelBoxCo
 			businessHoursFrom: 8,
 			businessHoursTo: 18,
 			address: createParcelBoxInput.address ?? '',
-			businessDays: [1, 2, 3, 4, 5],
+			businessDays: createParcelBoxInput.businessDays ?? [],
 			parcelBoxId: createdBox.id,
 		})
 

@@ -51,6 +51,9 @@ input CreateParcelBoxInput {
   """Parcel box address"""
   address: String
 
+  """Business days of the place where parcel box is located"""
+  businessDays: [Int!]
+
   """Parcel box type id"""
   parcelBoxTypeId: Int!
 }

@@ -51,6 +51,7 @@ export interface CreateCellTypeInput {
 export interface CreateParcelBoxInput {
     parcelBoxTypeId: number;
     address?: Nullable<string>;
+    businessDays?: Nullable<number[]>;
 }
 
 export interface DeleteParcelBoxInput {

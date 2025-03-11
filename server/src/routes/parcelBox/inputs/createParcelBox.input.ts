@@ -13,4 +13,7 @@ export class CreateParcelBoxInput {
 
 	@Field(() => String, { description: 'Parcel box address', nullable: true })
 	address: string
+
+	@Field(() => [Int], { description: 'Business days of the place where parcel box is located', nullable: true })
+	businessDays: number[]
 }

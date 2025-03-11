@@ -69,6 +69,8 @@ export type CreateCellTypeInput = {
 export type CreateParcelBoxInput = {
   /** Parcel box address */
   address: InputMaybe<Scalars['String']['input']>;
+  /** Business days of the place where parcel box is located */
+  businessDays: InputMaybe<Array<Scalars['Int']['input']>>;
   /** Parcel box type id */
   parcelBoxTypeId: Scalars['Int']['input'];
 };

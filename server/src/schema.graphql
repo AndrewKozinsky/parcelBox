@@ -220,6 +220,9 @@ input CreateParcelBoxInput {
 
   """Parcel box address"""
   address: String
+
+  """Business days of the place where parcel box is located"""
+  businessDays: [Int!]
 }
 
 input DeleteParcelBoxInput {

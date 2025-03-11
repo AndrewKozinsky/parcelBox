@@ -13,13 +13,13 @@ export const AddParcelBoxFormTest = {
 
 export type FieldType = {
 	[FormNames.address]: string
-	[FormNames.workDays]: string
+	[FormNames.businessDays]: number[]
 	[FormNames.fromHour]: string
 	[FormNames.toHour]: string
 }
 export enum FormNames {
 	address = 'address',
-	workDays = 'workDays',
+	businessDays = 'businessDays',
 	fromHour = 'fromHour',
 	toHour = 'toHour',
 }

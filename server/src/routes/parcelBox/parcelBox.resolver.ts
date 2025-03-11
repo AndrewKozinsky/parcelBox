@@ -31,6 +31,7 @@ export class ParcelBoxResolver {
 				userId: request.user!.id,
 				parcelBoxTypeId: input.parcelBoxTypeId,
 				address: input.address,
+				businessDays: input.businessDays,
 			}),
 		)
 	}
