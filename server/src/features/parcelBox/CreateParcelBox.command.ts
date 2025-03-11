@@ -15,8 +15,8 @@ export class CreateParcelBoxCommand implements ICommand {
 			parcelBoxTypeId: number
 			address?: string
 			businessDays?: number[]
-			businessHoursFrom?: number
-			businessHoursTo?: number
+			businessTimeFrom?: string
+			businessTimeTo?: string
 		},
 	) {}
 }
@@ -56,8 +56,8 @@ export class CreateParcelBoxHandler implements ICommandHandler<CreateParcelBoxCo
 		})
 
 		const createLocation = this.locationRepository.createLocation({
-			businessHoursFrom: createParcelBoxInput.businessHoursFrom,
-			businessHoursTo: createParcelBoxInput.businessHoursTo,
+			businessTimeFrom: createParcelBoxInput.businessTimeFrom,
+			businessTimeTo: createParcelBoxInput.businessTimeTo,
 			address: createParcelBoxInput.address,
 			businessDays: createParcelBoxInput.businessDays,
 			parcelBoxId: createdBox.id,

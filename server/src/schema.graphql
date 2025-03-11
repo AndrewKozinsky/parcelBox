@@ -48,8 +48,8 @@ type LocationOutModel {
   id: Int!
   address: String
   businessDays: [Int!]
-  businessHoursFrom: Int
-  businessHoursTo: Int
+  businessTimeFrom: String
+  businessTimeTo: String
 }
 
 type ParcelBoxOutModel {
@@ -228,10 +228,10 @@ input CreateParcelBoxInput {
   businessDays: [Int!]
 
   """Working hours from"""
-  businessHoursFrom: Int
+  businessTimeFrom: String
 
   """Working hours to"""
-  businessHoursTo: Int
+  businessTimeTo: String
 }
 
 input DeleteParcelBoxInput {

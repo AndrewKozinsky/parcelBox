@@ -187,8 +187,8 @@ export const queries = {
 					id
 					address
 					businessDays
-					businessHoursFrom
-					businessHoursTo
+					businessTimeFrom
+					businessTimeTo
 				}
 			  }
 			}`
@@ -213,8 +213,8 @@ export const queries = {
 					id
 					address
 					businessDays
-					businessHoursFrom
-					businessHoursTo
+					businessTimeFrom
+					businessTimeTo
 				}
 			  }
 			}`

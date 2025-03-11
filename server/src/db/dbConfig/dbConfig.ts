@@ -323,17 +323,13 @@ export const bdConfig = {
 				example: 'Orenburg, Karpova 8 st.',
 				required: false,
 			},
-			business_hours_from: {
-				type: 'number',
-				min: 1,
-				max: 24,
+			business_time_from: {
+				type: 'timeString',
 				description: 'What time parcel box is opened',
 				required: false,
 			},
-			business_hours_to: {
-				type: 'number',
-				min: 1,
-				max: 24,
+			business_time_to: {
+				type: 'timeString',
 				description: 'What time parcel box is opened',
 				required: false,
 			},

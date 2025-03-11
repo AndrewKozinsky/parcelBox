@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { useCallback } from 'react'
 import { FormInstance } from 'antd'
 import { useParcelBoxCreate, useParcelBoxGetMine } from '../../../../../../graphql'
@@ -10,14 +11,26 @@ export function useGetOnCreateBoxFormSubmit(form: FormInstance) {
 	const { refetch: refetchMyBoxes } = useParcelBoxGetMine()
 
 	return useCallback(async function (values: FieldType) {
+		let timeFrom: null | string = dayjs(values.businessTimeFrom).format('HH:mm')
+		let timeTo: null | string = dayjs(values.businessTimeTo).format('HH:mm')
+
+		// If the user didn't choose any value time field set the current time.
+		// To prevent this behavior I manually set null if the field time is equal to the current time.
+		if (timeFrom == dayjs().format('HH:mm')) {
+			timeFrom = null
+		}
+		if (timeTo == dayjs().format('HH:mm')) {
+			timeTo = null
+		}
+
 		const requestParams = {
 			variables: {
 				input: {
 					parcelBoxTypeId: values.parcelBoxTypeId,
 					address: values.address,
 					businessDays: values.businessDays,
-					businessHoursFrom: parseInt(values.businessHoursFrom),
-					businessHoursTo: parseInt(values.businessHoursTo),
+					businessTimeFrom: timeFrom,
+					businessTimeTo: timeTo,
 				},
 			},
 		}

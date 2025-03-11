@@ -11,6 +11,7 @@ export namespace BdConfig {
 		| IndexField
 		| StringField
 		| DateStringField
+		| TimeStringField
 		| BooleanField
 		| EmailField
 		| NumberField
@@ -48,7 +49,22 @@ export namespace BdConfig {
 		type: 'dateString'
 
 		// Default value
-		default?: string | number | boolean
+		default?: string
+		// Is the field required? True by default
+		required: boolean
+		// Is the field value must be unique?
+		unique?: boolean
+		// Field description
+		description?: string
+		// Field example value
+		example?: string
+	}
+
+	export type TimeStringField = {
+		type: 'timeString'
+
+		// Default value
+		default?: string
 		// Is the field required? True by default
 		required: boolean
 		// Is the field value must be unique?

@@ -52,8 +52,8 @@ export const parcelBoxUtils = {
 				id: expect.any(Number),
 				address: expect.any(String),
 				businessDays: expect.arrayContaining([expect.any(Number)]),
-				businessHoursFrom: expect.any(Number),
-				businessHoursTo: expect.any(Number),
+				businessTimeFrom: expect.any(String),
+				businessTimeTo: expect.any(String),
 			}),
 		})
 	},

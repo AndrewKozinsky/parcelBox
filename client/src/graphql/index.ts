@@ -72,9 +72,9 @@ export type CreateParcelBoxInput = {
 	/** Business days of the place where parcel box is located */
 	businessDays: InputMaybe<Array<Scalars['Int']['input']>>
 	/** Working hours from */
-	businessHoursFrom: InputMaybe<Scalars['Int']['input']>
+	businessTimeFrom: InputMaybe<Scalars['String']['input']>
 	/** Working hours to */
-	businessHoursTo: InputMaybe<Scalars['Int']['input']>
+	businessTimeTo: InputMaybe<Scalars['String']['input']>
 	/** Parcel box type id */
 	parcelBoxTypeId: Scalars['Int']['input']
 }
@@ -93,8 +93,8 @@ export type LocationOutModel = {
 	__typename?: 'LocationOutModel'
 	address: Maybe<Scalars['String']['output']>
 	businessDays: Maybe<Array<Scalars['Int']['output']>>
-	businessHoursFrom: Maybe<Scalars['Int']['output']>
-	businessHoursTo: Maybe<Scalars['Int']['output']>
+	businessTimeFrom: Maybe<Scalars['String']['output']>
+	businessTimeTo: Maybe<Scalars['String']['output']>
 	id: Scalars['Int']['output']
 }
 
@@ -299,8 +299,8 @@ export type ParcelBoxCreate = {
 			id: number
 			address: string | null
 			businessDays: Array<number> | null
-			businessHoursFrom: number | null
-			businessHoursTo: number | null
+			businessTimeFrom: string | null
+			businessTimeTo: string | null
 		}
 	}
 }
@@ -356,8 +356,8 @@ export type ParcelBoxGetMine = {
 			id: number
 			address: string | null
 			businessDays: Array<number> | null
-			businessHoursFrom: number | null
-			businessHoursTo: number | null
+			businessTimeFrom: string | null
+			businessTimeTo: string | null
 		}
 	}>
 }
@@ -469,8 +469,8 @@ export const ParcelBoxCreateDocument = gql`
 				id
 				address
 				businessDays
-				businessHoursFrom
-				businessHoursTo
+				businessTimeFrom
+				businessTimeTo
 			}
 		}
 	}
@@ -613,8 +613,8 @@ export const ParcelBoxGetMineDocument = gql`
 				id
 				address
 				businessDays
-				businessHoursFrom
-				businessHoursTo
+				businessTimeFrom
+				businessTimeTo
 			}
 		}
 	}

@@ -13,16 +13,16 @@ export class LocationRepository {
 		parcelBoxId: number
 		address?: string
 		businessDays?: number[]
-		businessHoursFrom?: number
-		businessHoursTo?: number
+		businessTimeFrom?: string
+		businessTimeTo?: string
 	}) {
 		const location = await this.prisma.location.create({
 			data: {
 				parcel_box_id: dto.parcelBoxId,
 				address: dto.address,
 				business_days: dto.businessDays,
-				business_hours_from: dto.businessHoursFrom,
-				business_hours_to: dto.businessHoursTo,
+				business_time_from: dto.businessTimeFrom,
+				business_time_to: dto.businessTimeTo,
 			},
 		})
 
@@ -35,8 +35,8 @@ export class LocationRepository {
 			parcelBoxId: location.parcel_box_id,
 			address: location.address,
 			businessDays: location.business_days,
-			businessHoursFrom: location.business_hours_from,
-			businessHoursTo: location.business_hours_to,
+			businessTimeFrom: location.business_time_from,
+			businessTimeTo: location.business_time_to,
 		}
 	}
 }

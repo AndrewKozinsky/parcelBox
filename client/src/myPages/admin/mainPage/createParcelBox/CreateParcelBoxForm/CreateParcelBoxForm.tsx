@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Checkbox, Form, Input, Space, InputNumber, Alert, Radio, Typography } from 'antd'
+import { Button, Checkbox, Form, Input, Space, InputNumber, Alert, Radio, Typography, TimePicker } from 'antd'
 import { useParcelBoxTypeGetAll } from '../../../../../graphql'
 import { formFieldRulers, FormStatus } from '../../../../common/form'
 import { useAddParcelBoxStore } from '../addParcelBoxStore'
@@ -30,7 +30,7 @@ function CreateParcelBoxForm() {
 		>
 			<AddressField />
 			<BusinessDaysCheckboxes />
-			<WorkHoursFields />
+			<WorkTimeFields />
 			<ParcelBoxTypeRadios />
 			<SubmitFormButton />
 			<FormWasNotSentMessage />
@@ -66,15 +66,31 @@ function BusinessDaysCheckboxes() {
 	)
 }
 
-function WorkHoursFields() {
+function WorkTimeFields() {
+	const format = 'HH:mm'
+
 	return (
 		<Form.Item label='Часы работы:'>
 			<Space>
-				<Form.Item<FieldType> name={FormNames.businessHoursFrom} style={{ margin: 0 }}>
-					<InputNumber data-testid={AddParcelBoxFormTest.businessHoursFrom.id} min={1} max={24} />
+				<Form.Item<FieldType> name={FormNames.businessTimeFrom} style={{ margin: 0 }}>
+					<TimePicker
+						format={format}
+						minuteStep={10}
+						needConfirm={false}
+						placeholder='Время начала'
+						showNow={false}
+						data-testid={AddParcelBoxFormTest.businessTimeFrom.id}
+					/>
 				</Form.Item>
-				<Form.Item<FieldType> name={FormNames.businessHoursTo} style={{ margin: 0 }}>
-					<InputNumber data-testid={AddParcelBoxFormTest.businessHoursTo.id} min={1} max={24} />
+				<Form.Item<FieldType> name={FormNames.businessTimeTo} style={{ margin: 0 }}>
+					<TimePicker
+						format={format}
+						minuteStep={10}
+						needConfirm={false}
+						placeholder='Время конца'
+						showNow={false}
+						data-testid={AddParcelBoxFormTest.businessTimeTo.id}
+					/>
 				</Form.Item>
 			</Space>
 		</Form.Item>

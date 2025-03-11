@@ -17,8 +17,8 @@ mutation ParcelBoxCreate($input: CreateParcelBoxInput!) {
 			id
 			address
 			businessDays
-			businessHoursFrom
-			businessHoursTo
+			businessTimeFrom
+			businessTimeTo
 		}
 	}
 }

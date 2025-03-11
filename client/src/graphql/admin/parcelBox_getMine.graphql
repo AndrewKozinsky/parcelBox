@@ -17,8 +17,8 @@ query ParcelBoxGetMine {
 			id
 			address
 			businessDays
-			businessHoursFrom
-			businessHoursTo
+			businessTimeFrom
+			businessTimeTo
 		}
 	}
 }

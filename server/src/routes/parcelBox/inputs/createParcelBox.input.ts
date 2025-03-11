@@ -19,11 +19,11 @@ export class CreateParcelBoxInput {
 	@DtoFieldDecorators('parcelBoxTypeId', bdConfig.Location.dbFields.business_days)
 	businessDays?: number[]
 
-	@Field(() => Int, { description: 'Working hours from', nullable: true })
-	@DtoFieldDecorators('parcelBoxTypeId', bdConfig.Location.dbFields.business_hours_from)
-	businessHoursFrom?: number
+	@Field(() => String, { description: 'Working hours from', nullable: true })
+	@DtoFieldDecorators('parcelBoxTypeId', bdConfig.Location.dbFields.business_time_from)
+	businessTimeFrom?: string
 
-	@Field(() => Int, { description: 'Working hours to', nullable: true })
-	@DtoFieldDecorators('parcelBoxTypeId', bdConfig.Location.dbFields.business_hours_to)
-	businessHoursTo?: number
+	@Field(() => String, { description: 'Working hours to', nullable: true })
+	@DtoFieldDecorators('parcelBoxTypeId', bdConfig.Location.dbFields.business_time_to)
+	businessTimeTo?: string
 }

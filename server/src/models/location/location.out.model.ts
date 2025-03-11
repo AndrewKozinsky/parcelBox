@@ -11,9 +11,9 @@ export class LocationOutModel {
 	@Field(() => [Int], { nullable: true })
 	businessDays?: null | number[]
 
-	@Field(() => Int, { nullable: true })
-	businessHoursFrom?: null | number
+	@Field(() => String, { nullable: true })
+	businessTimeFrom?: null | string
 
-	@Field(() => Int, { nullable: true })
-	businessHoursTo?: null | number
+	@Field(() => String, { nullable: true })
+	businessTimeTo?: null | string
 }

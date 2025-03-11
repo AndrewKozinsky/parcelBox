@@ -46,13 +46,13 @@ type CellProps = {
 }
 
 function BusinessHours(props: CellProps) {
-	const { businessHoursFrom, businessHoursTo } = props.data.location
+	const { businessTimeFrom, businessTimeTo } = props.data.location
 
 	let content = <Text disabled>Не указаны</Text>
 
-	if (businessHoursFrom || businessHoursTo) {
-		const fromHour = businessHoursFrom ? <Text>{businessHoursFrom}:00</Text> : <Text disabled>Не указано</Text>
-		const toHour = businessHoursTo ? <Text>{businessHoursTo}:00</Text> : <Text disabled>Не указано</Text>
+	if (businessTimeFrom || businessTimeTo) {
+		const fromHour = businessTimeFrom ? <Text>{businessTimeFrom}</Text> : <Text disabled>Не указано</Text>
+		const toHour = businessTimeTo ? <Text>{businessTimeTo}</Text> : <Text disabled>Не указано</Text>
 
 		content = (
 			<>

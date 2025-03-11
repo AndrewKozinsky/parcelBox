@@ -72,7 +72,13 @@ model ${tableName} {
 
 		if (field.type === 'index') {
 			columnsArr.push(`\t${dbFieldName}	Int	@id	@default(autoincrement())`)
-		} else if (['string', 'email', 'dateString'].includes(field.type)) {
+		} else if (field.type === 'string') {
+			columnsArr.push(`\t${dbFieldName}	String` + createColumnAttrs(field))
+		} else if (field.type === 'email') {
+			columnsArr.push(`\t${dbFieldName}	String` + createColumnAttrs(field))
+		} else if (field.type === 'dateString') {
+			columnsArr.push(`\t${dbFieldName}	String` + createColumnAttrs(field))
+		} else if (field.type === 'timeString') {
 			columnsArr.push(`\t${dbFieldName}	String` + createColumnAttrs(field))
 		} else if (field.type === 'boolean') {
 			columnsArr.push(`\t${dbFieldName}	Boolean` + createColumnAttrs(field))
