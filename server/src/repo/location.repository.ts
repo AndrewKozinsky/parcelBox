@@ -11,10 +11,10 @@ export class LocationRepository {
 	@CatchDbError()
 	async createLocation(dto: {
 		parcelBoxId: number
-		address: string
-		businessDays: number[]
-		businessHoursFrom: number
-		businessHoursTo: number
+		address?: string
+		businessDays?: number[]
+		businessHoursFrom?: number
+		businessHoursTo?: number
 	}) {
 		const location = await this.prisma.location.create({
 			data: {

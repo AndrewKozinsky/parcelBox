@@ -6,14 +6,14 @@ export class LocationOutModel {
 	id: number
 
 	@Field(() => String)
-	address: string
+	address: null | string
 
 	@Field(() => [Int])
-	businessDays: number[]
+	businessDays: null | number[]
 
 	@Field(() => Int)
-	businessHoursFrom: number
+	businessHoursFrom: null | number
 
 	@Field(() => Int)
-	businessHoursTo: number
+	businessHoursTo: null | number
 }

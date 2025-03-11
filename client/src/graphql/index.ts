@@ -71,6 +71,10 @@ export type CreateParcelBoxInput = {
   address: InputMaybe<Scalars['String']['input']>;
   /** Business days of the place where parcel box is located */
   businessDays: InputMaybe<Array<Scalars['Int']['input']>>;
+  /** Working hours from */
+  businessHoursFrom: InputMaybe<Scalars['Int']['input']>;
+  /** Working hours to */
+  businessHoursTo: InputMaybe<Scalars['Int']['input']>;
   /** Parcel box type id */
   parcelBoxTypeId: Scalars['Int']['input'];
 };

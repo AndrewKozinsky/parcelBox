@@ -52,6 +52,8 @@ export interface CreateParcelBoxInput {
     parcelBoxTypeId: number;
     address?: Nullable<string>;
     businessDays?: Nullable<number[]>;
+    businessHoursFrom?: Nullable<number>;
+    businessHoursTo?: Nullable<number>;
 }
 
 export interface DeleteParcelBoxInput {

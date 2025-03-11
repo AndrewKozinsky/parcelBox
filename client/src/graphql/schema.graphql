@@ -54,6 +54,12 @@ input CreateParcelBoxInput {
   """Business days of the place where parcel box is located"""
   businessDays: [Int!]
 
+  """Working hours from"""
+  businessHoursFrom: Int
+
+  """Working hours to"""
+  businessHoursTo: Int
+
   """Parcel box type id"""
   parcelBoxTypeId: Int!
 }

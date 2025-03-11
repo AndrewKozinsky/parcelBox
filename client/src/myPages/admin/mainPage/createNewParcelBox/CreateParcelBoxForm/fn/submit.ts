@@ -7,7 +7,6 @@ import { useUserStore } from '../../../../../../stores/userStore'
 import { FormStatus } from '../../../../../auth/common/fieldRules'
 import { useAddParcelBoxStore } from '../../addParcelBoxStore'
 // import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
-// import { useRouter } from 'next/navigation'
 // import { useUserStore } from '../../../../../stores/userStore'
 // import { routeNames } from '../../../../../utils/routeNames'
 // import { AuthFormStatus } from '../../../common/fieldRules'
@@ -19,7 +18,15 @@ export function useGetOnCreateBoxFormSubmit(form: FormInstance) {
 
 	return useCallback(async function (values: FieldType) {
 		const requestParams = {
-			variables: { input: { parcelBoxTypeId: 1, address: values.address, businessDays: values.businessDays } },
+			variables: {
+				input: {
+					parcelBoxTypeId: 1,
+					address: values.address,
+					businessDays: values.businessDays,
+					businessHoursFrom: parseInt(values.fromHour),
+					businessHoursTo: parseInt(values.toHour),
+				},
+			},
 		}
 
 		createBoxRequest(requestParams)

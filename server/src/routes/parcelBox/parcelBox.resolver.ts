@@ -29,9 +29,7 @@ export class ParcelBoxResolver {
 		return await this.commandBus.execute(
 			new CreateParcelBoxCommand({
 				userId: request.user!.id,
-				parcelBoxTypeId: input.parcelBoxTypeId,
-				address: input.address,
-				businessDays: input.businessDays,
+				...input,
 			}),
 		)
 	}

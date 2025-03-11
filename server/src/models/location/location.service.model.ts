@@ -1,8 +1,8 @@
 export type LocationServiceModel = {
 	id: number
 	parcelBoxId: number
-	address: string
+	address: null | string
 	businessDays: number[]
-	businessHoursFrom: number
-	businessHoursTo: number
+	businessHoursFrom: null | number
+	businessHoursTo: null | number
 }

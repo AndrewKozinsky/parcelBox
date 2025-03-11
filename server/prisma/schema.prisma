@@ -88,9 +88,9 @@ model Cell {
 
 model Location {
     id                  Int       @id @default(autoincrement())
-    address             String
-    business_hours_from Int
-    business_hours_to   Int
+    address             String?
+    business_hours_from Int?
+    business_hours_to   Int?
     business_days       Int[]
     parcel_box          ParcelBox @relation(fields: [parcel_box_id], references: [id])
     parcel_box_id       Int       @unique
