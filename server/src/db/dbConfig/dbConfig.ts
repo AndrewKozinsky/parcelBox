@@ -325,14 +325,14 @@ export const bdConfig = {
 			},
 			business_hours_from: {
 				type: 'number',
-				min: 0,
+				min: 1,
 				max: 24,
 				description: 'What time parcel box is opened',
 				required: false,
 			},
 			business_hours_to: {
 				type: 'number',
-				min: 0,
+				min: 1,
 				max: 24,
 				description: 'What time parcel box is opened',
 				required: false,

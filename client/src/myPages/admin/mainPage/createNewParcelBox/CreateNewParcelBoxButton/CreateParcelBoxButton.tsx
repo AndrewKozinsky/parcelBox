@@ -16,13 +16,7 @@ function CreateParcelBoxButton() {
 	return (
 		<div className='create-parcel-button-panel'>
 			<Button onClick={showModal}>Создать посыльный ящик</Button>
-			<Modal
-				title='Создание посыльного ящика'
-				open={isModalOpen}
-				// onOk={formSubmit}
-				confirmLoading={formStatus === FormStatus.submitPending}
-				onCancel={closeModal}
-			>
+			<Modal title='Создание посыльного ящика' open={isModalOpen} onCancel={closeModal} footer={null}>
 				<CreateParcelBoxForm />
 			</Modal>
 		</div>
