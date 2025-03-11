@@ -15,15 +15,15 @@ If you see a version then Node.js is installed on your machine.
 1. Run Docker Desktop.
 2. Run
 ```docker compose -f docker-compose.dev.yml up```
-3. Go to the server folder:
+3. Switch to another tab and move to the server folder:
 ```cd server```
 4. Apply migrations:
-```npm run migrate:dev```
+```yarn run migrate:dev```
 
 ### Starting the server
 1. In the server folder copy file .env.example and paste as .env. Provide missed data.
 2. Open next tab in the Terminal and choose the server folder. Then run the server:
-```npm run start:dev```
+```yarn run start:dev```
 
 ### Starting the client
 If you don't have Yarn installed on you computer install it with

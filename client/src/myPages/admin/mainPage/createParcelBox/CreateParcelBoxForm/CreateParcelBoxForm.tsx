@@ -89,7 +89,11 @@ function ParcelBoxTypeRadios() {
 	if (!data) return null
 
 	return (
-		<Form.Item<FieldType> label='Тип ящика:' name={FormNames.parcelBoxTypeId} rules={[{ required: true }]}>
+		<Form.Item<FieldType>
+			label='Тип ящика:'
+			name={FormNames.parcelBoxTypeId}
+			rules={[{ required: true, message: 'Укажите тип ящика' }]}
+		>
 			<Radio.Group data-testid={AddParcelBoxFormTest.parcelBoxTypeId.id}>
 				{data.parcelBoxType_getAll.map((boxType) => {
 					const cellSizesSummary = convertCellTypeToSummary(boxType.cellTypes)

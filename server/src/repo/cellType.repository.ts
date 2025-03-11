@@ -43,7 +43,6 @@ export class CellTypeRepository {
 				},
 			},
 		})
-		console.log(cellTypes)
 
 		return cellTypes.map(this.mapDbCellTypeToServiceCellType)
 	}
