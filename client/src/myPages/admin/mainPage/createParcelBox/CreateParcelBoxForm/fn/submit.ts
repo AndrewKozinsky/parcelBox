@@ -25,10 +25,10 @@ export function useGetOnCreateBoxFormSubmit(form: FormInstance) {
 		createBoxRequest(requestParams)
 			.then((data) => {
 				refetchMyBoxes()
-				useAddParcelBoxStore.setState({ formStatus: FormStatus.success, isModalOpen: false })
+				useAddParcelBoxStore.setState({ formStatus: FormStatus.default, isModalOpen: false })
+				form.resetFields()
 			})
 			.catch((error) => {
-				console.log(error.graphQLErrors[0].fields)
 				useAddParcelBoxStore.setState({ formStatus: FormStatus.failure, formError: error.message })
 
 				try {

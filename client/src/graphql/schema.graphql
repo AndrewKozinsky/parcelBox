@@ -80,10 +80,10 @@ input DeleteParcelBoxInput {
 }
 
 type LocationOutModel {
-  address: String!
-  businessDays: [Int!]!
-  businessHoursFrom: Int!
-  businessHoursTo: Int!
+  address: String
+  businessDays: [Int!]
+  businessHoursFrom: Int
+  businessHoursTo: Int
   id: Int!
 }
 
@@ -189,6 +189,9 @@ type Query {
 
   """Get current user data"""
   auth_getMe: AdminOrSender!
+
+  """Get all parcel box types."""
+  parcelBoxType_getAll: [ParcelBoxTypeOutModel!]!
 
   """Get all parcel box of the current user."""
   parcelBox_getMine: [ParcelBoxOutModel!]!

@@ -122,6 +122,7 @@ export interface ParcelBoxTypeOutModel {
 export interface IQuery {
     auth_confirmEmail(input: ConfirmEmailInput): boolean | Promise<boolean>;
     auth_getMe(): AdminOrSender | Promise<AdminOrSender>;
+    parcelBoxType_getAll(): ParcelBoxTypeOutModel[] | Promise<ParcelBoxTypeOutModel[]>;
     parcelBox_getMine(): ParcelBoxOutModel[] | Promise<ParcelBoxOutModel[]>;
 }
 

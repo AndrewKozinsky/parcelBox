@@ -24,6 +24,17 @@ export class ParcelBoxTypeQueryRepository {
 		return this.mapDbParcelBoxTypeToOutParcelBoxType(parcelBoxType)
 	}
 
+	@CatchDbError()
+	async getAllParcelBoxTypes() {
+		const parcelBoxTypes = await this.prisma.parcelBoxType.findMany({
+			include: {
+				CellType: true,
+			},
+		})
+
+		return parcelBoxTypes.map(this.mapDbParcelBoxTypeToOutParcelBoxType)
+	}
+
 	mapDbParcelBoxTypeToOutParcelBoxType(parcelBoxType: ParcelBoxTypeFullDataPrisma): ParcelBoxTypeOutModel {
 		return {
 			id: parcelBoxType.id,

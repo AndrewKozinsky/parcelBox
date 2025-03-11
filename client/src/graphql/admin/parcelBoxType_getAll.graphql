@@ -1,0 +1,14 @@
+query ParcelBoxTypeGetAll {
+	parcelBoxType_getAll {
+		id
+		name
+		cellTypes {
+			id
+			name
+			width
+			height
+			depth
+			parcelBoxTypeId
+		}
+	}
+}

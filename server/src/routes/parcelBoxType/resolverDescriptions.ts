@@ -5,4 +5,5 @@ export const parcelBoxTypeResolversDesc: Record<keyof typeof ParcelBoxTypeResolv
 	create: `Create parcel box type.
 	Possible errors:
 	**${errorMessage.parcelBoxTypeDidNotCreated}** — parcel box type couldn't create for some reason.`,
+	getAll: 'Get all parcel box types.',
 }

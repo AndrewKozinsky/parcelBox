@@ -126,6 +126,22 @@ export const queries = {
 			  }
 			}`
 		},
+		getAll() {
+			return `query {
+			  ${RouteNames.PARCEL_BOX_TYPE.GET_ALL} {
+				id
+				name
+				cellTypes {
+					id
+					name
+					width
+					height
+					depth
+					parcelBoxTypeId
+				}
+			  }
+			}`
+		},
 	},
 	cellType: {
 		create(props: { name: string; width: number; height: number; depth: number; parcelBoxTypeId: number }) {

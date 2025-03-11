@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 import { CqrsModule } from '@nestjs/cqrs'
 import { PrismaService } from '../../db/prisma.service'
 import { CreateParcelBoxTypeHandler } from '../../features/parcelBoxType/CreateParcelBoxType.command'
+import { GetAllParcelBoxTypesHandler } from '../../features/parcelBoxType/GetAllParcelBoxTypes.command'
 import { ParcelBoxTypeQueryRepository } from '../../repo/parcelBoxType.queryRepository'
 import { ParcelBoxTypeRepository } from '../../repo/parcelBoxType.repository'
 import { ParcelBoxTypeResolver } from './parcelBoxType.resolver'
@@ -10,7 +11,7 @@ const services = [PrismaService]
 
 const repositories = [ParcelBoxTypeRepository, ParcelBoxTypeQueryRepository]
 
-const commandHandlers = [CreateParcelBoxTypeHandler]
+const commandHandlers = [CreateParcelBoxTypeHandler, GetAllParcelBoxTypesHandler]
 
 const resolvers = [ParcelBoxTypeResolver]
 

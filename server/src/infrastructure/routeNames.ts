@@ -11,6 +11,7 @@ export const RouteNames = {
 	},
 	PARCEL_BOX_TYPE: {
 		CREATE: 'parcelBoxType_create',
+		GET_ALL: 'parcelBoxType_getAll',
 	},
 	CELL_TYPE: {
 		CREATE: 'cellType_create',

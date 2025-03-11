@@ -91,10 +91,10 @@ export type DeleteParcelBoxInput = {
 
 export type LocationOutModel = {
   __typename?: 'LocationOutModel';
-  address: Scalars['String']['output'];
-  businessDays: Array<Scalars['Int']['output']>;
-  businessHoursFrom: Scalars['Int']['output'];
-  businessHoursTo: Scalars['Int']['output'];
+  address: Maybe<Scalars['String']['output']>;
+  businessDays: Maybe<Array<Scalars['Int']['output']>>;
+  businessHoursFrom: Maybe<Scalars['Int']['output']>;
+  businessHoursTo: Maybe<Scalars['Int']['output']>;
   id: Scalars['Int']['output'];
 };
 
@@ -233,6 +233,8 @@ export type Query = {
   auth_confirmEmail: Scalars['Boolean']['output'];
   /** Get current user data */
   auth_getMe: AdminOrSender;
+  /** Get all parcel box types. */
+  parcelBoxType_getAll: Array<ParcelBoxTypeOutModel>;
   /** Get all parcel box of the current user. */
   parcelBox_getMine: Array<ParcelBoxOutModel>;
 };
@@ -284,7 +286,12 @@ export type ParcelBoxCreateVariables = Exact<{
 }>;
 
 
-export type ParcelBoxCreate = { __typename?: 'Mutation', parcelBox_create: { __typename?: 'ParcelBoxOutModel', id: number, parcelBoxTypeId: number, parcelBoxTypeName: string, createdAt: any, cells: Array<{ __typename?: 'CellOutModel', id: number, name: string, cellTypeId: number, parcelBoxId: number, width: number, height: number, depth: number }>, location: { __typename?: 'LocationOutModel', id: number, address: string, businessDays: Array<number>, businessHoursFrom: number, businessHoursTo: number } } };
+export type ParcelBoxCreate = { __typename?: 'Mutation', parcelBox_create: { __typename?: 'ParcelBoxOutModel', id: number, parcelBoxTypeId: number, parcelBoxTypeName: string, createdAt: any, cells: Array<{ __typename?: 'CellOutModel', id: number, name: string, cellTypeId: number, parcelBoxId: number, width: number, height: number, depth: number }>, location: { __typename?: 'LocationOutModel', id: number, address: string | null, businessDays: Array<number> | null, businessHoursFrom: number | null, businessHoursTo: number | null } } };
+
+export type ParcelBoxTypeGetAllVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ParcelBoxTypeGetAll = { __typename?: 'Query', parcelBoxType_getAll: Array<{ __typename?: 'ParcelBoxTypeOutModel', id: number, name: string, cellTypes: Array<{ __typename?: 'CellTypeOutModel', id: number, name: string, width: number, height: number, depth: number, parcelBoxTypeId: number }> }> };
 
 export type ParcelBoxDeleteVariables = Exact<{
   input: DeleteParcelBoxInput;
@@ -296,7 +303,7 @@ export type ParcelBoxDelete = { __typename?: 'Mutation', parcelBox_delete: boole
 export type ParcelBoxGetMineVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ParcelBoxGetMine = { __typename?: 'Query', parcelBox_getMine: Array<{ __typename?: 'ParcelBoxOutModel', id: number, parcelBoxTypeId: number, parcelBoxTypeName: string, createdAt: any, cells: Array<{ __typename?: 'CellOutModel', id: number, name: string, cellTypeId: number, parcelBoxId: number, width: number, height: number, depth: number }>, location: { __typename?: 'LocationOutModel', id: number, address: string, businessDays: Array<number>, businessHoursFrom: number, businessHoursTo: number } }> };
+export type ParcelBoxGetMine = { __typename?: 'Query', parcelBox_getMine: Array<{ __typename?: 'ParcelBoxOutModel', id: number, parcelBoxTypeId: number, parcelBoxTypeName: string, createdAt: any, cells: Array<{ __typename?: 'CellOutModel', id: number, name: string, cellTypeId: number, parcelBoxId: number, width: number, height: number, depth: number }>, location: { __typename?: 'LocationOutModel', id: number, address: string | null, businessDays: Array<number> | null, businessHoursFrom: number | null, businessHoursTo: number | null } }> };
 
 export type AuthConfirmEmailVariables = Exact<{
   input: ConfirmEmailInput;
@@ -401,6 +408,54 @@ export function useParcelBoxCreate(baseOptions?: Apollo.MutationHookOptions<Parc
 export type ParcelBoxCreateHookResult = ReturnType<typeof useParcelBoxCreate>;
 export type ParcelBoxCreateMutationResult = Apollo.MutationResult<ParcelBoxCreate>;
 export type ParcelBoxCreateMutationOptions = Apollo.BaseMutationOptions<ParcelBoxCreate, ParcelBoxCreateVariables>;
+export const ParcelBoxTypeGetAllDocument = gql`
+    query ParcelBoxTypeGetAll {
+  parcelBoxType_getAll {
+    id
+    name
+    cellTypes {
+      id
+      name
+      width
+      height
+      depth
+      parcelBoxTypeId
+    }
+  }
+}
+    `;
+
+/**
+ * __useParcelBoxTypeGetAll__
+ *
+ * To run a query within a React component, call `useParcelBoxTypeGetAll` and pass it any options that fit your needs.
+ * When your component renders, `useParcelBoxTypeGetAll` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useParcelBoxTypeGetAll({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useParcelBoxTypeGetAll(baseOptions?: Apollo.QueryHookOptions<ParcelBoxTypeGetAll, ParcelBoxTypeGetAllVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ParcelBoxTypeGetAll, ParcelBoxTypeGetAllVariables>(ParcelBoxTypeGetAllDocument, options);
+      }
+export function useParcelBoxTypeGetAllLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ParcelBoxTypeGetAll, ParcelBoxTypeGetAllVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ParcelBoxTypeGetAll, ParcelBoxTypeGetAllVariables>(ParcelBoxTypeGetAllDocument, options);
+        }
+export function useParcelBoxTypeGetAllSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ParcelBoxTypeGetAll, ParcelBoxTypeGetAllVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ParcelBoxTypeGetAll, ParcelBoxTypeGetAllVariables>(ParcelBoxTypeGetAllDocument, options);
+        }
+export type ParcelBoxTypeGetAllHookResult = ReturnType<typeof useParcelBoxTypeGetAll>;
+export type ParcelBoxTypeGetAllLazyQueryHookResult = ReturnType<typeof useParcelBoxTypeGetAllLazyQuery>;
+export type ParcelBoxTypeGetAllSuspenseQueryHookResult = ReturnType<typeof useParcelBoxTypeGetAllSuspenseQuery>;
+export type ParcelBoxTypeGetAllQueryResult = Apollo.QueryResult<ParcelBoxTypeGetAll, ParcelBoxTypeGetAllVariables>;
 export const ParcelBoxDeleteDocument = gql`
     mutation ParcelBoxDelete($input: DeleteParcelBoxInput!) {
   parcelBox_delete(input: $input)
