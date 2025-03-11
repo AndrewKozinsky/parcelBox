@@ -67,10 +67,10 @@ export class ParcelBoxQueryRepository {
 			}),
 			location: {
 				id: parcelBox?.Location?.id ?? 0,
-				address: parcelBox?.Location?.address ?? '',
-				businessDays: parcelBox?.Location?.business_days ?? [],
-				businessHoursFrom: parcelBox?.Location?.business_hours_from ?? 0,
-				businessHoursTo: parcelBox?.Location?.business_hours_to ?? 0,
+				address: parcelBox?.Location?.address,
+				businessDays: parcelBox?.Location?.business_days,
+				businessHoursFrom: parcelBox?.Location?.business_hours_from,
+				businessHoursTo: parcelBox?.Location?.business_hours_to,
 			},
 		}
 	}

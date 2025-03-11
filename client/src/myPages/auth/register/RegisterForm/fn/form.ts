@@ -1,7 +1,7 @@
 import { FormInstance } from 'antd'
 import { Rule } from 'antd/es/form'
 import { User_Role } from '../../../../../graphql'
-import { FormStatus } from '../../../common/fieldRules'
+import { FormStatus } from '../../../../common/form'
 import { useRegisterPageStore } from '../../registerPageStore'
 
 export const RegisterFormTest = {

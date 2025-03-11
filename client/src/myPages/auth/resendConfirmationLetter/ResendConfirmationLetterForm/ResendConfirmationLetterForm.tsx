@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Alert, Button, Form, Input } from 'antd'
-import { FormStatus, formEmailFieldRules } from '../../common/fieldRules'
+import { formFieldRulers, FormStatus } from '../../../common/form'
 import { useResendConfirmationEmailStore } from '../resendConfirmationLetterPageStore'
 import { FieldType, FormNames, RCLFormTest, useGetOnChangeResendConfirmationEmailForm } from './fn/form'
 import { useGetOnSubmit } from './fn/submit'
@@ -38,7 +38,7 @@ export default ResendConfirmationLetterForm
 
 function EmailField() {
 	return (
-		<Form.Item<FieldType> label='Почта' name={FormNames.email} rules={formEmailFieldRules}>
+		<Form.Item<FieldType> label='Почта' name={FormNames.email} rules={formFieldRulers.email}>
 			<Input autoComplete='email' data-testid={RCLFormTest.emailField.id} />
 		</Form.Item>
 	)

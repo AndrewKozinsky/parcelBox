@@ -1,6 +1,6 @@
 import { Button, Modal } from 'antd'
 import React from 'react'
-import { FormStatus } from '../../../../auth/common/fieldRules'
+import { FormStatus } from '../../../../common/form'
 import { useAddParcelBoxStore } from '../addParcelBoxStore'
 import CreateParcelBoxForm from '../CreateParcelBoxForm/CreateParcelBoxForm'
 import { useGetChangeModalVisibility } from './fn/modal'

@@ -5,15 +5,15 @@ export class LocationOutModel {
 	@Field(() => Int)
 	id: number
 
-	@Field(() => String)
-	address: null | string
+	@Field(() => String, { nullable: true })
+	address?: null | string
 
-	@Field(() => [Int])
-	businessDays: null | number[]
+	@Field(() => [Int], { nullable: true })
+	businessDays?: null | number[]
 
-	@Field(() => Int)
-	businessHoursFrom: null | number
+	@Field(() => Int, { nullable: true })
+	businessHoursFrom?: null | number
 
-	@Field(() => Int)
-	businessHoursTo: null | number
+	@Field(() => Int, { nullable: true })
+	businessHoursTo?: null | number
 }

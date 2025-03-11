@@ -1,5 +1,5 @@
-import { FormStatus } from '@/myPages/auth/common/fieldRules'
 import { FormInstance } from 'antd'
+import { FormStatus } from '../../../../../common/form'
 import { useAddParcelBoxStore } from '../../addParcelBoxStore'
 
 export const AddParcelBoxFormTest = {

@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import { Alert, Button, Form, Input, Radio, RadioChangeEvent } from 'antd'
 import Link from 'next/link'
 import { User_Role } from '../../../../graphql'
-import { FormStatus, formEmailFieldRules, formPasswordFieldRules } from '../../common/fieldRules'
-import { LoginFormTest } from '../../login/LoginForm/fn/form'
+import { formFieldRulers, FormStatus } from '../../../common/form'
 import { useRegisterPageStore } from '../registerPageStore'
 import {
 	FieldType,
@@ -82,7 +81,7 @@ function RoleRadios() {
 
 function EmailField() {
 	return (
-		<Form.Item<FieldType> label='Почта' name={FormNames.email} rules={formEmailFieldRules}>
+		<Form.Item<FieldType> label='Почта' name={FormNames.email} rules={formFieldRulers.email}>
 			<Input autoComplete='email' data-testid={RegisterFormTest.emailField.id} />
 		</Form.Item>
 	)
@@ -91,7 +90,7 @@ function EmailField() {
 function PasswordFields() {
 	return (
 		<>
-			<Form.Item<FieldType> label='Пароль' name={FormNames.password} rules={formPasswordFieldRules}>
+			<Form.Item<FieldType> label='Пароль' name={FormNames.password} rules={formFieldRulers.password}>
 				<Input.Password autoComplete='new-password' data-testid={RegisterFormTest.passwordField.id} />
 			</Form.Item>
 

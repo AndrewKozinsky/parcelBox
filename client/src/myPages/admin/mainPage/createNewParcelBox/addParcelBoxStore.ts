@@ -1,6 +1,5 @@
 import { create } from 'zustand'
-import { FormStatus } from '../../../auth/common/fieldRules'
-// import { AuthFormStatus } from '../common/fieldRules'
+import { FormStatus } from '../../../common/form'
 
 export type AddParcelBoxStore = {
 	isModalOpen: boolean

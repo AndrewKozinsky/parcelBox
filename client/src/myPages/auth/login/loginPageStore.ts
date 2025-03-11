@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { FormStatus } from '../common/fieldRules'
+import { FormStatus } from '../../common/form'
 
 export type LoginPageStore = {
 	isFormValid: boolean

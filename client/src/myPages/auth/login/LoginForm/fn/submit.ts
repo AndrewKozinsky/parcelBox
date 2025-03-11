@@ -6,7 +6,7 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.share
 import { useRouter } from 'next/navigation'
 import { useUserStore } from '../../../../../stores/userStore'
 import { routeNames } from '../../../../../utils/routeNames'
-import { FormStatus } from '../../../common/fieldRules'
+import { FormStatus } from '../../../../common/form'
 import { useLoginPageStore } from '../../loginPageStore'
 import { FieldType } from './form'
 

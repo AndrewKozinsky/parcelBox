@@ -1,7 +1,6 @@
 import React from 'react'
 import { Alert, Button, Form, Input } from 'antd'
-import { FormStatus, formEmailFieldRules, formPasswordFieldRules } from '../../common/fieldRules'
-import { RegisterFormTest } from '../../register/RegisterForm/fn/form'
+import { formFieldRulers, FormStatus } from '../../../common/form'
 import { useLoginPageStore } from '../loginPageStore'
 import { FieldType, FormNames, LoginFormTest, useGetOnChangeLoginForm } from './fn/form'
 import { useGetOnLoginFormSubmit } from './fn/submit'
@@ -36,7 +35,7 @@ export default LoginForm
 
 function EmailField() {
 	return (
-		<Form.Item<FieldType> label='Почта' name={FormNames.email} rules={formEmailFieldRules}>
+		<Form.Item<FieldType> label='Почта' name={FormNames.email} rules={formFieldRulers.email}>
 			<Input autoComplete='email' data-testid={LoginFormTest.emailField.id} />
 		</Form.Item>
 	)
@@ -45,7 +44,7 @@ function EmailField() {
 function PasswordField() {
 	return (
 		<>
-			<Form.Item<FieldType> label='Пароль' name={FormNames.password} rules={formPasswordFieldRules}>
+			<Form.Item<FieldType> label='Пароль' name={FormNames.password} rules={formFieldRulers.password}>
 				<Input.Password autoComplete='password' data-testid={LoginFormTest.passwordField.id} />
 			</Form.Item>
 		</>

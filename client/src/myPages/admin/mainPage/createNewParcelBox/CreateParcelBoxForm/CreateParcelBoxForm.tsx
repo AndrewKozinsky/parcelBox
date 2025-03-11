@@ -1,6 +1,6 @@
 import React from 'react'
-import { Alert, Button, Checkbox, Form, Input, Space } from 'antd'
-import { FormStatus } from '../../../../auth/common/fieldRules'
+import { Button, Checkbox, Form, Input, Space, InputNumber } from 'antd'
+import { FormStatus } from '../../../../common/form'
 import { addParcelBoxStoreInitial, useAddParcelBoxStore } from '../addParcelBoxStore'
 import { AddParcelBoxFormTest, FieldType, FormNames, useGetOnChangeCreateBoxForm } from './fn/form'
 import { useGetOnCreateBoxFormSubmit } from './fn/submit'
@@ -62,14 +62,16 @@ function BusinessDaysCheckboxes() {
 
 function WorkHoursFields() {
 	return (
-		<Space>
-			<Form.Item<FieldType> label='Часы работы помещения' name={FormNames.fromHour}>
-				<Input data-testid={AddParcelBoxFormTest.addressField.id} type='number' />
-			</Form.Item>
-			<Form.Item<FieldType> label=' ' name={FormNames.toHour}>
-				<Input data-testid={AddParcelBoxFormTest.addressField.id} type='number' />
-			</Form.Item>
-		</Space>
+		<Form.Item label='Часы работы помещения'>
+			<Space>
+				<Form.Item<FieldType> name={FormNames.fromHour}>
+					<InputNumber data-testid={AddParcelBoxFormTest.fromHour.id} min={1} max={24} />
+				</Form.Item>
+				<Form.Item<FieldType> name={FormNames.toHour}>
+					<InputNumber data-testid={AddParcelBoxFormTest.toHour.id} min={1} max={24} />
+				</Form.Item>
+			</Space>
+		</Form.Item>
 	)
 }
 

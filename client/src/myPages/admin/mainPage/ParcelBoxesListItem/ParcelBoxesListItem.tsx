@@ -26,12 +26,7 @@ function ParcelBoxListItem(props: ParcelBoxListItemProps) {
 				<Title level={5}>Дни работы</Title>
 				<Text>{businessDaysArr.join(', ')}</Text>
 			</div>
-			<div>
-				<Title level={5}>Часы работы</Title>
-				<Text>
-					{data.location.businessHoursFrom} — {data.location.businessHoursTo}
-				</Text>
-			</div>
+			<BusinessHours data={data} />
 			<div>
 				<Title level={5}>Тип</Title>
 				<Text>{data.parcelBoxTypeName}</Text>
@@ -45,3 +40,31 @@ function ParcelBoxListItem(props: ParcelBoxListItemProps) {
 }
 
 export default ParcelBoxListItem
+
+type CellProps = {
+	data: ParcelBoxOutModel
+}
+
+function BusinessHours(props: CellProps) {
+	const { businessHoursFrom, businessHoursTo } = props.data.location
+
+	let content = <Text disabled>Не указаны</Text>
+
+	if (businessHoursFrom || businessHoursTo) {
+		const fromHour = businessHoursFrom ? <Text>{businessHoursFrom}:00</Text> : <Text disabled>Не указано</Text>
+		const toHour = businessHoursTo ? <Text>{businessHoursTo}:00</Text> : <Text disabled>Не указано</Text>
+
+		content = (
+			<>
+				{fromHour} — {toHour}
+			</>
+		)
+	}
+
+	return (
+		<div>
+			<Title level={5}>Часы работы</Title>
+			{content}
+		</div>
+	)
+}

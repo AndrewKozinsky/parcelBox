@@ -46,10 +46,10 @@ type CellOutModel {
 
 type LocationOutModel {
   id: Int!
-  address: String!
-  businessDays: [Int!]!
-  businessHoursFrom: Int!
-  businessHoursTo: Int!
+  address: String
+  businessDays: [Int!]
+  businessHoursFrom: Int
+  businessHoursTo: Int
 }
 
 type ParcelBoxOutModel {

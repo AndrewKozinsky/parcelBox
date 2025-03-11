@@ -98,10 +98,10 @@ export interface CellOutModel {
 
 export interface LocationOutModel {
     id: number;
-    address: string;
-    businessDays: number[];
-    businessHoursFrom: number;
-    businessHoursTo: number;
+    address?: Nullable<string>;
+    businessDays?: Nullable<number[]>;
+    businessHoursFrom?: Nullable<number>;
+    businessHoursTo?: Nullable<number>;
 }
 
 export interface ParcelBoxOutModel {

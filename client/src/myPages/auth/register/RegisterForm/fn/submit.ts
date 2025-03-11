@@ -9,7 +9,7 @@ import {
 	User_Role,
 } from '../../../../../graphql'
 import { getEmailDomain } from '../../../../../utils/stringUtils'
-import { FormStatus } from '../../../common/fieldRules'
+import { FormStatus } from '../../../../common/form'
 import { useRegisterPageStore } from '../../registerPageStore'
 import { FieldType } from './form'
 

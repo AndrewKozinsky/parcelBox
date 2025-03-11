@@ -1,5 +1,5 @@
 import { FormInstance } from 'antd'
-import { FormStatus } from '../../../common/fieldRules'
+import { FormStatus } from '../../../../common/form'
 import { useResendConfirmationEmailStore } from '../../resendConfirmationLetterPageStore'
 
 export const RCLFormTest = {

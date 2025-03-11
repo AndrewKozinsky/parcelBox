@@ -1,15 +1,8 @@
 import { useCallback } from 'react'
-// import { AdminOutModel, AuthLogin, SenderOutModel, useAuthLogin, User_Role } from '@/graphql'
-// import { FetchResult } from '@apollo/client'
 import { FormInstance } from 'antd'
 import { useParcelBoxCreate, useParcelBoxGetMine } from '../../../../../../graphql'
-import { useUserStore } from '../../../../../../stores/userStore'
-import { FormStatus } from '../../../../../auth/common/fieldRules'
+import { FormStatus } from '../../../../../common/form'
 import { useAddParcelBoxStore } from '../../addParcelBoxStore'
-// import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
-// import { useUserStore } from '../../../../../stores/userStore'
-// import { routeNames } from '../../../../../utils/routeNames'
-// import { AuthFormStatus } from '../../../common/fieldRules'
 import { FieldType } from './form'
 
 export function useGetOnCreateBoxFormSubmit(form: FormInstance) {
