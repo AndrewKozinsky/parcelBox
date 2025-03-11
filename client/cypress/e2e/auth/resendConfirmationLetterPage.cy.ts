@@ -9,6 +9,7 @@ describe.skip('Resend confirmation letter page', () => {
 		server.clearDB()
 		server.seedInitData()
 		server.seedTestData()
+		cy.wait(100)
 
 		// Visit to the register page
 		cy.visit(routeNames.auth.resendConfirmationLetter.path)

@@ -8,6 +8,7 @@ describe.skip('Main page', () => {
 		server.clearDB()
 		server.seedInitData()
 		server.seedTestData()
+		cy.wait(100)
 	})
 
 	it('should redirect from main to login page if there is not logged in user', () => {

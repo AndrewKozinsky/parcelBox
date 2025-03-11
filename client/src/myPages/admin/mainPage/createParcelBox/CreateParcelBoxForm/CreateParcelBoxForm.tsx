@@ -1,13 +1,14 @@
-import { CheckboxGroupProps } from 'antd/es/checkbox'
 import React from 'react'
 import { Button, Checkbox, Form, Input, Space, InputNumber, Alert, Radio, Typography } from 'antd'
-import { useParcelBoxGetMine, useParcelBoxTypeGetAll } from '../../../../../graphql'
+import { useParcelBoxTypeGetAll } from '../../../../../graphql'
 import { formFieldRulers, FormStatus } from '../../../../common/form'
 import { useAddParcelBoxStore } from '../addParcelBoxStore'
+import { convertCellTypeToSummary } from './fn/fields'
 import { AddParcelBoxFormTest, FieldType, FormNames, useGetOnChangeCreateBoxForm } from './fn/form'
 import { useGetOnCreateBoxFormSubmit } from './fn/submit'
+import './CreateParcelBoxForm.scss'
 
-const { Text, Title } = Typography
+const { Text } = Typography
 
 function CreateParcelBoxForm() {
 	const [form] = Form.useForm()
@@ -91,10 +92,27 @@ function ParcelBoxTypeRadios() {
 		<Form.Item<FieldType> label='Тип ящика:' name={FormNames.parcelBoxTypeId} rules={[{ required: true }]}>
 			<Radio.Group data-testid={AddParcelBoxFormTest.parcelBoxTypeId.id}>
 				{data.parcelBoxType_getAll.map((boxType) => {
+					const cellSizesSummary = convertCellTypeToSummary(boxType.cellTypes)
+
 					return (
-						<Radio value={boxType.id} key={boxType.id}>
-							{boxType.name}
-						</Radio>
+						<React.Fragment key={boxType.id}>
+							<Radio value={boxType.id}>{boxType.name}</Radio>
+							<div className='create-parcel-box-form__type-cell-summary'>
+								<img
+									src={`/parcelBoxTypes/${boxType.name}.svg`}
+									className='create-parcel-box-form__type-cell-pic'
+									alt={boxType.name}
+								/>
+
+								{cellSizesSummary.map((itemStr, i) => {
+									return (
+										<p key={i}>
+											<Text>{itemStr}</Text>
+										</p>
+									)
+								})}
+							</div>
+						</React.Fragment>
 					)
 				})}
 			</Radio.Group>

@@ -9,6 +9,7 @@ describe('Admin boxes page', () => {
 		server.clearDB()
 		server.seedInitData()
 		server.seedTestData()
+		cy.wait(100)
 	})
 
 	it.only('should show error if email and password fields filled with wrong data', () => {

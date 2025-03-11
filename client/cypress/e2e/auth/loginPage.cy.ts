@@ -9,6 +9,7 @@ describe.skip('Login page', () => {
 		server.clearDB()
 		server.seedInitData()
 		server.seedTestData()
+		cy.wait(100)
 	})
 
 	it('should show error if email and password fields filled with wrong data', () => {
