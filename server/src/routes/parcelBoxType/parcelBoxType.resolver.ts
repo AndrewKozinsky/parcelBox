@@ -26,7 +26,7 @@ export class ParcelBoxTypeResolver {
 		description: parcelBoxTypeResolversDesc.getAll,
 	})
 	@UsePipes(new ValidationPipe({ transform: true }))
-	async getAll(): Promise<ParcelBoxTypeOutModel[]> {
+	async getAll() {
 		return await this.commandBus.execute(new GetAllParcelBoxTypesCommand())
 	}
 }

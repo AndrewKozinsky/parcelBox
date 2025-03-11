@@ -1,9 +1,13 @@
+import { CheckboxGroupProps } from 'antd/es/checkbox'
 import React from 'react'
-import { Button, Checkbox, Form, Input, Space, InputNumber, Alert } from 'antd'
+import { Button, Checkbox, Form, Input, Space, InputNumber, Alert, Radio, Typography } from 'antd'
+import { useParcelBoxGetMine, useParcelBoxTypeGetAll } from '../../../../../graphql'
 import { formFieldRulers, FormStatus } from '../../../../common/form'
 import { useAddParcelBoxStore } from '../addParcelBoxStore'
 import { AddParcelBoxFormTest, FieldType, FormNames, useGetOnChangeCreateBoxForm } from './fn/form'
 import { useGetOnCreateBoxFormSubmit } from './fn/submit'
+
+const { Text, Title } = Typography
 
 function CreateParcelBoxForm() {
 	const [form] = Form.useForm()
@@ -26,6 +30,7 @@ function CreateParcelBoxForm() {
 			<AddressField />
 			<BusinessDaysCheckboxes />
 			<WorkHoursFields />
+			<ParcelBoxTypeRadios />
 			<SubmitFormButton />
 			<FormWasNotSentMessage />
 		</Form>
@@ -71,6 +76,28 @@ function WorkHoursFields() {
 					<InputNumber data-testid={AddParcelBoxFormTest.businessHoursTo.id} min={1} max={24} />
 				</Form.Item>
 			</Space>
+		</Form.Item>
+	)
+}
+
+function ParcelBoxTypeRadios() {
+	const { loading, data, error } = useParcelBoxTypeGetAll()
+
+	if (loading) return null
+	if (error) return <Text>При загрузке типов посыльных ящиков произошла ошибка.</Text>
+	if (!data) return null
+
+	return (
+		<Form.Item<FieldType> label='Тип ящика:' name={FormNames.parcelBoxTypeId} rules={[{ required: true }]}>
+			<Radio.Group data-testid={AddParcelBoxFormTest.parcelBoxTypeId.id}>
+				{data.parcelBoxType_getAll.map((boxType) => {
+					return (
+						<Radio value={boxType.id} key={boxType.id}>
+							{boxType.name}
+						</Radio>
+					)
+				})}
+			</Radio.Group>
 		</Form.Item>
 	)
 }

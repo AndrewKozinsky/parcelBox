@@ -13,7 +13,7 @@ export function useGetOnCreateBoxFormSubmit(form: FormInstance) {
 		const requestParams = {
 			variables: {
 				input: {
-					parcelBoxTypeId: 1,
+					parcelBoxTypeId: values.parcelBoxTypeId,
 					address: values.address,
 					businessDays: values.businessDays,
 					businessHoursFrom: parseInt(values.businessHoursFrom),
