@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { join } from 'path'
+import { AddressAdapterModule } from './infrastructure/addressAdapter/address-adapter.module'
 import { BrowserModule } from './infrastructure/browserService/browser.module'
 import { CookieModule } from './infrastructure/cookieService/cookie.module'
 import { EmailAdapterModule } from './infrastructure/emailAdapter/email-adapter.module'
@@ -11,6 +12,7 @@ import { AuthModule } from './routes/auth/auth.module'
 import { MainConfigModule } from './infrastructure/config/mainConfig.module'
 import { MainConfigService } from './infrastructure/config/mainConfig.service'
 import { CellTypeModule } from './routes/cellType/cellType.module'
+import { HelperModule } from './routes/helper/helper.module'
 import { ParcelBoxModule } from './routes/parcelBox/parcelBox.module'
 import { ParcelBoxTypeModule } from './routes/parcelBoxType/parcelBoxType.module'
 import { InitDataModule } from './routes/initData/initData.module'
@@ -59,10 +61,12 @@ import { TestsModule } from './routes/test/tests.module'
 		ParcelBoxModule,
 		TestsModule,
 		EmailAdapterModule,
+		AddressAdapterModule,
 		BrowserModule,
 		CookieModule,
 		JwtAdapterModule,
 		InitDataModule,
+		HelperModule,
 	],
 	controllers: [],
 	providers: [MainConfigService],

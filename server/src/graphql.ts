@@ -17,6 +17,10 @@ export interface ConfirmEmailInput {
     code: string;
 }
 
+export interface GetAddressSuggestionsInput {
+    address: string;
+}
+
 export interface RegisterAdminInput {
     email: string;
     password: string;
@@ -124,6 +128,7 @@ export interface IQuery {
     auth_getMe(): AdminOrSender | Promise<AdminOrSender>;
     parcelBoxType_getAll(): ParcelBoxTypeOutModel[] | Promise<ParcelBoxTypeOutModel[]>;
     parcelBox_getMine(): ParcelBoxOutModel[] | Promise<ParcelBoxOutModel[]>;
+    helper_addressSuggestions(input: GetAddressSuggestionsInput): boolean | Promise<boolean>;
 }
 
 export interface IMutation {

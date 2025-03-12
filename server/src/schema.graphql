@@ -89,6 +89,9 @@ type Query {
 
   """Get all parcel box of the current user."""
   parcelBox_getMine: [ParcelBoxOutModel!]!
+
+  """Get address suggestions"""
+  helper_addressSuggestions(input: GetAddressSuggestionsInput!): Boolean!
 }
 
 input ConfirmEmailInput {
@@ -97,6 +100,11 @@ input ConfirmEmailInput {
 }
 
 union AdminOrSender = SenderOutModel | AdminOutModel
+
+input GetAddressSuggestionsInput {
+  """Address"""
+  address: String!
+}
 
 type Mutation {
   """

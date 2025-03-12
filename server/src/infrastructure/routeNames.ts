@@ -21,9 +21,14 @@ export const RouteNames = {
 		GET_MINE: 'parcelBox_getMine',
 		DELETE: 'parcelBox_delete',
 	},
+	HELPER: {
+		ADDRESS_SUGGESTIONS: 'helper_addressSuggestions',
+	},
+	// REST
 	INIT_DATA: {
 		SEED: 'initData/seed',
 	},
+	// REST
 	TESTING: {
 		ALL_DATA: 'testing/all-data',
 		SEED: 'testing/seed',

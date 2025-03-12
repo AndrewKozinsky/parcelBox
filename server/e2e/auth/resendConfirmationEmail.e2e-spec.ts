@@ -54,7 +54,6 @@ describe.skip('Confirm an user email (e2e)', () => {
 		await clearAllDB(app)
 		await seedInitDataInDatabase(app)
 		await seedTestData(commandBus)
-		jest.clearAllMocks()
 	})
 
 	afterEach(() => {

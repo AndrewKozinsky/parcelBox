@@ -310,7 +310,16 @@ export const bdConfig = {
 		},
 	},
 	Location: {
-		dtoProps: {},
+		dtoProps: {
+			addressQuery: {
+				type: 'string',
+				minLength: 5,
+				maxLength: 100,
+				description: 'Address string to get other addresses similar to it',
+				example: 'Orenburg, Karpova',
+				required: false,
+			},
+		},
 		dbFields: {
 			id: {
 				type: 'index',

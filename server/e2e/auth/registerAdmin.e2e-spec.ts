@@ -46,7 +46,6 @@ describe.skip('Register an administrator (e2e)', () => {
 		await clearAllDB(app)
 		await seedInitDataInDatabase(app)
 		await seedTestData(commandBus)
-		jest.clearAllMocks()
 	})
 
 	afterEach(() => {

@@ -39,6 +39,10 @@ export class MainConfigService {
 			jwt: {
 				secret: 'CpTxoVgztCSd',
 			},
+			daData: {
+				key: enVariables.daDataKey,
+				secretKey: enVariables.daDataSecretKey,
+			},
 		}
 	}
 
@@ -56,6 +60,8 @@ export class MainConfigService {
 			emailAdapterSecret: this.configService.get<string>('EMAIL_ADAPTER_SECRET') as string,
 			emailAdapterFromName: this.configService.get<string>('EMAIL_ADAPTER_FROM_NAME') as string,
 			emailAdapterFromEmail: this.configService.get<string>('EMAIL_ADAPTER_FROM_EMAIL') as string,
+			daDataKey: this.configService.get<string>('DADATA_KEY') as string,
+			daDataSecretKey: this.configService.get<string>('DADATA_SECRET_KEY') as string,
 		}
 
 		for (const key in enVariables) {

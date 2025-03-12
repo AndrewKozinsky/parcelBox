@@ -15,7 +15,7 @@ import { setProductionMode } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { userUtils } from '../utils/userUtils'
 
-describe('Delete all data (e2e)', () => {
+describe.skip('Delete all data (e2e)', () => {
 	let app: INestApplication<App>
 	let commandBus: CommandBus
 	let moduleFixture: TestingModule

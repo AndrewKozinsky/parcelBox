@@ -65,7 +65,6 @@ describe.skip('Get my parcel box (e2e)', () => {
 		await clearAllDB(app)
 		await seedInitDataInDatabase(app)
 		await seedTestData(commandBus)
-		jest.clearAllMocks()
 	})
 
 	afterEach(() => {
