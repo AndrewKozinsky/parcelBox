@@ -2,7 +2,7 @@ import { login } from '../utils/commands'
 import { server } from '../utils/server'
 import { usersConfig } from '../utils/users'
 
-describe.skip('Admin boxes page', () => {
+describe('Admin boxes page', () => {
 	beforeEach(() => {
 		server.clearDB()
 		server.seedInitData()

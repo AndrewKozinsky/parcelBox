@@ -1,3 +1,8 @@
+import { useApolloClient } from '@apollo/client'
+import { useCallback } from 'react'
+import { HelperAddressSuggestionsDocument, Query } from '../../../../../../graphql'
+import { AddParcelBoxStore, useAddParcelBoxStore } from '../../addParcelBoxStore'
+
 type CellDimensions = { width: number; height: number; depth: number }
 
 /**
@@ -33,4 +38,40 @@ export function convertCellTypeToSummary(cellTypes: CellDimensions[]) {
 	return summary.map((summaryItem) => {
 		return `${summaryItem.count} × (${summaryItem.width} × ${summaryItem.height} × ${summaryItem.depth})`
 	})
+}
+
+export function useGetOnAddressFieldSearch() {
+	const gqiClient = useApolloClient()
+
+	return useCallback(async function (userTypedAddress: string) {
+		if (userTypedAddress.length < 5) {
+			return
+		}
+
+		try {
+			const { data } = await gqiClient.query({
+				query: HelperAddressSuggestionsDocument,
+				fetchPolicy: 'no-cache',
+				variables: {
+					input: {
+						address: userTypedAddress,
+					},
+				},
+			})
+
+			const addressesFromServer = data['helper_addressSuggestions']
+
+			const addressSuggestions: AddParcelBoxStore['addressSuggestions'] = addressesFromServer.map(
+				(address: string) => {
+					return {
+						value: address,
+					}
+				},
+			)
+
+			useAddParcelBoxStore.setState({ addressSuggestions })
+		} catch (err: unknown) {
+			console.error(err)
+		}
+	}, [])
 }

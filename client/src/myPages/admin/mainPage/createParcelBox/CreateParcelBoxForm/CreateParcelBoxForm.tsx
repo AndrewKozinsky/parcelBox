@@ -1,9 +1,9 @@
 import React from 'react'
-import { Button, Checkbox, Form, Input, Space, InputNumber, Alert, Radio, Typography, TimePicker } from 'antd'
+import { Button, Checkbox, Form, Space, Alert, Radio, Typography, TimePicker, AutoComplete } from 'antd'
 import { useParcelBoxTypeGetAll } from '../../../../../graphql'
 import { formFieldRulers, FormStatus } from '../../../../common/form'
 import { useAddParcelBoxStore } from '../addParcelBoxStore'
-import { convertCellTypeToSummary } from './fn/fields'
+import { convertCellTypeToSummary, useGetOnAddressFieldSearch } from './fn/fields'
 import { AddParcelBoxFormTest, FieldType, FormNames, useGetOnChangeCreateBoxForm } from './fn/form'
 import { useGetOnCreateBoxFormSubmit } from './fn/submit'
 import './CreateParcelBoxForm.scss'
@@ -41,9 +41,12 @@ function CreateParcelBoxForm() {
 export default CreateParcelBoxForm
 
 function AddressField() {
+	const addressSuggestions = useAddParcelBoxStore((s) => s.addressSuggestions)
+	const onAddressFieldSearch = useGetOnAddressFieldSearch()
+
 	return (
 		<Form.Item<FieldType> label='Адрес:' name={FormNames.address} rules={formFieldRulers.address}>
-			<Input data-testid={AddParcelBoxFormTest.addressField.id} />
+			<AutoComplete options={addressSuggestions} onSearch={onAddressFieldSearch} />
 		</Form.Item>
 	)
 }

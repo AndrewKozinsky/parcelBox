@@ -6,6 +6,7 @@ export type AddParcelBoxStore = {
 	isFormValid: boolean
 	formStatus: FormStatus
 	formError: null | string
+	addressSuggestions: { value: string }[]
 }
 
 export const addParcelBoxStoreInitial: AddParcelBoxStore = {
@@ -13,6 +14,7 @@ export const addParcelBoxStoreInitial: AddParcelBoxStore = {
 	isFormValid: true,
 	formStatus: FormStatus.default,
 	formError: null,
+	addressSuggestions: [],
 }
 
 export const useAddParcelBoxStore = create<AddParcelBoxStore>()((set) => {
