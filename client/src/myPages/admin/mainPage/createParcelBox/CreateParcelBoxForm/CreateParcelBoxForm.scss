@@ -2,6 +2,15 @@
 
 }
 
+.create-parcel-box-form__work-time-wrapper {
+	display: flex;
+	justify-content: space-between;
+}
+.create-parcel-box-form__work-time-day-and-night-btn {
+	margin-top: 3rem;
+}
+
+
 .create-parcel-box-form__type-cell-summary {
 	margin: .2rem 0 1rem 2.5rem;
 }
@@ -12,3 +21,4 @@
 .create-parcel-box-form__type-cell-pic {
 	margin: .3rem 0;
 }
+

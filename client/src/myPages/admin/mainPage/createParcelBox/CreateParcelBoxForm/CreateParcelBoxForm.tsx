@@ -1,11 +1,14 @@
 import React from 'react'
-import { Button, Checkbox, Form, Space, Alert, Radio, Typography, TimePicker, AutoComplete } from 'antd'
+import { Button, Checkbox, Form, Space, Alert, Radio, Typography, TimePicker, AutoComplete, FormInstance } from 'antd'
 import { useParcelBoxTypeGetAll } from '../../../../../graphql'
 import { formFieldRulers, FormStatus } from '../../../../common/form'
 import { useAddParcelBoxStore } from '../addParcelBoxStore'
-import { convertCellTypeToSummary, useGetOnAddressFieldSearch } from './fn/fields'
+import { checkAllWorkFieldDaysOptions, useGetCheckAllWorkDaysBoxes } from './fn/businessDaysField'
+import { useGetOnAddressFieldSearch } from './fn/addressFields'
 import { AddParcelBoxFormTest, FieldType, FormNames, useGetOnChangeCreateBoxForm } from './fn/form'
+import { convertCellTypeToSummary } from './fn/parcelBoxField'
 import { useGetOnCreateBoxFormSubmit } from './fn/submit'
+import { useGetSetZerosToWorkTimeInput } from './fn/workTimeField'
 import './CreateParcelBoxForm.scss'
 
 const { Text } = Typography
@@ -29,8 +32,8 @@ function CreateParcelBoxForm() {
 			data-testid={AddParcelBoxFormTest.form.id}
 		>
 			<AddressField />
-			<BusinessDaysCheckboxes />
-			<WorkTimeFields />
+			<BusinessDaysCheckboxes form={form} />
+			<WorkTimeFields form={form} />
 			<ParcelBoxTypeRadios />
 			<SubmitFormButton />
 			<FormWasNotSentMessage />
@@ -51,52 +54,52 @@ function AddressField() {
 	)
 }
 
-function BusinessDaysCheckboxes() {
-	const options = [
-		{ label: 'Пн.', value: 1 },
-		{ label: 'Вт.', value: 2 },
-		{ label: 'Ср.', value: 3 },
-		{ label: 'Чт.', value: 4 },
-		{ label: 'Пт.', value: 5 },
-		{ label: 'Сб.', value: 6 },
-		{ label: 'Вс.', value: 7 },
-	]
+type BusinessDaysCheckboxesProps = {
+	form: FormInstance<FieldType>
+}
+
+function BusinessDaysCheckboxes(props: BusinessDaysCheckboxesProps) {
+	const { form } = props
+
+	const checkAllWorkDaysBoxes = useGetCheckAllWorkDaysBoxes(form)
 
 	return (
-		<Form.Item<FieldType> label='Дни работы:' name={FormNames.businessDays}>
-			<Checkbox.Group options={options} />
-		</Form.Item>
+		<Space>
+			<Form.Item<FieldType> label='Дни работы:' name={FormNames.businessDays}>
+				<Checkbox.Group options={checkAllWorkFieldDaysOptions} />
+			</Form.Item>
+			<Button size='small' onClick={checkAllWorkDaysBoxes}>
+				Каждый день
+			</Button>
+		</Space>
 	)
 }
 
-function WorkTimeFields() {
+type WorkTimeFieldsProps = {
+	form: FormInstance<FieldType>
+}
+
+function WorkTimeFields(props: WorkTimeFieldsProps) {
+	const { form } = props
+
 	const format = 'HH:mm'
+	const setZerosToWorkTimeInput = useGetSetZerosToWorkTimeInput(form)
 
 	return (
-		<Form.Item label='Часы работы:'>
-			<Space>
-				<Form.Item<FieldType> name={FormNames.businessTimeFrom} style={{ margin: 0 }}>
-					<TimePicker
-						format={format}
-						minuteStep={10}
-						needConfirm={false}
-						placeholder='Время начала'
-						showNow={false}
-						data-testid={AddParcelBoxFormTest.businessTimeFrom.id}
-					/>
-				</Form.Item>
-				<Form.Item<FieldType> name={FormNames.businessTimeTo} style={{ margin: 0 }}>
-					<TimePicker
-						format={format}
-						minuteStep={10}
-						needConfirm={false}
-						placeholder='Время конца'
-						showNow={false}
-						data-testid={AddParcelBoxFormTest.businessTimeTo.id}
-					/>
-				</Form.Item>
-			</Space>
-		</Form.Item>
+		<div className='create-parcel-box-form__work-time-wrapper'>
+			<Form.Item<FieldType> name={FormNames.businessTime} label='Часы работы:'>
+				<TimePicker.RangePicker
+					format={format}
+					minuteStep={10}
+					needConfirm={false}
+					showNow={false}
+					data-testid={AddParcelBoxFormTest.businessTime.id}
+				/>
+			</Form.Item>
+			<Button className='create-parcel-box-form__work-time-day-and-night-btn' onClick={setZerosToWorkTimeInput}>
+				Круглосуточно
+			</Button>
+		</div>
 	)
 }
 
