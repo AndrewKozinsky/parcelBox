@@ -223,8 +223,8 @@ export const queries = {
 	helper: {
 		getAddressSuggestions(address: string) {
 			return `query {
-			  ${RouteNames.HELPER.ADDRESS_SUGGESTIONS}(input: {
-				address: ${address}
+			  ${RouteNames.HELPER.ADDRESS_SUGGESTIONS} (input: {
+			  	address: "${address}"
 			  })
 			}`
 		},

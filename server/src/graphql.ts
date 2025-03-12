@@ -128,7 +128,7 @@ export interface IQuery {
     auth_getMe(): AdminOrSender | Promise<AdminOrSender>;
     parcelBoxType_getAll(): ParcelBoxTypeOutModel[] | Promise<ParcelBoxTypeOutModel[]>;
     parcelBox_getMine(): ParcelBoxOutModel[] | Promise<ParcelBoxOutModel[]>;
-    helper_addressSuggestions(input: GetAddressSuggestionsInput): boolean | Promise<boolean>;
+    helper_addressSuggestions(input: GetAddressSuggestionsInput): string[] | Promise<string[]>;
 }
 
 export interface IMutation {

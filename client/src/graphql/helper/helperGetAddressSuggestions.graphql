@@ -1,0 +1,3 @@
+query HelperAddressSuggestions($input: GetAddressSuggestionsInput!) {
+	helper_addressSuggestions(input: $input)
+}

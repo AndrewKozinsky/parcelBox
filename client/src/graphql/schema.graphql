@@ -79,6 +79,11 @@ input DeleteParcelBoxInput {
   parcelBoxId: Int!
 }
 
+input GetAddressSuggestionsInput {
+  """Address"""
+  address: String!
+}
+
 type LocationOutModel {
   address: String
   businessDays: [Int!]
@@ -189,6 +194,9 @@ type Query {
 
   """Get current user data"""
   auth_getMe: AdminOrSender!
+
+  """Get address suggestions"""
+  helper_addressSuggestions(input: GetAddressSuggestionsInput!): [String!]!
 
   """Get all parcel box types."""
   parcelBoxType_getAll: [ParcelBoxTypeOutModel!]!

@@ -317,7 +317,7 @@ export const bdConfig = {
 				maxLength: 100,
 				description: 'Address string to get other addresses similar to it',
 				example: 'Orenburg, Karpova',
-				required: false,
+				required: true,
 			},
 		},
 		dbFields: {

@@ -91,7 +91,7 @@ type Query {
   parcelBox_getMine: [ParcelBoxOutModel!]!
 
   """Get address suggestions"""
-  helper_addressSuggestions(input: GetAddressSuggestionsInput!): Boolean!
+  helper_addressSuggestions(input: GetAddressSuggestionsInput!): [String!]!
 }
 
 input ConfirmEmailInput {

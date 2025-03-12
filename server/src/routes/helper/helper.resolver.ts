@@ -10,14 +10,12 @@ import { helperResolversDesc } from './resolverDescriptions'
 export class HelperResolver {
 	constructor(private commandBus: CommandBus) {}
 
-	@Query(() => Boolean, {
+	@Query(() => [String], {
 		name: RouteNames.HELPER.ADDRESS_SUGGESTIONS,
 		description: helperResolversDesc.getAddressSuggestions,
 	})
 	@UsePipes(new ValidationPipe({ transform: true }))
 	async getAddressSuggestions(@Args('input') input: GetAddressSuggestionsInput) {
-		// const res = await this.commandBus.execute(new GetAddressSuggestionsCommand(input.address))
-		// console.log(res)
-		return true
+		return await this.commandBus.execute(new GetAddressSuggestionsCommand(input.address))
 	}
 }
