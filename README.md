@@ -23,7 +23,7 @@ If you see a version then Node.js is installed on your machine.
 ### Starting the server
 1. In the server folder copy file .env.example and paste as .env. Provide missed data.
 2. Open next tab in the Terminal and choose the server folder. Then run the server:
-```yarn run start:dev```
+```yarn run dev```
 
 ### Starting the client
 If you don't have Yarn installed on you computer install it with
@@ -32,7 +32,7 @@ If you don't have Yarn installed on you computer install it with
 1. Open next tab in Terminal and move to the client folder:
 ```cd client```
 2. Run the client server:
-```yarn run dev```
+```npm run dev```
 
 The client will be opened on http://localhost:3001.
 
@@ -52,12 +52,12 @@ The client will be opened on http://localhost:3001.
 ### Starting the server
 1. In the server folder copy file .env.example and paste as .env. Provide missed data.
 2. Open next tab in the Terminal and choose the server folder. Then run the server:
-   ```yarn run start:dev```
+   ```yarn run dev```
 
 ### Starting the client
 1. Open next tab in Terminal and move to the client folder:
    ```cd client```
 2. Run the client server:
-   ```yarn run dev```
+   ```npm run dev```
 
 The client will be opened on http://localhost:3001.

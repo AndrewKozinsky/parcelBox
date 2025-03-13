@@ -29,6 +29,7 @@ import { createApp } from '../utils/createMainApp'
 import { queries } from '../../src/features/test/queries'
 import { seedTestData } from '../utils/seedTestData'
 import { userUtils } from '../utils/userUtils'
+import '../utils/jestExtendFunctions'
 
 describe.skip('Get me (e2e)', () => {
 	let app: INestApplication<App>

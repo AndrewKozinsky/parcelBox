@@ -14,6 +14,7 @@ import { UserRepository } from '../../src/repo/user.repository'
 import { setProductionMode } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { userUtils } from '../utils/userUtils'
+import '../utils/jestExtendFunctions'
 
 describe.skip('Delete all data (e2e)', () => {
 	let app: INestApplication<App>

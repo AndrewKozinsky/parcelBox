@@ -17,11 +17,11 @@ import { seedInitDataInDatabase } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { seedTestDataConfig } from '../../src/features/test/seedTestDataConfig'
 import { seedTestData } from '../utils/seedTestData'
+import '../utils/jestExtendFunctions'
 
 describe.skip('Seed all data (e2e)', () => {
 	let app: INestApplication<App>
 	let commandBus: CommandBus
-	let moduleFixture: TestingModule
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
 	let userQueryRepository: UserQueryRepository
@@ -38,7 +38,6 @@ describe.skip('Seed all data (e2e)', () => {
 
 		app = createMainAppRes.app
 		commandBus = app.get(CommandBus)
-		moduleFixture = createMainAppRes.moduleFixture
 		emailAdapter = createMainAppRes.emailAdapter
 		userRepository = await app.resolve(UserRepository)
 		userQueryRepository = await app.resolve(UserQueryRepository)

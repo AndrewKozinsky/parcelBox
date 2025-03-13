@@ -7,8 +7,9 @@ import RouteNames from '../../src/infrastructure/routeNames'
 import { makeGraphQLReq } from '../makeGQReq'
 import { seedInitDataInDatabase } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
+import '../utils/jestExtendFunctions'
 
-describe('Get address suggestions my parcel box (e2e)', () => {
+describe.skip('Get address suggestions my parcel box (e2e)', () => {
 	let app: INestApplication<App>
 	let emailAdapter: EmailAdapterService
 

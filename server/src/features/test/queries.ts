@@ -164,11 +164,22 @@ export const queries = {
 		},
 	},
 	parcelBox: {
-		create(props: { parcelBoxTypeId: number; userId: number }) {
+		create(props: {
+			parcelBoxTypeId: number
+			address?: string
+			businessDays?: number[]
+			businessTimeFrom?: string
+			businessTimeTo?: string
+		}) {
+			const { parcelBoxTypeId, address, businessDays, businessTimeFrom, businessTimeTo } = props
+
 			return `mutation {
 			  ${RouteNames.PARCEL_BOX.CREATE}(input: {
-				parcelBoxTypeId: ${props.parcelBoxTypeId},
-				userId: ${props.userId}
+				parcelBoxTypeId: ${parcelBoxTypeId},
+				${address ? `address: "${address}",` : ''}
+				${businessDays ? `businessDays: ${businessDays},` : ''}
+				${businessTimeFrom ? `businessTimeFrom: "${businessTimeFrom}",` : ''}
+				${businessTimeTo ? `businessTimeTo: "${businessTimeTo}"` : ''}
 			  }) {
 				id
 				parcelBoxTypeId

@@ -9,13 +9,9 @@ import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email
 import { JwtAdapterService } from '../../src/infrastructure/jwtAdapter/jwtAdapter.service'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { CellRepository } from '../../src/repo/cell.repository'
-import { CellTypeRepository } from '../../src/repo/cellType.repository'
 import { DevicesRepository } from '../../src/repo/devices.repository'
-import { ParcelBoxQueryRepository } from '../../src/repo/parcelBox.queryRepository'
 import { ParcelBoxRepository } from '../../src/repo/parcelBox.repository'
-import { ParcelBoxTypeQueryRepository } from '../../src/repo/parcelBoxType.queryRepository'
 import { ParcelBoxTypeRepository } from '../../src/repo/parcelBoxType.repository'
-import { UserQueryRepository } from '../../src/repo/user.queryRepository'
 import { UserRepository } from '../../src/repo/user.repository'
 import { makeGraphQLReqWithTokens } from '../makeGQReq'
 import { authUtils } from '../utils/authUtils'
@@ -25,17 +21,14 @@ import { parcelBoxTypeUtils } from '../utils/parcelBoxTypeUtils'
 import { parcelBoxUtils } from '../utils/parcelBoxUtils'
 import { seedTestData } from '../utils/seedTestData'
 import { userUtils } from '../utils/userUtils'
+import '../utils/jestExtendFunctions'
 
 describe.skip('Get my parcel box (e2e)', () => {
 	let app: INestApplication<App>
 	let commandBus: CommandBus
 	let emailAdapter: EmailAdapterService
 	let userRepository: UserRepository
-	let userQueryRepository: UserQueryRepository
 	let parcelBoxTypeRepository: ParcelBoxTypeRepository
-	let parcelBoxTypeQueryRepository: ParcelBoxTypeQueryRepository
-	let cellTypeRepository: CellTypeRepository
-	let parcelBoxQueryRepository: ParcelBoxQueryRepository
 	let parcelBoxRepository: ParcelBoxRepository
 	let cellRepository: CellRepository
 	let devicesRepository: DevicesRepository
@@ -49,11 +42,7 @@ describe.skip('Get my parcel box (e2e)', () => {
 		commandBus = app.get(CommandBus)
 		emailAdapter = createMainAppRes.emailAdapter
 		userRepository = await app.resolve(UserRepository)
-		userQueryRepository = await app.resolve(UserQueryRepository)
 		parcelBoxTypeRepository = await app.resolve(ParcelBoxTypeRepository)
-		parcelBoxTypeQueryRepository = await app.resolve(ParcelBoxTypeQueryRepository)
-		cellTypeRepository = await app.resolve(CellTypeRepository)
-		parcelBoxQueryRepository = await app.resolve(ParcelBoxQueryRepository)
 		parcelBoxRepository = await app.resolve(ParcelBoxRepository)
 		cellRepository = await app.resolve(CellRepository)
 		devicesRepository = await app.resolve(DevicesRepository)
@@ -112,20 +101,34 @@ describe.skip('Get my parcel box (e2e)', () => {
 		})
 
 		// Create two parcel boxes based on the existing parcel box types
-		await parcelBoxUtils.createParcelBoxWithCells({
-			app,
-			userId: loginData.id,
-			parcelBoxTypeId: smallParcelBoxType.id,
-			parcelBoxRepository,
-			cellRepository,
-		})
-		await parcelBoxUtils.createParcelBoxWithCells({
-			app,
-			userId: loginData.id,
-			parcelBoxTypeId: mediumParcelBoxType.id,
-			parcelBoxRepository,
-			cellRepository,
-		})
+		await parcelBoxUtils.createParcelBoxWithCells(
+			{
+				app,
+				parcelBoxRepository,
+				cellRepository,
+				refreshTokenStr: refreshToken.value,
+				accessTokenStr: accessToken.value,
+				mainConfig,
+			},
+			{
+				userId: loginData.id,
+				parcelBoxTypeId: smallParcelBoxType.id,
+			},
+		)
+		await parcelBoxUtils.createParcelBoxWithCells(
+			{
+				app,
+				parcelBoxRepository,
+				cellRepository,
+				refreshTokenStr: refreshToken.value,
+				accessTokenStr: accessToken.value,
+				mainConfig,
+			},
+			{
+				userId: loginData.id,
+				parcelBoxTypeId: mediumParcelBoxType.id,
+			},
+		)
 
 		// Try to get created parcel boxes
 		const getMyParcelBoxesQuery = queries.parcelBox.getMine()

@@ -18,6 +18,7 @@ import { defSenderEmail, defSenderPassword, extractErrObjFromResp, seedInitDataI
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../../src/features/test/queries'
 import { seedTestData } from '../utils/seedTestData'
+import '../utils/jestExtendFunctions'
 
 describe.skip('Register a sender (e2e)', () => {
 	let app: INestApplication<App>

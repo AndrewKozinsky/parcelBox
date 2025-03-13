@@ -16,6 +16,7 @@ import { defAdminEmail, defAdminPassword, extractErrObjFromResp, seedInitDataInD
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../../src/features/test/queries'
 import { seedTestData } from '../utils/seedTestData'
+import '../utils/jestExtendFunctions'
 
 describe.skip('Register an administrator (e2e)', () => {
 	let app: INestApplication<App>

@@ -1,24 +1,17 @@
 import { INestApplication } from '@nestjs/common'
-import { CommandBus } from '@nestjs/cqrs'
 import { agent as request } from 'supertest'
 import { App } from 'supertest/types'
 import { clearAllDB } from '../../src/db/clearDB'
 import { EmailAdapterService } from '../../src/infrastructure/emailAdapter/email-adapter.service'
 import RouteNames from '../../src/infrastructure/routeNames'
 import { CellTypeRepository } from '../../src/repo/cellType.repository'
-import { ParcelBoxTypeQueryRepository } from '../../src/repo/parcelBoxType.queryRepository'
 import { ParcelBoxTypeRepository } from '../../src/repo/parcelBoxType.repository'
-import { UserQueryRepository } from '../../src/repo/user.queryRepository'
-import { UserRepository } from '../../src/repo/user.repository'
 import { createApp } from '../utils/createMainApp'
+import '../utils/jestExtendFunctions'
 
 describe.skip('Check init data (e2e)', () => {
 	let app: INestApplication<App>
-	let commandBus: CommandBus
 	let emailAdapter: EmailAdapterService
-	let userRepository: UserRepository
-	let userQueryRepository: UserQueryRepository
-	let parcelBoxTypeQueryRepository: ParcelBoxTypeQueryRepository
 	let parcelBoxTypeRepository: ParcelBoxTypeRepository
 	let cellTypeRepository: CellTypeRepository
 
@@ -26,11 +19,7 @@ describe.skip('Check init data (e2e)', () => {
 		const createMainAppRes = await createApp({ emailAdapter })
 
 		app = createMainAppRes.app
-		commandBus = app.get(CommandBus)
 		emailAdapter = createMainAppRes.emailAdapter
-		userRepository = await app.resolve(UserRepository)
-		userQueryRepository = await app.resolve(UserQueryRepository)
-		parcelBoxTypeQueryRepository = await app.resolve(ParcelBoxTypeQueryRepository)
 		parcelBoxTypeRepository = await app.resolve(ParcelBoxTypeRepository)
 		cellTypeRepository = await app.resolve(CellTypeRepository)
 	})

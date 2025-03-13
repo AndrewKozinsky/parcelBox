@@ -18,6 +18,7 @@ import { extractErrObjFromResp, seedInitDataInDatabase } from '../utils/common'
 import { createApp } from '../utils/createMainApp'
 import { queries } from '../../src/features/test/queries'
 import { seedTestData } from '../utils/seedTestData'
+import '../utils/jestExtendFunctions'
 
 describe.skip('Create parcel box type (e2e)', () => {
 	let app: INestApplication<App>
