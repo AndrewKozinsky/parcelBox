@@ -5,6 +5,11 @@ import {createDockerConfig, EnvType} from './createDockerConfig'
 // Массив с названием и контентом трёх файлов.
 const configs = [
 	{
+		// Докер для тестирования
+		name: 'test',
+		content: createDockerConfig(EnvType.test),
+	},
+	{
 		// Докер для разработки
 		name: 'dev',
 		content: createDockerConfig(EnvType.dev),

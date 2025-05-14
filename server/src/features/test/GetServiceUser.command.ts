@@ -15,7 +15,6 @@ export class GetServiceUserHandler implements ICommandHandler<GetServiceUserComm
 
 	async execute(command: GetServiceUserCommand) {
 		const { email } = command
-
 		return await this.userRepository.getUserByEmail(email)
 	}
 }

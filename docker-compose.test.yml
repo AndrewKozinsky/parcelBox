@@ -23,7 +23,7 @@ services:
       - ./server/e2e:/app/e2e
     command: sh -c "yarn run migrate:dev && yarn run dev"
     environment:
-      MODE: development
+      MODE: testing
       PORT: 3001
     env_file:
       - .env
@@ -43,7 +43,7 @@ services:
       - ./face:/public
     command: yarn run dev
     environment:
-      MODE: development
+      MODE: testing
   postgres:
     image: postgres:16.2
     restart: unless-stopped
@@ -59,4 +59,4 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 volumes:
-  pgdata:
+  pgdata: {}

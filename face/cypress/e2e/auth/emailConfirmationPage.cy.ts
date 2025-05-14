@@ -46,9 +46,11 @@ describe('EmailConfirmation page', () => {
 		)
 	})
 
-	it.only('should redirect to the admin main if there is a correct confirmation code in address', async () => {
+	it.only('should redirect to the admin main if there is a correct confirmation code in address', () => {
 		// Register a new admin
 		cy.visit(routeNames.auth.register.path)
+
+		cy.wait(1200)
 
 		const role = 'admin'
 		const email = 'my@google.com'
@@ -58,21 +60,23 @@ describe('EmailConfirmation page', () => {
 
 		cy.wait(100)
 
-		const getUserRes: any = await server.getUserByEmail(email)
-		const user: any = getUserRes.body
-		if (!user) {
-			throw new Error('User not found')
-		}
+		cy.then(async () => {
+			const getUserRes: any = await server.getUserByEmail(email)
 
-		const { emailConfirmationCode } = user
+			const user: any = getUserRes.body
+			if (!user) {
+				throw new Error('User not found')
+			}
 
-		cy.wait(100)
+			const { emailConfirmationCode } = user
 
-		// Visit to the confirmation email page
-		cy.visit(routeNames.auth.emailConfirmation.path + '?code=' + emailConfirmationCode)
+			// Visit to the confirmation email page
+			cy.visit(routeNames.auth.emailConfirmation.path + '?code=' + emailConfirmationCode)
 
-		// Check the program redirect to the login admin page
-		checkIsPage(routeNames.auth.login.path)
+			// Check the program redirect to the login admin page
+			checkIsPage(routeNames.auth.login.path)
+		})
+
 	})
 })
 

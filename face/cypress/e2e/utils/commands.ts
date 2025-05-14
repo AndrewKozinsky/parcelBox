@@ -28,8 +28,6 @@ export function isFormInputsDisabled(query: string) {
 }
 
 export function registerUserInRegisterPage(props: { role: 'admin' | 'sender'; email: string; password: string }) {
-	switchRadioTo(RegisterFormTest.roleRadio.query, props.role)
-
 	// Fill fields in
 	cy.get(RegisterFormTest.emailField.query).type(props.email)
 	cy.get(RegisterFormTest.passwordField.query).type(props.password)

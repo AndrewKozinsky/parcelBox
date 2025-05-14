@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
-import { MainConfigService } from '../config/mainConfig.service'
 const sendpulse = require('sendpulse-api')
+import { MainConfigService } from '../config/mainConfig.service'
 
 @Injectable()
-export class EmailAdapterService {
+export class EmailAdapterService implements EmailAdapterServiceI {
 	constructor(private mainConfig: MainConfigService) {}
 
 	async sendEmailConfirmationMessage(userEmail: string, confirmationCode: string) {
@@ -40,7 +40,7 @@ export class EmailAdapterService {
 		await this.sendEmail(userEmail, subject, textMessage, htmlMessage)
 	}
 
-	async sendEmail(toEmail: string, subject: string, textMessage: string, htmlMessage: string) {
+	async sendEmail(toEmail: string, subject: string, textMessage: string, htmlMessage: string): Promise<null> {
 		return new Promise((resolve, reject) => {
 			// Don't operate in testing mode
 			if (this.mainConfig.get().mode === 'testing') {
@@ -82,5 +82,18 @@ export class EmailAdapterService {
 				}
 			})
 		})
+	}
+}
+
+export interface EmailAdapterServiceI {
+	sendEmail(toEmail: string, subject: string, textMessage: string, htmlMessage: string): Promise<null>
+}
+
+@Injectable()
+export class EmailAdapterServiceMock implements EmailAdapterServiceI {
+	constructor() {}
+
+	async sendEmail(toEmail: string, subject: string, textMessage: string, htmlMessage: string) {
+		return null
 	}
 }

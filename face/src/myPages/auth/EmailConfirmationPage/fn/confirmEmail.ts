@@ -33,6 +33,7 @@ export function useConfirmEmail() {
 
 			useEmailConfirmationStore.setState({ confirmEmailLoading: false })
 
+
 			if (error) {
 				useEmailConfirmationStore.setState({ errorMessage: error.message })
 				return
