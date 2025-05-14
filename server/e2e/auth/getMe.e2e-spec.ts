@@ -71,9 +71,6 @@ describe.skip('Get me (e2e)', () => {
 		await clearAllDB(app)
 		await seedInitDataInDatabase(app)
 		await seedTestData(commandBus)
-	})
-
-	afterEach(() => {
 		jest.clearAllMocks()
 	})
 

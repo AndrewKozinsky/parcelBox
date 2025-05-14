@@ -21,8 +21,7 @@ services:
     volumes:
       - ./server/src:/app/src
       - ./server/e2e:/app/e2e
-    command: >
-      sh -c "yarn run migrate:dev && yarn run dev"
+    command: sh -c "yarn run migrate:dev && yarn run dev"
     environment:
       MODE: development
       PORT: 3001
@@ -51,5 +50,13 @@ services:
     container_name: parcel-box-postgres
     ports:
       - 5433:5432
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     env_file:
       - .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata: {}

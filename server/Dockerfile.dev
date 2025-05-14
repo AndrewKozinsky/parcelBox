@@ -4,4 +4,3 @@ COPY package*.json ./
 RUN yarn
 COPY . .
 RUN yarn prisma generate
-# Migration will be run when the container starts instead of during build

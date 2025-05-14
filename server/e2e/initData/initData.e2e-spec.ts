@@ -24,9 +24,7 @@ describe.skip('Check init data (e2e)', () => {
 		cellTypeRepository = await app.resolve(CellTypeRepository)
 	})
 
-	beforeEach(async () => {})
-
-	afterEach(() => {
+	beforeEach(async () => {
 		jest.clearAllMocks()
 	})
 

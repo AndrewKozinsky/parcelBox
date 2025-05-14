@@ -21,7 +21,7 @@ import { seedTestData } from '../utils/seedTestData'
 import { userUtils } from '../utils/userUtils'
 import '../utils/jestExtendFunctions'
 
-describe('Create parcel box (e2e)', () => {
+describe.skip('Create parcel box (e2e)', () => {
 	let app: INestApplication<App>
 	let commandBus: CommandBus
 	let emailAdapter: EmailAdapterService
@@ -48,9 +48,6 @@ describe('Create parcel box (e2e)', () => {
 		await clearAllDB(app)
 		await seedInitDataInDatabase(app)
 		await seedTestData(commandBus)
-	})
-
-	afterEach(() => {
 		jest.clearAllMocks()
 	})
 

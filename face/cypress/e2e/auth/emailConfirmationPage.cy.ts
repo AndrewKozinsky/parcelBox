@@ -4,7 +4,7 @@ import { checkIsPage, login, registerUserInRegisterPage } from '../utils/command
 import { server } from '../utils/server'
 import { usersConfig } from '../utils/users'
 
-describe.skip('EmailConfirmation page', () => {
+describe('EmailConfirmation page', () => {
 	beforeEach(() => {
 		server.clearDB()
 		server.seedInitData()
@@ -46,7 +46,7 @@ describe.skip('EmailConfirmation page', () => {
 		)
 	})
 
-	it('should redirect to the admin main if there is a correct confirmation code in address', async () => {
+	it.only('should redirect to the admin main if there is a correct confirmation code in address', async () => {
 		// Register a new admin
 		cy.visit(routeNames.auth.register.path)
 

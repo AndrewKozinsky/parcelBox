@@ -55,9 +55,6 @@ describe.skip('Confirm an user email (e2e)', () => {
 		await clearAllDB(app)
 		await seedInitDataInDatabase(app)
 		await seedTestData(commandBus)
-	})
-
-	afterEach(() => {
 		jest.clearAllMocks()
 	})
 
@@ -78,7 +75,7 @@ describe.skip('Confirm an user email (e2e)', () => {
 		expect(emailAdapter.sendEmailConfirmationMessage).toHaveBeenCalledTimes(0)
 	})
 
-	it('should return success if email successfully confirmed', async () => {
+	it('should return success if email is successfully confirmed', async () => {
 		const createdAdmin = await userUtils.createUserWithUnconfirmedEmail({
 			userRepository,
 			app,

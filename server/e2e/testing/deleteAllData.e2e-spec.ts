@@ -41,10 +41,6 @@ describe.skip('Delete all data (e2e)', () => {
 		await clearAllDB(app)
 	})
 
-	afterEach(() => {
-		jest.clearAllMocks()
-	})
-
 	it('should erase all data from the database', async () => {
 		await userUtils.createUserAndLogin({ app, userRepository, role: UserRole.Admin })
 

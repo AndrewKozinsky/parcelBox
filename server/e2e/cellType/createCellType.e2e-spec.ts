@@ -54,9 +54,6 @@ describe.skip('Create parcel box type (e2e)', () => {
 		await clearAllDB(app)
 		await seedInitDataInDatabase(app)
 		await seedTestData(commandBus)
-	})
-
-	afterEach(() => {
 		jest.clearAllMocks()
 	})
 
