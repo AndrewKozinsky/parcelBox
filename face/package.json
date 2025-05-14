@@ -1,13 +1,13 @@
 {
-  "name": "client",
+  "name": "face",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "next dev",
     "graphql-generate": "npx graphql-codegen --config ./src/graphql/codegen.ts",
-	  "cy:open": "cypress open --e2e",
-    "build": "next build -p 3001",
-    "start": "next start -p 3001"
+	"cy:open": "cypress open --e2e",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
@@ -16,7 +16,7 @@
     "antd": "^5.24.2",
     "eslint-plugin-prettier": "^5.2.3",
     "graphql": "^16.10.0",
-    "next": "15.1.7",
+	"next": "15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sass": "^1.85.0",

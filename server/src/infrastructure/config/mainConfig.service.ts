@@ -12,9 +12,9 @@ export class MainConfigService {
 			mode: enVariables.mode,
 			port: enVariables.port,
 			db: {
-				name: enVariables.dnName,
-				user: enVariables.dnUserName,
-				password: enVariables.dnUserPassword,
+				name: enVariables.dbName,
+				user: enVariables.dbUserName,
+				password: enVariables.dbUserPassword,
 			},
 			site: {
 				name: enVariables.siteName,
@@ -48,11 +48,11 @@ export class MainConfigService {
 
 	private getEnVariables() {
 		const enVariables = {
-			mode: this.configService.get<string>('MODE') as 'testing' | 'development' | 'production',
+			mode: this.configService.get<string>('MODE') as 'testing' | 'development' | 'server',
 			port: parseInt(this.configService.get<string>('PORT') as string),
-			dnName: this.configService.get<string>('DB_NAME') as string,
-			dnUserName: this.configService.get<string>('DB_USER_NAME') as string,
-			dnUserPassword: this.configService.get<string>('DB_USER_PASSWORD') as string,
+			dbName: this.configService.get<string>('POSTGRES_DB') as string,
+			dbUserName: this.configService.get<string>('POSTGRES_USER') as string,
+			dbUserPassword: this.configService.get<string>('POSTGRES_PASSWORD') as string,
 			siteName: this.configService.get<string>('SITE_NAME') as string,
 			siteDomainRoot: this.configService.get<string>('SITE_DOMAIN_ROOT') as string,
 			siteDomainRootWithProtocol: this.configService.get<string>('SITE_DOMAIN_ROOT_WITH_PROTOCOL') as string,

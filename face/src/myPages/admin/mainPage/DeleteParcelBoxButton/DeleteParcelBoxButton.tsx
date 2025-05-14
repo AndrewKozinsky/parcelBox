@@ -1,8 +1,8 @@
+import React from 'react'
 import { Button, Modal, Typography } from 'antd'
-import React, { useState } from 'react'
-import { deleteParcelBoxStoreInitial, useDeleteParcelBoxStore } from './deleteParcelBoxStore'
+import { useDeleteParcelBoxStore } from './deleteParcelBoxStore'
 import { useGetDeleteParcelBox } from './fn/deleteParcelBox'
-import { useGetChangeModalVisibility } from './fn/showModal'
+import { useGetChangeModalVisibility } from './fn/changeModalVisibility'
 
 const { Text } = Typography
 

@@ -1,0 +1,23 @@
+events {}
+
+http {
+    include mime.types;
+
+    server {
+        listen 80;
+        listen 443;
+
+        location ^~ /graphql {
+            proxy_pass http://server:3001;
+            proxy_http_version 1.1;
+        }
+
+        location / {
+            proxy_pass http://face:3000;
+        }
+
+        location /nginx-test {
+            return 200 'Hello from test';
+        }
+    }
+}

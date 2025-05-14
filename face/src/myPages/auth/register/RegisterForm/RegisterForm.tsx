@@ -58,7 +58,7 @@ function RoleRadios() {
 			label='Что хотите делать'
 			name={FormNames.role}
 			rules={regFormRoleFieldRules}
-			initialValue={User_Role.Sender}
+			initialValue={User_Role.Admin}
 		>
 			<Radio.Group
 				onChange={onChange}

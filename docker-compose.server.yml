@@ -6,45 +6,37 @@ services:
       - face
       - server
       - postgres
-    ports:
-      - 80:80
     volumes:
       - ./nginx/nginx.conf.dev:/etc/nginx/nginx.conf
+    environment:
+      VIRTUAL_HOST: parcels.parcelsit.ru,www.parcels.parcelsit.ru
+      LETSENCRYPT_HOST: parcels.parcelsit.ru,www.parcels.parcelsit.ru
   server:
     build:
       context: server/
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.server
     container_name: parcels-server
     depends_on:
       - postgres
     restart: unless-stopped
-    volumes:
-      - ./server/src:/app/src
-      - ./server/e2e:/app/e2e
-    command: >
-      sh -c "yarn run migrate:dev && yarn run dev"
+    command: yarn start:prod
     environment:
-      MODE: development
+      MODE: server
       PORT: 3001
     env_file:
       - .env
-    ports:
-      - 3001:3001
   face:
     build:
       context: face/
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.server
     container_name: parcels-face
     depends_on:
       - server
       - postgres
     restart: unless-stopped
-    volumes:
-      - ./face:/app
-      - ./face:/public
-    command: yarn run dev
+    command: yarn run start
     environment:
-      MODE: development
+      MODE: server
   postgres:
     image: postgres:16.2
     restart: unless-stopped
@@ -53,3 +45,7 @@ services:
       - 5433:5432
     env_file:
       - .env
+networks:
+  default:
+    external:
+      name: nginx-proxy

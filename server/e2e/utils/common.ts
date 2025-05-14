@@ -45,7 +45,7 @@ export function setProductionMode(moduleFixture: TestingModule) {
 	const originalGet = configService.get.bind(configService)
 
 	jest.spyOn(configService, 'get').mockImplementation((key?: string) => {
-		const overriddenConfig = { mode: 'production' } // Your override
+		const overriddenConfig = { mode: 'server' } // Your override
 		const defaultConfig = originalGet() // Get the original config
 
 		return key ? (overriddenConfig[key] ?? defaultConfig[key]) : { ...defaultConfig, ...overriddenConfig }
