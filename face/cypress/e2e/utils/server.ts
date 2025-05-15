@@ -13,17 +13,11 @@ export const server = {
 	seedTestData() {
 		cy.request('POST', consts.serverUrl + '/testing/seed')
 	},
-	async getUserByEmail(userEmail: string) {
-		return new Promise((resolve) => {
-			return cy
-				.request({
-					method: 'GET',
-					url: consts.serverUrl + '/testing/user/', // Replace with your API endpoint
-					qs: { email: userEmail }, // Query parameters
-				})
-				.then((res) => {
-					resolve(res)
-				})
+	getUserByEmail(userEmail: string) {
+		return cy.request({
+			method: 'GET',
+			url: consts.serverUrl + '/testing/user/',
+			qs: { email: userEmail },
 		})
 	},
 }

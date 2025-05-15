@@ -1,3 +1,6 @@
 export GOROOT=/usr/local/go
 export GOPATH=/Users/andrewkozinsky/Documents/go
 export PATH=/bin:/bin:/Users/andrewkozinsky/.cargo/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/usr/local/go/bin:/opt/podman/bin
+export GOROOT=/usr/local/go
+export GOPATH=/Users/andrewkozinsky/Documents/go
+export PATH=/bin:/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/usr/local/go/bin:/opt/podman/bin:/Users/andrewkozinsky/.yarn/bin:/Users/andrewkozinsky/.config/yarn/global/node_modules/.bin:/Users/andrewkozinsky/Library/pnpm:/Library/Frameworks/Python.framework/Versions/3.13/bin:/Library/Frameworks/Python.framework/Versions/3.11/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/andrewkozinsky/.cargo/bin:/Users/andrewkozinsky/Library/Application Support/JetBrains/Toolbox/scripts

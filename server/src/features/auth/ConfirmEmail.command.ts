@@ -26,7 +26,11 @@ export class ConfirmEmailHandler implements ICommandHandler<ConfirmEmailCommand>
 			throw new CustomGraphQLError(errorMessage.emailConfirmationCodeIsExpired, ErrorCode.BadRequest_400)
 		}
 
-		await this.userRepository.makeEmailVerified(user.id)
-		return true
+		try {
+			await this.userRepository.makeEmailVerified(user.id)
+			return true
+		} catch (error: unknown) {
+			throw new CustomGraphQLError(errorMessage.unknownDbError, ErrorCode.InternalServerError_500)
+		}
 	}
 }

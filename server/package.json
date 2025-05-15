@@ -16,6 +16,7 @@
 		"migrate:dev": "prisma migrate dev",
 		"migrate:deploy": "prisma migrate deploy",
 		"migrate:generate-types": "prisma generate",
+		"migrate:reset": "bash scripts/reset-migrations.sh",
 		"test": "jest --config src/jest.json --runInBand",
 		"test:watch": "jest --watch",
 		"test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",

@@ -5,9 +5,20 @@ import { GraphQLError } from 'graphql'
 import { CustomRestError } from './customErrors'
 import { errorMessage } from './errorMessage'
 
+type HTTPErrorResponse = {
+	response: {
+		message: { field: string; message: string }[]
+		error: string
+		statusCode: number
+	}
+	status: number
+}
+
 @Catch()
 export class GraphQLValidationFilter implements ExceptionFilter {
 	catch(exception: unknown, host: ArgumentsHost) {
+		const ctxType: 'http' | 'graphql' = host.getType()
+
 		if (exception instanceof GraphQLError) {
 			return new GraphQLError(exception.message, {
 				extensions: {
@@ -24,16 +35,37 @@ export class GraphQLValidationFilter implements ExceptionFilter {
 		}
 
 		if (exception instanceof BadRequestException) {
-			const response = exception.getResponse()
+			if (ctxType === 'http') {
+				const ctx = host.switchToHttp()
+				const response = ctx.getResponse<Response>()
 
-			if (typeof response === 'object' && 'message' in response) {
-				if (isArray(response.message)) {
-					return new GraphQLError(errorMessage.wrongInputData, {
-						extensions: {
-							code: 400,
-							fields: this.convertErrorsArrToErrorsObj(response.message as any),
-						},
-					})
+				const body: HTTPErrorResponse = {
+					response: {
+						message: (exception as any).response.message.map((m) => {
+							return {
+								field: m.field,
+								message: m.message,
+							}
+						}),
+						error: 'BadRequest',
+						statusCode: 400,
+					},
+					status: 400,
+				}
+
+				response.status(400).json(body)
+			} else if (ctxType === 'graphql') {
+				const response = exception.getResponse()
+
+				if (typeof response === 'object' && 'message' in response) {
+					if (isArray(response.message)) {
+						return new GraphQLError(errorMessage.wrongInputData, {
+							extensions: {
+								code: 400,
+								fields: this.convertErrorsArrToErrorsObj(response.message as any),
+							},
+						})
+					}
 				}
 			}
 		}

@@ -60,10 +60,8 @@ describe('EmailConfirmation page', () => {
 
 		cy.wait(100)
 
-		cy.then(async () => {
-			const getUserRes: any = await server.getUserByEmail(email)
-
-			const user: any = getUserRes.body
+		const getUserRes: any = server.getUserByEmail(email).then((res) => {
+			const user: any = res.body
 			if (!user) {
 				throw new Error('User not found')
 			}
@@ -75,8 +73,7 @@ describe('EmailConfirmation page', () => {
 
 			// Check the program redirect to the login admin page
 			checkIsPage(routeNames.auth.login.path)
-		})
-
+		});
 	})
 })
 

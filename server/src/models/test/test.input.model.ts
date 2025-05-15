@@ -1,9 +1,10 @@
 import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common'
 import { plainToInstance } from 'class-transformer'
-import { IsEmail } from 'class-validator'
+import { IsEmail, IsNotEmpty } from 'class-validator'
 
 export class GetUserQueries {
 	@IsEmail()
+	@IsNotEmpty()
 	email: string
 }
 

@@ -9,6 +9,8 @@ import {
 	Query,
 	Res,
 	UseGuards,
+	UsePipes,
+	ValidationPipe,
 } from '@nestjs/common'
 import { CommandBus } from '@nestjs/cqrs'
 import { Response } from 'express'
@@ -17,7 +19,7 @@ import { GetServiceUserCommand } from '../../features/test/GetServiceUser.comman
 import { SeedTestDataCommand } from '../../features/test/SeedTestData.command'
 import { OnlyDevOrTestingModeGuard } from '../../infrastructure/guards/onlyDevMode.guard'
 import RouteNames from '../../infrastructure/routeNames'
-import { GetUserQueries, GetUserQueriesPipe } from '../../models/test/test.input.model'
+import { GetUserQueries } from '../../models/test/test.input.model'
 
 @Controller()
 export class TestsController {
@@ -50,7 +52,8 @@ export class TestsController {
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(OnlyDevOrTestingModeGuard)
 	@Get(RouteNames.TESTING.USER)
-	async getUser(@Query(new GetUserQueriesPipe()) query: GetUserQueries) {
+	@UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
+	async getUser(@Query() query: GetUserQueries) {
 		return await this.commandBus.execute(new GetServiceUserCommand(query.email))
 	}
 }
