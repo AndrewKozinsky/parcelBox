@@ -32,7 +32,7 @@ export function createDockerConfig(env: EnvType, serverCheck?: boolean): ConfigS
 				depends_on: ['postgres'],
 				restart: 'unless-stopped',
 				volumes: [EnvType.test, EnvType.dev].includes(env) ? ['./server/src:/app/src', './server/e2e:/app/e2e'] : undefined,
-				command: [EnvType.test, EnvType.dev].includes(env) ? 'sh -c "yarn run migrate:dev && yarn run dev"' : 'sh -c "yarn run migrate:dev && yarn start:prod"',
+				command: [EnvType.test, EnvType.dev].includes(env) ? 'sh -c "yarn run dev"' : 'sh -c "yarn run migrate:dev && yarn start:prod"',
 
 				environment: getServerEnvs(env),
 				env_file: ['.env'],
@@ -57,7 +57,7 @@ export function createDockerConfig(env: EnvType, serverCheck?: boolean): ConfigS
 				ports: ['5433:5432'],
 				environment: getPostgresEnvs(),
 				env_file: ['.env'],
-				volumes: ['pgdata:/var/lib/postgresql/data']
+				volumes: [EnvType.test, EnvType.dev].includes(env) ?  ['pgdata:/var/lib/postgresql/data'] : undefined,
 			},
 		},
 		networks: env === EnvType.server && !serverCheck ? getServerNetworks() : undefined,
