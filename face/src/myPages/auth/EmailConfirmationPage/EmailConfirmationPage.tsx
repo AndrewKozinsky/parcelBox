@@ -1,5 +1,8 @@
+'use client'
+
 import { Spin, Typography } from 'antd'
 import Link from 'next/link'
+import {useEffect} from 'react'
 import { routeNames } from '../../../utils/routeNames'
 import { useEmailConfirmationStore } from './emailConfirmationStore'
 import { useConfirmEmail } from './fn/confirmEmail'
@@ -7,6 +10,16 @@ import { EmailConfirmationTest } from './fn/form'
 import './EmailConfirmationPage.scss'
 
 const { Text } = Typography
+
+/*export function EmailConfirmationPage() {
+	// console.log(3333333)
+
+	useEffect(() => {
+		console.log('Runs only once on client after hydration');
+	}, []);
+
+	return null
+}*/
 
 export function EmailConfirmationPage() {
 	const confirmEmailLoading = useEmailConfirmationStore((s) => s.confirmEmailLoading)
