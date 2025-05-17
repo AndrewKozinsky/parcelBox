@@ -1,16 +1,18 @@
-// import React from 'react'
-// import { Button, Modal, Typography } from 'antd'
-// import { useDeleteParcelBoxStore } from './deleteParcelBoxStore'
-// import { useGetDeleteParcelBox } from './fn/deleteParcelBox'
-// import { useGetChangeModalVisibility } from './fn/changeModalVisibility'
+'use client'
 
-// const { Text } = Typography
+import React from 'react'
+import { Button, Modal, Typography } from 'antd'
+import { useDeleteParcelBoxStore } from './deleteParcelBoxStore'
+import { useGetDeleteParcelBox } from './fn/deleteParcelBox'
+import { useGetChangeModalVisibility } from './fn/changeModalVisibility'
 
-/*type DeleteParcelBoxButtonProps = {
+const { Text } = Typography
+
+type DeleteParcelBoxButtonProps = {
 	parcelBoxId: number
-}*/
+}
 
-/*function DeleteParcelBoxButton(props: DeleteParcelBoxButtonProps) {
+function DeleteParcelBoxButton(props: DeleteParcelBoxButtonProps) {
 	const { parcelBoxId } = props
 
 	const currentBoxId = useDeleteParcelBoxStore((s) => s.currentBoxId)
@@ -36,6 +38,6 @@
 			</Modal>
 		</>
 	)
-}*/
+}
 
-// export default DeleteParcelBoxButton
+export default DeleteParcelBoxButton

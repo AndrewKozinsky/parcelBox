@@ -1,10 +1,10 @@
-// import { useApolloClient } from '@apollo/client'
-// import { useCallback } from 'react'
-// import { HelperAddressSuggestionsDocument } from '../../../../../../graphql'
-// import { debounce } from '../../../../../../utils/other'
-// import { AddParcelBoxStore, useAddParcelBoxStore } from '../../addParcelBoxStore'
+import { useApolloClient } from '@apollo/client'
+import { useCallback } from 'react'
+import { HelperAddressSuggestionsDocument } from '../../../../../../graphql'
+import { debounce } from '../../../../../../utils/other'
+import { AddParcelBoxStore, useAddParcelBoxStore } from '../../addParcelBoxStore'
 
-/*export function useGetOnAddressFieldSearch() {
+export function useGetOnAddressFieldSearch() {
 	const gqiClient = useApolloClient()
 
 	return useCallback(
@@ -41,4 +41,4 @@
 		}, 600),
 		[],
 	)
-}*/
+}

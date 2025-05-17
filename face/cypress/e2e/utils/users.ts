@@ -2,7 +2,7 @@ import { User_Role } from '../../../src/graphql'
 
 export type UserConfig = {
 	// Initially user id is null.
-	// When he was created number was set here.
+	// When he is created number is set here.
 	id: null | number
 	email: string
 	role: User_Role

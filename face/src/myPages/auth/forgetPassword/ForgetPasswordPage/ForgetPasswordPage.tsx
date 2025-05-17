@@ -1,3 +1,3 @@
-/*export function ForgetPasswordPage() {
+export function ForgetPasswordPage() {
 	return <p>RememberPasswordPage</p>
-}*/
+}

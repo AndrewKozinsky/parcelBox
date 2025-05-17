@@ -5,11 +5,10 @@ export interface UserStore {
 	senderUser: null | SenderOutModel
 	adminUser: null | AdminOutModel
 	isLoading: boolean
-	// isLoggedOut: boolean
 	setAdminUser: (user: AdminOutModel) => void
 	setSenderUser: (user: SenderOutModel) => void
 	clearUser: () => void
-	// logout: () => void
+	logout: () => void
 }
 
 export const useUserStore = create<UserStore>()((set) => {
@@ -17,7 +16,6 @@ export const useUserStore = create<UserStore>()((set) => {
 		senderUser: null,
 		adminUser: null,
 		isLoading: true,
-		// isLoggedOut: false,
 
 		setAdminUser: (user: AdminOutModel) => {
 			set((state) => {
@@ -34,10 +32,13 @@ export const useUserStore = create<UserStore>()((set) => {
 				return { adminUser: null, senderUser: null, isLoading: false }
 			})
 		},
-		/*logout: () => {
+		logout: () => {
 			set((state) => {
-				return { adminUser: null, senderUser: null, isLoggedOut: true }
+				return {
+					adminUser: null,
+					senderUser: null,
+				}
 			})
-		},*/
+		},
 	}
 })

@@ -1,12 +1,12 @@
 'use client'
 
-// import {useRouter} from 'next/navigation'
-// import {useEffect} from 'react'
-// import {useUserStore} from '../../../../stores/userStore'
-// import {routeNames} from '../../../../utils/routeNames'
+import {useEffect} from 'react'
+import {useRouter} from 'next/navigation'
+import {useUserStore} from '../../../../stores/userStore'
+import {routeNames} from '../../../../utils/routeNames'
 
 
-/*function AuthAutoRedirect() {
+function AuthAutoRedirect() {
 	const router = useRouter()
 
 	const isLoading = useUserStore(s => s.isLoading)
@@ -16,16 +16,18 @@
 	useEffect(function () {
 		if (isLoading) return
 
+		let path = ''
+
 		if (adminUser) {
-			router.push(routeNames.admin.path)
+			path = routeNames.admin.path
 		} else if (senderUser) {
-			router.push(routeNames.sender.path)
-		} else {
-			router.push(routeNames.auth.login.path)
+			path = routeNames.sender.path
 		}
+
+		router.push(path)
 	}, [isLoading, adminUser, senderUser])
 
 	return null
-}*/
+}
 
-// export default AuthAutoRedirect
+export default AuthAutoRedirect

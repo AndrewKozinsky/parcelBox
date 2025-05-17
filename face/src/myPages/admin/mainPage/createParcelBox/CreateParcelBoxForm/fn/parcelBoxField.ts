@@ -1,4 +1,4 @@
-// type CellDimensions = { width: number; height: number; depth: number }
+type CellDimensions = { width: number; height: number; depth: number }
 
 /**
  * Gets array of objects with overall dimensions of cells
@@ -11,7 +11,7 @@
  * [2 × (10 × 12 × 40), 1 × (10 × 12 × 40)]
  * @param cellTypes
  */
-/*export function convertCellTypeToSummary(cellTypes: CellDimensions[]) {
+export function convertCellTypeToSummary(cellTypes: CellDimensions[]) {
 	const summary: ({ count: number } & CellDimensions)[] = []
 
 	cellTypes.forEach((cellType) => {
@@ -33,4 +33,4 @@
 	return summary.map((summaryItem) => {
 		return `${summaryItem.count} × (${summaryItem.width} × ${summaryItem.height} × ${summaryItem.depth})`
 	})
-}*/
+}

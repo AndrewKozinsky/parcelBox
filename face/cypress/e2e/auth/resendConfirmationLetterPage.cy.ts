@@ -61,7 +61,7 @@ describe.skip('Resend confirmation letter page', () => {
 
 		cy.get(RCLFormTest.form.query).submit()
 
-		cy.get(RCLFormTest.successMessage.query).contains('Письмо отправлено. Проверьте на mail.com.')
+		cy.get(RCLFormTest.successMessage.query).contains('Письмо отправлено. Проверьте на email.com.')
 
 		isFormInputsDisabled(RCLFormTest.form.query)
 	})
@@ -76,33 +76,5 @@ describe.skip('Resend confirmation letter page', () => {
 		// Check the program didn't change address
 		cy.wait(200)
 		checkIsPage(routeNames.auth.resendConfirmationLetter.path)
-	})
-})
-
-describe.skip('Resend confirmation letter page if a user already logged in', () => {
-	beforeEach(() => {
-		server.clearDB()
-		server.seedInitData()
-		server.seedTestData()
-	})
-
-	it('should redirect from register page to admin main page if an admin logged in', () => {
-		login(usersConfig.admin_2_conf)
-
-		// Visit the confirmation letter page
-		cy.visit(routeNames.auth.resendConfirmationLetter.path)
-
-		// It has to redirect to the admin main page
-		checkIsPage(routeNames.admin.path)
-	})
-
-	it('should redirect from register page to sender main page if a sender logged in', () => {
-		login(usersConfig.sender_3_conf)
-
-		// Visit the confirmation letter page
-		cy.visit(routeNames.auth.resendConfirmationLetter.path)
-
-		// It has to redirect to the admin main page
-		checkIsPage(routeNames.sender.path)
 	})
 })

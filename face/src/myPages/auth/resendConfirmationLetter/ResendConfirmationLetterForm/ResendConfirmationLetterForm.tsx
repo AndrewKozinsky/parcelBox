@@ -1,12 +1,12 @@
-// import React from 'react'
-// import Link from 'next/link'
-// import { Alert, Button, Form, Input } from 'antd'
-// import { formFieldRulers, FormStatus } from '../../../common/form'
-// import { useResendConfirmationEmailStore } from '../resendConfirmationLetterPageStore'
-// import { FieldType, FormNames, RCLFormTest, useGetOnChangeResendConfirmationEmailForm } from './fn/form'
-// import { useGetOnSubmit } from './fn/submit'
+import React from 'react'
+import Link from 'next/link'
+import { Alert, Button, Form, Input } from 'antd'
+import { formFieldRulers, FormStatus } from '../../../common/form'
+import { useResendConfirmationEmailStore } from '../resendConfirmationLetterPageStore'
+import { FieldType, FormNames, RCLFormTest, useGetOnChangeResendConfirmationEmailForm } from './fn/form'
+import { useGetOnSubmit } from './fn/submit'
 
-/*function ResendConfirmationLetterForm() {
+function ResendConfirmationLetterForm() {
 	const [form] = Form.useForm()
 
 	const formStatus = useResendConfirmationEmailStore((s) => s.formStatus)
@@ -32,19 +32,19 @@
 			</Form>
 		</div>
 	)
-}*/
+}
 
-// export default ResendConfirmationLetterForm
+export default ResendConfirmationLetterForm
 
-/*function EmailField() {
+function EmailField() {
 	return (
 		<Form.Item<FieldType> label='Почта' name={FormNames.email} rules={formFieldRulers.email}>
 			<Input autoComplete='email' data-testid={RCLFormTest.emailField.id} />
 		</Form.Item>
 	)
-}*/
+}
 
-/*function SubmitFormButton() {
+function SubmitFormButton() {
 	const isFormValid = useResendConfirmationEmailStore((s) => s.isFormValid)
 	const formStatus = useResendConfirmationEmailStore((s) => s.formStatus)
 
@@ -57,9 +57,9 @@
 			</Button>
 		</Form.Item>
 	)
-}*/
+}
 
-/*function FormWasSentMessage() {
+function FormWasSentMessage() {
 	const formStatus = useResendConfirmationEmailStore((s) => s.formStatus)
 	const emailDomain = useResendConfirmationEmailStore((s) => s.emailDomain)
 
@@ -85,9 +85,9 @@
 			<Alert message={message} type='success' data-testid={RCLFormTest.successMessage.id} />
 		</Form.Item>
 	)
-}*/
+}
 
-/*function FormWasNotSentMessage() {
+function FormWasNotSentMessage() {
 	const formStatus = useResendConfirmationEmailStore((s) => s.formStatus)
 	const formError = useResendConfirmationEmailStore((s) => s.formError)
 
@@ -100,4 +100,4 @@
 			<Alert message={formError} type='error' data-testid={RCLFormTest.failMessage.id} />
 		</Form.Item>
 	)
-}*/
+}

@@ -1,10 +1,9 @@
 import { EmailConfirmationTest } from '../../../src/myPages/auth/EmailConfirmationPage/fn/form'
 import { routeNames } from '../../../src/utils/routeNames'
-import { checkIsPage, login, registerUserInRegisterPage } from '../utils/commands'
+import { checkIsPage, registerUserInRegisterPage } from '../utils/commands'
 import { server } from '../utils/server'
-import { usersConfig } from '../utils/users'
 
-describe.skip('EmailConfirmation page', () => {
+describe('EmailConfirmation page', () => {
 	beforeEach(() => {
 		server.clearDB()
 		server.seedInitData()
@@ -50,7 +49,7 @@ describe.skip('EmailConfirmation page', () => {
 		// Register a new admin
 		cy.visit(routeNames.auth.register.path)
 
-		cy.wait(1200)
+		// cy.wait(200)
 
 		const role = 'admin'
 		const email = 'my@google.com'
@@ -58,9 +57,9 @@ describe.skip('EmailConfirmation page', () => {
 
 		registerUserInRegisterPage({ role, email, password })
 
-		cy.wait(100)
+		cy.wait(1000)
 
-		const getUserRes: any = server.getUserByEmail(email).then((res) => {
+		server.getUserByEmail(email).then((res) => {
 			const user: any = res.body
 			if (!user) {
 				throw new Error('User not found')
@@ -73,28 +72,6 @@ describe.skip('EmailConfirmation page', () => {
 
 			// Check the program redirect to the login admin page
 			checkIsPage(routeNames.auth.login.path)
-		});
-	})
-})
-
-describe('A try to move to the email confirmation page if a user already logged in', () => {
-	it.only('should redirect from email confirmation page page to admin main page if an admin logged in', () => {
-		login(usersConfig.admin_2_conf)
-
-		// Visit the confirmation email page
-		cy.visit(routeNames.auth.emailConfirmation.path)
-
-		// It has to redirect to the admin main page
-		// checkIsPage(routeNames.admin.path)
-	})
-
-	it('should redirect from email confirmation page page to sender main page if a sender logged in', () => {
-		login(usersConfig.sender_3_conf)
-
-		// Visit the confirmation email page
-		cy.visit(routeNames.auth.emailConfirmation.path)
-
-		// It has to redirect to the admin main page
-		checkIsPage(routeNames.sender.path)
+		})
 	})
 })

@@ -1,9 +1,11 @@
-// import React from 'react'
-// import { useParcelBoxGetMine } from '../../../../graphql'
-// import ParcelBoxListItem from '../ParcelBoxesListItem/ParcelBoxesListItem'
-// import './ParcelBoxesList.scss'
+'use client'
 
-/*function ParcelBoxesList() {
+import React from 'react'
+import { useParcelBoxGetMine } from '../../../../graphql'
+import ParcelBoxListItem from '../ParcelBoxesListItem/ParcelBoxesListItem'
+import './ParcelBoxesList.scss'
+
+function ParcelBoxesList() {
 	const { loading, data, error } = useParcelBoxGetMine()
 
 	if (loading || !data) {
@@ -21,6 +23,6 @@
 			))}
 		</div>
 	)
-}*/
+}
 
-// export default ParcelBoxesList
+export default ParcelBoxesList

@@ -1,17 +1,19 @@
-// import React from 'react'
-// import { Typography } from 'antd'
-// import { ParcelBoxOutModel } from '../../../../graphql'
-// import DeleteParcelBoxButton from '../DeleteParcelBoxButton/DeleteParcelBoxButton'
-// import { convertNumArrToWeekDaysStr } from './fn/common'
-// import './ParcelBoxesListItem.scss'
+'use client'
 
-// const { Title, Text } = Typography
+import React from 'react'
+import { Typography } from 'antd'
+import { ParcelBoxOutModel } from '../../../../graphql'
+import DeleteParcelBoxButton from '../DeleteParcelBoxButton/DeleteParcelBoxButton'
+import { convertNumArrToWeekDaysStr } from './fn/common'
+import './ParcelBoxesListItem.scss'
 
-/*type ParcelBoxListItemProps = {
+const { Title, Text } = Typography
+
+type ParcelBoxListItemProps = {
 	data: ParcelBoxOutModel
-}*/
+}
 
-/*function ParcelBoxListItem(props: ParcelBoxListItemProps) {
+function ParcelBoxListItem(props: ParcelBoxListItemProps) {
 	const { data } = props
 
 	const businessDaysArr = convertNumArrToWeekDaysStr(data.location.businessDays)
@@ -32,20 +34,20 @@
 				<Text>{data.parcelBoxTypeName}</Text>
 			</div>
 			<div className='parcel-box__buttons'>
-				{/!*<EditParcelBoxButton />*!/}
+				{/*<EditParcelBoxButton />*/}
 				<DeleteParcelBoxButton parcelBoxId={data.id} />
 			</div>
 		</div>
 	)
-}*/
+}
 
-// export default ParcelBoxListItem
+export default ParcelBoxListItem
 
-/*type CellProps = {
+type CellProps = {
 	data: ParcelBoxOutModel
-}*/
+}
 
-/*function BusinessHours(props: CellProps) {
+function BusinessHours(props: CellProps) {
 	const { businessTimeFrom, businessTimeTo } = props.data.location
 
 	let content = <Text disabled>Не указаны</Text>
@@ -54,11 +56,7 @@
 		const fromHour = businessTimeFrom ? <Text>{businessTimeFrom}</Text> : <Text disabled>Не указано</Text>
 		const toHour = businessTimeTo ? <Text>{businessTimeTo}</Text> : <Text disabled>Не указано</Text>
 
-		content = (
-			<>
-				{fromHour} — {toHour}
-			</>
-		)
+		content = <>{fromHour} — {toHour}</>
 	}
 
 	return (
@@ -67,4 +65,4 @@
 			{content}
 		</div>
 	)
-}*/
+}

@@ -14,17 +14,12 @@ export function useConfirmEmail() {
 	useEffect(
 		function () {
 			if (!confirmEmailCode) {
-				useEmailConfirmationStore.setState({
-					errorMessage:
-						'В адресе не найден код подтверждения почты. Скорее всего вы попали на эту страницу по ошибке.',
-				})
-
+				const errorMessage = 'В адресе не найден код подтверждения почты. Скорее всего вы попали на эту страницу по ошибке.'
+				useEmailConfirmationStore.getState().setErrorMessage(errorMessage)
 				return
 			}
 
-			useEmailConfirmationStore.setState({
-				confirmEmailLoading: true,
-			})
+			useEmailConfirmationStore.getState().setConfirmEmailLoading(true)
 
 			confirmEmail(gqiClient, confirmEmailCode, router)
 		},

@@ -1,5 +1,5 @@
 import React from 'react'
-// import AuthAutoRedirect from '../AuthAutoRedirect/AuthAutoRedirect'
+import AuthAutoRedirect from '../AuthAutoRedirect/AuthAutoRedirect'
 import './AuthLayout.scss'
 
 type AuthPageProps = {
@@ -11,7 +11,7 @@ export function AuthLayout(props: AuthPageProps) {
 
 	return (
 		<section className='auth-layout'>
-			{/*<AuthAutoRedirect />*/}
+			<AuthAutoRedirect />
 			<div className='auth-layout__container'>{children}</div>
 		</section>
 	)

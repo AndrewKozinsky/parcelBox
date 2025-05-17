@@ -1,6 +1,6 @@
-// import { FormInstance } from 'antd'
-// import { FormStatus } from '../../../../common/form'
-// import { useResendConfirmationEmailStore } from '../../resendConfirmationLetterPageStore'
+import { FormInstance } from 'antd'
+import { FormStatus } from '../../../../common/form'
+import { useResendConfirmationEmailStore } from '../../resendConfirmationLetterPageStore'
 
 export const RCLFormTest = {
 	form: { id: 'form', query: 'form[data-testid=form]' },
@@ -17,7 +17,7 @@ export enum FormNames {
 	email = 'email',
 }
 
-/*export function useGetOnChangeResendConfirmationEmailForm(form: FormInstance) {
+export function useGetOnChangeResendConfirmationEmailForm(form: FormInstance) {
 	return async function () {
 		useResendConfirmationEmailStore.setState({ formStatus: FormStatus.default })
 
@@ -31,4 +31,4 @@ export enum FormNames {
 				}
 			})
 	}
-}*/
+}

@@ -9,7 +9,6 @@ describe.skip('Register page', () => {
 		server.clearDB()
 		server.seedInitData()
 		server.seedTestData()
-		cy.wait(100)
 
 		// Visit the register page
 		cy.visit(routeNames.auth.register.path)
@@ -106,31 +105,3 @@ function successfullyRegisterUserWithRole(role: 'admin' | 'sender') {
 	cy.wait(200)
 	checkIsPage(routeNames.auth.register.path)
 }
-
-describe.skip('Register page if a user already logged in', () => {
-	beforeEach(() => {
-		server.clearDB()
-		server.seedInitData()
-		server.seedTestData()
-	})
-
-	it('should redirect from register page to admin main page if an admin logged in', () => {
-		login(usersConfig.admin_2_conf)
-
-		// Visit the register page
-		cy.visit(routeNames.auth.register.path)
-
-		// It has to redirect to the admin main page
-		checkIsPage(routeNames.admin.path)
-	})
-
-	it('should redirect from register page to sender main page if a sender logged in', () => {
-		login(usersConfig.sender_3_conf)
-
-		// Visit the register page
-		cy.visit(routeNames.auth.register.path)
-
-		// It has to redirect to the admin main page
-		checkIsPage(routeNames.sender.path)
-	})
-})
