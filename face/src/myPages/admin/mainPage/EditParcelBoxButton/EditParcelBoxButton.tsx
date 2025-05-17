@@ -1,8 +1,8 @@
-import { Button } from 'antd'
-import React from 'react'
+// import { Button } from 'antd'
+// import React from 'react'
 
-function EditParcelBoxButton() {
+/*function EditParcelBoxButton() {
 	return <Button>Редактировать</Button>
-}
+}*/
 
-export default EditParcelBoxButton
+// export default EditParcelBoxButton

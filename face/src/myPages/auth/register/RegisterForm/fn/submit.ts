@@ -1,4 +1,6 @@
 import { FetchResult } from '@apollo/client'
+import {AppRouterInstance} from 'next/dist/shared/lib/app-router-context.shared-runtime'
+import {useRouter} from 'next/navigation'
 import { useCallback } from 'react'
 import { FormInstance } from 'antd'
 import {
@@ -8,12 +10,14 @@ import {
 	useAuthRegisterSender,
 	User_Role,
 } from '../../../../../graphql'
+import {routeNames} from '../../../../../utils/routeNames'
 import { getEmailDomain } from '../../../../../utils/stringUtils'
 import { FormStatus } from '../../../../common/form'
 import { useRegisterPageStore } from '../../registerPageStore'
 import { FieldType } from './form'
 
 export function useGetOnSubmit(form: FormInstance) {
+	const router = useRouter()
 	const [registerAdmin] = useAuthRegisterAdmin({ fetchPolicy: 'no-cache' })
 	const [registerSender] = useAuthRegisterSender({ fetchPolicy: 'no-cache' })
 
@@ -24,7 +28,7 @@ export function useGetOnSubmit(form: FormInstance) {
 
 		makeRequest(requestParams)
 			.then((data) => {
-				afterSuccessfulRequest(data, values)
+				afterSuccessfulRequest(data, values, router)
 			})
 			.catch((error) => {
 				afterFailedRequest(form, error)
@@ -35,6 +39,7 @@ export function useGetOnSubmit(form: FormInstance) {
 function afterSuccessfulRequest(
 	data: FetchResult<AuthRegisterAdmin> | FetchResult<AuthRegisterSender>,
 	values: FieldType,
+	router: AppRouterInstance
 ) {
 	useRegisterPageStore.setState({ formStatus: FormStatus.success })
 
@@ -48,6 +53,8 @@ function afterSuccessfulRequest(
 		if (registeredEmailDomain) {
 			useRegisterPageStore.setState({ registeredEmailDomain })
 		}
+
+		router.push(routeNames.auth.login.path)
 	} catch (err: unknown) {}
 }
 

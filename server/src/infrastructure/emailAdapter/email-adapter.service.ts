@@ -8,13 +8,13 @@ export class EmailAdapterService implements EmailAdapterServiceI {
 
 	async sendEmailConfirmationMessage(userEmail: string, confirmationCode: string) {
 		const siteName = this.mainConfig.get().site.name
-		const domainRootWithProtocol = this.mainConfig.get().site.domainRootWithProtocol
+		const domainRootWithProtocol = this.getDomainRootWithProtocol()
 
 		const subject = 'Регистрация на ' + siteName
 		const textMessage = 'Регистрация на ' + siteName
 		const htmlMessage = `
 <h1>Thanks for your registration</h1>
-<p>To finish registration please confirm your email by follow the link:
+<p>To finish registration please confirm your email by following the link:
 	<a href="${domainRootWithProtocol}/auth/email-confirmation?code=${confirmationCode}">confirm email</a>
 </p>
 <p>
@@ -26,7 +26,7 @@ export class EmailAdapterService implements EmailAdapterServiceI {
 	}
 
 	async sendPasswordRecoveryMessage(userEmail: string, recoveryCode: string) {
-		const domainRootWithProtocol = this.mainConfig.get().site.domainRootWithProtocol
+		const domainRootWithProtocol = this.getDomainRootWithProtocol()
 
 		const subject = 'Password recovery at our web-site'
 		const textMessage = 'Password recovery at our web-site'
@@ -82,6 +82,12 @@ export class EmailAdapterService implements EmailAdapterServiceI {
 				}
 			})
 		})
+	}
+
+	getDomainRootWithProtocol() {
+		return ["testing", "development"].includes(this.mainConfig.get().mode)
+			? 'http://localhost'
+			: this.mainConfig.get().site.domainRootWithProtocol
 	}
 }
 

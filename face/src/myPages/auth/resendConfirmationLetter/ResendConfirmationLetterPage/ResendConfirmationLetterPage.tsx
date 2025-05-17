@@ -1,12 +1,12 @@
-import { Typography } from 'antd'
-import Link from 'next/link'
-import { routeNames } from '../../../../utils/routeNames'
-import { AuthPageLayout } from '../../common/AuthPageWithFormLayout/AuthPageLayout'
-import ResendConfirmationLetterForm from '../ResendConfirmationLetterForm/ResendConfirmationLetterForm'
+// import { Typography } from 'antd'
+// import Link from 'next/link'
+// import { routeNames } from '../../../../utils/routeNames'
+// import { AuthPageLayout } from '../../common/AuthPageWithFormLayout/AuthPageLayout'
+// import ResendConfirmationLetterForm from '../ResendConfirmationLetterForm/ResendConfirmationLetterForm'
 
-const { Text } = Typography
+// const { Text } = Typography
 
-export function ResendConfirmationLetterPage() {
+/*export function ResendConfirmationLetterPage() {
 	return (
 		<AuthPageLayout
 			pageTitle={routeNames.auth.resendConfirmationLetter.name}
@@ -21,4 +21,4 @@ export function ResendConfirmationLetterPage() {
 			]}
 		/>
 	)
-}
+}*/

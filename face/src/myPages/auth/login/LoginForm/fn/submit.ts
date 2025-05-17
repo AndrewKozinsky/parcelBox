@@ -17,18 +17,17 @@ export function useGetOnLoginFormSubmit(form: FormInstance) {
 	return useCallback(async function (values: FieldType) {
 		const requestParams = { variables: { input: { email: values.email, password: values.password } } }
 
-		loginRequest(requestParams)
-			.then((data) => {
-				afterSuccessfulRequest(data, router)
-			})
-			.catch((error) => {
-				console.log(error)
-				afterFailedRequest(form, error)
-			})
+		try {
+			const data = await loginRequest(requestParams)
+			afterSuccessfulRequest(data, router)
+		} catch (error: unknown) {
+			afterFailedRequest(form, error)
+		}
 	}, [])
 }
 
 function afterSuccessfulRequest(data: FetchResult<AuthLogin>, router: AppRouterInstance) {
+	console.log('afterSuccessfulRequest Login')
 	useLoginPageStore.setState({ formStatus: FormStatus.success })
 
 	useUserStore.setState({
@@ -55,14 +54,16 @@ function afterSuccessfulRequest(data: FetchResult<AuthLogin>, router: AppRouterI
 }
 
 function afterFailedRequest(form: FormInstance, error: any) {
+	console.log('afterFailedRequest Login')
+	console.log(error)
 	useLoginPageStore.setState({ formStatus: FormStatus.failure, formError: error.message })
 
 	try {
 		// Get fields errors from server
-		const errorFields: Record<string, string>[] = error.graphQLErrors[0].fields // {password: ['Minimum number of characters is 6']}
+		// const errorFields: Record<string, string>[] = error.graphQLErrors[0].fields // {password: ['Minimum number of characters is 6']}
 
 		// Create an array to show errors under appropriated form fields
-		const formattedErrors = Object.entries(errorFields).map(([field, errors]) => {
+		/*const formattedErrors = Object.entries(errorFields).map(([field, errors]) => {
 			return {
 				name: field,
 				// @ts-ignore
@@ -70,6 +71,9 @@ function afterFailedRequest(form: FormInstance, error: any) {
 			}
 		})
 
-		form.setFields(formattedErrors)
-	} catch (err: unknown) {}
+		form.setFields(formattedErrors)*/
+	} catch (err: unknown) {
+		// console.log('Error in LoginFormSubmit')
+		// console.log(err)
+	}
 }

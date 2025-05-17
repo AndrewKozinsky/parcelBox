@@ -1,7 +1,9 @@
-import { useRedirectToRoleMainPageIfUserAuthorized } from './fn/redirects'
+'use client'
+
+import { useAutoRedirectToRoleOrAuthPage } from './fn/redirects'
 
 export function MainPage() {
-	useRedirectToRoleMainPageIfUserAuthorized()
+	useAutoRedirectToRoleOrAuthPage()
 
 	return null
 }

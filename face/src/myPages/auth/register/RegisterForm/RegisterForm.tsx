@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react'
 import { Alert, Button, Form, Input, Radio, RadioChangeEvent } from 'antd'
 import Link from 'next/link'

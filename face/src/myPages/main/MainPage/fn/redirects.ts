@@ -1,25 +1,31 @@
-import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { useUserStore } from '../../../../stores/userStore'
 import { routeNames } from '../../../../utils/routeNames'
 
-export function useRedirectToRoleMainPageIfUserAuthorized() {
+export function useAutoRedirectToRoleOrAuthPage() {
 	const router = useRouter()
 
 	const adminUser = useUserStore((s) => s.adminUser)
 	const senderUser = useUserStore((s) => s.senderUser)
+	const isLoading = useUserStore((s) => s.isLoading)
 
 	useEffect(
 		function () {
-			if (!adminUser && !senderUser) return
+			if (isLoading) return
+
+			let nextPath: string = ''
 
 			if (adminUser) {
-				setTimeout(() => router.push(routeNames.admin.path), 0)
+				nextPath = routeNames.admin.path
+			} else if (senderUser) {
+				nextPath = routeNames.sender.path
+			} else {
+				nextPath = routeNames.auth.login.path
 			}
-			if (senderUser) {
-				setTimeout(() => router.push(routeNames.sender.path), 0)
-			}
+
+			setTimeout(() => router.push(nextPath), 0)
 		},
-		[adminUser, senderUser],
+		[isLoading],
 	)
 }

@@ -1,7 +1,6 @@
-'use client'
-
-import { ResendConfirmationLetterPage } from '../../../myPages/auth/resendConfirmationLetter/ResendConfirmationLetterPage/ResendConfirmationLetterPage'
+// import { ResendConfirmationLetterPage } from '../../../myPages/auth/resendConfirmationLetter/ResendConfirmationLetterPage/ResendConfirmationLetterPage'
 
 export default function Page() {
-	return <ResendConfirmationLetterPage />
+	return <p>ResendConfirmationLetterPage</p>
+	// return <ResendConfirmationLetterPage />
 }

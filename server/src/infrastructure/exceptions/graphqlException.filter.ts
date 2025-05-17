@@ -15,7 +15,7 @@ type HTTPErrorResponse = {
 }
 
 @Catch()
-export class GraphQLValidationFilter implements ExceptionFilter {
+export class MainExceptionFilter implements ExceptionFilter {
 	catch(exception: unknown, host: ArgumentsHost) {
 		const ctxType: 'http' | 'graphql' = host.getType()
 

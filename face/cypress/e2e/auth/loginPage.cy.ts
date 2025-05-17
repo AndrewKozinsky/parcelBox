@@ -13,7 +13,7 @@ describe.skip('Login page', () => {
 	})
 
 	it('should show error if email and password fields filled with wrong data', () => {
-		// Visit to the login page
+		// Visit the login page
 		cy.visit(routeNames.auth.login.path)
 
 		cy.wait(200)
@@ -27,7 +27,7 @@ describe.skip('Login page', () => {
 	})
 
 	it('should show error if email and password were filled correct, but user is not confirmed yet', () => {
-		// Visit to the login page
+		// Visit the login page
 		cy.visit(routeNames.auth.login.path)
 
 		cy.wait(200)
@@ -68,27 +68,27 @@ describe.skip('Login page', () => {
 	})
 })
 
-describe.skip('A try to move to the login page if a user already logged in', () => {
+describe('A try to move to the login page if a user already logged in', () => {
 	beforeEach(() => {
 		server.clearDB()
 		server.seedInitData()
 		server.seedTestData()
 	})
 
-	it('should redirect from login page to admin main page if an admin logged in', () => {
+	it.only('should redirect from login page to admin main page if an admin has already logged in', () => {
 		login(usersConfig.admin_4_conf)
 
-		// Visit to the login page
+		// Visit the login page
 		cy.visit(routeNames.auth.login.path)
 
 		// It has to redirect to the admin main page
 		checkIsPage(routeNames.admin.path)
 	})
 
-	it('should redirect from login page to sender main page if a sender logged in', () => {
+	it('should redirect from login page to sender main page if a sender has already logged in', () => {
 		login(usersConfig.sender_4_conf)
 
-		// Visit to the login page
+		// Visit the login page
 		cy.visit(routeNames.auth.login.path)
 
 		// It has to redirect to the admin main page

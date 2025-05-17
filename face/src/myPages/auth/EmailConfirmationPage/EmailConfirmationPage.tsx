@@ -2,7 +2,7 @@
 
 import { Spin, Typography } from 'antd'
 import Link from 'next/link'
-import {useEffect} from 'react'
+import {useUserStore} from '../../../stores/userStore'
 import { routeNames } from '../../../utils/routeNames'
 import { useEmailConfirmationStore } from './emailConfirmationStore'
 import { useConfirmEmail } from './fn/confirmEmail'
@@ -11,17 +11,10 @@ import './EmailConfirmationPage.scss'
 
 const { Text } = Typography
 
-/*export function EmailConfirmationPage() {
-	// console.log(3333333)
-
-	useEffect(() => {
-		console.log('Runs only once on client after hydration');
-	}, []);
-
-	return null
-}*/
-
 export function EmailConfirmationPage() {
+	const adminUser = useUserStore(s => s.adminUser)
+	// console.log('EmailConfirmationPage')
+	// console.log(adminUser)
 	const confirmEmailLoading = useEmailConfirmationStore((s) => s.confirmEmailLoading)
 
 	useConfirmEmail()

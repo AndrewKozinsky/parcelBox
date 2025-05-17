@@ -1,8 +1,8 @@
-import { useCallback } from 'react'
-import { useParcelBoxDelete, useParcelBoxGetMine } from '../../../../../graphql'
-import { useDeleteParcelBoxStore } from '../deleteParcelBoxStore'
+// import { useCallback } from 'react'
+// import { useParcelBoxDelete, useParcelBoxGetMine } from '../../../../../graphql'
+// import { useDeleteParcelBoxStore } from '../deleteParcelBoxStore'
 
-export function useGetDeleteParcelBox(parcelBoxId: number) {
+/*export function useGetDeleteParcelBox(parcelBoxId: number) {
 	const [deleteBoxRequest] = useParcelBoxDelete({ fetchPolicy: 'no-cache' })
 	const { refetch: refetchMyBoxes } = useParcelBoxGetMine()
 
@@ -20,4 +20,4 @@ export function useGetDeleteParcelBox(parcelBoxId: number) {
 				useDeleteParcelBoxStore.setState({ currentBoxId: null })
 			})
 	}, [])
-}
+}*/

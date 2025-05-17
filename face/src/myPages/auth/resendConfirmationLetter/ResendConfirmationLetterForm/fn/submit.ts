@@ -1,13 +1,13 @@
-import { useCallback } from 'react'
-import { useRouter } from 'next/navigation'
-import { FormInstance } from 'antd'
-import { getEmailDomain } from '../../../../../utils/stringUtils'
-import { FormStatus } from '../../../../common/form'
-import { useResendConfirmationEmailStore } from '../../resendConfirmationLetterPageStore'
-import { FieldType, FormNames } from './form'
-import { useAuthResendConfirmationEmail } from '@/graphql'
+// import { useCallback } from 'react'
+// import { useRouter } from 'next/navigation'
+// import { FormInstance } from 'antd'
+// import { getEmailDomain } from '../../../../../utils/stringUtils'
+// import { FormStatus } from '../../../../common/form'
+// import { useResendConfirmationEmailStore } from '../../resendConfirmationLetterPageStore'
+// import { FieldType, FormNames } from './form'
+// import { useAuthResendConfirmationEmail } from '@/graphql'
 
-export function useGetOnSubmit(form: FormInstance) {
+/*export function useGetOnSubmit(form: FormInstance) {
 	const router = useRouter()
 	const [resendConfirmationEmailRequest] = useAuthResendConfirmationEmail({ fetchPolicy: 'no-cache' })
 
@@ -22,9 +22,9 @@ export function useGetOnSubmit(form: FormInstance) {
 				afterFailedRequest(form, error)
 			})
 	}, [])
-}
+}*/
 
-function afterSuccessfulRequest(values: FieldType) {
+/*function afterSuccessfulRequest(values: FieldType) {
 	useResendConfirmationEmailStore.setState({ formStatus: FormStatus.success })
 
 	try {
@@ -36,9 +36,9 @@ function afterSuccessfulRequest(values: FieldType) {
 	} catch (err: unknown) {
 		console.log(err)
 	}
-}
+}*/
 
-function afterFailedRequest(form: FormInstance, error: any) {
+/*function afterFailedRequest(form: FormInstance, error: any) {
 	useResendConfirmationEmailStore.setState({ formStatus: FormStatus.failure, formError: error.message })
 
 	try {
@@ -58,4 +58,4 @@ function afterFailedRequest(form: FormInstance, error: any) {
 	} catch (err: unknown) {
 		console.log(err)
 	}
-}
+}*/

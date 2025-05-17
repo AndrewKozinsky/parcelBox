@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { Alert, Button, Form, Input } from 'antd'
 import { formFieldRulers, FormStatus } from '../../../common/form'
@@ -80,3 +82,4 @@ function FormWasNotSentMessage() {
 		</Form.Item>
 	)
 }
+

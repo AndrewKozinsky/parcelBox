@@ -46,7 +46,7 @@ export function createDockerConfig(env: EnvType, serverCheck?: boolean): ConfigS
 				container_name: 'parcels-face',
 				depends_on: ['server', 'postgres'],
 				restart: 'unless-stopped',
-				volumes: [EnvType.test, EnvType.dev].includes(env) ? ['./face:/app', './face:/public'] : undefined,
+				volumes: [EnvType.test, EnvType.dev].includes(env) ? ['./face/src:/app/src', './face/public:/app/public', './face/cypress:/app/cypress'] : undefined,
 				command: [EnvType.test, EnvType.dev].includes(env) ? 'yarn run dev' : 'yarn run start',
 				environment: getFaceEnvs(env),
 			},

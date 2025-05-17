@@ -1,7 +1,8 @@
-'use client'
+// import AdminMainPage from '../../myPages/admin/mainPage/AdminMainPage/AdminMainPage'
 
-import AdminMainPage from '../../myPages/admin/mainPage/AdminMainPage/AdminMainPage'
+import React from 'react'
 
 export default function Page() {
-	return <AdminMainPage />
+	return <p>AdminMainLayout</p>
+	// return <AdminMainPage />
 }

@@ -39,8 +39,9 @@ services:
       - postgres
     restart: unless-stopped
     volumes:
-      - ./face:/app
-      - ./face:/public
+      - ./face/src:/app/src
+      - ./face/public:/app/public
+      - ./face/cypress:/app/cypress
     command: yarn run dev
     environment:
       MODE: testing

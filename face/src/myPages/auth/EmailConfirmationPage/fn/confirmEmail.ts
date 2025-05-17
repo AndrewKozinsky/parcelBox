@@ -1,18 +1,15 @@
+import {AppRouterInstance} from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import { useEffect } from 'react'
+import {ApolloClient, useApolloClient} from '@apollo/client'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useAuthConfirmEmail } from '../../../../graphql'
+import {AuthConfirmEmailDocument} from '../../../../graphql'
 import { routeNames } from '../../../../utils/routeNames'
 import { useEmailConfirmationStore } from '../emailConfirmationStore'
 
 export function useConfirmEmail() {
+	const gqiClient = useApolloClient()
 	const router = useRouter()
 	const confirmEmailCode = useGetConfirmEmailCode()
-
-	const { loading, error } = useAuthConfirmEmail({
-		variables: { input: { code: confirmEmailCode as string } },
-		skip: !confirmEmailCode,
-		fetchPolicy: 'no-cache',
-	})
 
 	useEffect(
 		function () {
@@ -21,31 +18,37 @@ export function useConfirmEmail() {
 					errorMessage:
 						'В адресе не найден код подтверждения почты. Скорее всего вы попали на эту страницу по ошибке.',
 				})
+
 				return
 			}
 
-			if (loading) {
-				useEmailConfirmationStore.setState({
-					confirmEmailLoading: true,
-				})
-				return
-			}
+			useEmailConfirmationStore.setState({
+				confirmEmailLoading: true,
+			})
 
-			useEmailConfirmationStore.setState({ confirmEmailLoading: false })
-
-
-			if (error) {
-				useEmailConfirmationStore.setState({ errorMessage: error.message })
-				return
-			}
-
-			// If request was successful redirect to the login page
-			setTimeout(() => {
-				router.push(routeNames.auth.login.path)
-			}, 0)
+			confirmEmail(gqiClient, confirmEmailCode, router)
 		},
-		[confirmEmailCode, loading, error],
+		[confirmEmailCode],
 	)
+}
+
+async function confirmEmail(gqiClient: ApolloClient<object>, confirmEmailCode: string | null | undefined, router: AppRouterInstance) {
+	try {
+		await gqiClient.query({
+			query: AuthConfirmEmailDocument,
+			fetchPolicy: 'no-cache',
+			variables: { input: { code: confirmEmailCode as string } },
+		})
+
+		// If request was successful redirect to the login page
+		router.push(routeNames.auth.login.path)
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			useEmailConfirmationStore.getState().setErrorMessage(error.message)
+		}
+	} finally {
+		useEmailConfirmationStore.getState().setConfirmEmailLoading(false)
+	}
 }
 
 function useGetConfirmEmailCode() {

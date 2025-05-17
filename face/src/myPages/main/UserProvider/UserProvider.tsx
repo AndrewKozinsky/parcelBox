@@ -1,24 +1,26 @@
 'use client'
 
-import React from 'react'
-import { useUserStore } from '../../../stores/userStore'
-import { useManageUserInStore } from './fn/setUserToStore'
+import {AdminOutModel, SenderOutModel, User_Role} from '../../../graphql'
+import {useUserStore} from '../../../stores/userStore'
 
-/**
- * This component checks for user data in useUserStore.
- * If there is nothing there then tries to get current user data from the server.
- * If this attempt fails it makes a redirect to login page.
- * @param children
- * @constructor
- */
-export function UserProvider({ children }: { children: React.ReactNode }) {
-	const isUserLoading = useUserStore((s) => s.isLoading)
+type UserOrNull = SenderOutModel | AdminOutModel | null
 
-	useManageUserInStore()
+type UserProviderProps = {
+	user: UserOrNull
+}
 
-	if (isUserLoading) {
-		return <p>Loading...</p>
+export function UserProvider(props: UserProviderProps) {
+	const { user } = props
+
+	if (user) {
+		if (user.role === User_Role.Sender) {
+			useUserStore.getState().setSenderUser(user as SenderOutModel)
+		} else if (user.role === User_Role.Admin) {
+			useUserStore.getState().setAdminUser(user as AdminOutModel)
+		}
+	} else {
+		useUserStore.getState().clearUser()
 	}
 
-	return children
+	return null
 }

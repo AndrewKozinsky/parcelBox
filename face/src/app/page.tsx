@@ -1,5 +1,3 @@
-'use client'
-
 import { MainPage } from '../myPages/main/MainPage/MainPage'
 
 export default function Page() {

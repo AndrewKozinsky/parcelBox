@@ -1,7 +1,6 @@
-'use client'
-
-import { ForgetPasswordPage } from '../../../myPages/auth/forgetPassword/ForgetPasswordPage/ForgetPasswordPage'
+// import { ForgetPasswordPage } from '../../../myPages/auth/forgetPassword/ForgetPasswordPage/ForgetPasswordPage'
 
 export default function Page() {
-	return <ForgetPasswordPage />
+	return <p>ForgetPasswordPage</p>
+	// return <ForgetPasswordPage />
 }

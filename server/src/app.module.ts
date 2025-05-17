@@ -47,10 +47,6 @@ import { TestsModule } from './routes/test/tests.module'
 						}
 						return { req, res } // HTTP request
 					},
-					cors: {
-						origin: 'http://localhost:3001',
-						credentials: true,
-					},
 					path: '/api/graphql',
 				}
 			},

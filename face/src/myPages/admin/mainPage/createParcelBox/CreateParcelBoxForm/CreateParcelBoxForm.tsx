@@ -1,19 +1,19 @@
-import React from 'react'
-import { Button, Checkbox, Form, Space, Alert, Radio, Typography, TimePicker, AutoComplete, FormInstance } from 'antd'
-import { useParcelBoxTypeGetAll } from '../../../../../graphql'
-import { formFieldRulers, FormStatus } from '../../../../common/form'
-import { useAddParcelBoxStore } from '../addParcelBoxStore'
-import { checkAllWorkFieldDaysOptions, useGetCheckAllWorkDaysBoxes } from './fn/businessDaysField'
-import { useGetOnAddressFieldSearch } from './fn/addressFields'
-import { AddParcelBoxFormTest, FieldType, FormNames, useGetOnChangeCreateBoxForm } from './fn/form'
-import { convertCellTypeToSummary } from './fn/parcelBoxField'
-import { useGetOnCreateBoxFormSubmit } from './fn/submit'
-import { useGetSetZerosToWorkTimeInput } from './fn/workTimeField'
-import './CreateParcelBoxForm.scss'
+// import React from 'react'
+// import { Button, Checkbox, Form, Space, Alert, Radio, Typography, TimePicker, AutoComplete, FormInstance } from 'antd'
+// import { useParcelBoxTypeGetAll } from '../../../../../graphql'
+// import { formFieldRulers, FormStatus } from '../../../../common/form'
+// import { useAddParcelBoxStore } from '../addParcelBoxStore'
+// import { checkAllWorkFieldDaysOptions, useGetCheckAllWorkDaysBoxes } from './fn/businessDaysField'
+// import { useGetOnAddressFieldSearch } from './fn/addressFields'
+// import { AddParcelBoxFormTest, FieldType, FormNames, useGetOnChangeCreateBoxForm } from './fn/form'
+// import { convertCellTypeToSummary } from './fn/parcelBoxField'
+// import { useGetOnCreateBoxFormSubmit } from './fn/submit'
+// import { useGetSetZerosToWorkTimeInput } from './fn/workTimeField'
+// import './CreateParcelBoxForm.scss'
 
-const { Text } = Typography
+// const { Text } = Typography
 
-function CreateParcelBoxForm() {
+/*function CreateParcelBoxForm() {
 	const [form] = Form.useForm()
 
 	const formStatus = useAddParcelBoxStore((s) => s.formStatus)
@@ -39,11 +39,11 @@ function CreateParcelBoxForm() {
 			<FormWasNotSentMessage />
 		</Form>
 	)
-}
+}*/
 
-export default CreateParcelBoxForm
+// export default CreateParcelBoxForm
 
-function AddressField() {
+/*function AddressField() {
 	const addressSuggestions = useAddParcelBoxStore((s) => s.addressSuggestions)
 	const onAddressFieldSearch = useGetOnAddressFieldSearch()
 
@@ -52,13 +52,13 @@ function AddressField() {
 			<AutoComplete options={addressSuggestions} onSearch={onAddressFieldSearch} />
 		</Form.Item>
 	)
-}
+}*/
 
-type BusinessDaysCheckboxesProps = {
+/*type BusinessDaysCheckboxesProps = {
 	form: FormInstance<FieldType>
-}
+}*/
 
-function BusinessDaysCheckboxes(props: BusinessDaysCheckboxesProps) {
+/*function BusinessDaysCheckboxes(props: BusinessDaysCheckboxesProps) {
 	const { form } = props
 
 	const checkAllWorkDaysBoxes = useGetCheckAllWorkDaysBoxes(form)
@@ -73,13 +73,13 @@ function BusinessDaysCheckboxes(props: BusinessDaysCheckboxesProps) {
 			</Button>
 		</Space>
 	)
-}
+}*/
 
-type WorkTimeFieldsProps = {
+/*type WorkTimeFieldsProps = {
 	form: FormInstance<FieldType>
-}
+}*/
 
-function WorkTimeFields(props: WorkTimeFieldsProps) {
+/*function WorkTimeFields(props: WorkTimeFieldsProps) {
 	const { form } = props
 
 	const format = 'HH:mm'
@@ -101,9 +101,9 @@ function WorkTimeFields(props: WorkTimeFieldsProps) {
 			</Button>
 		</div>
 	)
-}
+}*/
 
-function ParcelBoxTypeRadios() {
+/*function ParcelBoxTypeRadios() {
 	const { loading, data, error } = useParcelBoxTypeGetAll()
 
 	if (loading) return null
@@ -144,9 +144,9 @@ function ParcelBoxTypeRadios() {
 			</Radio.Group>
 		</Form.Item>
 	)
-}
+}*/
 
-function SubmitFormButton() {
+/*function SubmitFormButton() {
 	const isFormValid = useAddParcelBoxStore((s) => s.isFormValid)
 	const formStatus = useAddParcelBoxStore((s) => s.formStatus)
 
@@ -162,9 +162,9 @@ function SubmitFormButton() {
 			Создать
 		</Button>
 	)
-}
+}*/
 
-function FormWasNotSentMessage() {
+/*function FormWasNotSentMessage() {
 	const formStatus = useAddParcelBoxStore((s) => s.formStatus)
 	const formError = useAddParcelBoxStore((s) => s.formError)
 
@@ -180,4 +180,4 @@ function FormWasNotSentMessage() {
 			style={{ marginTop: '2rem' }}
 		/>
 	)
-}
+}*/

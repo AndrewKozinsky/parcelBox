@@ -1,5 +1,3 @@
-'use client'
-
 import { Typography } from 'antd'
 import Link from 'next/link'
 import { routeNames } from '../../utils/routeNames'

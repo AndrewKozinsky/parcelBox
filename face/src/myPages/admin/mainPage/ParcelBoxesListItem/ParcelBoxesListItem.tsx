@@ -1,17 +1,17 @@
-import React from 'react'
-import { Typography } from 'antd'
-import { ParcelBoxOutModel } from '../../../../graphql'
-import DeleteParcelBoxButton from '../DeleteParcelBoxButton/DeleteParcelBoxButton'
-import { convertNumArrToWeekDaysStr } from './fn/common'
-import './ParcelBoxesListItem.scss'
+// import React from 'react'
+// import { Typography } from 'antd'
+// import { ParcelBoxOutModel } from '../../../../graphql'
+// import DeleteParcelBoxButton from '../DeleteParcelBoxButton/DeleteParcelBoxButton'
+// import { convertNumArrToWeekDaysStr } from './fn/common'
+// import './ParcelBoxesListItem.scss'
 
-const { Title, Text } = Typography
+// const { Title, Text } = Typography
 
-type ParcelBoxListItemProps = {
+/*type ParcelBoxListItemProps = {
 	data: ParcelBoxOutModel
-}
+}*/
 
-function ParcelBoxListItem(props: ParcelBoxListItemProps) {
+/*function ParcelBoxListItem(props: ParcelBoxListItemProps) {
 	const { data } = props
 
 	const businessDaysArr = convertNumArrToWeekDaysStr(data.location.businessDays)
@@ -32,20 +32,20 @@ function ParcelBoxListItem(props: ParcelBoxListItemProps) {
 				<Text>{data.parcelBoxTypeName}</Text>
 			</div>
 			<div className='parcel-box__buttons'>
-				{/*<EditParcelBoxButton />*/}
+				{/!*<EditParcelBoxButton />*!/}
 				<DeleteParcelBoxButton parcelBoxId={data.id} />
 			</div>
 		</div>
 	)
-}
+}*/
 
-export default ParcelBoxListItem
+// export default ParcelBoxListItem
 
-type CellProps = {
+/*type CellProps = {
 	data: ParcelBoxOutModel
-}
+}*/
 
-function BusinessHours(props: CellProps) {
+/*function BusinessHours(props: CellProps) {
 	const { businessTimeFrom, businessTimeTo } = props.data.location
 
 	let content = <Text disabled>Не указаны</Text>
@@ -67,4 +67,4 @@ function BusinessHours(props: CellProps) {
 			{content}
 		</div>
 	)
-}
+}*/

@@ -11,7 +11,7 @@ describe.skip('Resend confirmation letter page', () => {
 		server.seedTestData()
 		cy.wait(100)
 
-		// Visit to the register page
+		// Visit the register page
 		cy.visit(routeNames.auth.resendConfirmationLetter.path)
 		cy.wait(200)
 	})
@@ -89,7 +89,7 @@ describe.skip('Resend confirmation letter page if a user already logged in', () 
 	it('should redirect from register page to admin main page if an admin logged in', () => {
 		login(usersConfig.admin_2_conf)
 
-		// Visit to the confirmation letter page
+		// Visit the confirmation letter page
 		cy.visit(routeNames.auth.resendConfirmationLetter.path)
 
 		// It has to redirect to the admin main page
@@ -99,7 +99,7 @@ describe.skip('Resend confirmation letter page if a user already logged in', () 
 	it('should redirect from register page to sender main page if a sender logged in', () => {
 		login(usersConfig.sender_3_conf)
 
-		// Visit to the confirmation letter page
+		// Visit the confirmation letter page
 		cy.visit(routeNames.auth.resendConfirmationLetter.path)
 
 		// It has to redirect to the admin main page

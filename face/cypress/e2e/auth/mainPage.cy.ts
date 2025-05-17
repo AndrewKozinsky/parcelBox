@@ -20,7 +20,7 @@ describe.skip('Main page', () => {
 	it('should redirect from main to admin main page if an admin logged in', () => {
 		login(usersConfig.admin_4_conf)
 
-		// Visit to the main page
+		// Visit the main page
 		cy.visit(routeNames.main.path)
 		checkIsPage(routeNames.admin.path)
 	})
@@ -28,7 +28,7 @@ describe.skip('Main page', () => {
 	it('should redirect from main to sender main page if a sender logged in', () => {
 		login(usersConfig.sender_3_conf)
 
-		// Visit to the main page
+		// Visit the main page
 		cy.visit(routeNames.main.path)
 		checkIsPage(routeNames.sender.path)
 	})

@@ -6,7 +6,7 @@ export function useGetOnLogoutBtnClick() {
 	const [logoutRequest] = useAuthLogout({ fetchPolicy: 'no-cache' })
 
 	return useCallback(function () {
-		logoutRequest()
+		/*logoutRequest()
 			.then(({ data }) => {
 				console.log('Successfully logged out')
 				useUserStore.getState().logout()
@@ -14,6 +14,6 @@ export function useGetOnLogoutBtnClick() {
 			.catch((err) => {
 				console.log(err)
 				alert(err.message)
-			})
+			})*/
 	}, [])
 }

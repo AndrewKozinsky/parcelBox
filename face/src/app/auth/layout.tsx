@@ -1,6 +1,6 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import { AuthLayout } from '../../myPages/auth/AuthLayout/AuthLayout'
+import {AuthLayout} from '../../myPages/auth/auth/AuthLayout/AuthLayout'
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
