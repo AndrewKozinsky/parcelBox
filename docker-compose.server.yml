@@ -9,8 +9,8 @@ services:
     volumes:
       - ./nginx/nginx.conf.dev:/etc/nginx/nginx.conf
     environment:
-      VIRTUAL_HOST: parcels.parcelsit.ru,www.parcels.parcelsit.ru
-      LETSENCRYPT_HOST: parcels.parcelsit.ru,www.parcels.parcelsit.ru
+      VIRTUAL_HOST: parcels.explainit.ru,www.parcels.explainit.ru
+      LETSENCRYPT_HOST: parcels.explainit.ru,www.parcels.explainit.ru
   server:
     build:
       context: server/

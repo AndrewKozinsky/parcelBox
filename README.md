@@ -38,7 +38,7 @@ The client will work on http://localhost.
 ### Starting the Docker project in production mode
 1. Run Docker Desktop.
 2. Run
-   ```docker compose -f docker-compose.server.yml up```
+   ```docker compose -f docker-compose.server.yml up --build```
    to run all containers.
 4. Now you need to apply migrations. Go inside the container of the server:
    ```docker exec -it parcels-server sh```

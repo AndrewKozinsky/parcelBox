@@ -1,6 +1,6 @@
 import { ConfigSchemaV37Json } from './types/ConfigSchemaV37Json'
 
-const domain = 'parcels.parcelsit.ru'
+const domain = 'parcels.explainit.ru'
 export enum EnvType {
 	test= 'testing',
 	dev = 'development',
