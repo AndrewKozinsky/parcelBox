@@ -51,3 +51,5 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     env_file:
       - .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
