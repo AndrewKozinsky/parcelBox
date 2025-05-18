@@ -70,9 +70,8 @@ export function createDockerConfig(env: EnvType, serverCheck?: boolean): ConfigS
 function getServerNetworks() {
 	return {
 		default: {
-			external: {
-				name: 'nginx-proxy',
-			},
+			name: 'nginx-proxy',
+			external: true
 		},
 	}
 }

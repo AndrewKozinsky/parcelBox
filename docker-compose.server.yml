@@ -53,5 +53,5 @@ services:
       - pgdata:/var/lib/postgresql/data
 networks:
   default:
-    external:
-      name: nginx-proxy
+    name: nginx-proxy
+    external: true
