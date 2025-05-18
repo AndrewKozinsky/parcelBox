@@ -57,7 +57,7 @@ export function createDockerConfig(env: EnvType, serverCheck?: boolean): ConfigS
 				ports: ['5433:5432'],
 				environment: getPostgresEnvs(),
 				env_file: ['.env'],
-				volumes: [EnvType.test, EnvType.dev].includes(env) ?  ['pgdata:/var/lib/postgresql/data'] : undefined,
+				volumes: ['pgdata:/var/lib/postgresql/data'],
 			},
 		},
 		networks: env === EnvType.server && !serverCheck ? getServerNetworks() : undefined,
