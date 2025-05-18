@@ -61,9 +61,9 @@ export function createDockerConfig(env: EnvType, serverCheck?: boolean): ConfigS
 			},
 		},
 		networks: env === EnvType.server && !serverCheck ? getServerNetworks() : undefined,
-		volumes: [EnvType.test, EnvType.dev].includes(env) ? {
+		volumes: {
 			pgdata: {}
-		} : undefined
+		}
 	}
 }
 

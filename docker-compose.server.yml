@@ -55,3 +55,5 @@ networks:
   default:
     name: nginx-proxy
     external: true
+volumes:
+  pgdata: {}
