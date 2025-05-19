@@ -1,22 +1,22 @@
 services:
-  nginx:
+  parcelsnginx:
     image: nginx:1.19.7-alpine
     container_name: parcels-nginx
     depends_on:
-      - face
-      - server
-      - postgres
+      - parcelsface
+      - parcelsserver
+      - parcelspostgres
     ports:
       - 80:80
     volumes:
       - ./nginx/nginx.conf.dev:/etc/nginx/nginx.conf
-  server:
+  parcelsserver:
     build:
       context: server/
       dockerfile: Dockerfile.dev
     container_name: parcels-server
     depends_on:
-      - postgres
+      - parcelspostgres
     restart: unless-stopped
     volumes:
       - ./server/src:/app/src
@@ -29,14 +29,14 @@ services:
       - .env
     ports:
       - 3001:3001
-  face:
+  parcelsface:
     build:
       context: face/
       dockerfile: Dockerfile.dev
     container_name: parcels-face
     depends_on:
-      - server
-      - postgres
+      - parcelsserver
+      - parcelspostgres
     restart: unless-stopped
     volumes:
       - ./face/src:/app/src
@@ -45,7 +45,7 @@ services:
     command: yarn run dev
     environment:
       MODE: development
-  postgres:
+  parcelspostgres:
     image: postgres:16.2
     restart: unless-stopped
     container_name: parcel-box-postgres

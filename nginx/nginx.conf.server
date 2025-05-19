@@ -8,12 +8,12 @@ http {
         listen 443;
 
         location ^~ /api {
-            proxy_pass http://server:3001;
+            proxy_pass http://parcelsserver:3001;
             proxy_http_version 1.1;
         }
 
         location / {
-            proxy_pass http://face:3000;
+            proxy_pass http://parcelsface:3000;
         }
 
         location /nginx-test {

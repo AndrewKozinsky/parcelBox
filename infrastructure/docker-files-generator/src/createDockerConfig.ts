@@ -15,21 +15,21 @@ export enum EnvType {
 export function createDockerConfig(env: EnvType, serverCheck?: boolean): ConfigSchemaV37Json {
 	return {
 		services: {
-			nginx: {
+			parcelsnginx: {
 				image: 'nginx:1.19.7-alpine',
 				container_name: 'parcels-nginx',
-				depends_on: ['face', 'server', 'postgres'],
+				depends_on: ['parcelsface', 'parcelsserver', 'parcelspostgres'],
 				ports: env === EnvType.server && !serverCheck  ? undefined : ['80:80'],
 				volumes: ['./nginx/nginx.conf.dev:/etc/nginx/nginx.conf'],
 				environment: getNginxEnvs(env),
 			},
-			server: {
+			parcelsserver: {
 				build: {
 					context: 'server/',
 					dockerfile: [EnvType.test, EnvType.dev].includes(env) ? 'Dockerfile.dev' : 'Dockerfile.server',
 				},
 				container_name: 'parcels-server',
-				depends_on: ['postgres'],
+				depends_on: ['parcelspostgres'],
 				restart: 'unless-stopped',
 				volumes: [EnvType.test, EnvType.dev].includes(env) ? ['./server/src:/app/src', './server/e2e:/app/e2e'] : undefined,
 				command: [EnvType.test, EnvType.dev].includes(env) ? 'sh -c "yarn run dev"' : 'sh -c "yarn run migrate:dev && yarn start:prod"',
@@ -38,19 +38,19 @@ export function createDockerConfig(env: EnvType, serverCheck?: boolean): ConfigS
 				env_file: ['.env'],
 				ports: [EnvType.test, EnvType.dev].includes(env) ? ['3001:3001'] : undefined,
 			},
-			face: {
+			parcelsface: {
 				build: {
 					context: 'face/',
 					dockerfile: [EnvType.test, EnvType.dev].includes(env) ? 'Dockerfile.dev' : 'Dockerfile.server',
 				},
 				container_name: 'parcels-face',
-				depends_on: ['server', 'postgres'],
+				depends_on: ['parcelsserver', 'parcelspostgres'],
 				restart: 'unless-stopped',
 				volumes: [EnvType.test, EnvType.dev].includes(env) ? ['./face/src:/app/src', './face/public:/app/public', './face/cypress:/app/cypress'] : undefined,
 				command: [EnvType.test, EnvType.dev].includes(env) ? 'yarn run dev' : 'yarn run start',
 				environment: getFaceEnvs(env),
 			},
-			postgres: {
+			parcelspostgres: {
 				image: 'postgres:16.2',
 				restart: 'unless-stopped',
 				container_name: 'parcel-box-postgres',
@@ -111,7 +111,6 @@ function getFaceEnvs(env: EnvType) {
 
 /**
  * Возвращает переменные окружения для Face
- * @param env — тип конфигурации
  */
 function getPostgresEnvs() {
 	return { POSTGRES_DB: '${POSTGRES_DB}', POSTGRES_USER: '${POSTGRES_USER}', POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}', }

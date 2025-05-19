@@ -1,23 +1,23 @@
 services:
-  nginx:
+  parcelsnginx:
     image: nginx:1.19.7-alpine
     container_name: parcels-nginx
     depends_on:
-      - face
-      - server
-      - postgres
+      - parcelsface
+      - parcelsserver
+      - parcelspostgres
     volumes:
       - ./nginx/nginx.conf.dev:/etc/nginx/nginx.conf
     environment:
       VIRTUAL_HOST: parcels.explainit.ru,www.parcels.explainit.ru
       LETSENCRYPT_HOST: parcels.explainit.ru,www.parcels.explainit.ru
-  server:
+  parcelsserver:
     build:
       context: server/
       dockerfile: Dockerfile.server
     container_name: parcels-server
     depends_on:
-      - postgres
+      - parcelspostgres
     restart: unless-stopped
     command: sh -c "yarn run migrate:dev && yarn start:prod"
     environment:
@@ -25,19 +25,19 @@ services:
       PORT: 3001
     env_file:
       - .env
-  face:
+  parcelsface:
     build:
       context: face/
       dockerfile: Dockerfile.server
     container_name: parcels-face
     depends_on:
-      - server
-      - postgres
+      - parcelsserver
+      - parcelspostgres
     restart: unless-stopped
     command: yarn run start
     environment:
       MODE: server
-  postgres:
+  parcelspostgres:
     image: postgres:16.2
     restart: unless-stopped
     container_name: parcel-box-postgres
