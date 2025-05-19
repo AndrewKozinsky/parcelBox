@@ -24,7 +24,7 @@ export function useAutoRedirectToRoleOrAuthPage() {
 				nextPath = routeNames.auth.login.path
 			}
 
-			setTimeout(() => router.push(nextPath), 0)
+			router.push(nextPath)
 		},
 		[isLoading],
 	)

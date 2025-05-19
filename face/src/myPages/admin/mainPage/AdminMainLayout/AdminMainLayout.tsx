@@ -1,5 +1,6 @@
 import React from 'react'
 import ContentLayout from '../../../common/ContentLayout/ContentLayout'
+import UserPageAutoRedirect from '../../../common/UserPageAutoRedirect/UserPageAutoRedirect'
 
 type AdminMainLayoutProps = {
 	children: React.ReactNode
@@ -8,7 +9,12 @@ type AdminMainLayoutProps = {
 function AdminMainLayout(props: AdminMainLayoutProps) {
 	const { children } = props
 
-	return <ContentLayout>{children}</ContentLayout>
+	return (
+		<ContentLayout>
+			<UserPageAutoRedirect />
+			{children}
+		</ContentLayout>
+	)
 }
 
 export default AdminMainLayout
