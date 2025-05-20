@@ -4,8 +4,10 @@ import { ApolloClient, InMemoryCache } from '@apollo/experimental-nextjs-app-sup
 // have a function to create a client for you
 export default function getApolloClient() {
 	const httpLink = new HttpLink({
-		// this needs to be an absolute url, as relative urls cannot be used in SSR
-		uri: 'http://localhost/api/graphql',
+		// Use Docker service name for server-side and relative URL for client-side
+		uri: typeof window === 'undefined' 
+			? 'http://parcelsserver:3001/api/graphql' // Server-side URL using Docker service name
+			: '/api/graphql', // Client-side URL
 		// you can disable result caching here if you want to
 		// (this does not work if you are rendering your page with `export const dynamic = "force-static"`)
 		fetchOptions: { cache: 'no-store' },
@@ -21,9 +23,9 @@ export default function getApolloClient() {
 		// use the `InMemoryCache` from "@apollo/experimental-nextjs-app-support"
 		cache: new InMemoryCache(),
 		link: httpLink,
-		/*defaultOptions: {
+		defaultOptions: {
 			watchQuery: {
-				fetchPolicy: 'no-cache', // Prevent cache issues globally
+				fetchPolicy: 'no-cache',
 			},
 			query: {
 				fetchPolicy: 'no-cache',
@@ -31,6 +33,6 @@ export default function getApolloClient() {
 			mutate: {
 				fetchPolicy: 'no-cache',
 			},
-		},*/
+		},
 	})
 }

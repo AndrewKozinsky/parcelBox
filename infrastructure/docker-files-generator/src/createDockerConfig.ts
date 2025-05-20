@@ -53,7 +53,7 @@ export function createDockerConfig(env: EnvType, serverCheck?: boolean): ConfigS
 			parcelspostgres: {
 				image: 'postgres:16.2',
 				restart: 'unless-stopped',
-				container_name: 'parcel-box-postgres',
+				container_name: 'parcels-postgres',
 				ports: ['5433:5432'],
 				environment: getPostgresEnvs(),
 				env_file: ['.env'],

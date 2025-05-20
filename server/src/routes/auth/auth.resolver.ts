@@ -72,6 +72,8 @@ export class AuthResolver {
 		@Context('req') request: Request,
 		@Context('res') response: Response,
 	) {
+		// console.log('-------------------------------------------------------')
+		// console.log('eeee	' + request.user)
 		const clientIP = this.browserService.getClientIP(request)
 		const clientName = this.browserService.getClientName(request)
 
@@ -116,6 +118,8 @@ export class AuthResolver {
 	})
 	@UsePipes(new ValidationPipe({ transform: true }))
 	async getMe(@Context('req') request: Request) {
+		console.log('111111222222')
+		console.log(request.user)
 		return await this.commandBus.execute(new GetAdminOrSenderByIdCommand(request.user!.id))
 	}
 

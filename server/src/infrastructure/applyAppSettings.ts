@@ -16,12 +16,10 @@ export async function applyAppSettings(app: INestApplication) {
 	useContainer(app.select(AppModule), { fallbackOnErrors: true })
 
 	const mainConfig = await app.resolve(MainConfigService)
+	const jwtService = await app.resolve(JwtAdapterService)
+	const userRepository = await app.resolve(UserRepository)
 
 	app.use(async (req: Request, res: Response, next: NextFunction) => {
-		const jwtService = await app.resolve(JwtAdapterService)
-		const userRepository = await app.resolve(UserRepository)
-		const mainConfig = await app.resolve(MainConfigService)
-
 		const userMiddleware = new SetUserIntoReqMiddleware(jwtService, userRepository, mainConfig)
 		await userMiddleware.use(req, res, next)
 	})

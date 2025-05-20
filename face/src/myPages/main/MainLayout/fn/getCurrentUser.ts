@@ -1,4 +1,5 @@
 import { ApolloClient } from '@apollo/client'
+import {cookies} from 'next/headers'
 import {
 	AdminOutModel,
 	AuthGetMeDocument,
@@ -8,8 +9,11 @@ import getApolloClient from '../../ApolloClient'
 
 export async function getCurrentUser(): Promise<null | SenderOutModel | AdminOutModel> {
 	const gqiClient = getApolloClient()
+	const cookieStore = await cookies()
+	const accessToken = cookieStore.get('accessToken')?.value
 
-	const userData = await getUserByAccessToken(gqiClient)
+	const userData = await getUserByAccessToken(gqiClient, accessToken)
+	console.log({userData})
 	if (userData) return userData
 
 	const newAccessTokenWasGot = await getNewAccessTokenByRefreshToken(gqiClient)
@@ -19,13 +23,24 @@ export async function getCurrentUser(): Promise<null | SenderOutModel | AdminOut
 	return await getUserByAccessToken(gqiClient)
 }
 
-async function getUserByAccessToken(gqiClient: ApolloClient<object>) {
+async function getUserByAccessToken(gqiClient: ApolloClient<object>, accessToken?: string) {
+	// console.log('here')
+	// console.log(accessToken)
 	try {
 		const { data } = await gqiClient.query({
 			query: AuthGetMeDocument,
+			context: {
+				headers: {
+					cookies: accessToken ? `Bearer ${accessToken}` : undefined
+				}
+			}
 		})
+		// console.log(data)
+		// console.log('++++++++++++++++++++++++')
 		return data
 	} catch (error) {
+		// console.log('--------------------------------')
+		// console.log(error)
 		return null
 	}
 }

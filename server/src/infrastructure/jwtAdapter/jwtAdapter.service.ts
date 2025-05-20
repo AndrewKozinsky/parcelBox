@@ -50,7 +50,7 @@ export class JwtAdapterService {
 			const payload = jwt.verify(refreshTokenStr, this.mainConfig.get().jwt.secret)
 			return payload as { deviceId: string }
 		} catch (error) {
-			console.log(error)
+			// console.log(error)
 			return null
 		}
 	}
@@ -60,7 +60,7 @@ export class JwtAdapterService {
 		try {
 			return jwt.verify(refreshTokenStr, this.mainConfig.get().jwt.secret)
 		} catch (error) {
-			console.log(error)
+			// console.log(error)
 			return false
 		}
 	}
@@ -70,7 +70,7 @@ export class JwtAdapterService {
 		try {
 			return jwt.decode(refreshTokenStr)
 		} catch (error) {
-			console.log(error)
+			// console.log(error)
 			return false
 		}
 	}
@@ -86,7 +86,7 @@ export class JwtAdapterService {
 			const tokenLifetimeInMs = this.mainConfig.get().refreshToken.lifeDurationInMs
 			return dateFns.addMilliseconds(issuedAtDate, tokenLifetimeInMs)
 		} catch (error) {
-			console.log(error)
+			// console.log(error)
 			return null
 		}
 	}
