@@ -118,8 +118,6 @@ export class AuthResolver {
 	})
 	@UsePipes(new ValidationPipe({ transform: true }))
 	async getMe(@Context('req') request: Request) {
-		console.log('111111222222')
-		console.log(request.user)
 		return await this.commandBus.execute(new GetAdminOrSenderByIdCommand(request.user!.id))
 	}
 

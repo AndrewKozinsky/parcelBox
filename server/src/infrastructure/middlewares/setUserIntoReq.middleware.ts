@@ -16,34 +16,34 @@ export class SetUserIntoReqMiddleware implements NestMiddleware {
 		const accessTokenName = this.mainConfig.get().accessToken.name
 
 		const accessTokenStr = req.cookies[accessTokenName]
-		console.log('Middleware - Access Token:', accessTokenStr ? 'Present' : 'Missing')
+		// console.log('Middleware - Access Token:', accessTokenStr ? 'Present' : 'Missing')
 
 		if (!accessTokenStr) {
-			console.log('Middleware - No access token found in cookies')
+			// console.log('Middleware - No access token found in cookies')
 			next()
 			return
 		}
 
 		const isTokenValid = this.jwtAdapter.verifyTokenFromStr(accessTokenStr)
-		console.log('Middleware - Token validation:', isTokenValid ? 'Valid' : 'Invalid')
+		// console.log('Middleware - Token validation:', isTokenValid ? 'Valid' : 'Invalid')
 
 		if (!isTokenValid) {
-			console.log('Middleware - Token verification failed')
+			// console.log('Middleware - Token verification failed')
 			next()
 			return
 		}
 
 		const userId = this.jwtAdapter.getUserIdByAccessTokenStr(accessTokenStr)
-		console.log('Middleware - User ID from token:', userId)
+		// console.log('Middleware - User ID from token:', userId)
 
 		if (!userId) {
-			console.log('Middleware - No user ID found in token')
+			// console.log('Middleware - No user ID found in token')
 			next()
 			return
 		}
 
 		req.user = await this.userRepository.getUserById(userId)
-		console.log('Middleware - User found in database:', req.user ? 'Yes' : 'No')
+		// console.log('Middleware - User found in database:', req.user ? 'Yes' : 'No')
 		next()
 	}
 }

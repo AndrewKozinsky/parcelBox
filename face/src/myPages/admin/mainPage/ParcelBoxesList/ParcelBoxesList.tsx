@@ -6,7 +6,7 @@ import ParcelBoxListItem from '../ParcelBoxesListItem/ParcelBoxesListItem'
 import './ParcelBoxesList.scss'
 
 function ParcelBoxesList() {
-	const { loading, data, error } = useParcelBoxGetMine()
+	const { loading, data, error } = useParcelBoxGetMine({ fetchPolicy: 'no-cache' })
 
 	if (loading || !data) {
 		return null
