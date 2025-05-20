@@ -3,7 +3,7 @@ import { useParcelBoxDelete, useParcelBoxGetMine } from '../../../../../graphql'
 import { useDeleteParcelBoxStore } from '../deleteParcelBoxStore'
 
 export function useGetDeleteParcelBox(parcelBoxId: number) {
-	const [deleteBoxRequest] = useParcelBoxDelete({ fetchPolicy: 'no-cache' })
+	const [deleteBoxRequest] = useParcelBoxDelete({refetchQueries: ['ParcelBoxGetMine']})
 	const { refetch: refetchMyBoxes } = useParcelBoxGetMine()
 
 	return useCallback(async function () {

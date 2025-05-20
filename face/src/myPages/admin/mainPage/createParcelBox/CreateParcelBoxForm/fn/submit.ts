@@ -7,8 +7,7 @@ import { useAddParcelBoxStore } from '../../addParcelBoxStore'
 import { FieldType } from './form'
 
 export function useGetOnCreateBoxFormSubmit(form: FormInstance) {
-	const [createBoxRequest] = useParcelBoxCreate({ fetchPolicy: 'no-cache' })
-	const { refetch: refetchMyBoxes } = useParcelBoxGetMine()
+	const [createBoxRequest] = useParcelBoxCreate({refetchQueries: ['ParcelBoxGetMine']})
 
 	return useCallback(async function (values: FieldType) {
 		let timeFrom: null | string = null
@@ -44,7 +43,6 @@ export function useGetOnCreateBoxFormSubmit(form: FormInstance) {
 
 		createBoxRequest(requestParams)
 			.then((data) => {
-				refetchMyBoxes()
 				useAddParcelBoxStore.setState({ formStatus: FormStatus.default, isModalOpen: false })
 				form.resetFields()
 			})
