@@ -13,7 +13,6 @@ export async function getCurrentUser(): Promise<null | SenderOutModel | AdminOut
 	const accessToken = cookieStore.get('accessToken')?.value
 
 	const userData = await getUserByAccessToken(gqiClient, accessToken)
-	console.log({userData})
 	if (userData) return userData
 
 	const newAccessTokenWasGot = await getNewAccessTokenByRefreshToken(gqiClient)
@@ -24,23 +23,18 @@ export async function getCurrentUser(): Promise<null | SenderOutModel | AdminOut
 }
 
 async function getUserByAccessToken(gqiClient: ApolloClient<object>, accessToken?: string) {
-	// console.log('here')
-	// console.log(accessToken)
 	try {
 		const { data } = await gqiClient.query({
 			query: AuthGetMeDocument,
 			context: {
-				headers: {
-					cookies: accessToken ? `Bearer ${accessToken}` : undefined
-				}
+				headers: accessToken ? {
+					Cookie: `accessToken=${accessToken}`
+				} : undefined
 			}
 		})
-		// console.log(data)
-		// console.log('++++++++++++++++++++++++')
-		return data
+		return data.auth_getMe
 	} catch (error) {
-		// console.log('--------------------------------')
-		// console.log(error)
+		console.error('Error getting user by access token:', error)
 		return null
 	}
 }
@@ -50,8 +44,9 @@ async function getNewAccessTokenByRefreshToken(gqiClient: ApolloClient<object>) 
 		const { data } = await gqiClient.query({
 			query: AuthRefreshTokenDocument,
 		})
-		return true
+		return data.auth_refreshToken
 	} catch (error) {
+		console.error('Error refreshing token:', error)
 		return false
 	}
 }

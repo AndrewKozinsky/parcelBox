@@ -36,7 +36,7 @@ export function createDockerConfig(env: EnvType, serverCheck?: boolean): ConfigS
 
 				environment: getServerEnvs(env),
 				env_file: ['.env'],
-				ports: [EnvType.test, EnvType.dev].includes(env) ? ['3001:3001'] : undefined,
+				ports: ['3001:3001'],
 			},
 			parcelsface: {
 				build: {

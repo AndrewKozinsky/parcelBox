@@ -12,7 +12,6 @@ export class CheckAccessTokenGuard implements CanActivate {
 		const request = ctx.getContext().req
 
 		const isRequestAllowed = !!request.user
-		console.log({isRequestAllowed})
 
 		if (!isRequestAllowed) {
 			throw new CustomGraphQLError(errorMessage.accessTokenIsNotValid, ErrorCode.Unauthorized_401)

@@ -5,7 +5,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/experimental-nextjs-app-sup
 export default function getApolloClient() {
 	const httpLink = new HttpLink({
 		// Use Docker service name for server-side and relative URL for client-side
-		uri: typeof window === 'undefined' 
+		uri: typeof window === 'undefined'
 			? 'http://parcelsserver:3001/api/graphql' // Server-side URL using Docker service name
 			: '/api/graphql', // Client-side URL
 		// you can disable result caching here if you want to
